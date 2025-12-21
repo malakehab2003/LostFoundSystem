@@ -27,7 +27,7 @@ export default function Nav() {
        
         
       </ul>
-      <button className=' bg-light text-success border-0 ms-5 ps-5'><i class="fa-solid fa-user"></i>sign in</button>
+      <button className=' bg-light text-success border-0 ms-5 ps-5'><i className="fa-solid fa-user"></i>sign in</button>
       <button className='btn main text-light rounded-5'>Donate</button>
       
     </div>
