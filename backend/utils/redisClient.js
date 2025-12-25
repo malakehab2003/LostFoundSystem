@@ -27,16 +27,19 @@ class RedisClient {
   }
 
   async get(key) {
-    return promisify(this.client.get).bind(this.client)(key);
+    return await this.client.get(key);
   }
 
   async set(key, value, duration) {
-    await promisify(this.client.set).bind(this.client)(key, value);
-    await promisify(this.client.expire).bind(this.client)(key, duration);
+    if (duration) {
+      await this.client.set(key, value, { EX: duration });
+    } else {
+      await this.client.set(key, value);
+    }
   }
 
   async del(key) {
-    await promisify(this.client.del).bind(this.client)(key);
+    await this.client.del(key);
   }
 }
 
