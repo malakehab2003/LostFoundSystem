@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "565bc00d-face-455c-9015-d744cf1ece23",
+		"name": "Lost Found System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36796697"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/user/createUser",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"createUser"
+							]
+						},
+						"description": "this request create new user\n\nphone and image_url is optionally"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/createUser",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"createUser"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "388"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"184-fh2IE4oZ1pj3bAKOaHPQtNLYUGM\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Dec 2025 22:41:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User created successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY2NzAyNDc5LCJleHAiOjE3NjczMDcyNzl9.EXgslvyAQYHofkJg1tM_3WBquz24RdrNkdhCRI468EM\",\n    \"user\": {\n        \"name\": \"hamo\",\n        \"age\": 20,\n        \"gender\": \"male\",\n        \"phone\": \"+201512345678\",\n        \"email\": \"hamo@gmail.com\",\n        \"updated_at\": \"2025-12-25T22:41:19.037Z\",\n        \"created_at\": \"2025-12-25T22:41:19.037Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
