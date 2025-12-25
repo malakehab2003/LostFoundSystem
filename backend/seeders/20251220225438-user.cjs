@@ -12,8 +12,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Bob Smith',
@@ -24,8 +24,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Carol Williams',
@@ -36,8 +36,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'David Brown',
@@ -48,8 +48,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Eve Davis',
@@ -60,8 +60,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Frank Miller',
@@ -72,8 +72,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Grace Wilson',
@@ -84,8 +84,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Henry Moore',
@@ -96,8 +96,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Isabella Taylor',
@@ -108,8 +108,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Jack Anderson',
@@ -120,8 +120,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Ahmed Ali',
@@ -132,8 +132,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Mohamed Hassan',
@@ -144,8 +144,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Youssef Ibrahim',
@@ -156,8 +156,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Sara Mahmoud',
@@ -168,8 +168,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Mariam Adel',
@@ -180,8 +180,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Omar Khaled',
@@ -192,8 +192,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Laila Mostafa',
@@ -204,8 +204,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Khaled Nour',
@@ -216,8 +216,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hana Tarek',
@@ -228,8 +228,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Tarek Samir',
@@ -240,8 +240,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
       {
@@ -253,8 +253,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Mostafa Gamal',
@@ -265,8 +265,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Nourhan Salah',
@@ -277,8 +277,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Aly Fathy',
@@ -289,8 +289,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Rana Ehab',
@@ -301,8 +301,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Amr Lotfy',
@@ -313,8 +313,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Yasmin Reda',
@@ -325,8 +325,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Ibrahim Adel',
@@ -337,8 +337,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Rita Fares',
@@ -349,8 +349,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Mahmoud Zaki',
@@ -361,8 +361,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hadia Omar',
@@ -373,8 +373,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Adham Saber',
@@ -385,8 +385,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Dana Khalil',
@@ -397,8 +397,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Karim Saeed',
@@ -409,8 +409,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hager Nabil',
@@ -421,8 +421,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Sameh Adel',
@@ -433,8 +433,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Yomna Fadel',
@@ -445,8 +445,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Sherif Magdy',
@@ -457,8 +457,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Nadine Younes',
@@ -469,8 +469,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Bassel Helmy',
@@ -481,8 +481,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
       {
@@ -494,8 +494,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Ziad Hossam',
@@ -506,8 +506,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Amina Fathy',
@@ -518,8 +518,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Walid Sherif',
@@ -530,8 +530,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Lina Rashad',
@@ -542,8 +542,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hamza Eid',
@@ -554,8 +554,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Salma Badawy',
@@ -566,8 +566,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Fares Montaser',
@@ -578,8 +578,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
         {
         name: 'Jana Mostafa',
@@ -590,8 +590,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Ayman Saber',
@@ -602,8 +602,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
 
       {
@@ -615,8 +615,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Ashraf Fawzy',
@@ -627,8 +627,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Nada Helal',
@@ -639,8 +639,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hussein Adel',
@@ -651,8 +651,8 @@ module.exports = {
         password: 'password123',
         role: 'owner',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Mona Ibrahim',
@@ -663,8 +663,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Tamer Lotfy',
@@ -675,8 +675,8 @@ module.exports = {
         password: 'password123',
         role: 'staff',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Hala Nasser',
@@ -687,8 +687,8 @@ module.exports = {
         password: 'password123',
         role: 'user',
         is_verified: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         name: 'Osama Gabr',
@@ -699,8 +699,8 @@ module.exports = {
         password: 'password123',
         role: 'manager',
         is_verified: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       }
     ], {});
   },

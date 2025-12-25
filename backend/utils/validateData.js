@@ -71,14 +71,40 @@ export const validatePhone = (phone) => {
 }
 
 
+export const validateImageUrl = (image_url) => {
+    if (!image_url || typeof image_url !== 'string') {
+        throw new Error('Invalid image URL');
+    }
+
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+
+    const isValid = allowedExtensions.some(ext =>
+        image_url.toLowerCase().endsWith(ext)
+    );
+
+    if (!isValid) {
+        throw new Error("Image URL is not valid");
+    }
+
+    return true;
+};
+
 export const validateUserData = (userData) => {
     try {
         validateAge(userData.age);
         validateName(userData.name);
-        validatePhone(userData.phone);
         validateEmail(userData.email);
         validatePassword(userData.password);
         validateGender(userData.gender);
+        
+        if (userData.phone) {
+            validatePhone(userData.phone);
+        }
+        
+        if (userData.image_url) {
+            console.log('siiiiiiiii');
+            validateImageUrl(userData.image_url);
+        }
     } catch (err) {
         throw new Error(err)
     }

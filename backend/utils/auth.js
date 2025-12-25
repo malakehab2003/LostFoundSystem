@@ -13,10 +13,6 @@ export const getUserByEmail = async(email) =>{
             },
         });
 
-        if (!user) {
-            throw new Error('User not found');
-        }
-        
         return user;
     } catch (err) {
         throw new Error(err)
@@ -46,6 +42,10 @@ export const getUserFromToken = async(token) => {
         const email = jwt.verifyTokenAndReturnEmail(token);
 
         const user = await getUserByEmail(email);
+
+        if (!user) {
+            throw new Error("User not found");
+        }
 
         return user;
     } catch (err) {
