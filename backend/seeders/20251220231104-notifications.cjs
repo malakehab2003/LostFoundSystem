@@ -76,6 +76,27 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+    description: 'Promo Code',
+    message: 'Use code SAFE10 for 10% off on secure item recovery.',
+    user_id: 8,
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+   {
+    description: 'Reminder',
+    message: 'You have pending items that need verification.',
+    user_id: 6,
+    created_at: new Date(),
+    updated_at: new Date(),
+  },
+   {
+    description: 'New Message',
+    message: 'You have a new reply regarding your lost backpack.',
+    user_id: 1,
+    created_at: new Date(),
+    updated_at: new Date(),
+  },      
       ],
       {}
     );
