@@ -3,7 +3,7 @@ import cleanUser from '../utils/cleanUser.js';
 import * as userService from '../services/userService.js'
 
 
-export const createUser = async(req, res) => {
+export const createUser = async (req, res) => {
     try {
         const { name, age, gender, phone, email, password, image_url } = req.body;
         const userData = { name, age, gender, phone, email, password, image_url };
@@ -17,6 +17,19 @@ export const createUser = async(req, res) => {
             token,
             user: cleanUser(user),
         });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}
+
+
+export const getMe = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(400).send({ error: "No user" });
+        }
+
+        return res.status(200).send(cleanUser(req.user));
     } catch (err) {
         return res.status(400).send({ error: err.message })
     }
