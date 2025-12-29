@@ -5,15 +5,41 @@ export const validateName = (name) => {
 }
 
 
-export const validateAge = (age) => {
-    if (!age || age === '') {
+export const validateDob = (dob) => {
+    if (!dob || dob === '') {
         throw new Error('Age error');
     }
     
-    const numAge = Number(age);
-    if (isNaN(numAge) || numAge < 1 || numAge > 100) {
-        throw new Error('Age error');
+    const birthDate = new Date(dob);
+    if (isNaN(birthDate.getTime())) {
+        throw new Error("Invalid date of birth");
     }
+
+    const today = new Date();
+
+    if (birthDate >= today) {
+        throw ("Date of birth must be in the past");
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+        age--;
+    }
+
+    if (age < 0) {
+        throw ("User must be at least 13 years old");
+    }
+
+    if (age > 100) {
+        throw new Error("Invalid date of birth");
+    }
+
+    return true;
 }
 
 
@@ -91,7 +117,7 @@ export const validateImageUrl = (image_url) => {
 
 export const validateUserData = (userData) => {
     try {
-        validateAge(userData.age);
+        validateDob(userData.dob);
         validateName(userData.name);
         validateEmail(userData.email);
         validatePassword(userData.password);
@@ -102,7 +128,6 @@ export const validateUserData = (userData) => {
         }
         
         if (userData.image_url) {
-            console.log('siiiiiiiii');
             validateImageUrl(userData.image_url);
         }
     } catch (err) {

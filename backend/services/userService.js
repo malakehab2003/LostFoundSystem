@@ -9,7 +9,7 @@ export const createUserService  = async (userData) => {
         const existUser = await auth.getUserByEmail(userData.email);
     
         if (existUser) {
-            throw ('Email already exists');
+            throw Error('Email already exists');
         }
 
         const hashedPassword = await hash.hashPassword(userData.password);
@@ -53,4 +53,23 @@ export const loginService = async (email, password) => {
         token,
         user,
     };
+}
+
+
+export const updateUserService = async (user, data) => {
+    if (!user) {
+        throw new Error("No user");
+    }
+
+    const fieldToUpdate = ['name', 'phone', 'image_url', 'dob'];
+
+    fieldToUpdate.forEach((field) => {
+        if(data[field]) {
+            user[field] = data[field];
+        }
+    });
+
+    await user.save();
+
+    return user;
 }

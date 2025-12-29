@@ -8,6 +8,6 @@ const router = express.Router();
 router.post('/createUser', UserController.createUser);
 router.post('/login', UserController.login);
 router.get('/getMe', middleware.AuthRequest, UserController.getMe);
-router.get('/update', middleware.AuthRequest, UserController.update);
+router.put('/update', middleware.AuthRequest, UserController.update);
 
 export default router;

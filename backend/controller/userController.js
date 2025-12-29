@@ -5,8 +5,8 @@ import * as userService from '../services/userService.js'
 
 export const createUser = async (req, res) => {
     try {
-        const { name, age, gender, phone, email, password, image_url } = req.body;
-        const userData = { name, age, gender, phone, email, password, image_url };
+        const { name, dob, gender, phone, email, password, image_url } = req.body;
+        const userData = { name, dob, gender, phone, email, password, image_url };
 
         validate.validateUserData(userData);
 
@@ -56,5 +56,22 @@ export const login = async (req, res) => {
 
 
 export const update = async (req, res) => {
-    
+    try {
+        const user = req.user;
+        const { name, phone, dob, image_url } = req.body;
+
+        if (name) validate.validateName(name);
+        if (phone) validate.validatePhone(phone);
+        if (dob) validate.validateDob(dob);
+        if (image_url) validate.validateImageUrl(image_url);
+
+        const updatedUser = await userService.updateUserService(user, { name, phone, dob, image_url });
+
+        return res.status(200).send({
+            message: "User updated successfully",
+            user: cleanUser(updatedUser),
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
 }
