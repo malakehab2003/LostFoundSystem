@@ -75,3 +75,19 @@ export const update = async (req, res) => {
         return res.status(400).send({ error: err.message })
     }
 }
+
+
+export const deleteUser = async (req, res) => {
+    try {
+        const user = req.user;
+        const auth = req.get('Authorization');
+        
+        await userService.deleteUserService(user, auth);
+
+        return res.status(200).send({
+            message: 'User deleted successfully',
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}

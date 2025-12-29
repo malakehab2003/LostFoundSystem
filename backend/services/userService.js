@@ -2,6 +2,7 @@ import { User } from '../models/db.js';
 import * as jwt from '../utils/jwt.js';
 import * as hash from '../utils/hash.js';
 import * as auth from '../utils/auth.js';
+import redisClient from '../utils/redisClient.js';
 
 
 export const createUserService  = async (userData) => {
@@ -37,7 +38,7 @@ export const createUserService  = async (userData) => {
 export const loginService = async (email, password) => {
     const user = await auth.getUserByEmail(email);
 
-    if (!user) {
+    if (!user || user.is_deleted) {
         throw ({ message: "User not found" });
     }
 
@@ -47,6 +48,9 @@ export const loginService = async (email, password) => {
         throw ('Incorrect password');
     }
 
+    user.last_login = new Date();
+    user.save()
+    
     const token = jwt.createToken(email);
 
     return {
@@ -58,7 +62,7 @@ export const loginService = async (email, password) => {
 
 export const updateUserService = async (user, data) => {
     if (!user) {
-        throw new Error("No user");
+        throw ("No user");
     }
 
     const fieldToUpdate = ['name', 'phone', 'image_url', 'dob'];
@@ -72,4 +76,16 @@ export const updateUserService = async (user, data) => {
     await user.save();
 
     return user;
+}
+
+
+export const deleteUserService = async (user, authorization) => {
+    if (!user || !auth) throw ("No user or auth");
+
+    const token = auth.getTokenFromAuth(authorization);
+    const duration = 7 * 24 * 60 * 60;
+    redisClient.set(`blacklist_${token}`, 'true', duration);
+
+    user.is_deleted = true;
+    user.save();
 }

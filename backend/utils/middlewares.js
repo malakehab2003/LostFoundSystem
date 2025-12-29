@@ -10,10 +10,17 @@ export const AuthRequest = async (req, res, next) => {
 
         const token = userAuth.getTokenFromAuth(auth);
         if (!token || await redis.get(`blacklist_${token}`)) {
-            return res.status(401).send({error: "Unauthorized"});
+            return res.status(401).send({error: "Token blacklisted"});
         }
 
-        req.user = await userAuth.getUserFromToken(token);
+        const user = await userAuth.getUserFromToken(token);
+        
+        
+        if (user.is_deleted) {
+            return res.status(401).send({error: "User deleted"});
+        }
+
+        req.user = user;
         next()
     } catch (err) {
         return res.status(401).send({error: "Unauthorized"});
