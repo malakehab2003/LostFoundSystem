@@ -53,3 +53,8 @@ export const login = async (req, res) => {
         return res.status(400).send({ error: err.message })
     }
 }
+
+
+export const update = async (req, res) => {
+    
+}

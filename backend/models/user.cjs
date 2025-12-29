@@ -46,8 +46,31 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
 
+    dob: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+
     age: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.VIRTUAL,
+      get() {
+        if (!this.dob) return null;
+
+        const today = new Date()
+        const birthDate = new Date(this.dob);
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+        
+        return age;
+      }
     },
 
     phone: {

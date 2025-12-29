@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.bulkInsert('Users', [
       {
         name: 'Alice Johnson',
-        age: 25,
+        dob: '2002-05-14',
         phone: '01011112222',
         email: 'alice@example.com',
         gender: 'female',
@@ -17,7 +17,7 @@ module.exports = {
       },
       {
         name: 'Bob Smith',
-        age: 30,
+        dob: '2005-06-24',
         phone: '01022223333',
         email: 'bob@example.com',
         gender: 'male',
@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         name: 'Carol Williams',
-        age: 28,
+        dob: '2014-10-4',
         phone: '01033334444',
         email: 'carol@example.com',
         gender: 'female',
@@ -41,7 +41,7 @@ module.exports = {
       },
       {
         name: 'David Brown',
-        age: 35,
+        dob: '2018-1-29',
         phone: '01044445555',
         email: 'david@example.com',
         gender: 'male',
@@ -53,7 +53,7 @@ module.exports = {
       },
       {
         name: 'Eve Davis',
-        age: 22,
+        dob: '2003-7-26',
         phone: '01055556666',
         email: 'eve@example.com',
         gender: 'female',
@@ -65,7 +65,7 @@ module.exports = {
       },
       {
         name: 'Frank Miller',
-        age: 40,
+        dob: '1998-7-26',
         phone: '01066667777',
         email: 'frank@example.com',
         gender: 'male',
@@ -77,7 +77,7 @@ module.exports = {
       },
       {
         name: 'Grace Wilson',
-        age: 27,
+        dob: '1990-7-26',
         phone: '01077778888',
         email: 'grace@example.com',
         gender: 'female',
@@ -89,7 +89,7 @@ module.exports = {
       },
       {
         name: 'Henry Moore',
-        age: 33,
+        dob: '1985-7-26',
         phone: '01088889999',
         email: 'henry@example.com',
         gender: 'male',
@@ -101,7 +101,7 @@ module.exports = {
       },
       {
         name: 'Isabella Taylor',
-        age: 29,
+        dob: '2007-9-6',
         phone: '01099990000',
         email: 'isabella@example.com',
         gender: 'female',
@@ -113,7 +113,7 @@ module.exports = {
       },
       {
         name: 'Jack Anderson',
-        age: 31,
+        dob: '2005-1-1',
         phone: '01100001111',
         email: 'jack@example.com',
         gender: 'male',
@@ -125,7 +125,7 @@ module.exports = {
       },
       {
         name: 'Ahmed Ali',
-        age: 26,
+        dob: '2005-1-1',
         phone: '01012121212',
         email: 'ahmed.ali@example.com',
         gender: 'male',
@@ -137,7 +137,7 @@ module.exports = {
       },
       {
         name: 'Mohamed Hassan',
-        age: 29,
+        dob: '2005-1-1',
         phone: '01023232323',
         email: 'mohamed.hassan@example.com',
         gender: 'male',
@@ -149,7 +149,7 @@ module.exports = {
       },
       {
         name: 'Youssef Ibrahim',
-        age: 24,
+        dob: '2005-1-1',
         phone: '01034343434',
         email: 'youssef.ibrahim@example.com',
         gender: 'male',
@@ -161,7 +161,7 @@ module.exports = {
       },
       {
         name: 'Sara Mahmoud',
-        age: 27,
+        dob: '2005-1-1',
         phone: '01045454545',
         email: 'sara.mahmoud@example.com',
         gender: 'female',
@@ -173,7 +173,7 @@ module.exports = {
       },
       {
         name: 'Mariam Adel',
-        age: 23,
+        dob: '2005-1-1',
         phone: '01056565656',
         email: 'mariam.adel@example.com',
         gender: 'female',
@@ -185,7 +185,7 @@ module.exports = {
       },
       {
         name: 'Omar Khaled',
-        age: 31,
+        dob: '2017-9-1',
         phone: '01067676767',
         email: 'omar.khaled@example.com',
         gender: 'male',
@@ -197,7 +197,7 @@ module.exports = {
       },
       {
         name: 'Laila Mostafa',
-        age: 28,
+        dob: '2017-9-1',
         phone: '01078787878',
         email: 'laila.mostafa@example.com',
         gender: 'female',
@@ -209,7 +209,7 @@ module.exports = {
       },
       {
         name: 'Khaled Nour',
-        age: 34,
+        dob: '2017-9-1',
         phone: '01089898989',
         email: 'khaled.nour@example.com',
         gender: 'male',
@@ -221,7 +221,7 @@ module.exports = {
       },
       {
         name: 'Hana Tarek',
-        age: 22,
+        dob: '2017-9-1',
         phone: '01090909090',
         email: 'hana.tarek@example.com',
         gender: 'female',
@@ -233,7 +233,7 @@ module.exports = {
       },
       {
         name: 'Tarek Samir',
-        age: 36,
+        dob: '2017-9-1',
         phone: '01111112222',
         email: 'tarek.samir@example.com',
         gender: 'male',
@@ -246,7 +246,7 @@ module.exports = {
 
       {
         name: 'Farah Yasser',
-        age: 25,
+        dob: '2017-9-1',
         phone: '01122223333',
         email: 'farah.yasser@example.com',
         gender: 'female',
@@ -258,7 +258,7 @@ module.exports = {
       },
       {
         name: 'Mostafa Gamal',
-        age: 30,
+        dob: '2017-9-1',
         phone: '01133334444',
         email: 'mostafa.gamal@example.com',
         gender: 'male',
@@ -270,7 +270,7 @@ module.exports = {
       },
       {
         name: 'Nourhan Salah',
-        age: 21,
+        dob: '2017-9-1',
         phone: '01144445555',
         email: 'nourhan.salah@example.com',
         gender: 'female',
@@ -282,7 +282,7 @@ module.exports = {
       },
       {
         name: 'Aly Fathy',
-        age: 32,
+        dob: '2017-9-1',
         phone: '01155556666',
         email: 'aly.fathy@example.com',
         gender: 'male',
@@ -294,7 +294,7 @@ module.exports = {
       },
       {
         name: 'Rana Ehab',
-        age: 26,
+        dob: '1985-2-21',
         phone: '01166667777',
         email: 'rana.ehab@example.com',
         gender: 'female',
@@ -306,7 +306,7 @@ module.exports = {
       },
       {
         name: 'Amr Lotfy',
-        age: 29,
+        dob: '1985-2-21',
         phone: '01177778888',
         email: 'amr.lotfy@example.com',
         gender: 'male',
@@ -318,7 +318,7 @@ module.exports = {
       },
       {
         name: 'Yasmin Reda',
-        age: 24,
+        dob: '1985-2-21',
         phone: '01188889999',
         email: 'yasmin.reda@example.com',
         gender: 'female',
@@ -330,7 +330,7 @@ module.exports = {
       },
       {
         name: 'Ibrahim Adel',
-        age: 35,
+        dob: '1985-2-21',
         phone: '01199990000',
         email: 'ibrahim.adel@example.com',
         gender: 'male',
@@ -342,7 +342,7 @@ module.exports = {
       },
       {
         name: 'Rita Fares',
-        age: 23,
+        dob: '1985-2-21',
         phone: '01200001111',
         email: 'rita.fares@example.com',
         gender: 'female',
@@ -354,7 +354,7 @@ module.exports = {
       },
       {
         name: 'Mahmoud Zaki',
-        age: 38,
+        dob: '1985-2-21',
         phone: '01211112222',
         email: 'mahmoud.zaki@example.com',
         gender: 'male',
@@ -366,7 +366,7 @@ module.exports = {
       },
       {
         name: 'Hadia Omar',
-        age: 27,
+        dob: '1985-2-21',
         phone: '01222223333',
         email: 'hadia.omar@example.com',
         gender: 'female',
@@ -378,7 +378,7 @@ module.exports = {
       },
       {
         name: 'Adham Saber',
-        age: 33,
+        dob: '1985-2-21',
         phone: '01233334444',
         email: 'adham.saber@example.com',
         gender: 'male',
@@ -390,7 +390,7 @@ module.exports = {
       },
       {
         name: 'Dana Khalil',
-        age: 22,
+        dob: '2012-12-31',
         phone: '01244445555',
         email: 'dana.khalil@example.com',
         gender: 'female',
@@ -402,7 +402,7 @@ module.exports = {
       },
       {
         name: 'Karim Saeed',
-        age: 31,
+        dob: '2012-12-31',
         phone: '01255556666',
         email: 'karim.saeed@example.com',
         gender: 'male',
@@ -414,7 +414,7 @@ module.exports = {
       },
       {
         name: 'Hager Nabil',
-        age: 28,
+        dob: '2012-12-31',
         phone: '01266667777',
         email: 'hager.nabil@example.com',
         gender: 'female',
@@ -426,7 +426,7 @@ module.exports = {
       },
       {
         name: 'Sameh Adel',
-        age: 29,
+        dob: '2012-12-31',
         phone: '01277778888',
         email: 'sameh.adel@example.com',
         gender: 'male',
@@ -438,7 +438,7 @@ module.exports = {
       },
       {
         name: 'Yomna Fadel',
-        age: 24,
+        dob: '2012-12-31',
         phone: '01288889999',
         email: 'yomna.fadel@example.com',
         gender: 'female',
@@ -450,7 +450,7 @@ module.exports = {
       },
       {
         name: 'Sherif Magdy',
-        age: 34,
+        dob: '2004-6-10',
         phone: '01299990000',
         email: 'sherif.magdy@example.com',
         gender: 'male',
@@ -462,7 +462,7 @@ module.exports = {
       },
       {
         name: 'Nadine Younes',
-        age: 22,
+        dob: '2004-6-10',
         phone: '01300001111',
         email: 'nadine.younes@example.com',
         gender: 'female',
@@ -474,7 +474,7 @@ module.exports = {
       },
       {
         name: 'Bassel Helmy',
-        age: 37,
+        dob: '2004-6-10',
         phone: '01311112222',
         email: 'bassel.helmy@example.com',
         gender: 'male',
@@ -487,7 +487,7 @@ module.exports = {
 
       {
         name: 'Reem Tamer',
-        age: 26,
+        dob: '2004-6-10',
         phone: '01322223333',
         email: 'reem.tamer@example.com',
         gender: 'female',
@@ -499,7 +499,7 @@ module.exports = {
       },
       {
         name: 'Ziad Hossam',
-        age: 30,
+        dob: '2004-6-10',
         phone: '01333334444',
         email: 'ziad.hossam@example.com',
         gender: 'male',
@@ -511,7 +511,7 @@ module.exports = {
       },
       {
         name: 'Amina Fathy',
-        age: 23,
+        dob: '2004-6-10',
         phone: '01344445555',
         email: 'amina.fathy@example.com',
         gender: 'female',
@@ -523,7 +523,7 @@ module.exports = {
       },
       {
         name: 'Walid Sherif',
-        age: 33,
+        dob: '2004-6-10',
         phone: '01355556666',
         email: 'walid.sherif@example.com',
         gender: 'male',
@@ -535,7 +535,7 @@ module.exports = {
       },
       {
         name: 'Lina Rashad',
-        age: 25,
+        dob: '2000-8-7',
         phone: '01366667777',
         email: 'lina.rashad@example.com',
         gender: 'female',
@@ -547,7 +547,7 @@ module.exports = {
       },
       {
         name: 'Hamza Eid',
-        age: 35,
+        dob: '2000-8-7',
         phone: '01377778888',
         email: 'hamza.eid@example.com',
         gender: 'male',
@@ -559,7 +559,7 @@ module.exports = {
       },
       {
         name: 'Salma Badawy',
-        age: 22,
+        dob: '2000-8-7',
         phone: '01388889999',
         email: 'salma.badawy@example.com',
         gender: 'female',
@@ -571,7 +571,7 @@ module.exports = {
       },
       {
         name: 'Fares Montaser',
-        age: 29,
+        dob: '2000-8-7',
         phone: '01399990000',
         email: 'fares.montaser@example.com',
         gender: 'male',
@@ -583,7 +583,7 @@ module.exports = {
       },
         {
         name: 'Jana Mostafa',
-        age: 24,
+        dob: '2000-8-7',
         phone: '01400001111',
         email: 'jana.mostafa@example.com',
         gender: 'female',
@@ -595,7 +595,7 @@ module.exports = {
       },
       {
         name: 'Ayman Saber',
-        age: 30,
+        dob: '2000-8-7',
         phone: '01411112222',
         email: 'ayman.saber@example.com',
         gender: 'male',
@@ -608,7 +608,7 @@ module.exports = {
 
       {
         name: 'Dalia Hassan',
-        age: 26,
+        dob: '2014-5-26',
         phone: '01422223333',
         email: 'dalia.hassan@example.com',
         gender: 'female',
@@ -620,7 +620,7 @@ module.exports = {
       },
       {
         name: 'Ashraf Fawzy',
-        age: 34,
+        dob: '2014-5-26',
         phone: '01433334444',
         email: 'ashraf.fawzy@example.com',
         gender: 'male',
@@ -632,7 +632,7 @@ module.exports = {
       },
       {
         name: 'Nada Helal',
-        age: 23,
+        dob: '2014-5-26',
         phone: '01444445555',
         email: 'nada.helal@example.com',
         gender: 'female',
@@ -644,7 +644,7 @@ module.exports = {
       },
       {
         name: 'Hussein Adel',
-        age: 32,
+        dob: '2014-5-26',
         phone: '01455556666',
         email: 'hussein.adel@example.com',
         gender: 'male',
@@ -656,7 +656,7 @@ module.exports = {
       },
       {
         name: 'Mona Ibrahim',
-        age: 28,
+        dob: '2014-5-26',
         phone: '01466667777',
         email: 'mona.ibrahim@example.com',
         gender: 'female',
@@ -668,7 +668,7 @@ module.exports = {
       },
       {
         name: 'Tamer Lotfy',
-        age: 31,
+        dob: '2014-5-26',
         phone: '01477778888',
         email: 'tamer.lotfy@example.com',
         gender: 'male',
@@ -680,7 +680,7 @@ module.exports = {
       },
       {
         name: 'Hala Nasser',
-        age: 25,
+        dob: '2014-5-26',
         phone: '01488889999',
         email: 'hala.nasser@example.com',
         gender: 'female',
@@ -692,7 +692,7 @@ module.exports = {
       },
       {
         name: 'Osama Gabr',
-        age: 36,
+        dob: '2005-1-1',
         phone: '01499990000',
         email: 'osama.gabr@example.com',
         gender: 'male',

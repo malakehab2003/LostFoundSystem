@@ -6,7 +6,8 @@ const router = express.Router();
 
 // all routers used are here
 router.post('/createUser', UserController.createUser);
-router.get('/getMe', middleware.AuthRequest, UserController.getMe);
 router.post('/login', UserController.login);
+router.get('/getMe', middleware.AuthRequest, UserController.getMe);
+router.get('/update', middleware.AuthRequest, UserController.update);
 
 export default router;

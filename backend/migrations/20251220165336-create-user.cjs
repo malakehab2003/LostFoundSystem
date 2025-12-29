@@ -20,9 +20,9 @@ module.exports = {
         defaultValue: false,
       },
 
-      age: {
-        type: Sequelize.INTEGER,
-        allowNull:false,
+      dob: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
       },
 
       phone: {
