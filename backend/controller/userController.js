@@ -91,3 +91,23 @@ export const deleteUser = async (req, res) => {
         return res.status(400).send({ error: err.message })
     }
 }
+
+
+export const undoDelete = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        validate.validateEmail(email);
+        validate.validatePassword(password);
+
+        const { user, token } = await userService.undoDeleteService(email, password);
+
+        return res.status(200).send({
+            message: "User undone successfully",
+            user: cleanUser(user),
+            token,
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+
+}

@@ -89,3 +89,23 @@ export const deleteUserService = async (user, authorization) => {
     user.is_deleted = true;
     user.save();
 }
+
+
+export const undoDeleteService = async (email, password) => {
+    const user = await auth.getUserByEmail(email);
+    
+    if (!user) throw ('no User');
+
+    const isMatch = await hash.checkPassword(password, user.password);
+    if (!isMatch) throw ('Wrong password');
+
+
+    user.is_deleted = false;
+    user.save()
+    const token = jwt.createToken(email);
+
+    return {
+        token,
+        user,
+    }
+}

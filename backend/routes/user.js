@@ -10,5 +10,6 @@ router.post('/login', UserController.login);
 router.get('/getMe', middleware.AuthRequest, UserController.getMe);
 router.put('/update', middleware.AuthRequest, UserController.update);
 router.delete('/delete', middleware.AuthRequest, UserController.deleteUser);
+router.put('/undoDelete', UserController.undoDelete);
 
 export default router;
