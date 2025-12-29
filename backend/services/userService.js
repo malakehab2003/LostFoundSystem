@@ -9,7 +9,7 @@ export const createUserService  = async (userData) => {
         const existUser = await auth.getUserByEmail(userData.email);
     
         if (existUser) {
-            throw new Error('Email already exists');
+            throw ('Email already exists');
         }
 
         const hashedPassword = await hash.hashPassword(userData.password);
@@ -29,6 +29,28 @@ export const createUserService  = async (userData) => {
             user
         };
     } catch (err) {
-        throw new Error(err)
+        throw (err)
     }
+}
+
+
+export const loginService = async (email, password) => {
+    const user = await auth.getUserByEmail(email);
+
+    if (!user) {
+        throw ({ message: "User not found" });
+    }
+
+    const isMatch = await hash.checkPassword(password, user.password);
+
+    if (!isMatch) {
+        throw ('Incorrect password');
+    }
+
+    const token = jwt.createToken(email);
+
+    return {
+        token,
+        user,
+    };
 }

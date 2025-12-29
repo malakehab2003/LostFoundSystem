@@ -34,3 +34,22 @@ export const getMe = async (req, res) => {
         return res.status(400).send({ error: err.message })
     }
 }
+
+
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        validate.validateEmail(email);
+        validate.validatePassword(password);
+
+        const { token, user } = await userService.loginService(email, password);
+
+        return res.status(200).send({
+            message: "login successfully",
+            token,
+            user: cleanUser(user)
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}
