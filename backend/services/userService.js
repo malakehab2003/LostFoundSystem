@@ -49,7 +49,7 @@ export const loginService = async (email, password) => {
     }
 
     user.last_login = new Date();
-    user.save()
+    await user.save()
     
     const token = jwt.createToken(email);
 
@@ -87,7 +87,7 @@ export const deleteUserService = async (user, authorization) => {
     redisClient.set(`blacklist_${token}`, 'true', duration);
 
     user.is_deleted = true;
-    user.save();
+    await user.save();
 }
 
 
@@ -101,11 +101,30 @@ export const undoDeleteService = async (email, password) => {
 
 
     user.is_deleted = false;
-    user.save()
+    await user.save()
     const token = jwt.createToken(email);
 
     return {
         token,
         user,
     }
+}
+
+
+export const logOutService = async (authorization) => {
+
+    const token = auth.getTokenFromAuth(authorization);
+    const duration = 7 * 24 * 60 * 60;
+    redisClient.set(`blacklist_${token}`, 'true', duration);
+}
+
+
+export const changePasswordUserService = async (user, oldPassword, newPassword) => {
+    const isMatch = await hash.checkPassword(oldPassword, user.password);
+    if (!isMatch) throw ('Password not match');
+
+    const hashedPassword = await hash.hashPassword(newPassword);
+
+    user.password = hashedPassword
+    await user.save();
 }

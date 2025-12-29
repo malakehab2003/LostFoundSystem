@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+							"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"dob\": \"2006-07-26\",\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -37,13 +37,13 @@
 					},
 					"response": [
 						{
-							"name": "New Request",
+							"name": "create user",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+									"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"dob\": \"2006-07-26\",\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -63,6 +63,410 @@
 							},
 							"status": "Created",
 							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "318"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13e-awRkqZ25qvuwgyDZ2yDMKs9/5pM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 12:24:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User created successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY3MDExMDQzLCJleHAiOjE3Njc2MTU4NDN9.4nilnhL_oFyz7El0Iti4-xO34oQwOtP_HmrkBGqqUT0\",\n    \"user\": {\n        \"name\": \"hamo\",\n        \"dob\": \"2006-07-26\",\n        \"gender\": \"male\",\n        \"phone\": \"+201512345678\",\n        \"email\": \"hamo@gmail.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{base}}/user/getMe",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"getMe"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"hamo\",\r\n    \"age\": 20,\r\n    \"gender\": \"male\",\r\n    \"phone\": \"+201512345678\",\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{base}}/user/getMe",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"getMe"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74-n9B/LTL5hBoWO9pEOUdtiRoV/SE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 12:26:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"hamo\",\n    \"dob\": \"2006-07-26\",\n    \"phone\": \"+201512345678\",\n    \"email\": \"hamo@gmail.com\",\n    \"gender\": \"male\",\n    \"image_url\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/user/login",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/login",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "328"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"148-xkQoyzHDAH8IqjVqnlOOmv+ZuuY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 12:27:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"login successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY3MDExMjQxLCJleHAiOjE3Njc2MTYwNDF9.HByqF-UV8IFu_Bp4nGnMkh2OzFAWwPHmeR6kdOijeRQ\",\n    \"user\": {\n        \"name\": \"hamo\",\n        \"dob\": \"2006-07-26\",\n        \"phone\": \"+201512345678\",\n        \"email\": \"hamo@gmail.com\",\n        \"gender\": \"male\",\n        \"image_url\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dob\": \"2005-09-11\",\r\n    \"name\": \"new hamo\",\r\n    \"phone\": \"+201203214568\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/user/update",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"update"
+							]
+						},
+						"description": "user can update\n\ndob\n\nname\n\nphone\n\nimage_url\n\none or more"
+					},
+					"response": [
+						{
+							"name": "update user",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dob\": \"2005-09-11\",\r\n    \"name\": \"new hamo\",\r\n    \"phone\": \"+201203214568\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/update",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "167"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a7-/A84gV6HxWpeUYKplo0l2uYM/s0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 12:37:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User updated successfully\",\n    \"user\": {\n        \"name\": \"new hamo\",\n        \"dob\": \"2005-09-11\",\n        \"phone\": \"+201203214568\",\n        \"email\": \"hamo@gmail.com\",\n        \"gender\": \"male\",\n        \"image_url\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dob\": \"2005-09-11\",\r\n    \"name\": \"new hamo\",\r\n    \"phone\": \"+201203214568\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{base}}/user/delete",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"delete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete user",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dob\": \"2005-09-11\",\r\n    \"name\": \"new hamo\",\r\n    \"phone\": \"+201203214568\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{base}}/user/delete",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": "",
 							"header": [
 								{
@@ -79,15 +483,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "388"
+									"value": "39"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"184-fh2IE4oZ1pj3bAKOaHPQtNLYUGM\""
+									"value": "W/\"27-27o4zzUjhHNmthTJyia4gBCjpos\""
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 25 Dec 2025 22:41:19 GMT"
+									"value": "Mon, 29 Dec 2025 13:38:19 GMT"
 								},
 								{
 									"key": "Connection",
@@ -99,11 +503,341 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"message\": \"User created successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY2NzAyNDc5LCJleHAiOjE3NjczMDcyNzl9.EXgslvyAQYHofkJg1tM_3WBquz24RdrNkdhCRI468EM\",\n    \"user\": {\n        \"name\": \"hamo\",\n        \"age\": 20,\n        \"gender\": \"male\",\n        \"phone\": \"+201512345678\",\n        \"email\": \"hamo@gmail.com\",\n        \"updated_at\": \"2025-12-25T22:41:19.037Z\",\n        \"created_at\": \"2025-12-25T22:41:19.037Z\"\n    }\n}"
+							"body": "{\n    \"message\": \"User deleted successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "undo user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/user/undoDelete",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"undoDelete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "undo user",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/undoDelete",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"undoDelete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "338"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"152-TkkNcp0zw4QCwLX5lBPISzgibTg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 13:37:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User undone successfully\",\n    \"user\": {\n        \"name\": \"new hamo\",\n        \"dob\": \"2005-09-11\",\n        \"phone\": \"+201203214568\",\n        \"email\": \"hamo@gmail.com\",\n        \"gender\": \"male\",\n        \"image_url\": null\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY3MDE1NDc2LCJleHAiOjE3Njc2MjAyNzZ9.RxK8bewKWlN-VWX8zyZDRksfy7a68gUhNUW6FTfFXLA\"\n}"
+						}
+					]
+				},
+				{
+					"name": "log out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{base}}/user/logOut",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"logOut"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "log out",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"hamo@gmail.com\",\r\n    \"password\": \"hamo@123\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{base}}/user/logOut",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"logOut"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25-71uUsMgZY3FdZp9j1h5YMrBIOgg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 13:48:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Logged out successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "{{auth_key}}",
+								"value": "{{auth_value}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base}}/user/changePassword",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"user",
+								"changePassword"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "change password",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "{{auth_key}}",
+										"value": "{{auth_value}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"hamo@123\",\r\n    \"newPassword\": \"hamo@1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/chagePassword",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"chagePassword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-JF35VCZY1c6kSJL5UBcL7VvL+P4\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Dec 2025 13:58:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User password changed successfully\"\n}"
 						}
 					]
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_value",
+			"value": ""
+		},
+		{
+			"key": "auth_key",
+			"value": ""
 		}
 	]
 }

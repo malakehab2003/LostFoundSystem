@@ -111,3 +111,40 @@ export const undoDelete = async (req, res) => {
     }
 
 }
+
+
+export const logOut = async (req, res) => {
+    try {
+        const auth = req.get('Authorization');
+        
+        await userService.logOutService(auth);
+
+        return res.status(200).send({
+            message: 'Logged out successfully',
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}
+
+
+export const chagePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body
+        const user = req.user;
+
+        if (!oldPassword || !newPassword || !user) {
+            throw new Error('Missing data');
+        }
+
+        validate.validatePassword(newPassword);
+
+        await userService.changePasswordUserService(user, oldPassword, newPassword);
+
+        return res.status(200).send({
+            message: 'User password changed successfully',
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}

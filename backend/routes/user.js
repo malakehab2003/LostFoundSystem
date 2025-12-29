@@ -11,5 +11,7 @@ router.get('/getMe', middleware.AuthRequest, UserController.getMe);
 router.put('/update', middleware.AuthRequest, UserController.update);
 router.delete('/delete', middleware.AuthRequest, UserController.deleteUser);
 router.put('/undoDelete', UserController.undoDelete);
+router.post('/logOut',  middleware.AuthRequest, UserController.logOut);
+router.put('/chagePassword',  middleware.AuthRequest, UserController.chagePassword);
 
 export default router;
