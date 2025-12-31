@@ -2,25 +2,25 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Signup = () => {
-  const [step, setStep] = useState(1); // Track current step for progress bar
-  const [formData, setFormData] = useState({ firstName: "", lastName: "" });
+const SignupLocation = () => {
+  const [step, setStep] = useState(3); // Track current step for progress bar
+  const [formData, setFormData] = useState({ location: "" });
 
   // Progress percentage based on 3 steps (example)
   const progressWidth = (step / 3) * 100;
 
-  const isFormValid =
-    formData.firstName.trim() !== "" && formData.lastName.trim() !== "";
+  const isFormValid = formData.location.trim() !== "";
+  console.log(isFormValid);
   return (
     <div className="max-w-2xl mx-auto px-6 pt-20 flex flex-col items-center">
       {/* Header Text */}
       <h1 className="text-4xl font-bold text-violet-900 text-center mb-4">
-        Welcome to Day3
+        Where did the item get lost?
       </h1>
 
       <p className="text-slate-700 text-center text-sm md:text-base leading-relaxed max-w-lg mb-10">
-        Whether you need to report a lost or found item or want to register your
-        item in case they go missing later — you're in the right place.
+        Please provide a specific address. We will never share your exact
+        location to the public.
       </p>
 
       {/* Form Fields */}
@@ -28,22 +28,10 @@ const Signup = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="First Name"
-            value={formData.firstName}
+            placeholder="123 Main St, City, State"
+            value={formData.location}
             onChange={(e) =>
-              setFormData({ ...formData, firstName: e.target.value })
-            }
-            className="w-full px-4 py-4 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
-          />
-        </div>
-
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={formData.lastName}
-            onChange={(e) =>
-              setFormData({ ...formData, lastName: e.target.value })
+              setFormData({ ...formData, location: e.target.value })
             }
             className="w-full px-4 py-4 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
           />
@@ -51,7 +39,7 @@ const Signup = () => {
 
         {/* Action Button */}
         <div className="pt-6 flex justify-center">
-          <Link to="/signup/email" className="text-center">
+          <Link to="/login" className="text-center">
             <Button
               variant={"default"}
               size={"lg"}
@@ -70,4 +58,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupLocation;

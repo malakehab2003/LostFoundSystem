@@ -1,6 +1,7 @@
 import { Mail, ArrowLeft } from "lucide-react";
-import logo from "../../public/logo.png";
+import logo from "@/assets/logo.png";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const ForgotPassword = () => {
   return (
@@ -14,12 +15,12 @@ const ForgotPassword = () => {
             alt="Logo"
             className="mb-4 aspect-2/1 h-20 object-contain"
           />
-          <div className="absolute top-5 left-5 bg-green-200 rounded-full p-1 opacity-70 hover:opacity-100">
+          <div className="absolute top-5 left-5 bg-violet-200 rounded-full p-1 opacity-70 hover:opacity-100">
             <Link
               to="/login"
               className="w-full h-full flex items-center justify-center"
             >
-              <ArrowLeft className="w-4 h-4 text-green-500" />
+              <ArrowLeft className="w-4 h-4 text-violet-500" />
             </Link>
           </div>
         </div>
@@ -45,10 +46,9 @@ const ForgotPassword = () => {
         </div>
 
         {/* CTA Button */}
-        <button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-5 flex items-center justify-center gap-2 transition-colors">
-          LOG IN
-          <span className="text-lg">›</span>
-        </button>
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
       </div>
     </div>
   );
