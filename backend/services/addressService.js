@@ -14,3 +14,15 @@ export const createAddressService = async(addressData) => {
         user_id: addressData.user.id,
     });
 }
+
+
+export const listAddressService = async (user_id) => {
+    if (!user_id) throw ("Missing user");
+
+    const addresses = await Address.findAll({
+      where: { user_id },
+      order: [["created_at", "DESC"]],
+    });
+
+    return addresses;
+}

@@ -1,4 +1,5 @@
 import * as addressService from '../services/addressService.js';
+import * as cleanData from '../utils/cleanData.js';
 
 
 export const createAddress = async(req, res) => {
@@ -22,9 +23,27 @@ export const createAddress = async(req, res) => {
 
         return res.status(201).send({
             message: "Address added successfully",
-            Address: addressData,
+            Address: cleanData.cleanAddresses(addressData),
         });
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }
+}
+
+
+export const listAddresses = async (req, res) => {
+    try {
+        const user = req.user;
+    
+        if (!user) return res.status(400).send({err: "Missing user"});
+
+        const Addresses = await addressService.listAddressService(user.id);
+
+        return res.status(200).send ({
+            addresses: cleanData.cleanAddresses(Addresses),
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+
 }

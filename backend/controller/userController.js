@@ -1,5 +1,5 @@
 import * as validate from '../utils/validateData.js';
-import cleanUser from '../utils/cleanUser.js';
+import * as cleanData from '../utils/cleanData.js';
 import * as userService from '../services/userService.js'
 
 
@@ -15,7 +15,7 @@ export const createUser = async (req, res) => {
         return res.status(201).send({
             message: "User created successfully",
             token,
-            user: cleanUser(user),
+            user: cleanData.cleanUser(user),
         });
     } catch (err) {
         return res.status(400).send({ error: err.message })
@@ -29,7 +29,7 @@ export const getMe = async (req, res) => {
             return res.status(400).send({ error: "No user" });
         }
 
-        return res.status(200).send(cleanUser(req.user));
+        return res.status(200).send(cleanData.cleanUser(req.user));
     } catch (err) {
         return res.status(400).send({ error: err.message })
     }
@@ -47,7 +47,7 @@ export const login = async (req, res) => {
         return res.status(200).send({
             message: "login successfully",
             token,
-            user: cleanUser(user)
+            user: cleanData.cleanUser(user)
         });
     } catch (err) {
         return res.status(400).send({ error: err.message })
@@ -69,7 +69,7 @@ export const update = async (req, res) => {
 
         return res.status(200).send({
             message: "User updated successfully",
-            user: cleanUser(updatedUser),
+            user: cleanData.cleanUser(updatedUser),
         });
     } catch (err) {
         return res.status(400).send({ error: err.message })
@@ -103,7 +103,7 @@ export const undoDelete = async (req, res) => {
 
         return res.status(200).send({
             message: "User undone successfully",
-            user: cleanUser(user),
+            user: cleanData.cleanUser(user),
             token,
         });
     } catch (err) {
