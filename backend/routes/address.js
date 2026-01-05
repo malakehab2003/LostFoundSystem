@@ -1,0 +1,10 @@
+import express from 'express';
+import * as AddressController from '../controller/addressController.js';
+import * as middleware from '../utils/middlewares.js';
+
+const router = express.Router();
+
+// all routers used are here
+router.post('/create', middleware.AuthRequest, AddressController.createAddress)
+
+export default router;
