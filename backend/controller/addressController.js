@@ -56,7 +56,7 @@ export const updateAddress = async (req, res) => {
         const { id } = req.params;
         
         if (!user || !id) return res.status(400).send({err: "Missing data"});
-
+        
         const addressData = {
             user_id: user.id,
             name,
@@ -73,6 +73,24 @@ export const updateAddress = async (req, res) => {
         return res.status(200).send ({
             message: "Address updated successfully",
             address: cleanData.cleanAddress(newAddress),
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}
+
+
+export const deleteAddress = async (req, res) => {
+    try {
+        const user = req.user;
+        const { id } = req.params;
+        
+        if (!user || !id) return res.status(400).send({err: "Missing data"});
+
+        await addressService.deleteAddressService(user.id, id);
+
+        return res.status(200).send({
+            message: "Address deleted successfully",
         });
     } catch (err) {
         return res.status(400).send({ err: err.message });

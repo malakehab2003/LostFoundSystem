@@ -8,5 +8,6 @@ const router = express.Router();
 router.post('/create', middleware.AuthRequest, AddressController.createAddress);
 router.get('/list', middleware.AuthRequest, AddressController.listAddresses);
 router.put('/update/:id', middleware.AuthRequest, AddressController.updateAddress);
+router.delete('/delete/:id', middleware.AuthRequest, AddressController.deleteAddress);
 
 export default router;

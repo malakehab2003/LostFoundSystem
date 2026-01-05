@@ -1,4 +1,5 @@
 import { Address } from '../models/db.js';
+import * as addressUtils from '../utils/address.js';
 
 
 export const createAddressService = async(addressData) => {
@@ -33,21 +34,30 @@ export const listAddressService = async (user_id) => {
 export const updateAddressService = async (addressData) => {
     if (!addressData) throw ("Missing data");
 
-    const address = await Address.findOne({
-        where: {id: addressData.address_id},
-    });
+    const address = await addressUtils.getAddress(addressData.address_id);
 
-    if (address.user_id !== addressData.user_id) throw ("User can't update this address");
-
+    if (!addressUtils.checkAddressForUser(address, addressData.user_id)) throw ("User can't update this address");
+    
     const fieldToUpdate = ['name', 'address', 'city', 'state', 'country', 'postal_code'];
-
+    
     fieldToUpdate.forEach((field) => {
         if(addressData[field]) {
             address[field] = addressData[field];
         }
     });
-
+    
     await address.save();
-
+    
     return address;
+}
+
+
+export const deleteAddressService = async (user_id, address_id) => {
+    if (!user_id || !address_id) throw ("Missing data");
+    
+    const address = await addressUtils.getAddress(address_id);
+    
+    if (!addressUtils.checkAddressForUser(address, user_id)) throw ("User can't update this address");
+
+    await address.destroy();
 }
