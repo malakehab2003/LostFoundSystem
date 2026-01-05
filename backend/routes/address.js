@@ -7,5 +7,6 @@ const router = express.Router();
 // all routers used are here
 router.post('/create', middleware.AuthRequest, AddressController.createAddress);
 router.get('/list', middleware.AuthRequest, AddressController.listAddresses);
+router.put('/update/:id', middleware.AuthRequest, AddressController.updateAddress);
 
 export default router;

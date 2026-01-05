@@ -3,10 +3,15 @@ export const cleanUser = (user) => {
     return rest;
 }
 
+export const cleanAddress = (address) => {
+    const { user_id, id, created_at, updated_at, is_deleted, ...rest } = address.dataValues;
+    return rest;
+};
+
 
 export const cleanAddresses = (addresses) => {
   return addresses.map(address => {
-    const { user_id, created_at, updated_at, ...rest } = address.dataValues;
+    const { user_id, id, created_at, updated_at, ...rest } = address.dataValues;
     return rest;
   });
 };

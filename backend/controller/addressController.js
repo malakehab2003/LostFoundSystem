@@ -7,23 +7,24 @@ export const createAddress = async(req, res) => {
         const user = req.user;
         const { name, address, city, state, country, postal_code } = req.body;
     
-        if (!name, !address, !city, !country, !user, !state, !postal_code) return res.status(400).send({err: "Missing requried values"});
+        if (!name || !address || !city || !country || !user || !state || !postal_code) return res.status(400).send({err: "Missing requried values"});
 
         const addressData = {
+            user_id: user.id,
             name,
             address,
             city,
             country,
-            user,
+            user_id: user.id,
             state,
             postal_code,
         };
 
-        await addressService.createAddressService(addressData);
+        const newAddress = await addressService.createAddressService(addressData);
 
         return res.status(201).send({
             message: "Address added successfully",
-            Address: cleanData.cleanAddresses(addressData),
+            Address: cleanData.cleanAddress(newAddress),
         });
     } catch (err) {
         return res.status(400).send({ err: err.message });
@@ -45,5 +46,35 @@ export const listAddresses = async (req, res) => {
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }
+}
 
+
+export const updateAddress = async (req, res) => {
+    try {
+        const user = req.user;
+        const { name, address, city, state, country, postal_code } = req.body;
+        const { id } = req.params;
+        
+        if (!user || !id) return res.status(400).send({err: "Missing data"});
+
+        const addressData = {
+            user_id: user.id,
+            name,
+            address,
+            city,
+            state,
+            country,
+            postal_code,
+            address_id: id,
+        };
+        
+        const newAddress = await addressService.updateAddressService(addressData);
+        
+        return res.status(200).send ({
+            message: "Address updated successfully",
+            address: cleanData.cleanAddress(newAddress),
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
 }
