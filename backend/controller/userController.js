@@ -81,7 +81,7 @@ export const deleteUser = async (req, res) => {
     try {
         const user = req.user;
         const auth = req.get('Authorization');
-        
+
         await userService.deleteUserService(user, auth);
 
         return res.status(200).send({
@@ -116,7 +116,7 @@ export const undoDelete = async (req, res) => {
 export const logOut = async (req, res) => {
     try {
         const auth = req.get('Authorization');
-        
+
         await userService.logOutService(auth);
 
         return res.status(200).send({
@@ -134,7 +134,7 @@ export const chagePassword = async (req, res) => {
         const user = req.user;
 
         if (!oldPassword || !newPassword || !user) {
-            throw new Error('Missing data');
+            return res.status(400).send({message: 'Missing data'});
         }
 
         validate.validatePassword(newPassword);
@@ -143,6 +143,25 @@ export const chagePassword = async (req, res) => {
 
         return res.status(200).send({
             message: 'User password changed successfully',
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
+    }
+}
+
+
+export const getUserByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+        
+        if (!email) return res.status(400).send({message: 'Missing email'});
+
+        const user = await userService.getUserByEmailService(email);
+
+        if (!user) return res.status(400).send({message: "Can't get user"});
+
+        return res.status(200).send({
+            user: cleanData.cleanUser(user),
         });
     } catch (err) {
         return res.status(400).send({ error: err.message })
