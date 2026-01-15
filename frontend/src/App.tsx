@@ -10,6 +10,8 @@ import About from "./pages/home/About";
 import SignupPhone from "./components/SignupPhone";
 import SignupPhoto from "./components/SignupPhoto";
 import SignupLocation from "./components/SignupLocation";
+import LostItems from "./pages/LostItems";
+import LostItem from "./pages/LostItem";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="lost" element={<LostItems />} />
+          <Route path="/lost/:itemId" element={<LostItem />} />
 
           {/* Nested signup routes */}
           <Route path="signup" element={<SignupLayout />}>
