@@ -8,5 +8,6 @@ const router = express.Router();
 router.get('/list', BrandController.listBrand);
 router.post('/create', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.createBrand);
 router.put('/update/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.updateBrand);
+router.delete('/delete/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.deleteBrand)
 
 export default router;

@@ -53,3 +53,20 @@ export const updateBrand = async (req, res) => {
         return res.status(400).send({ err: err.message });
     }
 }
+
+
+export const deleteBrand = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        if (!id) return res.status(400).send({ error: "No id found" });
+
+        await service.deleteBrandService(id);
+
+        return res.status(200).send({
+            message: "Brand deleted successfully",
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}

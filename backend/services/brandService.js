@@ -32,3 +32,12 @@ export const updateBrandService = async (id, name) => {
 
     return brand;
 }
+
+
+export const deleteBrandService = async (id) => {
+    const brand = await brandUtils.getBrandById(id);
+
+    if (!brand) throw new Error ("Can't get brand");
+
+    await brand.destroy();
+}
