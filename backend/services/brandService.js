@@ -1,4 +1,5 @@
-import { Brand } from "../models/db.js"
+import { Brand } from "../models/db.js";
+import * as brandUtils from '../utils/brand.js';
 
 
 export const listBrandService = async () => {
@@ -16,6 +17,18 @@ export const createBrandService = async (name) => {
     });
 
     if (!brand) throw new Error ("Can't create brand");
+
+    return brand;
+}
+
+
+export const updateBrandService = async (id, name) => {
+    const brand = await brandUtils.getBrandById(id);
+
+    if (!brand) throw new Error ("Can't get brand");
+
+    brand.name = name;
+    await brand.save();
 
     return brand;
 }

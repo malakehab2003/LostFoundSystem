@@ -6,6 +6,7 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/list', BrandController.listBrand);
-router.post('/create', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.createBrand)
+router.post('/create', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.createBrand);
+router.put('/update/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), BrandController.updateBrand);
 
 export default router;
