@@ -8,3 +8,14 @@ export const listBrandService = async () => {
 
     return brands;
 }
+
+
+export const createBrandService = async (name) => {
+    const brand = Brand.create({
+        name,
+    });
+
+    if (!brand) throw new Error ("Can't create brand");
+
+    return brand;
+}
