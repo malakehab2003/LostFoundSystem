@@ -26,3 +26,47 @@ export const AuthRequest = async (req, res, next) => {
         return res.status(401).send({error: "Unauthorized"});
     }
 }
+
+
+export const userAuth = (req, res, next) => {
+    const user = req.user;
+
+    if (!user) return res.status(401).send({error: "Unauthorized"});
+
+    if (user.role !== 'user') return res.status(401).send({error: "Unauthorized"});
+
+    next();
+}
+
+
+export const staffAuth = (req, res, next) => {
+    const user = req.user;
+
+    if (!user) return res.status(401).send({error: "Unauthorized"});
+
+    if (user.role !== 'staff') return res.status(401).send({error: "Unauthorized"});
+
+    next();
+}
+
+
+export const ownerAuth = (req, res, next) => {
+    const user = req.user;
+
+    if (!user) return res.status(401).send({error: "Unauthorized"});
+
+    if (user.role !== 'owner') return res.status(401).send({error: "Unauthorized"});
+
+    next();
+}
+
+
+export const managerAuth = (req, res, next) => {
+    const user = req.user;
+
+    if (!user) return res.status(401).send({error: "Unauthorized"});
+
+    if (user.role !== 'manager') return res.status(401).send({error: "Unauthorized"});
+
+    next();
+}
