@@ -6,6 +6,6 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/list', BrandController.listBrand);
-
+router.post('/create', middleware.AuthRequest, middleware.managerAuth, middleware.ownerAuth, )
 
 export default router;
