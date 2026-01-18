@@ -30,6 +30,12 @@ module.exports = {
         allowNull: true,
       },
 
+      show_phone_number: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+
       email: {
         type: Sequelize.STRING,
         allowNull: false,

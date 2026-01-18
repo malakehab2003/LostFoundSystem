@@ -30,8 +30,55 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      location: {
+      government: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      city: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+
+      place: {
+        type: DataTypes.ENUM(
+          'street',
+          'public_transport',
+          'school',
+          'university',
+          'mall',
+          'restaurant',
+          'cafe',
+          'hospital',
+          'bank',
+          'office',
+          'gym',
+          'park',
+          'cinema',
+          'theater',
+          'bus_station',
+          'metro_station',
+          'train_station',
+          'airport',
+          'taxi',
+          'car',
+          'shop',
+          'supermarket',
+          'hotel',
+          'library',
+          'government_office',
+          'church',
+          'mosque',
+          'stadium',
+          'playground',
+          'beach',
+          'other'
+        ),
+        allowNull: false
+      },
+
+      date: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
 
