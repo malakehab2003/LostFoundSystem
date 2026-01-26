@@ -52,7 +52,7 @@ export const createItem = async (req, res) => {
             title,
             government,
             city
-        }
+        } = req.body;
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }

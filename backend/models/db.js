@@ -22,5 +22,7 @@ export const {
     Review,
     Wishlist,
     Comment,
+    Government,
+    City,
 } = db;
 export default db;

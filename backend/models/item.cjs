@@ -33,13 +33,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      government: {
-        type: DataTypes.STRING,
+      government_id: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
 
-      city: {
-        type: DataTypes.STRING,
+      city_id: {
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
 
