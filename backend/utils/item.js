@@ -1,4 +1,4 @@
-import { Item } from '../models/db.js';
+import { Item, ItemCategory, ItemImage, User } from '../models/db.js';
 import { Op } from 'sequelize';
 
 export const buildWhereFilters = (filters) => {
@@ -36,7 +36,24 @@ export const getItems = async (where, limit, offset, order) => {
         where,
         limit,
         offset,
-        order
+        order,
+        include: [
+            {
+                model: ItemCategory,
+                as: 'category',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: ItemImage,
+                as: 'images',
+                attributes: ['id', 'image_url'],
+            },
+            {
+                model: User,
+                as: 'user',
+                attributes: ['id', 'name'],
+            },
+        ],
     });
 }
 

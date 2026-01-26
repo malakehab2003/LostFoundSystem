@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Item.belongsTo(models.User, { foreignKey: 'user_id' });
-      Item.belongsTo(models.ItemCategory, { foreignKey: 'item_category_id' });
-      Item.hasMany(models.ItemImage, { foreignKey: 'item_id' });
+      Item.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+      Item.belongsTo(models.ItemCategory, { foreignKey: 'item_category_id', as: 'category' });
+      Item.hasMany(models.ItemImage, { foreignKey: 'item_id', as: 'images' });
       Item.hasMany(models.Message, { foreignKey: 'item_id' });
     }
   }
@@ -41,39 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       place: {
-        type: DataTypes.ENUM(
-          'street',
-          'public_transport',
-          'school',
-          'university',
-          'mall',
-          'restaurant',
-          'cafe',
-          'hospital',
-          'bank',
-          'office',
-          'gym',
-          'park',
-          'cinema',
-          'theater',
-          'bus_station',
-          'metro_station',
-          'train_station',
-          'airport',
-          'taxi',
-          'car',
-          'shop',
-          'supermarket',
-          'hotel',
-          'library',
-          'government_office',
-          'church',
-          'mosque',
-          'stadium',
-          'playground',
-          'beach',
-          'other'
-        ),
+        type: DataTypes.STRING,
         allowNull: false
       },
 
