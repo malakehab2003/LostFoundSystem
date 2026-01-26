@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       Item.hasMany(models.ItemImage, { foreignKey: 'item_id', as: 'images' });
       Item.hasMany(models.Message, { foreignKey: 'item_id' });
       Item.hasMany(models.Comment, { foreignKey: 'item_id', as: 'comments', });
+      Item.belongsTo(models.Government, { foreignKey: 'government_id', as: 'government' });
+      Item.belongsTo(models.City, { foreignKey: 'city_id', as: 'city' });
     }
   }
   Item.init(

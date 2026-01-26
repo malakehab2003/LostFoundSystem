@@ -44,3 +44,16 @@ export const getItem = async (req, res) => {
         return res.status(400).send({ err: err.message });
     }
 }
+
+
+export const createItem = async (req, res) => {
+    try {
+        const {
+            title,
+            government,
+            city
+        }
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}

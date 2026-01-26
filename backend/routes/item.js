@@ -7,5 +7,6 @@ const router = express.Router();
 // all routers used are here
 router.get('/list', ItemController.listItems);
 router.get('/getItem/:id', ItemController.getItem);
+router.post('/create', middleware.AuthRequest, ItemController.createItem);
 
 export default router;
