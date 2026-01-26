@@ -14,12 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Cart, { foreignKey: 'user_id' });
       User.hasMany(models.Wishlist, { foreignKey: 'user_id' });
       User.hasMany(models.Order, { foreignKey: 'user_id' });
-      User.hasMany(models.Address, { foreignKey: 'user_id' });
+      User.hasMany(models.Address, { foreignKey: 'user_id', as: 'address' });
       User.hasMany(models.Notification, { foreignKey: 'user_id' });
       User.hasMany(models.Item, { foreignKey: 'user_id' });
       User.hasMany(models.Review, { foreignKey: 'user_id' });
       User.hasMany(models.Message, { foreignKey: 'sender_id', as: 'SentMessages' });
       User.hasMany(models.Message, { foreignKey: 'receiver_id', as: 'ReceivedMessages' });
+      User.hasMany(models.Comment, { foreignKey: 'user_id', as: 'comments', });
 
       User.belongsToMany(models.PromoCode, {
         through: 'UserPromoCodes',

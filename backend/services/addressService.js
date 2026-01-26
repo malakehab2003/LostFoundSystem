@@ -1,4 +1,4 @@
-import { Address } from '../models/db.js';
+import { Address, User } from '../models/db.js';
 import * as addressUtils from '../utils/address.js';
 
 
@@ -25,6 +25,13 @@ export const listAddressService = async (user_id) => {
     const addresses = await Address.findAll({
       where: { user_id },
       order: [["created_at", "DESC"]],
+      include: [
+        {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'name']
+        }
+      ]
     });
 
     return addresses;
