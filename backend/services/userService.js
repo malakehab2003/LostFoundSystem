@@ -130,10 +130,14 @@ export const changePasswordUserService = async (user, oldPassword, newPassword) 
 }
 
 
-export const getUserByEmailService = async (email) => {
-    if (!email) throw new Error ('No email');
+export const getAnotherUserService = async (email, id) => {
+    if (!email && !id) throw new Error ('No email and id');
 
-    const user = await auth.getUserByEmail(email);
+    const where = {};
+    if (id) where.id = id;
+    if (email) where.email = email;
+
+    const user = await User.findOne({ where });
 
     if (!user) throw new Error ('No user Found');
 

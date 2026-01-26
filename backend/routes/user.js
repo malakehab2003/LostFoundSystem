@@ -13,6 +13,6 @@ router.delete('/delete', middleware.AuthRequest, UserController.deleteUser);
 router.put('/undoDelete', UserController.undoDelete);
 router.post('/logOut',  middleware.AuthRequest, UserController.logOut);
 router.put('/chagePassword',  middleware.AuthRequest, UserController.chagePassword);
-router.get('/getUser/:email', UserController.getUserByEmail)
+router.get('/getUser', UserController.getAnotherUser)
 
 export default router;

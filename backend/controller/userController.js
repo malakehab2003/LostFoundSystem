@@ -150,13 +150,13 @@ export const chagePassword = async (req, res) => {
 }
 
 
-export const getUserByEmail = async (req, res) => {
+export const getAnotherUser = async (req, res) => {
     try {
-        const { email } = req.params;
+        const { id, email } = req.query;
         
-        if (!email) return res.status(400).send({message: 'Missing email'});
+        if (!email && !id) return res.status(400).send({message: 'Missing email and id'});
 
-        const user = await userService.getUserByEmailService(email);
+        const user = await userService.getAnotherUserService(email, id);
 
         if (!user) return res.status(400).send({message: "Can't get user"});
 
