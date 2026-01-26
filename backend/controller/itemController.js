@@ -16,11 +16,11 @@ export const listItems = async (req, res) => {
         const pageNumber = Math.max(parseInt(page, 10) || 1, 1);
         const pageSize = Math.min(parseInt(limit, 10) || DEFAULT_LIMIT, MAX_LIMIT);
 
+        const { allItems, pagination } = await service.listItemsService(filters, pageNumber, pageSize);
 
-        const { rows, pagination } = await service.listItemsService(filters, pageNumber, pageSize);
-
+        
         return res.status(200).send({
-            rows,
+            allItems,
             pagination,
         });
 

@@ -359,7 +359,7 @@ module.exports = {
         },
         {
           title: 'Found Sunglasses',
-          government: ' Beni Suef',
+          government: 'Beni Suef',
           city: 'El Fashn',
           place: 'supermarket',
           date: '2025-09-25',
@@ -372,7 +372,7 @@ module.exports = {
         },
         {
           title: 'Lost Jacket',
-          government: ' Beni Suef',
+          government: 'Beni Suef',
           city: 'Nasser',
           place: 'supermarket',
           date: '2025-06-02',
@@ -385,7 +385,7 @@ module.exports = {
         },
         {
           title: 'Found Power Bank',
-          government: ' Beni Suef',
+          government: 'Beni Suef',
           city: 'Sumusta El Waqf',
           place: 'stadium',
           date: '2025-01-01',
