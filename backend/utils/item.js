@@ -77,12 +77,3 @@ export const getItems = async (where, limit, offset, order) => {
         ],
     });
 }
-
-
-export const checkTypeExists = (type) => {
-    const validTypes = ['lost', 'found'];
-
-    if (!type || !validTypes.includes(type.toLowerCase())) {
-        throw new Error("No type found");
-    }
-}

@@ -1,4 +1,5 @@
 import * as service from '../services/itemService.js';
+import * as validate from '../utils/validateData.js';
 
 
 const DEFAULT_LIMIT = 10;
@@ -48,11 +49,27 @@ export const getItem = async (req, res) => {
 
 export const createItem = async (req, res) => {
     try {
-        const {
-            title,
-            government,
-            city
-        } = req.body;
+        const user = req.user;
+        const { category_id, ...rest } = req.body;
+
+        const data = {
+        ...rest,
+        item_category_id: category_id,
+        user_id: user.id
+        };
+
+        if (!data.title || !data.place) return res.status(400).send({ err: "Missing required fields" });
+
+        await validate.validateItemData(data.government_id, data.item_category_id, data.city_id, data.type, data.date);
+
+        const item = await service.createItemService(data);
+
+        if (!item) return res.status(400).send({ err: "Can't create item" });
+
+        return res.status(201).send({
+            message: "Item created Successfully",
+            item,
+        })
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }

@@ -1,9 +1,10 @@
 import * as utils from '../utils/item.js';
+import * as validate from '../utils/validateData.js';
 import { Item } from '../models/db.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
-    utils.checkTypeExists(filters.type);
+    validate.validateType(filters.type);
 
     const offset = (page - 1) * limit;
     let arrange = filters.date_from ? 'ASC' : 'DESC';
@@ -35,4 +36,13 @@ export const getItemService = async (id) => {
     const item = await utils.getItems({id,}, 1, 0, [['created_at', 'DESC']]);
 
     return item;
+}
+
+
+export const createItemService = async (data) => {
+    const item = await Item.create({
+        ...data,
+    });
+
+    return item
 }
