@@ -1,4 +1,5 @@
 import * as utils from '../utils/item.js';
+import { Item } from '../models/db.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
@@ -9,7 +10,7 @@ export const listItemsService = async (filters, page, limit) => {
 
     const where = utils.buildWhereFilters(filters);
     const items = await utils.getItems(where, limit, offset, [['created_at', arrange]]);
-    
+
     let categoryItems = [];
     if (filters.category_id) {
         const whereOfCategoryItems = utils.buildWhereForCategoryItems(filters, items);
@@ -29,3 +30,9 @@ export const listItemsService = async (filters, page, limit) => {
     };
 }
 
+
+export const getItemService = async (id) => {
+    const item = await utils.getItems({id,}, 1, 0, [['created_at', 'DESC']]);
+
+    return item;
+}

@@ -1,7 +1,6 @@
 import * as service from '../services/itemService.js';
 
 
-
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 50;
 
@@ -18,12 +17,29 @@ export const listItems = async (req, res) => {
 
         const { allItems, pagination } = await service.listItemsService(filters, pageNumber, pageSize);
 
-        
+
         return res.status(200).send({
             allItems,
             pagination,
         });
 
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}
+
+
+export const getItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) return res.status(400).send({ err: 'No id' });
+
+        const item = await service.getItemService(id);
+
+        if (!item) return res.status(400).send({ err: "Can't get item" });
+
+        return res.status(200).send({ item, });
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }

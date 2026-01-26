@@ -6,6 +6,6 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/list', ItemController.listItems);
-
+router.get('/getItem/:id', ItemController.getItem);
 
 export default router;
