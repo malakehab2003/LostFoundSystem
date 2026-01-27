@@ -62,6 +62,8 @@ export const createItem = async (req, res) => {
 
         await validate.validateItemData(data.government_id, data.item_category_id, data.city_id, data.type, data.date);
 
+        if (!data.government_id) delete data.city_id;
+
         const item = await service.createItemService(data);
 
         if (!item) return res.status(400).send({ err: "Can't create item" });
