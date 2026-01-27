@@ -215,11 +215,11 @@ export const validateDate = (date) => {
 
 
 export const validateItemData = async (government_id, category_id, city_id, type, date) => {
-    await validateCategoryId(category_id);
+    if (category_id) await validateCategoryId(category_id);
     if (government_id) {
         await validateGovernmentId(government_id);
         await validateCityId(city_id, government_id);
     }
-    validateType(type);
-    validateDate(date)
+    if (type) validateType(type);
+    if (date) validateDate(date)
 }

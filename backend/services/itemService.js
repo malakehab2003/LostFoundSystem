@@ -46,3 +46,19 @@ export const createItemService = async (data) => {
 
     return item
 }
+
+
+export const updateItemService = async (data) => {
+    const item = await Item.findByPk(data.id);
+    if (!item) {
+        throw new Error('Item not found');
+    }
+
+    utils.checkItemToUser(item.user_id, data.user_id);
+
+    if (!data.government_id && !item.government_id) delete data.city_id;
+
+    await item.update(data);
+
+    return item
+}

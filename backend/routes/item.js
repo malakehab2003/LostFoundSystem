@@ -8,5 +8,6 @@ const router = express.Router();
 router.get('/list', ItemController.listItems);
 router.get('/getItem/:id', ItemController.getItem);
 router.post('/create', middleware.AuthRequest, ItemController.createItem);
+router.put('/update/:id', middleware.AuthRequest, ItemController.updateItem);
 
 export default router;

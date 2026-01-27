@@ -58,7 +58,13 @@ export const createItem = async (req, res) => {
         user_id: user.id
         };
 
-        if (!data.title || !data.place) return res.status(400).send({ err: "Missing required fields" });
+        if (
+            !data.title ||
+            !data.place ||
+            !data.item_category_id ||
+            !data.date ||
+            !data.type
+        ) return res.status(400).send({ err: "Missing required fields" });
 
         await validate.validateItemData(data.government_id, data.item_category_id, data.city_id, data.type, data.date);
 
@@ -70,6 +76,37 @@ export const createItem = async (req, res) => {
 
         return res.status(201).send({
             message: "Item created Successfully",
+            item,
+        })
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}
+
+
+export const updateItem = async (req, res) => {
+    try {
+        const user = req.user;
+        const { category_id, ...rest } = req.body;
+        const { id } = req.params;
+        
+        validate.validateId(id);
+
+        const data = {
+            ...rest,
+            item_category_id: category_id,
+            user_id: user.id,
+            id,
+        };
+
+        await validate.validateItemData(data.government_id, data.item_category_id, data.city_id, data.type, data.date);
+
+        const item = await service.updateItemService(data);
+
+        if (!item) return res.status(400).send({ err: "Can't update item" });
+
+        return res.status(200).send({
+            message: "Item updated Successfully",
             item,
         })
     } catch (err) {
