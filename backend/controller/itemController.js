@@ -40,7 +40,7 @@ export const getItem = async (req, res) => {
 
         if (!item) return res.status(400).send({ err: "Can't get item" });
 
-        return res.status(200).send({ item, });
+        return res.status(200).send({ item: item[0], });
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }
@@ -77,7 +77,7 @@ export const createItem = async (req, res) => {
         return res.status(201).send({
             message: "Item created Successfully",
             item,
-        })
+        });
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }
@@ -108,7 +108,25 @@ export const updateItem = async (req, res) => {
         return res.status(200).send({
             message: "Item updated Successfully",
             item,
-        })
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
+    }
+}
+
+
+export const deleteItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = req.user;
+
+        if (!id) return res.status(400).send({ err: "Missing id" });
+
+        await service.deleteItemService(id, user.id);
+
+        return res.status(200).send({
+            message: "Item deleted Successfully",
+        });
     } catch (err) {
         return res.status(400).send({ err: err.message });
     }

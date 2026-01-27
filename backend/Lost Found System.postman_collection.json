@@ -827,14 +827,23 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{base}}/user/getUser/ziad.hossam@example.com",
+                  "raw": "{{base}}/user/getUser?email=ziad.hossam@example.com&id=42",
                   "host": [
                     "{{base}}"
                   ],
                   "path": [
                     "user",
-                    "getUser",
-                    "ziad.hossam@example.com"
+                    "getUser"
+                  ],
+                  "query": [
+                    {
+                      "key": "email",
+                      "value": "ziad.hossam@example.com"
+                    },
+                    {
+                      "key": "id",
+                      "value": "42"
+                    }
                   ]
                 }
               },
@@ -856,15 +865,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "181"
+                  "value": "206"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"b5-IzJcLUlGx7tTzqZgYY5Z0Fq1Y6o\""
+                  "value": "W/\"ce-wBQsxoBr467ixHjywmQl63eAvvI\""
                 },
                 {
                   "key": "Date",
-                  "value": "Fri, 16 Jan 2026 16:58:23 GMT"
+                  "value": "Mon, 26 Jan 2026 03:54:05 GMT"
                 },
                 {
                   "key": "Connection",
@@ -876,7 +885,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"user\": {\n        \"id\": 42,\n        \"name\": \"Ziad Hossam\",\n        \"dob\": \"2004-06-10\",\n        \"phone\": \"01333334444\",\n        \"email\": \"ziad.hossam@example.com\",\n        \"gender\": \"male\",\n        \"image_url\": null,\n        \"is_verified\": true,\n        \"role\": \"staff\"\n    }\n}"
+              "body": "{\n    \"user\": {\n        \"id\": 42,\n        \"name\": \"Ziad Hossam\",\n        \"dob\": \"2004-06-10\",\n        \"phone\": \"01333334444\",\n        \"show_phone_number\": true,\n        \"email\": \"ziad.hossam@example.com\",\n        \"gender\": \"male\",\n        \"image_url\": null,\n        \"is_verified\": true,\n        \"role\": \"staff\"\n    }\n}"
             }
           ]
         }
@@ -1014,7 +1023,7 @@
           },
           "response": [
             {
-              "name": "New Request",
+              "name": "list addresses",
               "originalRequest": {
                 "method": "GET",
                 "header": [
@@ -1053,15 +1062,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "848"
+                  "value": "357"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"350-9fL4hCdFKDw6btD7M+sFuLdJSic\""
+                  "value": "W/\"165-E4kEdKjBWBNtMQNeY2l3WLQFIXY\""
                 },
                 {
                   "key": "Date",
-                  "value": "Mon, 05 Jan 2026 11:33:45 GMT"
+                  "value": "Mon, 26 Jan 2026 03:43:43 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1073,7 +1082,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"addresses\": [\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        },\n        {\n            \"name\": \"Work\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\"\n        }\n    ]\n}"
+              "body": "{\n    \"addresses\": [\n        {\n            \"id\": 62,\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\",\n            \"user_id\": 59,\n            \"user\": {\n                \"id\": 59,\n                \"name\": \"hamo\"\n            }\n        },\n        {\n            \"id\": 61,\n            \"name\": \"home\",\n            \"address\": \"23 elnahas street\",\n            \"city\": \"tanta\",\n            \"state\": \"gharbia\",\n            \"country\": \"egypt\",\n            \"postal_code\": \"21311\",\n            \"user_id\": 59,\n            \"user\": {\n                \"id\": 59,\n                \"name\": \"hamo\"\n            }\n        }\n    ]\n}"
             }
           ]
         },
@@ -1665,12 +1674,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base}}/brand/list",
+              "raw": "{{base}}/product/category/list",
               "host": [
                 "{{base}}"
               ],
               "path": [
-                "brand",
+                "product",
+                "category",
                 "list"
               ]
             }
@@ -1755,12 +1765,13 @@
               }
             },
             "url": {
-              "raw": "{{base}}/brand/create",
+              "raw": "{{base}}/product/category/create",
               "host": [
                 "{{base}}"
               ],
               "path": [
-                "brand",
+                "product",
+                "category",
                 "create"
               ]
             }
@@ -1860,14 +1871,15 @@
               }
             },
             "url": {
-              "raw": "{{base}}/brand/update/6",
+              "raw": "{{base}}/product/category/update/11",
               "host": [
                 "{{base}}"
               ],
               "path": [
-                "brand",
+                "product",
+                "category",
                 "update",
-                "6"
+                "11"
               ]
             }
           },
@@ -1958,14 +1970,15 @@
               }
             ],
             "url": {
-              "raw": "{{base}}/brand/delete/6",
+              "raw": "{{base}}/product/category/delete/11",
               "host": [
                 "{{base}}"
               ],
               "path": [
-                "brand",
+                "product",
+                "category",
                 "delete",
-                "6"
+                "11"
               ]
             }
           },
@@ -2032,6 +2045,688 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"ProductCategory deleted successfully\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "item category",
+      "item": [
+        {
+          "name": "list item category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base}}/product/category/list",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "product",
+                "category",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create item category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"new\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/product/category/create",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "product",
+                "category",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update item category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"update new\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/product/category/update/11",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "product",
+                "category",
+                "update",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete item category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base}}/product/category/delete/11",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "product",
+                "category",
+                "delete",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "item": [
+        {
+          "name": "filter items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base}}/item/list?title=Sunglasses&category_id=4&limit=50&type=found",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "item",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "Sunglasses"
+                },
+                {
+                  "key": "government",
+                  "value": "Beni Suef",
+                  "disabled": true
+                },
+                {
+                  "key": "city",
+                  "value": "El Fashn",
+                  "disabled": true
+                },
+                {
+                  "key": "place",
+                  "value": "supermarket",
+                  "disabled": true
+                },
+                {
+                  "key": "category_id",
+                  "value": "4"
+                },
+                {
+                  "key": "date_from",
+                  "value": "2025-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "type",
+                  "value": "found"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "filter items",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base}}/item/list?title=Sunglasses&category_id=4&limit=50&type=found",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "title",
+                      "value": "Sunglasses"
+                    },
+                    {
+                      "key": "government",
+                      "value": "Beni Suef",
+                      "disabled": true
+                    },
+                    {
+                      "key": "city",
+                      "value": "El Fashn",
+                      "disabled": true
+                    },
+                    {
+                      "key": "place",
+                      "value": "supermarket",
+                      "disabled": true
+                    },
+                    {
+                      "key": "category_id",
+                      "value": "4"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "2025-01-01",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "type",
+                      "value": "found"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "7663"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1def-sARSfia3BghZBeX4cQ4mEY8sgrk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 26 Jan 2026 20:58:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"allItems\": [\n        {\n            \"id\": 8,\n            \"title\": \"Found Sunglasses\",\n            \"government_id\": 8,\n            \"city_id\": 199,\n            \"place\": \"hospital\",\n            \"date\": \"2025-05-03\",\n            \"type\": \"found\",\n            \"description\": \"Brown sunglasses found in a cafe\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 3,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 3,\n                \"name\": \"Carol Williams\"\n            },\n            \"government\": {\n                \"id\": 8,\n                \"name_en\": \"Gharbiya\",\n                \"name_ar\": \"الغربية\"\n            },\n            \"city\": {\n                \"id\": 199,\n                \"name_en\": \"Samannoud\",\n                \"name_ar\": \"سمنود\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 28,\n            \"title\": \"Found Sunglasses\",\n            \"government_id\": 17,\n            \"city_id\": 280,\n            \"place\": \"supermarket\",\n            \"date\": \"2025-09-25\",\n            \"type\": \"found\",\n            \"description\": \"Round brown sunglasses, lightly scratched\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 8,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 8,\n                \"name\": \"Henry Moore\"\n            },\n            \"government\": {\n                \"id\": 17,\n                \"name_en\": \"Beni Suef\",\n                \"name_ar\": \"بني سويف\"\n            },\n            \"city\": {\n                \"id\": 280,\n                \"name_en\": \"Naser\",\n                \"name_ar\": \"ناصر\"\n            },\n            \"comments\": [\n                {\n                    \"id\": 2,\n                    \"content\": \"I think this belongs to my friend.\",\n                    \"user_id\": 2,\n                    \"item_id\": 28,\n                    \"created_at\": \"2026-01-26T20:58:27.000Z\",\n                    \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n                    \"user\": {\n                        \"id\": 2,\n                        \"name\": \"Bob Smith\"\n                    }\n                },\n                {\n                    \"id\": 1,\n                    \"content\": \"Is this item still available?\",\n                    \"user_id\": 1,\n                    \"item_id\": 28,\n                    \"created_at\": \"2026-01-26T20:58:27.000Z\",\n                    \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n                    \"user\": {\n                        \"id\": 1,\n                        \"name\": \"Alice Johnson\"\n                    }\n                }\n            ]\n        },\n        {\n            \"id\": 1,\n            \"title\": \"Lost Wallet\",\n            \"government_id\": 1,\n            \"city_id\": 3,\n            \"place\": \"cafe\",\n            \"date\": \"2025-03-14\",\n            \"type\": \"lost\",\n            \"description\": \"Black leather wallet with several cards\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 1,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [\n                {\n                    \"id\": 1,\n                    \"image_url\": \"https://example.com/item1-1.jpg\"\n                },\n                {\n                    \"id\": 2,\n                    \"image_url\": \"https://example.com/item1-2.jpg\"\n                }\n            ],\n            \"user\": {\n                \"id\": 1,\n                \"name\": \"Alice Johnson\"\n            },\n            \"government\": {\n                \"id\": 1,\n                \"name_en\": \"Cairo\",\n                \"name_ar\": \"القاهرة\"\n            },\n            \"city\": {\n                \"id\": 3,\n                \"name_en\": \"Al Basatin\",\n                \"name_ar\": \"البساتين\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 4,\n            \"title\": \"Found Keys\",\n            \"government_id\": 2,\n            \"city_id\": 60,\n            \"place\": \"school\",\n            \"date\": \"2026-01-08\",\n            \"type\": \"found\",\n            \"description\": \"House keys with red keychain\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 4,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [\n                {\n                    \"id\": 6,\n                    \"image_url\": \"https://example.com/item4-1.jpg\"\n                }\n            ],\n            \"user\": {\n                \"id\": 4,\n                \"name\": \"David Brown\"\n            },\n            \"government\": {\n                \"id\": 2,\n                \"name_en\": \"Giza\",\n                \"name_ar\": \"الجيزة\"\n            },\n            \"city\": {\n                \"id\": 60,\n                \"name_en\": \"Cheikh Zayed\",\n                \"name_ar\": \"الشيخ زايد\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 5,\n            \"title\": \"Lost Watch\",\n            \"government_id\": 2,\n            \"city_id\": 70,\n            \"place\": \"university\",\n            \"date\": \"2023-12-05\",\n            \"type\": \"lost\",\n            \"description\": \"Silver wrist watch, brand unknown\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 5,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [\n                {\n                    \"id\": 7,\n                    \"image_url\": \"https://example.com/item5-1.jpg\"\n                },\n                {\n                    \"id\": 8,\n                    \"image_url\": \"https://example.com/item5-2.jpg\"\n                },\n                {\n                    \"id\": 9,\n                    \"image_url\": \"https://example.com/item5-3.jpg\"\n                }\n            ],\n            \"user\": {\n                \"id\": 5,\n                \"name\": \"Eve Davis\"\n            },\n            \"government\": {\n                \"id\": 2,\n                \"name_en\": \"Giza\",\n                \"name_ar\": \"الجيزة\"\n            },\n            \"city\": {\n                \"id\": 70,\n                \"name_en\": \"Abu Nomros\",\n                \"name_ar\": \"أبو النمرس\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 11,\n            \"title\": \"Lost Wallet\",\n            \"government_id\": 22,\n            \"city_id\": 340,\n            \"place\": \"gym\",\n            \"date\": \"2025-01-10\",\n            \"type\": \"lost\",\n            \"description\": \"Brown leather wallet with multiple cards and some cash\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 6,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 6,\n                \"name\": \"Frank Miller\"\n            },\n            \"government\": {\n                \"id\": 22,\n                \"name_en\": \"Kafr Al sheikh\",\n                \"name_ar\": \"كفر الشيخ\"\n            },\n            \"city\": {\n                \"id\": 340,\n                \"name_en\": \"Baltim\",\n                \"name_ar\": \"بلطيم\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 14,\n            \"title\": \"Found Wallet\",\n            \"government_id\": 20,\n            \"city_id\": 320,\n            \"place\": \"theater\",\n            \"date\": \"2024-11-08\",\n            \"type\": \"found\",\n            \"description\": \"Black wallet with a few cards, no cash\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 9,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 9,\n                \"name\": \"Isabella Taylor\"\n            },\n            \"government\": {\n                \"id\": 20,\n                \"name_en\": \"Sharkia\",\n                \"name_ar\": \"الشرقية\"\n            },\n            \"city\": {\n                \"id\": 320,\n                \"name_en\": \"Kafr Saqr\",\n                \"name_ar\": \"كفر صقر\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 15,\n            \"title\": \"Lost Keys\",\n            \"government_id\": 3,\n            \"city_id\": 120,\n            \"place\": \"bus_station\",\n            \"date\": \"2023-01-22\",\n            \"type\": \"lost\",\n            \"description\": \"House keys with blue keychain\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 10,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 10,\n                \"name\": \"Jack Anderson\"\n            },\n            \"government\": {\n                \"id\": 3,\n                \"name_en\": \"Alexandria\",\n                \"name_ar\": \"الأسكندرية\"\n            },\n            \"city\": {\n                \"id\": 120,\n                \"name_en\": \"Agamy\",\n                \"name_ar\": \"العجمي\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 16,\n            \"title\": \"Found Watch\",\n            \"government_id\": 3,\n            \"city_id\": 121,\n            \"place\": \"metro_station\",\n            \"date\": \"2024-12-23\",\n            \"type\": \"found\",\n            \"description\": \"Silver wrist watch with leather strap\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 6,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 6,\n                \"name\": \"Frank Miller\"\n            },\n            \"government\": {\n                \"id\": 3,\n                \"name_en\": \"Alexandria\",\n                \"name_ar\": \"الأسكندرية\"\n            },\n            \"city\": {\n                \"id\": 121,\n                \"name_en\": \"Bakos\",\n                \"name_ar\": \"بكوس\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 19,\n            \"title\": \"Lost Sunglasses\",\n            \"government_id\": 15,\n            \"city_id\": 255,\n            \"place\": \"train_station\",\n            \"date\": \"2026-01-26\",\n            \"type\": \"lost\",\n            \"description\": \"Brown aviator sunglasses with metal frame\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 9,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 9,\n                \"name\": \"Isabella Taylor\"\n            },\n            \"government\": {\n                \"id\": 15,\n                \"name_en\": \"Aswan\",\n                \"name_ar\": \"اسوان\"\n            },\n            \"city\": {\n                \"id\": 255,\n                \"name_en\": \"Aswan El Gedida\",\n                \"name_ar\": \"أسوان الجديدة\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 23,\n            \"title\": \"Lost Wallet\",\n            \"government_id\": 16,\n            \"city_id\": 268,\n            \"place\": \"airport\",\n            \"date\": \"2025-07-29\",\n            \"type\": \"lost\",\n            \"description\": \"Small black wallet with coins and a few credit cards\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 8,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 8,\n                \"name\": \"Henry Moore\"\n            },\n            \"government\": {\n                \"id\": 16,\n                \"name_en\": \"Assiut\",\n                \"name_ar\": \"اسيوط\"\n            },\n            \"city\": {\n                \"id\": 268,\n                \"name_en\": \"Dayrout\",\n                \"name_ar\": \"ديروط\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 25,\n            \"title\": \"Lost Keys\",\n            \"government_id\": 6,\n            \"city_id\": 170,\n            \"place\": \"taxi\",\n            \"date\": \"2025-02-28\",\n            \"type\": \"lost\",\n            \"description\": \"Car keys with a red keychain and remote\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 10,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 10,\n                \"name\": \"Jack Anderson\"\n            },\n            \"government\": {\n                \"id\": 6,\n                \"name_en\": \"Beheira\",\n                \"name_ar\": \"البحيرة\"\n            },\n            \"city\": {\n                \"id\": 170,\n                \"name_en\": \"Delengat\",\n                \"name_ar\": \"الدلنجات\"\n            },\n            \"comments\": []\n        },\n        {\n            \"id\": 26,\n            \"title\": \"Found Watch\",\n            \"government_id\": 6,\n            \"city_id\": 171,\n            \"place\": \"taxi\",\n            \"date\": \"2025-04-01\",\n            \"type\": \"found\",\n            \"description\": \"Gold-colored wrist watch, brand unknown\",\n            \"created_at\": \"2026-01-26T20:58:27.000Z\",\n            \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n            \"user_id\": 6,\n            \"item_category_id\": 4,\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Accessories\"\n            },\n            \"images\": [],\n            \"user\": {\n                \"id\": 6,\n                \"name\": \"Frank Miller\"\n            },\n            \"government\": {\n                \"id\": 6,\n                \"name_en\": \"Beheira\",\n                \"name_ar\": \"البحيرة\"\n            },\n            \"city\": {\n                \"id\": 171,\n                \"name_en\": \"Mahmoudiyah\",\n                \"name_ar\": \"المحمودية\"\n            },\n            \"comments\": []\n        }\n    ],\n    \"pagination\": {\n        \"total\": 13,\n        \"page\": 1,\n        \"limit\": 50,\n        \"totalPages\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get item",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base}}/item/getItem/28",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "item",
+                "getItem",
+                "28"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "get item",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base}}/item/getItem/32",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "getItem",
+                    "32"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "482"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1e2-3jkpvE5jsKjjl/8Vltn0jXwtEdU\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 27 Jan 2026 02:54:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"item\": {\n        \"id\": 32,\n        \"title\": \"new\",\n        \"government_id\": 1,\n        \"city_id\": 1,\n        \"place\": \"transportation\",\n        \"date\": \"2025-12-01\",\n        \"type\": \"lost\",\n        \"description\": \"i lost this item help please\",\n        \"created_at\": \"2026-01-26T23:40:57.000Z\",\n        \"updated_at\": \"2026-01-26T23:40:57.000Z\",\n        \"user_id\": 59,\n        \"item_category_id\": null,\n        \"category\": null,\n        \"images\": [],\n        \"user\": {\n            \"id\": 59,\n            \"name\": \"hamo\"\n        },\n        \"government\": {\n            \"id\": 1,\n            \"name_en\": \"Cairo\",\n            \"name_ar\": \"القاهرة\"\n        },\n        \"city\": {\n            \"id\": 1,\n            \"name_en\": \"15 May\",\n            \"name_ar\": \"15 مايو\"\n        },\n        \"comments\": []\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "create item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"new\",\r\n    \"government_id\": 1,\r\n    \"city_id\": 1,\r\n    \"place\": \"transportation\",\r\n    \"type\": \"lost\",\r\n    \"description\": \"i lost this item help please\",\r\n    \"category_id\": 3,\r\n    \"date\": \"2025-12-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/item/create",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "item",
+                "create"
+              ]
+            },
+            "description": "category_id, title, date, type, place are requried\n\nother is not required\n\nuser_id got from the token"
+          },
+          "response": [
+            {
+              "name": "create item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"new\",\r\n    \"government_id\": 1,\r\n    \"city_id\": 1,\r\n    \"place\": \"transportation\",\r\n    \"type\": \"lost\",\r\n    \"description\": \"i lost this item help please\",\r\n    \"category_id\": 3,\r\n    \"date\": \"2025-12-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/item/create",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "297"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"129-JMVJJ4ozZnPvcLfeF4/glbnLtxQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 26 Jan 2026 23:40:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Item created Successfully\",\n    \"item\": {\n        \"id\": 32,\n        \"title\": \"new\",\n        \"government_id\": 1,\n        \"city_id\": 1,\n        \"place\": \"transportation\",\n        \"type\": \"lost\",\n        \"description\": \"i lost this item help please\",\n        \"date\": \"2025-12-01\",\n        \"user_id\": 59,\n        \"updated_at\": \"2026-01-26T23:40:57.142Z\",\n        \"created_at\": \"2026-01-26T23:40:57.142Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"not new\",\r\n    \"date\": \"2025-01-01\",\r\n    \"government_id\": 2,\r\n    \"type\": \"found\",\r\n    \"place\": \"restaurant\",\r\n    \"category_id\": 1,\r\n    \"city_id\": 60,\r\n    \"description\": \"any help please\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/item/update/31",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "item",
+                "update",
+                "31"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update item",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"not new\",\r\n    \"date\": \"2025-01-01\",\r\n    \"government_id\": 2,\r\n    \"type\": \"found\",\r\n    \"place\": \"restaurant\",\r\n    \"category_id\": 1,\r\n    \"city_id\": 60,\r\n    \"description\": \"any help please\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/item/update/31",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "update",
+                    "31"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "307"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"133-qlPXGWbckoznP9YxNXPOo+hoWDY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 27 Jan 2026 02:42:34 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Item updated Successfully\",\n    \"item\": {\n        \"id\": 31,\n        \"title\": \"not new\",\n        \"government_id\": 2,\n        \"city_id\": 60,\n        \"place\": \"restaurant\",\n        \"date\": \"2025-01-01\",\n        \"type\": \"found\",\n        \"description\": \"any help please\",\n        \"created_at\": \"2026-01-26T23:39:39.000Z\",\n        \"updated_at\": \"2026-01-27T02:42:34.189Z\",\n        \"user_id\": 59,\n        \"item_category_id\": 1\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/item/delete/31",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "item",
+                "delete",
+                "31"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "delete item",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/item/delete/31",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "delete",
+                    "31"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "39"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"27-rVMVbok/dPXFjH2XQBFKinZD2Bw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 27 Jan 2026 02:52:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Item deleted Successfully\"\n}"
             }
           ]
         }

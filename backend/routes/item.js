@@ -9,5 +9,6 @@ router.get('/list', ItemController.listItems);
 router.get('/getItem/:id', ItemController.getItem);
 router.post('/create', middleware.AuthRequest, ItemController.createItem);
 router.put('/update/:id', middleware.AuthRequest, ItemController.updateItem);
+router.delete('/delete/:id', middleware.AuthRequest, ItemController.deleteItem);
 
 export default router;

@@ -62,3 +62,14 @@ export const updateItemService = async (data) => {
 
     return item
 }
+
+
+export const deleteItemService = async (id, user_id) => {
+    const item = await Item.findByPk(id);
+    
+    utils.checkItemToUser(item.user_id, user_id);
+
+    if (!item) throw new Error('Item not found');
+
+    await item.destroy();
+}

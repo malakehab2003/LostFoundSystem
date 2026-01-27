@@ -81,6 +81,6 @@ export const getItems = async (where, limit, offset, order) => {
 
 export const checkItemToUser = (id, user_id) => {
     if (id !== user_id) {
-        throw new Error('You are not allowed to update this item');
+        throw new Error('This item not related to you');
     }
 }
