@@ -4,8 +4,16 @@ import { Op } from 'sequelize';
 export const buildWhereFilters = (filters) => {
     const { title, government, city, place, type, category_id, date_from } = filters;
     const where = {};
+    where[Op.and] = [];
 
-    if (title) where.title = { [Op.like]: `%${title}%` };
+    if (title) {
+        where[Op.and].push({
+            [Op.or]: [
+                { title: { [Op.like]: `%${title}%` } },
+                { description: { [Op.like]: `%${title}%` } }
+            ]
+        });
+    }
     if (government) where.government = government;
     if (city) where.city = city;
     if (place) where.place = place;

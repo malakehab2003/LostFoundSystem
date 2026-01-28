@@ -5,6 +5,7 @@ import brandRouter from './brand.js';
 import productCategoryRouter from './productCategory.js';
 import itemCategoryRouter from './itemCategory.js';
 import itemRouter from './item.js';
+import productRouter from './product.js';
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use('/brand', brandRouter);
 router.use('/product/category', productCategoryRouter);
 router.use('/item/category', itemCategoryRouter);
 router.use('/item', itemRouter);
+router.use('/product', productRouter);
 
 export default router;
