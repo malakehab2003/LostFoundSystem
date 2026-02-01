@@ -2,7 +2,7 @@ import { Item, ItemCategory, ItemImage, User, Comment, City, Government } from '
 import { Op } from 'sequelize';
 
 export const buildWhereFilters = (filters) => {
-    const { title, government, city, place, type, category_id, date_from } = filters;
+    const { title, government_id, city_id, place, type, category_id, date_from } = filters;
     const where = {};
     where[Op.and] = [];
 
@@ -14,8 +14,8 @@ export const buildWhereFilters = (filters) => {
             ]
         });
     }
-    if (government) where.government = government;
-    if (city) where.city = city;
+    if (government_id) where.government_id = government_id;
+    if (city_id) where.city_id = city_id;
     if (place) where.place = place;
     where.type = type;
     if (category_id) where.item_category_id = category_id;

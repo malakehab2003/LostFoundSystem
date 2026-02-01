@@ -26,3 +26,20 @@ export const listProducts = async (req, res) => {
         return res.status(400).send({ err: err.message, });
     }
 }
+
+
+export const getProudct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) return res.status(400).send({ err: "Missing id", });
+
+        const product = await service.getProductService(id);
+
+        if (!product) return res.status(400).send({ err: "Can't get product", });
+
+        return res.status(200).send({ product, });
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
+    }
+}

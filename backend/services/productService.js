@@ -1,45 +1,11 @@
 import * as utils from '../utils/product.js';
-import { Product, ProductImage, ProductCategory, Brand, Review, User } from '../models/db.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
     const offset = (page - 1) * limit;
     const where = utils.buildWhereFilters(filters);
     
-    const products = await Product.findAndCountAll({
-        where,
-        limit: Number(limit),
-        offset: Number(offset),
-        include: [
-            {
-                model: ProductCategory,
-                as: 'category',
-                attributes: ['id', 'name'],
-            },
-            {
-                model: ProductImage,
-                as: 'image',
-                attributes: ['id', 'image_url'],
-            },
-            {
-                model: Brand,
-                as: 'brand',
-                attributes: ['id', 'name'],
-            },
-            {
-                model: Review,
-                as: 'review',
-                attributes: ['rate', 'message', 'image_url'],
-                include: [
-                    {
-                        model: User,
-                        as: 'user',
-                        attributes: ["id", 'name'],
-                    }
-                ]
-            },
-        ]
-    });
+    const products = await utils.getProducts(where, limit, offset);
 
     return {
         products,
@@ -50,4 +16,16 @@ export const listItemsService = async (filters, page, limit) => {
             totalPages: Math.ceil(products.length / limit),
         }
     }
+}
+
+
+export const getProductService = async (id) => {
+    if (!id) throw new Error ("Missing id");
+    const where = { id, }
+
+    const product = await utils.getProducts(where, 1, 0);
+
+    if (!product) throw new Error ("Product not found");
+
+    return product.rows[0];
 }

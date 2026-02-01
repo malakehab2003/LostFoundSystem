@@ -1,4 +1,5 @@
 import { Op, fn, col } from 'sequelize';
+import { Product, ProductCategory, ProductImage, Brand, Review, User } from '../models/db.js';
 
 export const buildWhereFilters = (filters) => {
     const where = {};
@@ -55,3 +56,43 @@ export const buildWhereFilters = (filters) => {
 
     return where;
 };
+
+
+export const getProducts = async (where, limit, offset) => {
+    const products = await Product.findAndCountAll({
+        where,
+        limit: Number(limit),
+        offset: Number(offset),
+        include: [
+            {
+                model: ProductCategory,
+                as: 'category',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: ProductImage,
+                as: 'image',
+                attributes: ['id', 'image_url'],
+            },
+            {
+                model: Brand,
+                as: 'brand',
+                attributes: ['id', 'name'],
+            },
+            {
+                model: Review,
+                as: 'review',
+                attributes: ['rate', 'message', 'image_url'],
+                include: [
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: ["id", 'name'],
+                    }
+                ]
+            },
+        ]
+    });
+
+    return products;
+}
