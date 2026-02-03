@@ -41,3 +41,15 @@ export const createProductService = async (data) => {
 
     return product
 }
+
+
+export const updateProductService = async (data) => {
+    const product = await Product.findByPk(data.id);
+    if (!product) {
+        throw new Error('Product not found');
+    }
+
+    await product.update(data);
+
+    return product
+}

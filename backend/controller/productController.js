@@ -1,6 +1,7 @@
 import * as service from '../services/productService.js';
 import { addProductImageService } from '../services/productImageService.js';
 import { Product } from '../models/db.js';
+import * as validate from '../utils/validateData.js';
 
 
 const DEFAULT_LIMIT = 10;
@@ -90,5 +91,32 @@ export const deleteProduct = async (req, res) => {
         return res.status(200).send({ message: "Product deleted successfully" });
     } catch (err) {
         return res.status(400).send({ err: err.message, });
+    }
+}
+
+
+export const updateProduct = async (req, res) => {
+    try {
+        const { category_id, ...rest } = req.body;
+        const { id } = req.params;
+        
+        validate.validateId(id);
+
+        const data = {
+            ...rest,
+            product_category_id: category_id,
+            id,
+        };
+
+        const product = await service.updateProductService(data);
+
+        if (!product) return res.status(400).send({ err: "Can't update product" });
+
+        return res.status(200).send({
+            message: "Product updated Successfully",
+            product,
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message });
     }
 }
