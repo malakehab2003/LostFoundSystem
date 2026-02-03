@@ -1,5 +1,6 @@
 import * as service from '../services/itemService.js';
 import * as validate from '../utils/validateData.js';
+import { addItemImageService } from '../services/itemImageService.js';
 
 
 const DEFAULT_LIMIT = 10;
@@ -50,7 +51,7 @@ export const getItem = async (req, res) => {
 export const createItem = async (req, res) => {
     try {
         const user = req.user;
-        const { category_id, ...rest } = req.body;
+        const { category_id, images_url, ...rest } = req.body;
 
         const data = {
         ...rest,
@@ -73,6 +74,8 @@ export const createItem = async (req, res) => {
         const item = await service.createItemService(data);
 
         if (!item) return res.status(400).send({ err: "Can't create item" });
+
+        if (images_url) await addItemImageService(item.id, images_url);
 
         return res.status(201).send({
             message: "Item created Successfully",

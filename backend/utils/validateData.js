@@ -118,6 +118,7 @@ export const validateImageUrl = (image_url) => {
     return true;
 };
 
+
 export const validateUserData = (userData) => {
     try {
         validateDob(userData.dob);

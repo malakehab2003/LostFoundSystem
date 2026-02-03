@@ -1,4 +1,5 @@
 import * as utils from '../utils/product.js';
+import { Product } from '../models/db.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
@@ -28,4 +29,15 @@ export const getProductService = async (id) => {
     if (!product) throw new Error ("Product not found");
 
     return product.rows[0];
+}
+
+
+export const createProductService = async (data) => {
+    if (!data) throw new Error ("Missing data");
+
+    const product = Product.create(data);
+
+    if (!product) throw new Error ("Can't create product");
+
+    return product
 }
