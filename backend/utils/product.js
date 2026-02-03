@@ -94,5 +94,5 @@ export const getProducts = async (where, limit, offset) => {
         ]
     });
 
-    return products;
+    return products.rows;
 }

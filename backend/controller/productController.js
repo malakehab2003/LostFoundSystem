@@ -1,21 +1,20 @@
 import * as service from '../services/productService.js';
 import { addProductImageService } from '../services/productImageService.js';
+import { Product } from '../models/db.js';
 
 
 const DEFAULT_LIMIT = 10;
-const MAX_LIMIT = 50;
 
 
 export const listProducts = async (req, res) => {
     try {
         const {
             page = 1,
-            limit = DEFAULT_LIMIT,
             ...filters
         } = req.query;
 
         const pageNumber = Math.max(parseInt(page, 10) || 1, 1);
-        const pageSize = Math.min(parseInt(limit, 10) || DEFAULT_LIMIT, MAX_LIMIT);
+        const pageSize = DEFAULT_LIMIT;
 
         const { products, pagination } = await service.listItemsService(filters, pageNumber, pageSize);
 
@@ -74,6 +73,21 @@ export const createProduct = async (req, res) => {
             message: "Product created successfully",
             product,
         })
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
+    }
+}
+
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) res.status(400).send({ err: "Missing id", });
+
+        await Product.destroy({ where: { id, } });
+        
+        return res.status(200).send({ message: "Product deleted successfully" });
     } catch (err) {
         return res.status(400).send({ err: err.message, });
     }

@@ -9,6 +9,6 @@ router.get('/list', ProductController.listProducts);
 router.get('/getProduct/:id', ProductController.getProudct);
 router.post('/create', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager', 'staff']), ProductController.createProduct);
 // router.put('/update/:id', middleware.AuthRequest, ProductController.updateProduct);
-// router.delete('/delete/:id', middleware.AuthRequest, ProductController.deleteProduct);
+router.delete('/delete/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager', 'staff']), ProductController.deleteProduct);
 
 export default router;

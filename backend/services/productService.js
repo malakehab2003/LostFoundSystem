@@ -28,7 +28,7 @@ export const getProductService = async (id) => {
 
     if (!product) throw new Error ("Product not found");
 
-    return product.rows[0];
+    return product[0];
 }
 
 
