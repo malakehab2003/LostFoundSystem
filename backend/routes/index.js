@@ -10,6 +10,7 @@ import itemImageRouter from './itemImage.js';
 import productImageRouter from './productImage.js';
 import governmentRouter from './government.js';
 import cityRouter from './city.js';
+import commentRouter from './comment.js';
 
 const router = express.Router();
 
@@ -25,5 +26,6 @@ router.use('/item/image/', itemImageRouter);
 router.use('/product/image/', productImageRouter);
 router.use('/government', governmentRouter);
 router.use('/city', cityRouter);
+router.use('/comment', commentRouter);
 
 export default router;
