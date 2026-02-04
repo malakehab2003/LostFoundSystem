@@ -1,6 +1,7 @@
 import * as service from '../services/itemService.js';
 import * as validate from '../utils/validateData.js';
 import { addItemImageService } from '../services/itemImageService.js';
+import { getItems } from '../utils/item.js';
 
 
 const DEFAULT_LIMIT = 10;
@@ -130,5 +131,19 @@ export const deleteItem = async (req, res) => {
         });
     } catch (err) {
         return res.status(400).send({ err: err.message });
+    }
+}
+
+
+export const getMyItems = async (req, res) => {
+    try {
+        const user= req.user;
+        const where = { user_id: user.id }
+
+        const items = await getItems(where, null, 0, [['created_at', 'DESC']]);
+
+        return res.status(200).send({ items, })
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
     }
 }
