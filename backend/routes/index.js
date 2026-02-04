@@ -11,6 +11,8 @@ import productImageRouter from './productImage.js';
 import governmentRouter from './government.js';
 import cityRouter from './city.js';
 import commentRouter from './comment.js';
+import cartRouter from './cart.js';
+import wishlistRouter from './wishlist.js';
 
 const router = express.Router();
 
@@ -27,5 +29,7 @@ router.use('/product/image/', productImageRouter);
 router.use('/government', governmentRouter);
 router.use('/city', cityRouter);
 router.use('/comment', commentRouter);
+router.use('/cart', cartRouter);
+router.use('/wishlist', wishlistRouter);
 
 export default router;
