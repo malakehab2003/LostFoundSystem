@@ -77,3 +77,11 @@ export const deleteAddressService = async (user_id, address_id) => {
 
     await address.destroy();
 }
+
+
+export const validateAddressToUser = async (user_id, address_id) => {
+    if (!user_id || !address_id) throw new Error ("Missing address id or user id");
+
+    const address = await Address.findByPk(address_id);
+    if (!address || address.user_id !== user_id) throw new Error ("User don't have this address");
+}

@@ -13,6 +13,7 @@ import cityRouter from './city.js';
 import commentRouter from './comment.js';
 import cartRouter from './cart.js';
 import wishlistRouter from './wishlist.js';
+import orderRouter from './orders.js';
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.use('/city', cityRouter);
 router.use('/comment', commentRouter);
 router.use('/cart', cartRouter);
 router.use('/wishlist', wishlistRouter);
+router.use('/order', orderRouter);
 
 export default router;
