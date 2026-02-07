@@ -12,6 +12,11 @@ import SignupPhoto from "./components/SignupPhoto";
 import SignupLocation from "./components/SignupLocation";
 import LostItems from "./pages/LostItems";
 import LostItem from "./pages/LostItem";
+import Dashboard from "./pages/Dashboard";
+import DashInfo from "./components/DashInfo";
+import DashboardLayout from "./components/DashboardLayout";
+import DashItem from "./components/DashItem";
+import DashItemInfo from "./components/DashItemInfo";
 
 function App() {
   return (
@@ -27,6 +32,14 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="lost" element={<LostItems />} />
           <Route path="/lost/:itemId" element={<LostItem />} />
+
+          {/* Nested signup routes */}
+          <Route path="dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="info" element={<DashInfo />} />
+            <Route path="item/:itemId" element={<DashItem />} />
+            <Route path="item/:itemId/info" element={<DashItemInfo />} />
+          </Route>
 
           {/* Nested signup routes */}
           <Route path="signup" element={<SignupLayout />}>
