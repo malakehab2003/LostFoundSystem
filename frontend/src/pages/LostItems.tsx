@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { MapPin, Calendar, Search, Filter } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Calendar, Filter, List, Landmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Sample data for found items
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { category, government, cities } from "@/lib/constants";
+import { DatePicker } from "@/components/DatePicker";
 const foundItems = [
   {
     id: 1,
@@ -29,19 +36,19 @@ const foundItems = [
 
 const sidebarFitlers = [
   {
-    name: "Location",
+    name: "Category",
+    icon: List,
+    value: "Wallet",
+  },
+  {
+    name: "Government",
+    icon: Landmark,
+    value: "Cairo",
+  },
+  {
+    name: "City",
     icon: MapPin,
-    value: "123 Main St, City, State",
-  },
-  {
-    name: "Date",
-    icon: Calendar,
-    value: "Select Date",
-  },
-  {
-    name: "Search radius",
-    icon: Search,
-    value: "10 miles",
+    value: "Nasr City",
   },
 ];
 
@@ -103,17 +110,40 @@ const LostItems = () => {
                   {filter.name}{" "}
                   <filter.icon className="w-3.5 h-3.5 text-slate-400" />
                 </span>
-                <input
-                  type="text"
-                  placeholder={filter.value}
-                  //   value={formData.location}
-                  // onChange={(e) =>
-                  //   setFormData({ ...formData, location: e.target.value })
-                  // }
-                  className="w-full px-3 py-3 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
-                />
+                <Select>
+                  <SelectTrigger className="w-full px-3 py-3 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400">
+                    <SelectValue placeholder={filter.value} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filter.name === "Category" &&
+                      category.map((cat) => (
+                        <SelectItem key={cat} value={cat}>
+                          {cat}
+                        </SelectItem>
+                      ))}
+                    {filter.name === "Government" &&
+                      government.map((gov) => (
+                        <SelectItem key={gov} value={gov}>
+                          {gov}
+                        </SelectItem>
+                      ))}
+                    {filter.name === "City" &&
+                      cities.map((city) => (
+                        <SelectItem key={city} value={city}>
+                          {city}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
               </div>
             ))}
+            {/* Date Picker Filter */}
+            <div className="flex flex-col gap-4 border-b pb-4">
+              <span className="text-slate-700 flex font-medium items-center justify-between gap-1 text-sm">
+                Date <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              </span>
+              <DatePicker />
+            </div>
 
             <Button
               size={"lg"}
