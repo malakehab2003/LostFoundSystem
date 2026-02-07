@@ -20,24 +20,29 @@ module.exports = {
         allowNull: false,
       },
 
-      city: {
-        type: Sequelize.STRING,
+      government_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Governments',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
 
-      state: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-
-      country: {
-        type: Sequelize.STRING,
+      city_id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Cities',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
 
       postal_code: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
 
       user_id: {
@@ -47,7 +52,6 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
-        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
 

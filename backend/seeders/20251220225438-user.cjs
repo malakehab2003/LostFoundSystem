@@ -22,7 +22,7 @@ module.exports = {
         email: 'bob@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -34,7 +34,7 @@ module.exports = {
         email: 'carol@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -70,7 +70,7 @@ module.exports = {
         email: 'frank@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -82,7 +82,7 @@ module.exports = {
         email: 'grace@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -94,7 +94,7 @@ module.exports = {
         email: 'henry@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -142,7 +142,7 @@ module.exports = {
         email: 'mohamed.hassan@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -178,7 +178,7 @@ module.exports = {
         email: 'mariam.adel@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'manager',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -190,7 +190,7 @@ module.exports = {
         email: 'omar.khaled@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -214,7 +214,7 @@ module.exports = {
         email: 'khaled.nour@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -238,7 +238,7 @@ module.exports = {
         email: 'tarek.samir@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -263,7 +263,7 @@ module.exports = {
         email: 'mostafa.gamal@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -299,7 +299,7 @@ module.exports = {
         email: 'rana.ehab@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -311,7 +311,7 @@ module.exports = {
         email: 'amr.lotfy@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -335,7 +335,7 @@ module.exports = {
         email: 'ibrahim.adel@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -359,7 +359,7 @@ module.exports = {
         email: 'mahmoud.zaki@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -371,7 +371,7 @@ module.exports = {
         email: 'hadia.omar@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -407,7 +407,7 @@ module.exports = {
         email: 'karim.saeed@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -419,7 +419,7 @@ module.exports = {
         email: 'hager.nabil@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -431,7 +431,7 @@ module.exports = {
         email: 'sameh.adel@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -455,7 +455,7 @@ module.exports = {
         email: 'sherif.magdy@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -479,7 +479,7 @@ module.exports = {
         email: 'bassel.helmy@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -504,7 +504,7 @@ module.exports = {
         email: 'ziad.hossam@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -540,7 +540,7 @@ module.exports = {
         email: 'lina.rashad@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -552,7 +552,7 @@ module.exports = {
         email: 'hamza.eid@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -576,7 +576,7 @@ module.exports = {
         email: 'fares.montaser@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -600,7 +600,7 @@ module.exports = {
         email: 'ayman.saber@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -625,7 +625,7 @@ module.exports = {
         email: 'ashraf.fawzy@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -637,7 +637,7 @@ module.exports = {
         email: 'nada.helal@example.com',
         gender: 'female',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: false,
         created_at: new Date(),
         updated_at: new Date()
@@ -649,7 +649,7 @@ module.exports = {
         email: 'hussein.adel@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'owner',
+        role: 'user',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -673,7 +673,7 @@ module.exports = {
         email: 'tamer.lotfy@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'staff',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()
@@ -697,7 +697,7 @@ module.exports = {
         email: 'osama.gabr@example.com',
         gender: 'male',
         password: 'password123',
-        role: 'manager',
+        role: 'admin',
         is_verified: true,
         created_at: new Date(),
         updated_at: new Date()

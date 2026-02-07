@@ -20,14 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'city_id',
         as: 'items'
       });
+
+      City.hasMany(models.Address, { foreignKey: 'city_id', as: 'address' });
     }
   }
   City.init({
-    name_ar: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-
     name_en: {
         type: DataTypes.STRING,
         allowNull: false

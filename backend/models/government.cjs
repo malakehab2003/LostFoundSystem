@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         as: 'city'
       });
 
+      Government.hasMany(models.Address, { foreignKey: 'government_id', as: 'address' });
+
       Government.hasMany(models.Item, {
         foreignKey: 'government_id',
         as: 'items'
@@ -23,12 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Government.init({
-    name_ar: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-
     name_en: {
       type: DataTypes.STRING,
       allowNull: false,
