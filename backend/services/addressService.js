@@ -1,4 +1,4 @@
-import { Address, User } from '../models/db.js';
+import { Address, User, Government, City } from '../models/db.js';
 import * as addressUtils from '../utils/address.js';
 
 
@@ -8,9 +8,8 @@ export const createAddressService = async(addressData) => {
     const newAddress = await Address.create ({
         name: addressData.name,
         address: addressData.address,
-        city: addressData.city,
-        state: addressData.state,
-        country: addressData.country,
+        city_id: addressData.city_id,
+        government_id: addressData.government_id,
         postal_code: addressData.postal_code,
         user_id: addressData.user_id,
     });
@@ -30,6 +29,16 @@ export const listAddressService = async (user_id) => {
             model: User,
             as: 'user',
             attributes: ['id', 'name']
+        },
+        {
+            model: Government,
+            as: 'government',
+            attributes: ['id', 'name_en']
+        },
+        {
+            model: City,
+            as: 'city',
+            attributes: ['id', 'name_en']
         }
       ]
     });
@@ -45,7 +54,7 @@ export const updateAddressService = async (addressData) => {
 
     if (!addressUtils.checkAddressForUser(address, addressData.user_id)) throw ("User can't update this address");
     
-    const fieldToUpdate = ['name', 'address', 'city', 'state', 'country', 'postal_code'];
+    const fieldToUpdate = ['name', 'address', 'city_id', 'government_id', 'postal_code'];
     
     fieldToUpdate.forEach((field) => {
         if(addressData[field]) {
