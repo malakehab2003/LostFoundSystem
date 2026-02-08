@@ -15,6 +15,11 @@ module.exports = {
         allowNull: false,
       },
 
+      landmark: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+
       address: {
         type: Sequelize.STRING,
         allowNull: false,

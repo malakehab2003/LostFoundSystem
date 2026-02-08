@@ -1,6 +1,6 @@
 USE lostfoundsystem;
 
-INSERT INTO `governments` (`id`, `name_en`) VALUES
+INSERT INTO `governments` (`id`, `name`) VALUES
 (1, 'Cairo'),
 (2, 'Giza'),
 (3, 'Alexandria'),
@@ -32,7 +32,7 @@ INSERT INTO `governments` (`id`, `name_en`) VALUES
 
 
 
-INSERT INTO `cities` (`government_id`, `name_en`) VALUES
+INSERT INTO `cities` (`government_id`, `name`) VALUES
 
 /* Start Cairo ID:1 */
 (1, '15 May'),

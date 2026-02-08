@@ -3,15 +3,10 @@ import * as addressUtils from '../utils/address.js';
 
 
 export const createAddressService = async(addressData) => {
-    if (!addressData) throw ("Missing data");
+    if (!addressData) throw new Error ("Missing data");
 
     const newAddress = await Address.create ({
-        name: addressData.name,
-        address: addressData.address,
-        city_id: addressData.city_id,
-        government_id: addressData.government_id,
-        postal_code: addressData.postal_code,
-        user_id: addressData.user_id,
+        ...addressData,
     });
 
     return newAddress;
@@ -33,12 +28,12 @@ export const listAddressService = async (user_id) => {
         {
             model: Government,
             as: 'government',
-            attributes: ['id', 'name_en']
+            attributes: ['id', 'name']
         },
         {
             model: City,
             as: 'city',
-            attributes: ['id', 'name_en']
+            attributes: ['id', 'name']
         }
       ]
     });
@@ -54,7 +49,7 @@ export const updateAddressService = async (addressData) => {
 
     if (!addressUtils.checkAddressForUser(address, addressData.user_id)) throw ("User can't update this address");
     
-    const fieldToUpdate = ['name', 'address', 'city_id', 'government_id', 'postal_code'];
+    const fieldToUpdate = ['name', 'address', 'city_id', 'government_id', 'postal_code', 'landmark'];
     
     fieldToUpdate.forEach((field) => {
         if(addressData[field]) {

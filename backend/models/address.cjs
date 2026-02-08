@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
+    landmark: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     address: {
       type: DataTypes.STRING,
       allowNull: false,

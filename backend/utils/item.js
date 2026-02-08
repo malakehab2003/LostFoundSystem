@@ -64,12 +64,12 @@ export const getItems = async (where, limit, offset, order) => {
             {
                 model: Government,
                 as: 'government',
-                attributes: ['id', 'name_en', 'name_ar']
+                attributes: ['id', 'name']
             },
             {
                 model: City,
                 as: 'city',
-                attributes: ['id', 'name_en', 'name_ar']
+                attributes: ['id', 'name']
             },
             {
                 model: Comment,

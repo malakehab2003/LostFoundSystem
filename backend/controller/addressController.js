@@ -5,7 +5,7 @@ import * as cleanData from '../utils/cleanData.js';
 export const createAddress = async(req, res) => {
     try {
         const user = req.user;
-        const { name, address, government_id, city_id, postal_code } = req.body;
+        const { name, address, government_id, city_id, postal_code, landmark } = req.body;
     
         if (!name || !address || !city_id || !government_id || !user || !postal_code) return res.status(400).send({err: "Missing requried values"});
 
@@ -18,6 +18,8 @@ export const createAddress = async(req, res) => {
             city_id,
             postal_code,
         };
+        
+        if (landmark) addressData.landmark = landmark;
 
         const newAddress = await addressService.createAddressService(addressData);
 
@@ -51,7 +53,7 @@ export const listAddresses = async (req, res) => {
 export const updateAddress = async (req, res) => {
     try {
         const user = req.user;
-        const { name, address, city_id, government_id, postal_code } = req.body;
+        const { name, address, city_id, government_id, postal_code, landmark } = req.body;
         const { id } = req.params;
         
         if (!user || !id) return res.status(400).send({err: "Missing data"});
@@ -64,6 +66,7 @@ export const updateAddress = async (req, res) => {
             government_id,
             postal_code,
             address_id: id,
+            landmark,
         };
         
         const newAddress = await addressService.updateAddressService(addressData);

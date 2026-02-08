@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Government.init({
-    name_en: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
