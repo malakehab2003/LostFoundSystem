@@ -6,7 +6,7 @@ const router = express.Router();
 
 // all routers used are here
 router.post('/create', middleware.AuthRequest, OrderController.createOrder);
-// router.get('/list', middleware.AuthRequest, OrderController.listOrders);
-// router.get('/getOrder/:id', middleware.AuthRequest, OrderController.getOrder);
-// router.put('/update/:id', middleware.AuthRequest, middleware.roleAuth([admin]), OrderController.updateOrder);
+router.get('/list', middleware.AuthRequest, OrderController.listOrders);
+router.get('/getOrder/:id', middleware.AuthRequest, OrderController.getOrder);
+
 export default router;
