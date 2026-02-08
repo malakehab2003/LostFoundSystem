@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
       Order.belongsTo(models.Address, { foreignKey: 'address_id', as: 'address' });
       Order.belongsTo(models.PromoCode, { foreignKey: 'promo_code_id', as: 'promocode' });
-      Order.hasMany(models.OrderItem, { foreignKey: 'order_id', as: 'item' });
+      Order.hasMany(models.OrderItem, { foreignKey: 'order_id', as: 'orderitem' });
     }
   }
   Order.init(

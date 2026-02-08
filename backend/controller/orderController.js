@@ -59,7 +59,7 @@ export const getOrder = async (req, res) => {
         if (!order) return res.status(400).send({err: "Can't get order"});
 
         return res.status(200).send({
-            order,
+            order: order[0],
         });
     } catch (err) {
         return res.status(400).send({err: err.message});

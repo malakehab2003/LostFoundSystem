@@ -14,6 +14,7 @@ import commentRouter from './comment.js';
 import cartRouter from './cart.js';
 import wishlistRouter from './wishlist.js';
 import orderRouter from './orders.js';
+import orderItemRouter from './orderItems.js';
 
 const router = express.Router();
 
@@ -33,5 +34,6 @@ router.use('/comment', commentRouter);
 router.use('/cart', cartRouter);
 router.use('/wishlist', wishlistRouter);
 router.use('/order', orderRouter);
+router.use('/order/item', orderItemRouter);
 
 export default router;
