@@ -171,10 +171,16 @@ export const getAnotherUser = async (req, res) => {
 export const searchUsers = async (req, res) => {
     try {
         const { q } = req.query;
-        if (!q) return res.status(400).send({ error: "Missing q for search with" });
+        let users;
+        if (!q) {
+            users = await userService.getAllUsersService();
+        } else {
+            q = q.trim();
+            if (!q) return res.status(400).send({ error: "q must have a value" });
 
-        const users = await userService.searchUsersService(q);
-        if (!users) return res.status(400).send({ error: "No User found" });
+            users = await userService.searchUsersService(q);
+            if (!users) return res.status(400).send({ error: "No User found" });
+        }
 
         return res.status(200).send({
             users,

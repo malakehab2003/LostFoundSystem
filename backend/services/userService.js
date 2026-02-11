@@ -159,3 +159,9 @@ export const searchUsersService = async (q) => {
 
     return users;
 }
+
+
+export const getAllUsersService = async () => {
+    const users = await User.findAll();
+    return users;
+}
