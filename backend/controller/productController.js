@@ -48,7 +48,7 @@ export const getProudct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { images_url, sale, category_id, ...rest } = req.body;
+        const { images_url, sale, category_id, rate, ...rest } = req.body;
         const user = req.user;
 
         if (
@@ -97,7 +97,7 @@ export const deleteProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { category_id, ...rest } = req.body;
+        const { category_id, rate, ...rest } = req.body;
         const { id } = req.params;
         
         validate.validateId(id);
