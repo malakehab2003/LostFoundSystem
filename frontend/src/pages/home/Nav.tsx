@@ -1,38 +1,64 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import {Button} from "@heroui/button";
 export default function Nav() {
+  let[nav,setnav]=useState(false)
+  function toogle(){
+    if(nav==true){
+      setnav(false)
+    }
+    else{
+      setnav(true)
+    }
+  }
   return (<>
+ {nav? <ul className='flex flex-col pt-12'>
+    <li>
+     <NavLink to=''>something lost</NavLink>
+    </li>
+    <hr />
+    <li>
+     <NavLink to=''>something found</NavLink>
+    </li>
+    <hr />
+    <li>
+     <NavLink to=''>How to help</NavLink>
+    </li>
+    <hr />
+    <li>
+     <NavLink to='/shop'>shop</NavLink>
+    </li>
+  </ul>:null}
+ <nav className='flex justify-around items-center bg-white fixed top-0 w-full h-14' >
+  <svg onClick={toogle} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 sm:hidden block">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg>
 
-  <nav className="navbar navbar-expand-lg bg-body-tertiary ">
-  <div className="container ">
-    <a className="navbar-brand fs-3 text-success" >ضايع</a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <div className="flex"></div>
-      <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li className="nav-item  ps-2">
-          <a className="nav-link " aria-current="page" >Something Lost</a>
-        </li>
-        <li className="nav-item  ms-2">
-          <a className="nav-link " >Something Found</a>
-        </li> 
-         <li className="nav-item  ps-2">
-          <a className="nav-link " >How to help</a>
-        </li>
-        <li className="nav-item  ps-2">
-          <a className="nav-link " >Shop</a>
-        </li>
-       
-        
-      </ul>
-      <button className=' bg-light text-success border-0 ms-5 ps-5'><i className="fa-solid fa-user"></i>sign in</button>
-      <button className='btn main text-light rounded-5'>Donate</button>
-      
-    </div>
-  </div>
-</nav>
+
+ <div><p className='text-3xl text-black'>ضايغ</p></div>
+ <div className='hidden sm:block'>
+  <ul className='flex gap-4'>
+    <li>
+     <NavLink to=''>something lost</NavLink>
+    </li>
+    <li>
+     <NavLink to=''>something found</NavLink>
+    </li>
+    <li>
+     <NavLink to=''>How to help</NavLink>
+    </li>
+    <li>
+     <NavLink to='/shop'>shop</NavLink>
+    </li>
+  </ul>
+ </div>
+
+ <div className='flex gap-5 items-center'>
+  <div><Link to=''> sign in</Link></div>
+  <Button color="secondary">Donate</Button>
+   </div>
+  
+ </nav>
 
   </>)
   
