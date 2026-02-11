@@ -26,7 +26,7 @@ export default function Nav() {
     </li>
     <hr />
     <li>
-     <NavLink to=''>shop</NavLink>
+     <NavLink to='/shop'>shop</NavLink>
     </li>
   </ul>:null}
  <nav className='flex justify-around items-center bg-white fixed top-0 w-full h-14' >

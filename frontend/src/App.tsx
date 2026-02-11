@@ -17,6 +17,9 @@ import DashInfo from "./components/DashInfo";
 import DashboardLayout from "./components/DashboardLayout";
 import DashItem from "./components/DashItem";
 import DashItemInfo from "./components/DashItemInfo";
+import Categray from "./marktComponents/Categray";
+import Page1 from "./marktComponents/Page1";
+import SingelItem from "./marktComponents/SingelItem";
 
 function App() {
   return (
@@ -40,6 +43,14 @@ function App() {
             <Route path="item/:itemId" element={<DashItem />} />
             <Route path="item/:itemId/info" element={<DashItemInfo />} />
           </Route>
+
+
+           <Route path="about" element={<About />} />
+          <Route path="lost" element={<LostItems />} />
+          <Route path="/lost/:itemId" element={<LostItem />} />
+          <Route path="shop" element={<Categray />} />
+          <Route path="page1" element={<Page1 />} />
+          <Route path="singleitem" element={<SingelItem />} />
 
           {/* Nested signup routes */}
           <Route path="signup" element={<SignupLayout />}>
