@@ -1,5 +1,5 @@
 import { removePromocodeFromUser } from "../services/promocodeService.js";
-import { Order, User, Address } from "../models/db.js";
+import { Order } from "../models/db.js";
 import { validateAddressToUser } from "../services/addressService.js";
 import * as service from '../services/orderService.js';
 
