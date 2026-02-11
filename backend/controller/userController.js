@@ -18,7 +18,7 @@ export const createUser = async (req, res) => {
             user: cleanData.cleanUser(user),
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -31,7 +31,7 @@ export const getMe = async (req, res) => {
 
         return res.status(200).send(cleanData.cleanUser(req.user));
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -50,7 +50,7 @@ export const login = async (req, res) => {
             user: cleanData.cleanUser(user)
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -72,7 +72,7 @@ export const update = async (req, res) => {
             user: cleanData.cleanUser(updatedUser),
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -88,7 +88,7 @@ export const deleteUser = async (req, res) => {
             message: 'User deleted successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -107,7 +107,7 @@ export const undoDelete = async (req, res) => {
             token,
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 
 }
@@ -123,7 +123,7 @@ export const logOut = async (req, res) => {
             message: 'Logged out successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -145,7 +145,7 @@ export const chagePassword = async (req, res) => {
             message: 'User password changed successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -164,6 +164,22 @@ export const getAnotherUser = async (req, res) => {
             user: cleanData.cleanUser(user),
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
+    }
+}
+
+export const searchUsers = async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.status(400).send({ error: "Missing q for search with" });
+
+        const users = await userService.searchUsersService(q);
+        if (!users) return res.status(400).send({ error: "No User found" });
+
+        return res.status(200).send({
+            users,
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
     }
 }

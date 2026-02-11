@@ -14,5 +14,6 @@ router.put('/undoDelete', UserController.undoDelete);
 router.post('/logOut',  middleware.AuthRequest, UserController.logOut);
 router.put('/chagePassword',  middleware.AuthRequest, UserController.chagePassword);
 router.get('/getUser', UserController.getAnotherUser)
+router.get('/searchUser', middleware.AuthRequest, middleware.roleAuth(['admin']), UserController.searchUsers)
 
 export default router;

@@ -3,6 +3,7 @@ import * as jwt from '../utils/jwt.js';
 import * as hash from '../utils/hash.js';
 import * as auth from '../utils/auth.js';
 import redisClient from '../utils/redisClient.js';
+import { Op } from 'sequelize';
 
 
 export const createUserService  = async (userData) => {
@@ -142,4 +143,19 @@ export const getAnotherUserService = async (email, id) => {
     if (!user) throw new Error ('No user Found');
 
     return user;
+}
+
+
+export const searchUsersService = async (q) => {
+    const users = await User.findAll({
+        where: {
+            [Op.or]: [
+                {name: { [Op.like]: `%${q}%` }},
+                {email: { [Op.like]: `%${q}%` }},
+            ]
+        },
+        attributes: ['id', 'name', 'email', 'role']
+    });
+
+    return users;
 }
