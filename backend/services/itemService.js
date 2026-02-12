@@ -1,6 +1,6 @@
 import * as utils from '../utils/item.js';
 import * as validate from '../utils/validateData.js';
-import { Item } from '../models/db.js';
+import { Item, User } from '../models/db.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
@@ -72,4 +72,17 @@ export const deleteItemService = async (id, user_id) => {
     if (!item) throw new Error('Item not found');
 
     await item.destroy();
+}
+
+
+export const getItemOwnerService = async (item_id) => {
+    const item = await Item.findByPk(item_id);
+
+    if (!item) throw new Error('Item not found');
+
+    const user = await User.findByPk(item.user_id);
+
+    if (!user) throw new Error('User not found');
+
+    return user;
 }

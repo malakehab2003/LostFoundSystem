@@ -1,5 +1,6 @@
 import { Notification, User } from "../models/db.js";
 import { getAllUsersService } from "../services/userService.js";
+import * as service from '../services/notificationService.js';
 
 
 export const listNotifications = async (req, res) => {
@@ -39,13 +40,7 @@ export const createNotification = async (req, res) => {
 
         else return res.status(400).send({ err: "No users selected" });
 
-        const notificationsData = users.map(user => ({
-            description,
-            message,
-            user_id: user.id
-        }));
-
-        await Notification.bulkCreate(notificationsData);
+        await service.sendNotificationsService(users, description, message);
         return res.send({
             message: "Notifications created successfully",
         });
