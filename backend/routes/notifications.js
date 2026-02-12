@@ -7,5 +7,6 @@ const router = express.Router();
 // all routers used are here
 router.get('/list', middleware.AuthRequest, notificationController.listNotifications);
 router.post('/create', middleware.AuthRequest, middleware.roleAuth(["admin"]), notificationController.createNotification);
+router.get('/notRead', middleware.AuthRequest, notificationController.countNotRead);
 
 export default router;

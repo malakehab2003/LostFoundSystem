@@ -10,6 +10,11 @@ export const listNotifications = async (req, res) => {
             where: {user_id: user.id},
         });
 
+        await Notification.update(
+            { is_read: true },
+            { where: { user_id: user.id, is_read: false } }
+        );
+
         return res.status(200).send({
             notifications,
         });
@@ -43,6 +48,23 @@ export const createNotification = async (req, res) => {
         await Notification.bulkCreate(notificationsData);
         return res.send({
             message: "Notifications created successfully",
+        });
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
+    }
+}
+
+
+export const countNotRead = async (req, res) => {
+    try {
+        const user = req.user;
+
+        const notifications = await Notification.findAll({
+            where: {user_id: user.id, is_read: false},
+        });
+
+        return res.status(200).send({
+            count: notifications.length,
         });
     } catch (err) {
         return res.status(400).send({ err: err.message, });
