@@ -189,3 +189,25 @@ export const searchUsers = async (req, res) => {
         return res.status(400).send({ error: err.message });
     }
 }
+
+
+export const createAdmin = async (req, res) => {
+    try {
+        const { user_id } = req.body;
+        if (!user_id) return res.status(400).send({ error: "Missing user id" });
+        
+        const user = await userService.getAnotherUserService('', user_id);
+
+        if (!user) return res.status(400).send({ error: "Can't get user" });
+
+        user.role = "admin";
+        await user.save();
+
+        return res.status(200).send({
+            message: "User added as admin successfully",
+            user,
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
+    }
+}
