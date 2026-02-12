@@ -16,6 +16,7 @@ import wishlistRouter from './wishlist.js';
 import orderRouter from './orders.js';
 import orderItemRouter from './orderItems.js';
 import notificationRouter from './notifications.js';
+import reviewController from './review.js'
 
 const router = express.Router();
 
@@ -37,5 +38,6 @@ router.use('/wishlist', wishlistRouter);
 router.use('/order', orderRouter);
 router.use('/order/item', orderItemRouter);
 router.use('/notification', notificationRouter);
+router.use('/review', reviewController);
 
 export default router;
