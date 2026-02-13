@@ -142,7 +142,7 @@ const LostItems = () => {
               <span className="text-slate-700 flex font-medium items-center justify-between gap-1 text-sm">
                 Date <Calendar className="w-3.5 h-3.5 text-slate-400" />
               </span>
-              <DatePicker />
+              {/* <DatePicker /> */}
             </div>
 
             <Button

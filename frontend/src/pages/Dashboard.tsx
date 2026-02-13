@@ -7,6 +7,7 @@ import {
   ChevronRight,
   AlertCircle,
   Package,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -33,9 +34,7 @@ const Dashboard = () => {
   return (
     <div className="max-w-6xl mx-auto min-h-screen bg-white text-slate-800 p-6 md:8">
       {/* Dashboard Header */}
-      <h1 className="text-5xl font-bold text-[#002D5B] mb-10 tracking-wide">
-        Dashboard
-      </h1>
+      <h1 className="header mb-10">Dashboard</h1>
 
       <div className="mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
         {/* Left Column: Your Items */}
@@ -120,17 +119,30 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-[#002D5B] mb-6">
               Account Settings
             </h2>
-            <Link
-              to="/dashboard/info"
-              className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
-            >
-              <div className="p-2 rounded-xl">
-                <User className="w-5 h-5 text-slate-600 group-hover:text-primary" />
-              </div>
-              <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
-                Personal information
-              </span>
-            </Link>
+            <div className="flex flex-col gap-5 ">
+              <Link
+                to="/dashboard/info"
+                className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+              >
+                <div className="p-2 rounded-xl">
+                  <User className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+                </div>
+                <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+                  Personal information
+                </span>
+              </Link>
+              <Link
+                to="/dashboard/address"
+                className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+              >
+                <div className="p-2 rounded-xl">
+                  <MapPin className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+                </div>
+                <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+                  My Addresses
+                </span>
+              </Link>
+            </div>
           </section>
         </div>
       </div>
