@@ -26,3 +26,20 @@ export const AuthRequest = async (req, res, next) => {
         return res.status(401).send({error: "Unauthorized"});
     }
 }
+
+
+export const roleAuth = (allowedRoles) => {
+    return (req, res, next) => {
+        const user = req.user;
+
+        if (!user) {
+            return res.status(401).send({ error: "Unauthorized" });
+        }
+
+        if (!allowedRoles.includes(user.role)) {
+            return res.status(403).send({ error: "Forbidden" });
+        }
+
+        next();
+    };
+};

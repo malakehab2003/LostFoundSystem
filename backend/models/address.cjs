@@ -11,8 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Address.belongsTo(models.User, { foreignKey: 'user_id' });
+      Address.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
       Address.hasMany(models.Order, { foreignKey: 'address_id' });
+      Address.belongsTo(models.City, { foreignKey: "city_id", as: 'city' });
+      Address.belongsTo(models.Government, { foreignKey: "government_id", as: 'government' });
     }
   }
   Address.init(
@@ -28,22 +30,28 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
+    landmark: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
-    city: {
-      type: DataTypes.STRING,
+    city_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
 
-    state: {
-      type: DataTypes.STRING,
+    government_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
 
-    country: {
-      type: DataTypes.STRING,
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
 

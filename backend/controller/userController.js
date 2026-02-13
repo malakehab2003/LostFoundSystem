@@ -1,5 +1,5 @@
 import * as validate from '../utils/validateData.js';
-import cleanUser from '../utils/cleanUser.js';
+import * as cleanData from '../utils/cleanData.js';
 import * as userService from '../services/userService.js'
 
 
@@ -15,10 +15,10 @@ export const createUser = async (req, res) => {
         return res.status(201).send({
             message: "User created successfully",
             token,
-            user: cleanUser(user),
+            user: cleanData.cleanUser(user),
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -29,9 +29,9 @@ export const getMe = async (req, res) => {
             return res.status(400).send({ error: "No user" });
         }
 
-        return res.status(200).send(cleanUser(req.user));
+        return res.status(200).send(cleanData.cleanUser(req.user));
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -47,10 +47,10 @@ export const login = async (req, res) => {
         return res.status(200).send({
             message: "login successfully",
             token,
-            user: cleanUser(user)
+            user: cleanData.cleanUser(user)
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -69,10 +69,10 @@ export const update = async (req, res) => {
 
         return res.status(200).send({
             message: "User updated successfully",
-            user: cleanUser(updatedUser),
+            user: cleanData.cleanUser(updatedUser),
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -81,14 +81,14 @@ export const deleteUser = async (req, res) => {
     try {
         const user = req.user;
         const auth = req.get('Authorization');
-        
+
         await userService.deleteUserService(user, auth);
 
         return res.status(200).send({
             message: 'User deleted successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -103,11 +103,11 @@ export const undoDelete = async (req, res) => {
 
         return res.status(200).send({
             message: "User undone successfully",
-            user: cleanUser(user),
+            user: cleanData.cleanUser(user),
             token,
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 
 }
@@ -116,14 +116,14 @@ export const undoDelete = async (req, res) => {
 export const logOut = async (req, res) => {
     try {
         const auth = req.get('Authorization');
-        
+
         await userService.logOutService(auth);
 
         return res.status(200).send({
             message: 'Logged out successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
     }
 }
 
@@ -134,7 +134,7 @@ export const chagePassword = async (req, res) => {
         const user = req.user;
 
         if (!oldPassword || !newPassword || !user) {
-            throw new Error('Missing data');
+            return res.status(400).send({message: 'Missing data'});
         }
 
         validate.validatePassword(newPassword);
@@ -145,6 +145,69 @@ export const chagePassword = async (req, res) => {
             message: 'User password changed successfully',
         });
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message });
+    }
+}
+
+
+export const getAnotherUser = async (req, res) => {
+    try {
+        const { id, email } = req.query;
+        
+        if (!email && !id) return res.status(400).send({message: 'Missing email and id'});
+
+        const user = await userService.getAnotherUserService(email, id);
+
+        if (!user) return res.status(400).send({message: "Can't get user"});
+
+        return res.status(200).send({
+            user: cleanData.cleanUser(user),
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
+    }
+}
+
+export const searchUsers = async (req, res) => {
+    try {
+        const { q } = req.query;
+        let users;
+        if (!q) {
+            users = await userService.getAllUsersService();
+        } else {
+            q = q.trim();
+            if (!q) return res.status(400).send({ error: "q must have a value" });
+
+            users = await userService.searchUsersService(q);
+            if (!users) return res.status(400).send({ error: "No User found" });
+        }
+
+        return res.status(200).send({
+            users,
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
+    }
+}
+
+
+export const createAdmin = async (req, res) => {
+    try {
+        const { user_id } = req.body;
+        if (!user_id) return res.status(400).send({ error: "Missing user id" });
+        
+        const user = await userService.getAnotherUserService('', user_id);
+
+        if (!user) return res.status(400).send({ error: "Can't get user" });
+
+        user.role = "admin";
+        await user.save();
+
+        return res.status(200).send({
+            message: "User added as admin successfully",
+            user,
+        });
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
     }
 }

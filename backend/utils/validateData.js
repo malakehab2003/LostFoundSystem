@@ -1,3 +1,6 @@
+import { ItemCategory, Government, City } from "../models/db.js";
+
+
 export const validateName = (name) => {
     if (!name || name === '' || name.length < 2) {
         throw new Error('Name error');
@@ -115,6 +118,7 @@ export const validateImageUrl = (image_url) => {
     return true;
 };
 
+
 export const validateUserData = (userData) => {
     try {
         validateDob(userData.dob);
@@ -133,4 +137,90 @@ export const validateUserData = (userData) => {
     } catch (err) {
         throw new Error(err)
     }
+}
+
+/////////////////////////////////////////////
+
+
+export const validateType = (type) => {
+    const validTypes = ['lost', 'found'];
+
+    if (!type || !validTypes.includes(type.toLowerCase())) {
+        throw new Error("No type found");
+    }
+}
+
+
+export const validateId = (id) => {
+    if (!id) {
+        throw new Error('ID is required');
+    }
+
+    const parsedId = Number(id);
+
+    if (!Number.isInteger(parsedId) || parsedId <= 0) {
+        throw new Error('Invalid ID');
+    }
+
+    return parsedId;
+}
+
+
+export const validateCategoryId = async (id) => {
+    validateId(id);
+    const category = await ItemCategory.findByPk(id);
+    if (!category) {
+        throw new Error('Category not found');
+    }
+}
+
+
+export const validateGovernmentId = async (id) => {
+    validateId(id);
+    const government = await Government.findByPk(id);
+    if (!government) {
+        throw new Error('Government not found');
+    }
+}
+
+
+export const validateCityId = async (id, government_id) => {
+    validateId(id);
+    const city = await City.findOne({
+        where: { id, government_id }
+    });
+
+    if (!city) {
+        throw new Error('City does not belong to selected government');
+    }
+}
+
+
+export const validateDate = (date) => {
+    if (!date) {
+        throw new Error('Date is required');
+    }
+
+    const parsedDate = new Date(date);
+
+    if (isNaN(parsedDate.getTime())) {
+        throw new Error('Invalid date format');
+    }
+
+    if (parsedDate > new Date()) {
+        throw new Error('Date cannot be in the future');
+    }
+
+    return parsedDate;
+};
+
+
+export const validateItemData = async (government_id, category_id, city_id, type, date) => {
+    if (category_id) await validateCategoryId(category_id);
+    if (government_id) {
+        await validateGovernmentId(government_id);
+        await validateCityId(city_id, government_id);
+    }
+    if (type) validateType(type);
+    if (date) validateDate(date)
 }

@@ -3,6 +3,7 @@ import * as jwt from '../utils/jwt.js';
 import * as hash from '../utils/hash.js';
 import * as auth from '../utils/auth.js';
 import redisClient from '../utils/redisClient.js';
+import { Op } from 'sequelize';
 
 
 export const createUserService  = async (userData) => {
@@ -10,7 +11,7 @@ export const createUserService  = async (userData) => {
         const existUser = await auth.getUserByEmail(userData.email);
     
         if (existUser) {
-            throw Error('Email already exists');
+            throw new Error('Email already exists');
         }
 
         const hashedPassword = await hash.hashPassword(userData.password);
@@ -30,7 +31,7 @@ export const createUserService  = async (userData) => {
             user
         };
     } catch (err) {
-        throw (err)
+        throw new Error (err)
     }
 }
 
@@ -39,13 +40,13 @@ export const loginService = async (email, password) => {
     const user = await auth.getUserByEmail(email);
 
     if (!user || user.is_deleted) {
-        throw ({ message: "User not found" });
+        throw new Error ("User not found" );
     }
 
     const isMatch = await hash.checkPassword(password, user.password);
 
     if (!isMatch) {
-        throw ('Incorrect password');
+        throw new Error ('Incorrect password');
     }
 
     user.last_login = new Date();
@@ -62,7 +63,7 @@ export const loginService = async (email, password) => {
 
 export const updateUserService = async (user, data) => {
     if (!user) {
-        throw ("No user");
+        throw new Error ("No user");
     }
 
     const fieldToUpdate = ['name', 'phone', 'image_url', 'dob'];
@@ -80,7 +81,7 @@ export const updateUserService = async (user, data) => {
 
 
 export const deleteUserService = async (user, authorization) => {
-    if (!user || !auth) throw ("No user or auth");
+    if (!user || !auth) throw new Error ("No user or auth");
 
     const token = auth.getTokenFromAuth(authorization);
     const duration = 7 * 24 * 60 * 60;
@@ -94,10 +95,10 @@ export const deleteUserService = async (user, authorization) => {
 export const undoDeleteService = async (email, password) => {
     const user = await auth.getUserByEmail(email);
     
-    if (!user) throw ('no User');
+    if (!user) throw new Error ('no User');
 
     const isMatch = await hash.checkPassword(password, user.password);
-    if (!isMatch) throw ('Wrong password');
+    if (!isMatch) throw new Error ('Wrong password');
 
 
     user.is_deleted = false;
@@ -121,10 +122,46 @@ export const logOutService = async (authorization) => {
 
 export const changePasswordUserService = async (user, oldPassword, newPassword) => {
     const isMatch = await hash.checkPassword(oldPassword, user.password);
-    if (!isMatch) throw ('Password not match');
+    if (!isMatch) throw new Error ('Password not match');
 
     const hashedPassword = await hash.hashPassword(newPassword);
 
     user.password = hashedPassword
     await user.save();
+}
+
+
+export const getAnotherUserService = async (email, id) => {
+    if (!email && !id) throw new Error ('No email and id');
+
+    const where = {};
+    if (id) where.id = id;
+    if (email) where.email = email;
+
+    const user = await User.findOne({ where });
+
+    if (!user) throw new Error ('No user Found');
+
+    return user;
+}
+
+
+export const searchUsersService = async (q) => {
+    const users = await User.findAll({
+        where: {
+            [Op.or]: [
+                {name: { [Op.like]: `%${q}%` }},
+                {email: { [Op.like]: `%${q}%` }},
+            ]
+        },
+        attributes: ['id', 'name', 'email', 'role']
+    });
+
+    return users;
+}
+
+
+export const getAllUsersService = async () => {
+    const users = await User.findAll();
+    return users;
 }

@@ -15,8 +15,31 @@ module.exports = {
         allowNull: false,
       },
 
-      location: {
+      government_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Governments',
+          key: 'id',
+        }
+      },
+
+      city_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Cities',
+          key: 'id',
+        },
+      },
+
+      place: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+
+      date: {
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
 

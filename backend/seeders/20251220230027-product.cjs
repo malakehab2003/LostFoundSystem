@@ -13,7 +13,7 @@ module.exports = {
         stock: 50,
         sale: 10,
         description: 'Latest smartphone with powerful features.',
-        product_category_id: 1, // Electronics
+        product_category_id: 1,
         brand_id: 1,
         created_at: new Date(),
         updated_at: new Date(),
@@ -28,7 +28,7 @@ module.exports = {
         stock: 100,
         sale: 0,
         description: 'Comfortable running shoes for daily workouts.',
-        product_category_id: 2, // Clothing
+        product_category_id: 2,
         brand_id: 2,
         created_at: new Date(),
         updated_at: new Date(),
@@ -43,7 +43,7 @@ module.exports = {
         stock: 70,
         sale: 5,
         description: 'Fast-boiling electric kettle for your kitchen.',
-        product_category_id: 4, // Home & Kitchen
+        product_category_id: 4,
         brand_id: 3,
         created_at: new Date(),
         updated_at: new Date(),
@@ -58,7 +58,7 @@ module.exports = {
         stock: 200,
         sale: 0,
         description: 'Non-slip yoga mat for fitness enthusiasts.',
-        product_category_id: 6, // Sports
+        product_category_id: 6,
         brand_id: 2,
         created_at: new Date(),
         updated_at: new Date(),
@@ -73,7 +73,7 @@ module.exports = {
         stock: 80,
         sale: 15,
         description: 'Noise-cancelling over-ear wireless headphones.',
-        product_category_id: 1, // Electronics
+        product_category_id: 1,
         brand_id: 1,
         created_at: new Date(),
         updated_at: new Date(),
@@ -88,7 +88,7 @@ module.exports = {
         stock: 120,
         sale: 0,
         description: 'Delicious and healthy recipes for everyday cooking.',
-        product_category_id: 3, // Books
+        product_category_id: 3,
         brand_id: 4,
         created_at: new Date(),
         updated_at: new Date(),
@@ -103,7 +103,7 @@ module.exports = {
         stock: 40,
         sale: 0,
         description: 'Comfortable ergonomic office chair for long hours.',
-        product_category_id: 4, // Home & Kitchen
+        product_category_id: 4,
         brand_id: 3,
         created_at: new Date(),
         updated_at: new Date(),
@@ -118,7 +118,7 @@ module.exports = {
         stock: 150,
         sale: 0,
         description: 'Collectible action figure set for kids and fans.',
-        product_category_id: 5, // Toys & Games
+        product_category_id: 5,
         brand_id: 5,
         created_at: new Date(),
         updated_at: new Date(),
@@ -133,7 +133,7 @@ module.exports = {
         stock: 90,
         sale: 20,
         description: 'Track your workouts and health metrics easily.',
-        product_category_id: 6, // Sports
+        product_category_id: 6,
         brand_id: 1,
         created_at: new Date(),
         updated_at: new Date(),
@@ -148,7 +148,7 @@ module.exports = {
         stock: 60,
         sale: 0,
         description: 'Comfortable bed for your pet dogs.',
-        product_category_id: 10, // Pet Supplies
+        product_category_id: 10,
         brand_id: 5,
         created_at: new Date(),
         updated_at: new Date(),

@@ -3,7 +3,8 @@ const require = createRequire(import.meta.url);
 
 const db = require('./index.cjs');
 
-export const { User,
+export const { 
+    User,
     Cart,
     Brand,
     Address,
@@ -19,5 +20,9 @@ export const { User,
     ProductImage,
     PromoCode,
     Review,
-    Wishlist } = db;
+    Wishlist,
+    Comment,
+    Government,
+    City,
+} = db;
 export default db;

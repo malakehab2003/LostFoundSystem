@@ -11,10 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Item.belongsTo(models.User, { foreignKey: 'user_id' });
-      Item.belongsTo(models.ItemCategory, { foreignKey: 'item_category_id' });
-      Item.hasMany(models.ItemImage, { foreignKey: 'item_id' });
+      Item.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+      Item.belongsTo(models.ItemCategory, { foreignKey: 'item_category_id', as: 'category' });
+      Item.hasMany(models.ItemImage, { foreignKey: 'item_id', as: 'images' });
       Item.hasMany(models.Message, { foreignKey: 'item_id' });
+      Item.hasMany(models.Comment, { foreignKey: 'item_id', as: 'comments', });
+      Item.belongsTo(models.Government, { foreignKey: 'government_id', as: 'government' });
+      Item.belongsTo(models.City, { foreignKey: 'city_id', as: 'city' });
     }
   }
   Item.init(
@@ -30,8 +33,23 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      location: {
+      government_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+
+      city_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+
+      place: {
         type: DataTypes.STRING,
+        allowNull: false
+      },
+
+      date: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
 

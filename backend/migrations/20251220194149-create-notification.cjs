@@ -20,6 +20,12 @@ module.exports = {
         allowNull: false,
       },
 
+      is_read: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
