@@ -21,6 +21,7 @@ export enum FormFieldType {
   TEXTAREA = "textarea",
   DATE_PICKER = "datePicker",
   SELECT = "select",
+  PASSWORD = "password",
 }
 
 export const ItemFormSchema = z.object({

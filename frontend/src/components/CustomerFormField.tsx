@@ -74,7 +74,11 @@ const RenderInput = ({
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+            disabled={disabled}
+          >
             <FormControl>
               <SelectTrigger className="h-11 flex w-full rounded-md border border-gray-400 bg-gray-100">
                 <SelectValue placeholder={placeholder} />
@@ -83,6 +87,19 @@ const RenderInput = ({
             <SelectContent className="">{children}</SelectContent>
           </Select>
         </FormControl>
+      );
+    case FormFieldType.PASSWORD:
+      return (
+        <div className="flex rounded-md border border-gray-400 bg-gray-100">
+          <FormControl>
+            <Input
+              type="password"
+              placeholder={placeholder}
+              {...field}
+              className="border-0"
+            />
+          </FormControl>
+        </div>
       );
   }
 };

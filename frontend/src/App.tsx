@@ -17,6 +17,7 @@ import DashInfo from "./components/DashInfo";
 import DashboardLayout from "./components/DashboardLayout";
 import DashItem from "./components/DashItem";
 import DashItemInfo from "./components/DashItemInfo";
+import DashAddress from "./components/DashAddress";
 import Categray from "./marktComponents/Categray";
 import Page1 from "./marktComponents/Page1";
 import SingelItem from "./marktComponents/SingelItem";
@@ -40,6 +41,7 @@ function App() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="info" element={<DashInfo />} />
+            <Route path="address" element={<DashAddress />} />
             <Route path="item/:itemId" element={<DashItem />} />
             <Route path="item/:itemId/info" element={<DashItemInfo />} />
           </Route>
