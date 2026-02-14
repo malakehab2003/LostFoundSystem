@@ -51,7 +51,7 @@ const addresses = [
 
 const DashAddress = () => {
   return (
-    <div className="min-h-screen bg-gray-50/50 p-8 md:p-12 font-sans">
+    <div className="min-h-screen bg-gray-50/50 p-8 md:p-12 font-sans ">
       <div className="max-w-6xl mx-auto">
         <h1 className="header mb-10">Your Addresses</h1>
 

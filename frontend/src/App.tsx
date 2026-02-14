@@ -21,6 +21,7 @@ import DashAddress from "./components/DashAddress";
 import Categray from "./marktComponents/Categray";
 import Page1 from "./marktComponents/Page1";
 import SingelItem from "./marktComponents/SingelItem";
+import Wishlist from "./components/Wishlist";
 
 function App() {
   return (
@@ -44,10 +45,10 @@ function App() {
             <Route path="address" element={<DashAddress />} />
             <Route path="item/:itemId" element={<DashItem />} />
             <Route path="item/:itemId/info" element={<DashItemInfo />} />
+            <Route path="wishlist" element={<Wishlist />} />
           </Route>
 
-
-           <Route path="about" element={<About />} />
+          <Route path="about" element={<About />} />
           <Route path="lost" element={<LostItems />} />
           <Route path="/lost/:itemId" element={<LostItem />} />
           <Route path="shop" element={<Categray />} />
