@@ -33,6 +33,16 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
 
+      entity: {
+        type: DataTypes.ENUM('order', 'item', 'message'),
+        allowNull: true,
+      },
+
+      entity_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+
       message: {
         type: DataTypes.STRING,
         allowNull: false,

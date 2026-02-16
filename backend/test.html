@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Test</title>
+</head>
+<body>
+  <h1>Socket Test</h1>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:5000", {
+      auth: {
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzcwODU0NjMxLCJleHAiOjE3NzE0NTk0MzF9.M4oVkOLybnbPYTlzLM53tNRB7ei2jlYWW1K0bNDq5Pw"
+      }
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected:", socket.id);
+    });
+
+    socket.on("notification", (data) => {
+      console.log("Notification received:", data);
+      alert(data.message);
+    });
+
+  </script>
+</body>
+</html>

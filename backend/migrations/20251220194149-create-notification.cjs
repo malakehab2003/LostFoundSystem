@@ -26,6 +26,16 @@ module.exports = {
         defaultValue: false,
       },
 
+      entity: {
+        type: Sequelize.ENUM('order', 'item', 'message'),
+        allowNull: true,
+      },
+
+      entity_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
