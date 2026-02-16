@@ -1,5 +1,6 @@
 import { Notification } from "../models/db.js";
 import { getIO } from "../utils/socket.js";
+import { getItems } from "../utils/item.js";
 
 
 export const sendNotificationsService = async (userIds, description, message, entity, entity_id) => {
@@ -23,4 +24,26 @@ export const sendNotificationsService = async (userIds, description, message, en
                 entity_id: notification.entity_id,
             });
         });
+}
+
+
+export const sendNotificationToRelatedReports = async (category_id, type, city_id, item_id) => {
+    const searchType = type === 'lost'? 'found': 'lost';
+    const where = {
+        type: searchType,
+        item_category_id: category_id,
+    };
+
+    if (city_id) where.city_id = city_id;
+
+    const items = await getItems(where, 100000, 0, [['created_at', 'DESC']]);
+    const userIds = [...new Set(items.map(item => item.user_id))];
+    if (!userIds.length) return;
+
+    const description = 'A new item added match your reported item go and check it';
+    const message = 'New item for you';
+    const entity = 'item';
+    const entity_id = item_id;
+
+    await sendNotificationsService(userIds, description, message, entity, entity_id);
 }
