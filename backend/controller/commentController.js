@@ -1,7 +1,6 @@
 import { Comment } from "../models/db.js";
 import * as service from '../services/commentService.js';
 import { sendNotificationsService } from "../services/notificationService.js";
-import { getItemOwnerService } from "../services/itemService.js";
 
 
 export const addComment = async (req, res) => {
@@ -22,10 +21,11 @@ export const addComment = async (req, res) => {
 
         if (!comment) return res.status(400).send({ err: "Can't create comment", });
         
-        const owner = await getItemOwnerService(itemId);
         const description = "A new person added a comment in your item go and check this";
         const message = "New comment";
-        await sendNotificationsService([owner], description, message);
+        const entity = 'item';
+        const entity_id = comment.item_id;
+        await sendNotificationsService([comment.user_id], description, message, entity, entity_id);
 
         return res.status(201).send({
             message: "Comment created successfully",
@@ -67,10 +67,11 @@ export const updateComment = async (req, res) => {
         comment.content = content;
         await comment.save();
 
-        const owner = await getItemOwnerService(comment.item_id);
         const description = "Someone updated his comment in your item go and check this";
         const message = "Updated comment";
-        await sendNotificationsService([owner], description, message);
+        const entity = 'item';
+        const entity_id = comment.item_id;
+        await sendNotificationsService([comment.user_id], description, message, entity, entity_id);
 
         return res.status(200).send({
             message: "comment updated successfully",

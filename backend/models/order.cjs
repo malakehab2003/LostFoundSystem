@@ -40,13 +40,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'processing',
       },
 
-      receive_type: {
-        type: DataTypes.ENUM('pickup', 'delivery'),
-        allowNull: false,
-      },
-
       payment_type: {
-        type: DataTypes.ENUM('cash', 'card', 'paypal', 'online_wallet'),
+        type: DataTypes.ENUM('cash', 'card'),
         allowNull: false,
       },
     },

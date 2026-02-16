@@ -25,14 +25,9 @@ module.exports = {
         allowNull: false,
         defaultValue: 'processing',
       },
-
-      receive_type: {
-        type: Sequelize.ENUM('pickup', 'delivery'),
-        allowNull: false,
-      },
-
+      
       payment_type: {
-        type: Sequelize.ENUM('cash', 'card', 'paypal', 'online_wallet'),
+        type: Sequelize.ENUM('cash', 'card'),
         allowNull: false,
       },
 

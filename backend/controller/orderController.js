@@ -112,7 +112,9 @@ export const updateOrder = async (req, res) => {
 
         const description = "Your order has updated go and check it";
         const message = "Order update";
-        await sendNotificationsService([user], description, message);
+        const entity = 'order';
+        const entity_id = currentOrder.id;
+        await sendNotificationsService([user.id], description, message, entity, entity_id);
 
         return res.status(200).send({
             message: "Order updated successfully",

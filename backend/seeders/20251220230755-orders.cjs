@@ -9,7 +9,6 @@ module.exports = {
         {
           total_price: 250.00,
           order_status: 'processing',
-          receive_type: 'delivery',
           payment_type: 'cash',
           user_id: 1,
           address_id: 1,
@@ -20,7 +19,6 @@ module.exports = {
         {
           total_price: 1200.50,
           order_status: 'shipped',
-          receive_type: 'delivery',
           payment_type: 'card',
           user_id: 2,
           address_id: 2,
@@ -30,8 +28,7 @@ module.exports = {
         },
         {
           total_price: 99.99,
-          order_status: 'delivered',
-          receive_type: 'pickup',
+          order_status: 'cancelled',
           payment_type: 'cash',
           user_id: 3,
           address_id: null,
@@ -42,8 +39,7 @@ module.exports = {
         {
           total_price: 560.00,
           order_status: 'cancelled',
-          receive_type: 'delivery',
-          payment_type: 'paypal',
+          payment_type: 'cash',
           user_id: 4,
           address_id: 3,
           promo_code_id: null,
@@ -53,8 +49,7 @@ module.exports = {
         {
           total_price: 780.75,
           order_status: 'processing',
-          receive_type: 'delivery',
-          payment_type: 'online_wallet',
+          payment_type: 'card',
           user_id: 5,
           address_id: 4,
           promo_code_id: 3,
@@ -64,7 +59,6 @@ module.exports = {
         {
           total_price: 300.00,
           order_status: 'delivered',
-          receive_type: 'pickup',
           payment_type: 'cash',
           user_id: 1,
           address_id: null,
@@ -75,7 +69,6 @@ module.exports = {
         {
           total_price: 1500.00,
           order_status: 'shipped',
-          receive_type: 'delivery',
           payment_type: 'card',
           user_id: 2,
           address_id: 2,
@@ -86,7 +79,6 @@ module.exports = {
         {
           total_price: 45.00,
           order_status: 'processing',
-          receive_type: 'pickup',
           payment_type: 'cash',
           user_id: 3,
           address_id: null,
@@ -97,8 +89,7 @@ module.exports = {
         {
           total_price: 999.99,
           order_status: 'delivered',
-          receive_type: 'delivery',
-          payment_type: 'paypal',
+          payment_type: 'cash',
           user_id: 4,
           address_id: 5,
           promo_code_id: 5,
@@ -108,8 +99,7 @@ module.exports = {
         {
           total_price: 670.40,
           order_status: 'processing',
-          receive_type: 'delivery',
-          payment_type: 'online_wallet',
+          payment_type: 'card',
           user_id: 5,
           address_id: 4,
           promo_code_id: null,

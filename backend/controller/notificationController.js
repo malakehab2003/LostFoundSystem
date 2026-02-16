@@ -28,19 +28,20 @@ export const listNotifications = async (req, res) => {
 export const createNotification = async (req, res) => {
     try {
         const { description, message, sendToAll, user_ids } = req.body;
-        let users = [];
+        let userIds = [];
 
         if (!description || !message) {
             return res.status(400).send({ err: "Missing description or message" });
         }
 
-        if (sendToAll) users = await getAllUsersService();
-
-        else if (user_ids && user_ids.length > 0) users = await User.findAll({ where: { id: user_ids} });
-
+        if (sendToAll) {
+            const users = await getAllUsersService();
+            userIds = users.map(user => user.id);
+        } 
+        else if (Array.isArray(user_ids) && user_ids.length > 0) userIds = user_ids;
         else return res.status(400).send({ err: "No users selected" });
 
-        await service.sendNotificationsService(users, description, message);
+        await service.sendNotificationsService(userIds, description, message);
         return res.send({
             message: "Notifications created successfully",
         });

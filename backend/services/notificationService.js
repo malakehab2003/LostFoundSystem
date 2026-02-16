@@ -2,12 +2,14 @@ import { Notification } from "../models/db.js";
 import { getIO } from "../utils/socket.js";
 
 
-export const sendNotificationsService = async (users, description, message) => {
+export const sendNotificationsService = async (userIds, description, message, entity, entity_id) => {
     const io = getIO();
-    const notificationsData = users.map(user => ({
+    const notificationsData = userIds.map(user => ({
             description,
             message,
-            user_id: user.id
+            user_id: user,
+            entity,
+            entity_id
         }));
 
         const created = await Notification.bulkCreate(notificationsData);
@@ -17,6 +19,8 @@ export const sendNotificationsService = async (users, description, message) => {
                 id: notification.id,
                 description: notification.description,
                 message: notification.message,
+                entity: notification.entity,
+                entity_id: notification.entity_id,
             });
         });
 }
