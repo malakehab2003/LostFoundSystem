@@ -25,6 +25,7 @@ export const createUserService  = async (userData) => {
         });
 
         const token = jwt.createToken(userData.email);
+        await auth.generateTokenForVerification(userData.email);
 
         return {
             token,
@@ -164,4 +165,16 @@ export const searchUsersService = async (q) => {
 export const getAllUsersService = async () => {
     const users = await User.findAll();
     return users;
+}
+
+
+export const verifyUserService = async (token) => {
+    const email = jwt.verifyTokenAndReturnEmail(token);
+    if (!email) throw new Error ("Invalid token");
+
+    const user = await auth.getUserByEmail(email);
+    if (!user) throw new Error ("No user found");
+
+    user.is_verified = true;
+    await user.save()
 }

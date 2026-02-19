@@ -16,5 +16,6 @@ router.put('/chagePassword',  middleware.AuthRequest, UserController.chagePasswo
 router.get('/getUser', UserController.getAnotherUser)
 router.get('/searchUser', middleware.AuthRequest, middleware.roleAuth(['admin']), UserController.searchUsers)
 router.post('/createAdmin', middleware.AuthRequest, middleware.roleAuth(['admin']), UserController.createAdmin)
+router.get('/verify-email', UserController.verifyUser);
 
 export default router;

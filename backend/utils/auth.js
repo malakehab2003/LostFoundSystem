@@ -1,5 +1,7 @@
 import { User } from '../models/db.js';
 import * as jwt from './jwt.js';
+import * as redis from './redisClient.js';
+import { sendEmail } from './emailService.js';
 
 export const getUserByEmail = async(email) =>{
     if (!email) {
@@ -51,4 +53,14 @@ export const getUserFromToken = async(token) => {
     } catch (err) {
         throw new Error (err)
     }
+}
+
+
+export const generateTokenForVerification = async (email) => {
+    const token = jwt.createToken(email);
+    const url = `http://localhost:5000/api/user/verify-email?token=${token}`;
+
+    const message = `Please verify your email by clicking the link: ${url}\n\nThis link expires in 1 hour.`;
+
+    await sendEmail(email, "verify your email", message);
 }

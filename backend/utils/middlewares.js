@@ -20,6 +20,8 @@ export const AuthRequest = async (req, res, next) => {
             return res.status(401).send({error: "User deleted"});
         }
 
+        if (!user.is_verified) return res.status(401).send({error: "User not verified"});
+
         req.user = user;
         next()
     } catch (err) {

@@ -64,7 +64,6 @@ module.exports = {
 
       is_verified: {
         type: Sequelize.BOOLEAN,
-        allowNull: true,
         defaultValue: false,
       },
 

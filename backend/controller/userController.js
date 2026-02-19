@@ -211,3 +211,17 @@ export const createAdmin = async (req, res) => {
         return res.status(400).send({ error: err.message });
     }
 }
+
+
+export const verifyUser = async (req, res) => {
+    try {
+        const token = req.query.token;
+        if (!token) return res.status(400).send({ error: "Missing token" });
+
+        await userService.verifyUserService(token);
+
+        return res.redirect('http://localhost/3000/');
+    } catch (err) {
+        return res.status(400).send({ error: err.message });
+    }
+}
