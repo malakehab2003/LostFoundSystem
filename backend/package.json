@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
+    "worker": "node utils/emailWorker.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +15,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bullmq": "^5.69.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -22,6 +24,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
     "mysql2": "^3.16.0",
+    "nodemailer": "^8.0.1",
     "path": "^0.12.7",
     "redis": "^5.10.0",
     "sequelize": "^6.37.7",

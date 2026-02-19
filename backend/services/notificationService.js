@@ -1,6 +1,7 @@
-import { Notification } from "../models/db.js";
+import { Notification, User } from "../models/db.js";
 import { getIO } from "../utils/socket.js";
 import { getItems } from "../utils/item.js";
+import { emailQueue } from '../utils/emailQueue.js';
 
 
 export const sendNotificationsService = async (userIds, description, message, entity, entity_id) => {
@@ -24,6 +25,22 @@ export const sendNotificationsService = async (userIds, description, message, en
                 entity_id: notification.entity_id,
             });
         });
+
+        const users = await User.findAll({
+            where: { id: userIds },
+            attributes: ['email']
+        });
+
+        for (const user of users) {
+            await emailQueue.add('sendEmail', {
+                to: user.email,
+                subject: `New Notification ${message}`,
+                text: `${description} - Check it here: /${entity}/${entity_id}`
+            }, {
+                attempts: 3,
+                backoff: { type: 'exponential', delay: 5000 }
+            });
+        }
 }
 
 
