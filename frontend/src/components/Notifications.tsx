@@ -40,6 +40,7 @@ let notifications = [
     user_id: 59,
   },
 ];
+
 const Notifications = () => {
   return (
     <Sheet>
@@ -53,7 +54,7 @@ const Notifications = () => {
             Keep an eye out here for new notifications!
           </SheetDescription>
         </SheetHeader>
-        <div className="mt-5 flex flex-col divide-y divide-gray-200">
+        <div className=" flex flex-col divide-y divide-gray-200">
           {notifications.length === 0 ? (
             <p className="text-sm text-gray-500 text-center py-10">
               No notifications yet
@@ -62,25 +63,26 @@ const Notifications = () => {
             notifications.map((notif) => (
               <div
                 key={notif.id}
-                className={`p-3 flex flex-col gap-1 ${
-                  !notif.is_read ? "bg-blue-50" : ""
+                className={`p-3 flex flex-col gap-2 ${
+                  !notif.is_read ? "bg-slate-50" : ""
                 }`}
               >
                 {/* top row */}
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-sm capitalize tracking-wide">
-                    {notif.message}
+                <div className="flex items-center justify-between px-2">
+                  <span className="font-semibold text-foreground-900 text-sm capitalize tracking-wide ">
+                    {notif.message} 
                   </span>
 
                   {!notif.is_read && (
-                    <span className="text-xs text-blue-600 font-semibold tracking-wide">
-                      NEW
-                    </span>
+                    <span className="w-2 h-2 rounded-full bg-red-500 mr-2"></span>
                   )}
                 </div>
 
                 {/* description */}
-                <p className="text-sm text-gray-600">{notif.description}</p>
+                <p className="text-sm text-foreground-800 px-2">
+                  {notif.description}this is a notification for you this is a
+                    notification for you this is a notification for you
+                </p>
 
                 {/* date */}
                 <span className="text-xs text-gray-400">

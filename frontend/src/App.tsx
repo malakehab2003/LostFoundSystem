@@ -22,6 +22,7 @@ import Categray from "./marktComponents/Categray";
 import Page1 from "./marktComponents/Page1";
 import SingelItem from "./marktComponents/SingelItem";
 import Wishlist from "./components/Wishlist";
+import Messages from "./pages/Messages";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="info" element={<DashInfo />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="address" element={<DashAddress />} />
             <Route path="item/:itemId" element={<DashItem />} />
             <Route path="item/:itemId/info" element={<DashItemInfo />} />
