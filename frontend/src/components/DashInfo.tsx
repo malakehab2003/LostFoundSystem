@@ -23,6 +23,9 @@ import CustomFormField from "./CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
 import { Form } from "./ui/form";
 import { SelectItem } from "./ui/select";
+import { Spinner } from "@heroui/react";
+import ChangePassword from "./dialog/ChangePassword";
+import DeleteAccount from "./dialog/DeleteAccount";
 
 export const UserFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -131,85 +134,78 @@ const DashInfo = () => {
           <h1 className="header">Personal information</h1>
         </div>
 
-        <div className="">
+        <div className="flex flex-col gap-5">
           {/* User Data Section */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="email"
-                label="Email"
-                disabled={true}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="name"
-                label="Name"
-                icon={<User className="w-4 h-4 text-slate-400" />}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="phone"
-                label="Phone"
-                icon={<Phone className="w-4 h-4 text-slate-400" />}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.DATE_PICKER}
-                control={form.control}
-                name="dob"
-                label="Date of Birth"
-                placeholder="Enter your date of birth"
-                icon={<Calendar className="w-4 h-4 text-slate-400" />}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="gender"
-                label="Gender"
-                placeholder="Enter your gender"
-                disabled={true}
-              >
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-              </CustomFormField>
-              <section className="pt-1 flex flex-col gap-2">
-                <div className="flex gap-5 items-center justify-between">
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    size={"lg"}
-                    className="disabled:opacity-50 disabled:cursor-not-allowed "
-                  >
-                    {isSubmitting ? "Loading..." : "Save Changes"}
-                  </Button>
-                  {/* Delete Account */}
-                  <Button
-                    size={"lg"}
-                    variant="destructive"
-                    disabled={isSubmitting}
-                    className="cursor-pointer"
-                  >
-                    Delete Account
-                  </Button>
-                </div>
-                <Link
-                  to={"/dashboard/info/change-password"}
-                  className="text-[12px] flex items-center gap-1 self-end"
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 flex flex-col"
+            >
+              <>
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  disabled={true}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="gender"
+                  label="Gender"
+                  placeholder="Enter your gender"
+                  disabled={true}
                 >
-                  <Button
-                    variant="link"
-                    size="sm"
-                    className="text-slate-400 hover:text-slate-500"
-                  >
-                    <Lock className="w-3.5 h-3.5" /> Change Password
-                  </Button>
-                </Link>
-              </section>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                </CustomFormField>
+
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="name"
+                  label="Name"
+                  icon={<User className="w-4 h-4 text-slate-400" />}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="phone"
+                  label="Phone"
+                  icon={<Phone className="w-4 h-4 text-slate-400" />}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.DATE_PICKER}
+                  control={form.control}
+                  name="dob"
+                  label="Date of Birth"
+                  placeholder="Enter your date of birth"
+                  icon={<Calendar className="w-4 h-4 text-slate-400" />}
+                />
+              </>
+              <Button
+                variant="secondary"
+                type="submit"
+                disabled={isSubmitting}
+                size={"lg"}
+                className="disabled:opacity-50 disabled:cursor-not-allowed  self-center"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="mr-2">Saving...</span>
+                    <Spinner data-icon="inline-end" variant="simple" />
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
             </form>
           </Form>
+          <section className="flex gap-5 items-center justify-between">
+            <ChangePassword oldPassword={"password1234"} />
+            <DeleteAccount userId={59} />
+          </section>
         </div>
       </main>
     </div>

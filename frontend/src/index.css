@@ -125,6 +125,10 @@
   .header {
     @apply text-5xl font-bold text-center text-[#002D5B] tracking-wide;
   }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 /* 
 @layer utilities {

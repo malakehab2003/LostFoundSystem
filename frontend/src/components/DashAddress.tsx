@@ -1,23 +1,11 @@
-import { Edit3, Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import {
   Empty,
   EmptyContent,
   EmptyHeader,
   EmptyMedia,
 } from "@/components/ui/empty";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import DeleteAddress from "./dialog/DeleteAddress";
-import EditAddress from "./dialog/EditAddress";
+import AddressDialog from "./dialog/AddressDialog";
 
 const addresses = [
   {
@@ -67,9 +55,7 @@ const DashAddress = () => {
               </EmptyMedia>
             </EmptyHeader>
             <EmptyContent>
-              <Button variant={"default"} className="cursor-pointer">
-                Add Address
-              </Button>
+              <AddressDialog type={"create"} />
             </EmptyContent>
           </Empty>
 
@@ -93,8 +79,8 @@ const DashAddress = () => {
               </div>
 
               <div className="mt-3 pt-3 border-t border-slate-50 flex items-center gap-4">
-                <EditAddress address={addr} />
-                <DeleteAddress addressId={addr.id} />
+                <AddressDialog address={addr} type={"edit"} />
+                <AddressDialog address={addr} type={"delete"} />
               </div>
             </div>
           ))}
