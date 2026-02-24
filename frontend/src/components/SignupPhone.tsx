@@ -1,16 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import type { SignupData } from "./SignupLayout";
+import { validatePhone } from "@/lib/validation";
 
 const SignupPhone = () => {
-  const [step, setStep] = useState(3); // Track current step for progress bar
-  const [formData, setFormData] = useState({ phoneNumber: "" });
+  const navigate = useNavigate();
 
-  // Progress percentage based on 3 steps (example)
-  const progressWidth = (step / 3) * 100;
+  const { signupData, updateData } = useOutletContext<{
+    signupData: SignupData;
+    updateData: (data: Partial<SignupData>) => void;
+  }>();
+  const [phone, setPhone] = useState(signupData.phone || "");
+  const [error, setError] = useState("");
 
-  const isFormValid = formData.phoneNumber.trim() !== "";
-  console.log(isFormValid);
+  const handleNext = () => {
+    const result = validatePhone(phone);
+    if (!result.valid) {
+      setError(result.error!);
+      return;
+    }
+
+    updateData({ phone });
+    navigate("/signup/upload-photo");
+    console.log(signupData);
+  };
   return (
     <div className="max-w-2xl mx-auto px-6 pt-20 flex flex-col items-center">
       {/* Header Text */}
@@ -25,33 +40,31 @@ const SignupPhone = () => {
 
       {/* Form Fields */}
       <div className="w-full max-w-md space-y-4">
-        <div className="relative">
+        <div className="relative flex flex-col gap-1 items-start">
           <input
             type="text"
             placeholder="123-456-7890"
-            value={formData.phoneNumber}
-            onChange={(e) =>
-              setFormData({ ...formData, phoneNumber: e.target.value })
-            }
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             className="w-full px-4 py-4 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
           />
+          {error && (
+            <p className="text-red-500 mb-2 text-[12px] font-semibold tracking-wide">
+              {error}
+            </p>
+          )}
         </div>
 
         {/* Action Button */}
         <div className="pt-6 flex justify-center">
-          <Link to="/signup/upload-photo" className="text-center">
-            <Button
-              variant={"default"}
-              size={"lg"}
-              disabled={!isFormValid}
-              onClick={() => setStep(step + 1)}
-              className={`px-12 py-3 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-                !isFormValid && "bg-slate-200 text-slate-400 cursor-not-allowed"
-              }`}
-            >
-              Continue
-            </Button>
-          </Link>
+          <Button
+            variant={"default"}
+            size={"lg"}
+            onClick={handleNext}
+            className={`px-12 py-3 rounded-full font-semibold transition-all duration-300 cursor-pointer`}
+          >
+            Continue
+          </Button>
         </div>
       </div>
     </div>

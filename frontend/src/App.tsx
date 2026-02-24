@@ -29,7 +29,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
 
         {/* Routes under main Layout */}
@@ -57,15 +56,8 @@ function App() {
           <Route path="page1" element={<Page1 />} />
           <Route path="singleitem" element={<SingelItem />} />
 
-          {/* Nested signup routes */}
-          <Route path="signup" element={<SignupLayout />}>
-            <Route index element={<Navigate replace to="name" />} />
-            <Route path="name" element={<Signup />} />
-            <Route path="email" element={<SignupEmail />} />
-            <Route path="phone" element={<SignupPhone />} />
-            <Route path="upload-photo" element={<SignupPhoto />} />
-            <Route path="upload-location" element={<SignupLocation />} />
-          </Route>
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>

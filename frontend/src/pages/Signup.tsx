@@ -1,72 +1,430 @@
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldGroup,
+} from "@/components/ui/field";
+import { Spinner } from "@/components/ui/spinner";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { EmailInput } from "@/components/ui/email-input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import { PasswordInput } from "@/components/ui/password-input";
+
+import { FileInput } from "@/components/ui/file-input";
+
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .max(255, "Name must be at most 255 characters"),
+  email: z
+    .string()
+    .min(1, "Email  is required")
+    .email("Invalid email address")
+    .regex(
+      /^[^\s@]+@(gmail|yahoo|outlook|email)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/,
+      "Email must be a valid address from gmail, yahoo, outlook, or email domains",
+    )
+    .max(255, "Email  must be at most 255 characters"),
+  gender: z
+    .string()
+    .min(1, "Gender is required")
+    .refine(
+      (val) => ["male", "female"].includes(val),
+      "Gender must be a valid option",
+    ),
+  dob: z.date().refine(
+    (date) => {
+      const today = new Date();
+      const minDate = new Date(
+        today.getFullYear() - 13,
+        today.getMonth(),
+        today.getDate(),
+      );
+
+      return date <= minDate;
+    },
+    {
+      message: "You must be at least 13 years old and date must be in the past",
+    },
+  ),
+  phoneNumber: z
+    .string()
+    .refine(
+      (val) => val === "" || (isValidPhoneNumber(val) && val.startsWith("+20")),
+      "Phone number must be a valid Egyptian number starting with +20",
+    )
+    .optional(),
+  image_url: z.string().optional().or(z.literal("")),
+  password: z
+    .string()
+    .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {
+      message:
+        "Password must be at least 7 characters long and include at least one number and one special character",
+    }),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 const Signup = () => {
-  const [step, setStep] = useState(1); // Track current step for progress bar
-  const [formData, setFormData] = useState({ firstName: "", lastName: "" });
+  const steps = [
+    {
+      title: "Step 1",
+      description: "",
+      fields: ["name", "password"],
+    },
+    {
+      title: "Step 2",
+      description: "",
+      fields: ["email", "gender", "dob"],
+    },
+    {
+      title: "Step 3",
+      description: "",
+      fields: ["phoneNumber", "image_url"],
+    },
+  ];
 
-  // Progress percentage based on 3 steps (example)
-  const progressWidth = (step / 3) * 100;
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const isFormValid =
-    formData.firstName.trim() !== "" && formData.lastName.trim() !== "";
+  const currentForm = steps[currentStep];
+
+  const isLastStep = currentStep === steps.length - 1;
+  const progress = ((currentStep + 1) / steps.length) * 100;
+
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      password: "",
+      email: "",
+      gender: "",
+      dob: undefined,
+      phoneNumber: "",
+      image_url: "",
+    },
+    mode: "onChange",
+    reValidateMode: "onChange",
+    shouldUnregister: false,
+  });
+
+  const handleNextButton = async () => {
+    const currentFields = steps[currentStep].fields as (keyof FormSchema)[];
+
+    const isValid = await form.trigger(currentFields);
+
+    if (isValid && !isLastStep) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBackButton = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const onSubmit = async (values: FormSchema) => {
+    console.log(values);
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/user/createUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      console.log("User created:", data);
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  };
+
+  const renderCurrentStepContent = () => {
+    return (
+      <FieldGroup>
+        {/* Step 1: Name */}
+        {currentStep === 0 && (
+          <>
+            <Controller
+              name="name"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="name">Name</FieldLabel>
+                  <Input
+                    {...field}
+                    id="name"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Enter your username"
+                    autoComplete="off"
+                    disabled={false}
+                  />
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <PasswordInput
+                    {...field}
+                    id="password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder=""
+                    autoComplete="off"
+                    disabled={false}
+                  />
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </>
+        )}
+
+        {/* Step 2: Email, Gender, Date of Birth */}
+        {currentStep === 1 && (
+          <>
+            <Controller
+              name="email"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="email">Email </FieldLabel>
+                  <EmailInput
+                    {...field}
+                    id="email"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Enter your email"
+                    autoComplete="off"
+                    disabled={false}
+                  />
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="gender"
+              control={form.control}
+              render={({ field, fieldState }) => {
+                const options = [
+                  { label: "Male", value: "male" },
+                  { label: "Female", value: "female" },
+                ];
+
+                return (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="gender">Gender</FieldLabel>
+                    <Select
+                      name={field.name}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      disabled={false}
+                    >
+                      <SelectTrigger
+                        id="gender"
+                        aria-invalid={fieldState.invalid}
+                      >
+                        <SelectValue placeholder="" />
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel></SelectLabel>
+                            {options.map((item) => (
+                              <SelectItem key={item.value} value={item.value}>
+                                {item.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </SelectTrigger>
+                    </Select>
+                    <FieldDescription></FieldDescription>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                );
+              }}
+            />
+
+            <Controller
+              name="dob"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="dob">Date Of Birth</FieldLabel>
+                  <DatePicker
+                    id="dob"
+                    value={field.value}
+                    onChange={field.onChange}
+                    aria-invalid={fieldState.invalid}
+                    placeholder=""
+                    disabled={false}
+                  />
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </>
+        )}
+
+        {/* Step 3: Phone Number and Profile Picture */}
+        {currentStep === 2 && (
+          <>
+            <Controller
+              name="phoneNumber"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="phoneNumber">Phone Number</FieldLabel>
+                  <Input
+                    {...field}
+                    id="phoneNumber"
+                    placeholder=""
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                    disabled={false}
+                  />
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="image_url"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="image_url">Profile Picture</FieldLabel>
+                  <FieldDescription></FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                  <FileInput
+                    {...field}
+                    id="image_url"
+                    aria-invalid={fieldState.invalid}
+                    maxFiles={1}
+                    maxSize={5242880}
+                    variant="default"
+                    previewSize="md"
+                    multiple={false}
+                    showPreview={true}
+                    accept="image/*"
+                    disabled={false}
+                  />
+                </Field>
+              )}
+            />
+          </>
+        )}
+      </FieldGroup>
+    );
+  };
   return (
-    <div className="max-w-2xl mx-auto px-6 pt-20 flex flex-col items-center">
-      {/* Header Text */}
-      <h1 className="text-4xl font-bold text-violet-900 text-center mb-4">
-        Welcome to Day3
-      </h1>
-
-      <p className="text-slate-700 text-center text-sm md:text-base leading-relaxed max-w-lg mb-10">
-        Whether you need to report a lost or found item or want to register your
-        item in case they go missing later — you're in the right place.
-      </p>
-
-      {/* Form Fields */}
-      <div className="w-full max-w-md space-y-4">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="First Name"
-            value={formData.firstName}
-            onChange={(e) =>
-              setFormData({ ...formData, firstName: e.target.value })
-            }
-            className="w-full px-4 py-4 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
-          />
+    <Card className="max-w-[540px] mx-auto my-10 bg-slate-50">
+      <CardHeader className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <CardTitle>{currentForm.title}</CardTitle>
+            <p className="text-muted-foreground text-xs">
+              Step {currentStep + 1} of {steps.length}
+            </p>
+          </div>
+          <CardDescription>{currentForm.description}</CardDescription>
         </div>
-
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={formData.lastName}
-            onChange={(e) =>
-              setFormData({ ...formData, lastName: e.target.value })
-            }
-            className="w-full px-4 py-4 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400"
-          />
-        </div>
-
-        {/* Action Button */}
-        <div className="pt-6 flex justify-center">
-          <Link to="/signup/email" className="text-center">
-            <Button
-              variant={"default"}
-              size={"lg"}
-              disabled={!isFormValid}
-              onClick={() => setStep(step + 1)}
-              className={`px-12 py-3 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-                !isFormValid && "bg-slate-200 text-slate-400 cursor-not-allowed"
-              }`}
-            >
-              Continue
+        <Progress value={progress} />
+      </CardHeader>
+      <CardContent>
+        <form id="signup" onSubmit={form.handleSubmit(onSubmit)}>
+          {renderCurrentStepContent()}
+        </form>
+      </CardContent>
+      <CardFooter>
+        <Field className="justify-between" orientation="horizontal">
+          {currentStep > 0 && (
+            <Button type="button" variant="ghost" onClick={handleBackButton}>
+              <ChevronLeft /> Back
             </Button>
-          </Link>
-        </div>
-      </div>
-    </div>
+          )}
+          {!isLastStep && (
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleNextButton}
+            >
+              Next
+              <ChevronRight />
+            </Button>
+          )}
+          {isLastStep && (
+            <Button
+              type="submit"
+              form="signup"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? <Spinner /> : "Submit"}
+            </Button>
+          )}
+        </Field>
+      </CardFooter>
+    </Card>
   );
 };
 
