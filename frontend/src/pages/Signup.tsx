@@ -1,4 +1,3 @@
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -33,66 +32,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/ui/date-picker";
-import { isValidPhoneNumber } from "react-phone-number-input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 import { FileInput } from "@/components/ui/file-input";
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(255, "Name must be at most 255 characters"),
-  email: z
-    .string()
-    .min(1, "Email  is required")
-    .email("Invalid email address")
-    .regex(
-      /^[^\s@]+@(gmail|yahoo|outlook|email)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/,
-      "Email must be a valid address from gmail, yahoo, outlook, or email domains",
-    )
-    .max(255, "Email  must be at most 255 characters"),
-  gender: z
-    .string()
-    .min(1, "Gender is required")
-    .refine(
-      (val) => ["male", "female"].includes(val),
-      "Gender must be a valid option",
-    ),
-  dob: z.date().refine(
-    (date) => {
-      const today = new Date();
-      const minDate = new Date(
-        today.getFullYear() - 13,
-        today.getMonth(),
-        today.getDate(),
-      );
-
-      return date <= minDate;
-    },
-    {
-      message: "You must be at least 13 years old and date must be in the past",
-    },
-  ),
-  phoneNumber: z
-    .string()
-    .refine(
-      (val) => val === "" || (isValidPhoneNumber(val) && val.startsWith("+20")),
-      "Phone number must be a valid Egyptian number starting with +20",
-    )
-    .optional(),
-  image_url: z.string().optional().or(z.literal("")),
-  password: z
-    .string()
-    .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {
-      message:
-        "Password must be at least 7 characters long and include at least one number and one special character",
-    }),
-});
-
-type FormSchema = z.infer<typeof formSchema>;
+import { useSignup } from "@/features/auth/hooks/useSignup";
+import { SignupForm, type SignupFormSchema } from "@/features/auth/type";
 
 const Signup = () => {
+  const { signupUser, isPending } = useSignup();
   const steps = [
     {
       title: "Step 1",
@@ -107,7 +54,7 @@ const Signup = () => {
     {
       title: "Step 3",
       description: "",
-      fields: ["phoneNumber", "image_url"],
+      fields: ["phone", "image_url"],
     },
   ];
 
@@ -118,15 +65,15 @@ const Signup = () => {
   const isLastStep = currentStep === steps.length - 1;
   const progress = ((currentStep + 1) / steps.length) * 100;
 
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignupFormSchema>({
+    resolver: zodResolver(SignupForm),
     defaultValues: {
       name: "",
       password: "",
       email: "",
       gender: "",
       dob: undefined,
-      phoneNumber: "",
+      phone: "",
       image_url: "",
     },
     mode: "onChange",
@@ -135,7 +82,8 @@ const Signup = () => {
   });
 
   const handleNextButton = async () => {
-    const currentFields = steps[currentStep].fields as (keyof FormSchema)[];
+    const currentFields = steps[currentStep]
+      .fields as (keyof SignupFormSchema)[];
 
     const isValid = await form.trigger(currentFields);
 
@@ -150,30 +98,8 @@ const Signup = () => {
     }
   };
 
-  const onSubmit = async (values: FormSchema) => {
-    console.log(values);
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/user/createUser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      console.log("User created:", data);
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
+  const onSubmit = async (values: SignupFormSchema) => {
+    signupUser(values);
   };
 
   const renderCurrentStepContent = () => {
@@ -325,14 +251,14 @@ const Signup = () => {
         {currentStep === 2 && (
           <>
             <Controller
-              name="phoneNumber"
+              name="phone"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="phoneNumber">Phone Number</FieldLabel>
+                  <FieldLabel htmlFor="phone">Phone Number</FieldLabel>
                   <Input
                     {...field}
-                    id="phoneNumber"
+                    id="phone"
                     placeholder=""
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
@@ -418,8 +344,13 @@ const Signup = () => {
               type="submit"
               form="signup"
               disabled={form.formState.isSubmitting}
+              className=""
             >
-              {form.formState.isSubmitting ? <Spinner /> : "Submit"}
+              {form.formState.isSubmitting || isPending ? (
+                <Spinner className="" />
+              ) : (
+                "Submit"
+              )}
             </Button>
           )}
         </Field>

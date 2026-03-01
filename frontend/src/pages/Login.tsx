@@ -1,54 +1,26 @@
 import { useForm, Controller } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { EmailInput } from "@/components/ui/email-input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import logo from "@/assets/logo.jpeg";
-import { Link } from "react-router-dom";
 import {
   Card,
-  CardAction,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-  FieldGroup,
-} from "@/components/ui/field";
+import { Field, FieldLabel, FieldGroup } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Spinner } from "@heroui/react";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email  is required")
-    .email("Invalid email address")
-    .regex(
-      /^[^\s@]+@(gmail|yahoo|outlook|email)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/,
-      "Email must be a valid address from gmail, yahoo, outlook, or email domains",
-    ),
-  password: z
-    .string()
-    .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {
-      message: "Password must be at least 7 characters long",
-    }),
-});
-
-type FormSchema = z.infer<typeof formSchema>;
+import { Spinner } from "@/components/ui/spinner";
+import { loginForm, type LoginFormSchema } from "@/features/auth/type";
+import { useLogin } from "@/features/auth/hooks/useLogin";
 
 export function Login() {
-  const [activeTab, setActiveTab] = useState("login");
-
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const { loginUser } = useLogin();
+  const form = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginForm),
     defaultValues: {
       email: "",
       password: "",
@@ -57,28 +29,8 @@ export function Login() {
     reValidateMode: "onChange",
     shouldUnregister: false,
   });
-
-  const onSubmit = async (values: FormSchema) => {
-    console.log(values);
-    try {
-      const response = await fetch("http://localhost:5000/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      console.log("User logged in:", data);
-    } catch (error) {
-      console.error("Error logging in user:", error);
-    }
+  const onSubmit = async (values: LoginFormSchema) => {
+    loginUser(values);
   };
 
   return (

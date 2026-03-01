@@ -1,24 +1,8 @@
-import React, { useState } from "react";
-import { ArrowLeft, Calendar, Lock, Phone, User } from "lucide-react";
+import { ArrowLeft, Phone, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Field, FieldGroup } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
 import CustomFormField from "./CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
 import { Form } from "./ui/form";
@@ -26,99 +10,42 @@ import { SelectItem } from "./ui/select";
 import { Spinner } from "@heroui/react";
 import ChangePassword from "./dialog/ChangePassword";
 import DeleteAccount from "./dialog/DeleteAccount";
-
-export const UserFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  dob: z.date({
-    required_error: "Date is required",
-    invalid_type_error: "Invalid date format",
-  }),
-  phone: z.string().min(1, "Phone number is required").optional(),
-  gender: z.string().min(1, "Gender is required"),
-  email: z.string().email("Invalid email address").min(1, "Email is required"),
-  // image_url: z.string().url("Invalid URL").nullable().optional(),
-  // password: z.string().min(6, "Password must be at least 6 characters"),
-  // addresses:
-});
+import {
+  UpdateProfileForm,
+  type UpdateProfileFormSchema,
+} from "@/features/auth/type";
+import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "./ui/field";
+import { FileInput } from "./ui/file-input";
+import { DatePicker } from "./ui/date-picker";
+import { useUpdateUserInfo } from "@/features/auth/hooks/useUpdateUserInfo";
 
 const DashInfo = () => {
-  const userData = [
-    {
-      title: "Email",
-      value: "haithambahr31@gmail.com",
-      description: "",
-      editable: false,
-    },
-    { title: "Name", value: "Haitham Bahr", description: "", editable: true },
-    {
-      title: "Phone",
-      value: "(201) 097-7122",
-      description:
-        "We'll never share your number publicly and will only contact you with updates about the item you register.",
-      editable: true,
-    },
-    {
-      title: "Date of Birth",
-      value: "January 1, 1990",
-      description: "We'll never share your date of birth publicly.",
-      editable: true,
-    },
-    { title: "Gender", value: "male", description: "", editable: true },
-    { title: "password", value: "********", description: "", editable: true },
-  ];
-  const addresses = [
-    {
-      id: 62,
-      name: "home",
-      address: "23 elnahas street",
-      city: "tanta",
-      state: "gharbia",
-      country: "egypt",
-      postal_code: "21311",
-      user_id: 59,
-      user: {
-        id: 59,
-        name: "hamo",
-      },
-    },
-    {
-      id: 61,
-      name: "home",
-      address: "23 elnahas street",
-      city: "tanta",
-      state: "gharbia",
-      country: "egypt",
-      postal_code: "21311",
-      user_id: 59,
-      user: {
-        id: 59,
-        name: "hamo",
-      },
-    },
-  ];
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<z.infer<typeof UserFormSchema>>({
-    resolver: zodResolver(UserFormSchema),
+  const { user } = useCurrentUser();
+  const { updateUserInfo, isPending } = useUpdateUserInfo();
+  const form = useForm<UpdateProfileFormSchema>({
+    resolver: zodResolver(UpdateProfileForm),
     defaultValues: {
-      email: userData[0].value,
-      name: userData[1].value,
-      phone: userData[2].value,
-      dob: userData[3].value,
-      gender: userData[4].value,
-      // password: "password1234",
-      // image_url: null,
+      email: user?.email || "",
+      name: user?.name || "",
+      phone: user?.phone || "",
+      dob: user?.dob ? new Date(user.dob) : new Date(),
+      gender: user?.gender || "male",
+      image_url: user?.image_url || "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof UserFormSchema>) {
+  async function onSubmit(data: UpdateProfileFormSchema) {
     try {
-      setIsSubmitting(true);
-      console.log(data);
+      updateUserInfo(data);
     } catch (error) {
       console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   }
   return (
@@ -142,6 +69,37 @@ const DashInfo = () => {
               className="space-y-6 flex flex-col"
             >
               <>
+                <FieldGroup>
+                  <Controller
+                    name="image_url"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="image_url">
+                          Profile Picture
+                        </FieldLabel>
+                        <FieldDescription></FieldDescription>
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                        <FileInput
+                          {...field}
+                          id="image_url"
+                          aria-invalid={fieldState.invalid}
+                          value={field.value}
+                          maxFiles={1}
+                          maxSize={5242880}
+                          variant="minimal"
+                          previewSize="md"
+                          multiple={false}
+                          showPreview={true}
+                          accept="image/*"
+                          disabled={false}
+                        />
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -175,23 +133,38 @@ const DashInfo = () => {
                   label="Phone"
                   icon={<Phone className="w-4 h-4 text-slate-400" />}
                 />
-                <CustomFormField
-                  fieldType={FormFieldType.DATE_PICKER}
-                  control={form.control}
-                  name="dob"
-                  label="Date of Birth"
-                  placeholder="Enter your date of birth"
-                  icon={<Calendar className="w-4 h-4 text-slate-400" />}
-                />
+                <FieldGroup>
+                  <Controller
+                    name="dob"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="dob">Date Of Birth</FieldLabel>
+                        <DatePicker
+                          id="dob"
+                          value={field.value}
+                          onChange={field.onChange}
+                          aria-invalid={fieldState.invalid}
+                          placeholder=""
+                          disabled={false}
+                        />
+                        <FieldDescription></FieldDescription>
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                </FieldGroup>
               </>
               <Button
                 variant="secondary"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isPending}
                 size={"lg"}
                 className="disabled:opacity-50 disabled:cursor-not-allowed  self-center"
               >
-                {isSubmitting ? (
+                {isPending ? (
                   <>
                     <span className="mr-2">Saving...</span>
                     <Spinner data-icon="inline-end" variant="simple" />
