@@ -22,13 +22,13 @@ import Categray from "./marktComponents/Categray";
 import Page1 from "./marktComponents/Page1";
 import SingelItem from "./marktComponents/SingelItem";
 import Wishlist from "./components/Wishlist";
+import Messages from "./pages/Messages";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
 
         {/* Routes under main Layout */}
@@ -42,6 +42,7 @@ function App() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="info" element={<DashInfo />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="address" element={<DashAddress />} />
             <Route path="item/:itemId" element={<DashItem />} />
             <Route path="item/:itemId/info" element={<DashItemInfo />} />
@@ -55,15 +56,8 @@ function App() {
           <Route path="page1" element={<Page1 />} />
           <Route path="singleitem" element={<SingelItem />} />
 
-          {/* Nested signup routes */}
-          <Route path="signup" element={<SignupLayout />}>
-            <Route index element={<Navigate replace to="name" />} />
-            <Route path="name" element={<Signup />} />
-            <Route path="email" element={<SignupEmail />} />
-            <Route path="phone" element={<SignupPhone />} />
-            <Route path="upload-photo" element={<SignupPhoto />} />
-            <Route path="upload-location" element={<SignupLocation />} />
-          </Route>
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>

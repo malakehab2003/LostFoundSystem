@@ -1,12 +1,11 @@
-import express, {json, urlencoded} from 'express';
-import router from './routes/index.js';
-import logger from 'morgan';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
+import express, { json, urlencoded } from "express";
+import router from "./routes/index.js";
+import logger from "morgan";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 import { initSocket } from "./utils/socket.js";
 import http from "http";
-
 
 dotenv.config();
 
@@ -16,12 +15,12 @@ const app = express();
 const server = http.createServer(app);
 initSocket(server);
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/api', router);
+app.use("/api", router);
 
 server.listen(port, () => {
   console.log(`Server working on port ${port}`);

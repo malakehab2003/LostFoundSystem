@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/logo.jpeg";
-import { Menu, MessageSquare, User2 } from "lucide-react";
+import defaultProfile from "@/assets/default-profile.webp";
+import { Menu, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Notifications from "@/components/Notifications";
+import { useLogout } from "@/features/auth/hooks/useLogout";
+import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 
 export default function Nav() {
-  const isSignedIn = false;
+  const { user } = useCurrentUser();
+  const { logoutUser } = useLogout();
   const [isNavOpen, setIsNavOpen] = useState(false);
   function toggle() {
     setIsNavOpen((prev) => !prev);
   }
-
   return (
     <nav className="bg-background fixed w-full z-20 top-0 start-0 border-b border-default">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -88,11 +91,7 @@ export default function Nav() {
           className={`${isNavOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row gap-3 items-center justify-between max-md:w-full`}
         >
           <div>
-            {isSignedIn ? (
-              <Link to="/login" className="cursor-pointer">
-                <Button variant="outline">Sign In</Button>
-              </Link>
-            ) : (
+            {user && (
               <div className="flex gap-3 items-center justify-center">
                 <Notifications />
                 <Link
@@ -101,16 +100,27 @@ export default function Nav() {
                 >
                   <MessageSquare className="w-5 h-5" />
                 </Link>
-                <Link
-                  to="/dashboard/info"
-                  className="cursor-pointer hover:text-primary"
-                >
-                  <User2 className="w-5 h-5" />
-                </Link>
               </div>
             )}
           </div>
-          <Button className="cursor-pointer">Donate</Button>
+          {user && (
+            <Link to="/dashboard" className="cursor-pointer">
+              <img
+                src={user.image_url || defaultProfile}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            </Link>
+          )}
+          {user ? (
+            <Button variant="outline" onClick={() => logoutUser()}>
+              Logout
+            </Button>
+          ) : (
+            <Button asChild variant="outline">
+              <Link to="/login">Sign In</Link>
+            </Button>
+          )}
         </div>
       </div>
     </nav>

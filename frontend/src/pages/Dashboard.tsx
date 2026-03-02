@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Plus,
   MessageSquare,
@@ -9,8 +8,13 @@ import {
   ShoppingCartIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
+import { useUserItems } from "@/features/items/useUserItems";
+import { Spinner } from "@/components/ui/spinner";
 const Dashboard = () => {
+  const { items, isLoading } = useUserItems();
+  console.log(items);
   const reportedItems = [
     {
       id: 1,
@@ -52,40 +56,56 @@ const Dashboard = () => {
           </div>
 
           <div className="space-y-6 divide-y-2 divide-slate-200">
-            {reportedItems.map((item) => (
-              <div key={item.id} className="group pb-8 cursor-pointer">
-                <div className="flex items-center gap-6">
-                  {/* Item Thumbnail */}
-                  <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Item Info */}
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-xl font-semibold text-slate-700 group-hover:text-slate-800 transition-colors">
-                        {item.name}
-                      </h3>
-                      <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+            {isLoading ? (
+              <div className="text-center py-20 justify-center items-center">
+                <Spinner className="w-8 h-8 place-self-center text-primary" />
+              </div>
+            ) : items && items.length > 0 ? (
+              items.map((item) => (
+                <div key={item.id} className="group pb-8 cursor-pointer">
+                  <div className="flex items-center gap-6">
+                    {/* Item Thumbnail */}
+                    <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
 
-                    {item.needsPhotos && (
-                      <div className="flex items-center gap-1 mt-2 text-slate-500">
-                        <AlertCircle className="w-3 h-3" />
-                        <span className="text-sm font-medium">
-                          Add photos to{" "}
-                          <span className="font-bold italic">lost</span> report
-                        </span>
+                    {/* Item Info */}
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-xl font-semibold text-slate-700 group-hover:text-slate-800 transition-colors">
+                          {item.name}
+                        </h3>
+                        <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </div>
-                    )}
+
+                      {item.needsPhotos && (
+                        <div className="flex items-center gap-1 mt-2 text-slate-500">
+                          <AlertCircle className="w-3 h-3" />
+                          <span className="text-sm font-medium">
+                            Add photos to{" "}
+                            <span className="font-bold italic">lost</span>{" "}
+                            report
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className=" text-foreground/80 text-lg font-semibold tracking-wide text-center py-20">
+                No items to display. Start report an item!
+                <img
+                  src={emptyItems}
+                  alt="No items"
+                  className="mx-auto mt-6 rounded-lg shadow-sm"
+                />
               </div>
-            ))}
+            )}
           </div>
         </div>
 
