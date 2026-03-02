@@ -6,8 +6,8 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/list', ProductCategoryController.listProductCategory);
-router.post('/create', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), ProductCategoryController.createProductCategory);
-router.put('/update/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), ProductCategoryController.updateProductCategory);
-router.delete('/delete/:id', middleware.AuthRequest, middleware.roleAuth(['owner', 'manager']), ProductCategoryController.deleteProductCategory)
+router.post('/create', middleware.AuthRequest, middleware.roleAuth(['admin']), ProductCategoryController.createProductCategory);
+router.put('/update/:id', middleware.AuthRequest, middleware.roleAuth(['admin']), ProductCategoryController.updateProductCategory);
+router.delete('/delete/:id', middleware.AuthRequest, middleware.roleAuth(['admin']), ProductCategoryController.deleteProductCategory)
 
 export default router;
