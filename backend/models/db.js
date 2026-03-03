@@ -24,5 +24,6 @@ export const {
     Comment,
     Government,
     City,
+    Chat,
 } = db;
 export default db;
