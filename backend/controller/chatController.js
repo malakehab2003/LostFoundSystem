@@ -22,7 +22,7 @@ export const createChat = async (req, res) => {
 }
 
 
-export const getChat = async (req, res) => {
+export const listChats = async (req, res) => {
     try {
         const user = req.user;
         const where = { owner_id: user.id };

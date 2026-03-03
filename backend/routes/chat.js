@@ -7,6 +7,6 @@ const router = express.Router();
 
 // all routers used are here
 router.post('/create', middleware.AuthRequest, ChatController.createChat);
-router.get('/', middleware.AuthRequest, ChatController.getChat);
+router.get('/list', middleware.AuthRequest, ChatController.listChats);
 
 export default router;
