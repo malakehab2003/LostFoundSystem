@@ -1,47 +1,33 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+
 module.exports = (sequelize, DataTypes) => {
-  class Message extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      Message.belongsTo(models.User, { foreignKey: 'sender_id', as: 'Sender' });
-      Message.belongsTo(models.User, { foreignKey: 'receiver_id', as: 'Receiver' });
-      Message.belongsTo(models.Item, { foreignKey: 'item_id' });
-    }
-  }
-  Message.init(
+  const Message = sequelize.define(
+    "Message",
     {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      sent_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-      },
+      chat_id: DataTypes.INTEGER,
+      sender_id: DataTypes.INTEGER,
+      content: DataTypes.TEXT,
+      is_read: DataTypes.BOOLEAN,
+      created_at: DataTypes.DATE,
     },
     {
-      sequelize,
-      modelName: 'Message',
-      tableName: 'Messages',
-      underscored: true,
+      tableName: "Messages",
       timestamps: false,
     }
   );
+
+  Message.associate = (models) => {
+    // message belongs to chat
+    Message.belongsTo(models.Chat, {
+      foreignKey: "chat_id",
+    });
+
+    // sender relation
+    Message.belongsTo(models.User, {
+      foreignKey: "sender_id",
+      as: "sender",
+    });
+  };
 
   return Message;
 };
