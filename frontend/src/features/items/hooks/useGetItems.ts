@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { type LoginFormSchema } from "@/features/auth/type";
 import { useAuth } from "@/lib/AuthContext";
 
-export function useUserItems() {
+export function useGetItems() {
   const { token } = useAuth();
   const {
     data: items,

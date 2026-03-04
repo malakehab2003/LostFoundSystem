@@ -13,8 +13,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import CustomFormField from "./CustomerFormField";
-import { SelectItem } from "./ui/select";
 import { Form } from "./ui/form";
+import { FieldGroup } from "./ui/field";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -22,6 +22,8 @@ export enum FormFieldType {
   DATE_PICKER = "datePicker",
   SELECT = "select",
   PASSWORD = "password",
+  EMAIL = "email",
+  FILE_INPUT = "file",
 }
 
 export const ItemFormSchema = z.object({
@@ -109,75 +111,78 @@ const DashItemInfo = () => {
         <div className="space-y-4 divide-y-2 divide-slate-100">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="title"
-                label="Title"
-                placeholder="Enter item name"
-                icon={<Captions className="w-4 h-4 text-slate-400" />}
-              />
-              <div className="flex flex-col gap-6 lg:flex-row">
+              <FieldGroup>
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
-                  name="government"
-                  label="Government"
-                  icon={<Landmark className="w-4 h-4 text-slate-400" />}
+                  name="title"
+                  label="Title"
+                  placeholder="Enter item name"
+                  icon={Captions}
                 />
+                <div className="flex flex-col gap-6 lg:flex-row">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    control={form.control}
+                    name="government"
+                    label="Government"
+                    icon={Landmark}
+                  />
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    control={form.control}
+                    name="city"
+                    label="City"
+                    icon={Building2}
+                  />
+                </div>
+                <div className="flex flex-col gap-6 lg:flex-row">
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    control={form.control}
+                    name="place"
+                    label="Place"
+                    placeholder="Enter place where item was lost/found"
+                    icon={LandPlotIcon}
+                  />
+                  <CustomFormField
+                    fieldType={FormFieldType.INPUT}
+                    control={form.control}
+                    name="category"
+                    label="Category"
+                    placeholder="Enter category of item"
+                    icon={List}
+                  />
+                </div>
+                <div className="flex flex-col gap-6 lg:flex-row">
+                  <CustomFormField
+                    fieldType={FormFieldType.DATE_PICKER}
+                    control={form.control}
+                    name="date"
+                    label="Date"
+                    placeholder="Select date of loss or finding"
+                    icon={Calendar}
+                  />
+                  <CustomFormField
+                    fieldType={FormFieldType.SELECT}
+                    control={form.control}
+                    name="type"
+                    label="Type"
+                    icon={Shapes}
+                    options={[
+                      { label: "Lost", value: "lost" },
+                      { label: "Found", value: "found" },
+                    ]}
+                  />
+                </div>
                 <CustomFormField
-                  fieldType={FormFieldType.INPUT}
+                  fieldType={FormFieldType.TEXTAREA}
                   control={form.control}
-                  name="city"
-                  label="City"
-                  icon={<Building2 className="w-4 h-4 text-slate-400" />}
+                  name="description"
+                  label="Description"
+                  placeholder="Describe the item in detail... (optional)"
                 />
-              </div>
-              <div className="flex flex-col gap-6 lg:flex-row">
-                <CustomFormField
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="place"
-                  label="Place"
-                  placeholder="Enter place where item was lost/found"
-                  icon={<LandPlotIcon className="w-4 h-4 text-slate-400" />}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="category"
-                  label="Category"
-                  placeholder="Enter category of item"
-                  icon={<List className="w-4 h-4 text-slate-400" />}
-                />
-              </div>
-              <div className="flex flex-col gap-6 lg:flex-row">
-                <CustomFormField
-                  fieldType={FormFieldType.DATE_PICKER}
-                  control={form.control}
-                  name="date"
-                  label="Date"
-                  placeholder="Select date of loss or finding"
-                  icon={<Calendar className="w-4 h-4 text-slate-400" />}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.SELECT}
-                  control={form.control}
-                  name="type"
-                  label="Type"
-                  icon={<Shapes className="w-4 h-4 text-slate-400" />}
-                >
-                  <SelectItem value="found">Found</SelectItem>
-                  <SelectItem value="lost">Lost</SelectItem>
-                </CustomFormField>
-              </div>
-              <CustomFormField
-                fieldType={FormFieldType.TEXTAREA}
-                control={form.control}
-                name="description"
-                label="Description"
-                placeholder="Describe the item in detail... (optional)"
-              />
+              </FieldGroup>
               <Button
                 type="submit"
                 disabled={isSubmitting}

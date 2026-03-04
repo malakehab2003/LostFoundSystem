@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel, FieldGroup } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "@/components/ui/spinner";
-import { loginForm, type LoginFormSchema } from "@/features/auth/type";
+import { loginForm, type LoginFormSchema } from "@/features/auth/userType";
 import { useLogin } from "@/features/auth/hooks/useLogin";
 
 export function Login() {

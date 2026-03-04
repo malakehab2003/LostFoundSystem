@@ -1,9 +1,6 @@
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import {
-  type LoginFormSchema,
-  type SignupFormSchema,
-} from "@/features/auth/type";
+import { type SignupFormSchema } from "@/features/auth/userType";
 import { useNavigate } from "react-router-dom";
 
 export function useSignup() {

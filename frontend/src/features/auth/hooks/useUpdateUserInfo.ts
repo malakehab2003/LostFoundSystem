@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { type UpdateProfileFormSchema } from "@/features/auth/type";
+import { type UpdateProfileFormSchema } from "@/features/auth/userType";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 

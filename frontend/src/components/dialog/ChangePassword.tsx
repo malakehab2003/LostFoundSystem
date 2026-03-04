@@ -1,4 +1,4 @@
-import { Edit3, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,35 +13,28 @@ import {
 import { Form } from "../ui/form";
 import CustomFormField from "../CustomerFormField";
 import { FormFieldType } from "../DashItemInfo";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { Spinner } from "@heroui/react";
-
-export const PasswordFormSchema = z.object({
-  password: z.string().min(1, "Password is required"),
-});
+import { useChangePassword } from "@/features/auth/hooks/useChangePassword";
+import {
+  ChangePasswordForm,
+  type ChangePasswordFormSchema,
+} from "@/features/auth/userType";
+import { FieldGroup } from "../ui/field";
 
 const ChangePassword = ({ oldPassword }: { oldPassword: string }) => {
-  console.log(oldPassword);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<z.infer<typeof PasswordFormSchema>>({
-    resolver: zodResolver(PasswordFormSchema),
+  const { changePassword, isPending } = useChangePassword();
+  const form = useForm<ChangePasswordFormSchema>({
+    resolver: zodResolver(ChangePasswordForm),
     defaultValues: {
-      password: oldPassword || "",
+      oldPassword: oldPassword || "",
+      newPassword: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof PasswordFormSchema>) {
-    try {
-      setIsSubmitting(true);
-      console.log(data);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+  async function onSubmit(data: ChangePasswordFormSchema) {
+    changePassword(data);
   }
 
   return (
@@ -65,12 +58,20 @@ const ChangePassword = ({ oldPassword }: { oldPassword: string }) => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <CustomFormField
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="password"
-              label="New Password"
-            />
+            <FieldGroup>
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="oldPassword"
+                label="Old Password"
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="newPassword"
+                label="New Password"
+              />
+            </FieldGroup>
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
@@ -78,10 +79,10 @@ const ChangePassword = ({ oldPassword }: { oldPassword: string }) => {
               <Button
                 variant="default"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isPending}
                 className="disabled:opacity-50 disabled:cursor-not-allowed "
               >
-                {isSubmitting ? (
+                {isPending ? (
                   <>
                     <span className="mr-2">Saving...</span>
                     <Spinner
