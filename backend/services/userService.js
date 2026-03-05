@@ -178,3 +178,9 @@ export const verifyUserService = async (token) => {
     user.is_verified = true;
     await user.save()
 }
+
+
+export const updatePassword = async (user, password) => {
+    user.password = password;
+    await user.save();
+}
