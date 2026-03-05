@@ -1,4 +1,3 @@
-import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 import { Spinner } from "@heroui/react";
 import { useDeleteUser } from "@/features/auth/hooks/useDeleteUser";
 
@@ -47,9 +45,10 @@ const DeleteAccount = ({ userId }: { userId: number }) => {
               variant="destructive"
               type="submit"
               disabled={isPending}
+              onClick={() => deleteUser()}
               className="disabled:opacity-50 disabled:cursor-not-allowed "
             >
-              {!isPending ? (
+              {isPending ? (
                 <>
                   <span className="mr-2">Deleting...</span>
                   <Spinner

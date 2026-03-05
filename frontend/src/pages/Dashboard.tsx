@@ -10,10 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
-import { useUserItems } from "@/features/items/useUserItems";
+import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
+import { ItemDialog } from "@/components/dialog/ItemDialog";
 const Dashboard = () => {
-  const { items, isLoading } = useUserItems();
+  const { items, isLoading } = useGetItems();
   console.log(items);
   const reportedItems = [
     {
@@ -45,14 +46,7 @@ const Dashboard = () => {
             <h2 className="text-2xl font-semibold text-[#002D5B]">
               Your Items
             </h2>
-            <Button
-              className="group duration-200 border-2 rounded-full border-primary text-primary hover:text-white hover:bg-primary px-5 py-3 flex items-center gap-3"
-              size={"lg"}
-              variant={"outline"}
-            >
-              <Plus className="w-5 h-5 transition-transform group-hover:rotate-90 text-primary group-hover:text-white" />
-              Add an Item
-            </Button>
+            <ItemDialog type="create" />
           </div>
 
           <div className="space-y-6 divide-y-2 divide-slate-200">

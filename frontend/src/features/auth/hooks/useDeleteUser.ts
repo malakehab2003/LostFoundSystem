@@ -1,12 +1,11 @@
 import { toast } from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { type UpdateProfileFormSchema } from "@/features/auth/type";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 
 export function useDeleteUser() {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
   const queryClient = useQueryClient();
 
   const { mutate: deleteUser, isPending } = useMutation({
@@ -28,7 +27,8 @@ export function useDeleteUser() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       toast.success("Profile deleted successfully!");
-      navigate("/dashboard/info");
+      logout();
+      navigate("/login");
     },
     onError: (err: any) => {
       console.error("Error deleting user:", err);

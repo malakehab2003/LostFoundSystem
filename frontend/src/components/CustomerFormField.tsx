@@ -1,124 +1,187 @@
-import React, { Children, type ReactNode } from "react";
-
 import { Input } from "@/components/ui/input";
-
 import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { FormFieldType } from "./DashItemInfo";
-import type { Control } from "react-hook-form";
-import { DatePicker } from "./DatePicker";
+import {
+  Controller,
+  type Control,
+  type ControllerFieldState,
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
+import { Field, FieldError, FieldLabel } from "./ui/field";
+import { DatePicker } from "./ui/date-picker";
+import { EmailInput } from "./ui/email-input";
+import { PasswordInput } from "./ui/password-input";
+import { FileInput } from "./ui/file-input";
+import type { LucideIcon } from "lucide-react";
 
-interface CustomFormProps {
+type Option = {
+  label: string;
+  value: string | number;
+};
+
+type Props<T extends FieldValues> = {
+  control: Control<T>;
+  name: FieldPath<T>;
+  label: string;
   fieldType: FormFieldType;
-  control: Control<any>;
-  name: string;
-  label?: string;
   placeholder?: string;
-  icon?: ReactNode;
+  options?: Option[];
   disabled?: boolean;
-  children?: React.ReactNode;
-}
+  icon?: LucideIcon;
+  onchange?: () => void;
+};
+type RenderInputProps<T extends FieldValues> = {
+  field: ControllerRenderProps<T, FieldPath<T>>;
+  fieldState: ControllerFieldState;
+  props: Props<T>;
+};
 
-const RenderInput = ({
+const RenderInput = <T extends FieldValues>({
   field,
+  fieldState,
   props,
-}: {
-  field: any;
-  props: CustomFormProps;
-}) => {
-  const {
-    fieldType,
-    control,
-    name,
-    label,
-    placeholder,
-    icon,
-    disabled,
-    children,
-  } = props;
+}: RenderInputProps<T>) => {
+  const { fieldType, name, placeholder, disabled, options, onchange } = props;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-gray-400 bg-gray-100">
-          <FormControl>
-            <Input placeholder={placeholder} {...field} className="border-0" />
-          </FormControl>
-        </div>
+        <Input
+          {...field}
+          id={name}
+          aria-invalid={fieldState.invalid}
+          placeholder={placeholder}
+          autoComplete="on"
+          disabled={disabled}
+        />
       );
-    case FormFieldType.DATE_PICKER:
+    case FormFieldType.EMAIL:
       return (
-        <div className="">
-          <DatePicker field={field} />
-        </div>
-      );
-    case FormFieldType.TEXTAREA:
-      return (
-        <div className="flex rounded-md border border-gray-400 bg-gray-100">
-          <Textarea
-            placeholder={placeholder}
-            {...field}
-            className=" border-0 "
-            disabled={disabled}
-          ></Textarea>
-        </div>
-      );
-    case FormFieldType.SELECT:
-      return (
-        <FormControl>
-          <Select
-            onValueChange={field.onChange}
-            defaultValue={field.value}
-            disabled={disabled}
-          >
-            <FormControl>
-              <SelectTrigger className="h-11 flex w-full rounded-md border border-gray-400 bg-gray-100">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent className="">{children}</SelectContent>
-          </Select>
-        </FormControl>
+        <EmailInput
+          {...field}
+          id={name}
+          aria-invalid={fieldState.invalid}
+          placeholder={placeholder}
+          autoComplete="off"
+          disabled={disabled}
+        />
       );
     case FormFieldType.PASSWORD:
       return (
-        <div className="flex rounded-md border border-gray-400 bg-gray-100">
-          <FormControl>
-            <Input
-              type="password"
-              placeholder={placeholder}
-              {...field}
-              className="border-0"
-            />
-          </FormControl>
-        </div>
+        <PasswordInput
+          {...field}
+          id={name}
+          aria-invalid={fieldState.invalid}
+          placeholder={placeholder}
+          autoComplete="off"
+          disabled={disabled}
+        />
       );
+    case FormFieldType.FILE_INPUT:
+      return (
+        <FileInput
+          {...field}
+          id={name}
+          aria-invalid={fieldState.invalid}
+          maxFiles={1}
+          maxSize={5242880}
+          variant="default"
+          previewSize="md"
+          multiple={false}
+          showPreview={true}
+          accept="image/*"
+          disabled={disabled}
+        />
+      );
+
+    case FormFieldType.TEXTAREA:
+      return (
+        <Textarea
+          {...field}
+          placeholder={placeholder}
+          disabled={disabled}
+          id={name}
+          aria-invalid={fieldState.invalid}
+          autoComplete="on"
+        />
+      );
+
+    case FormFieldType.SELECT:
+      return (
+        <Select
+          name={field.name}
+          value={field.value?.toString() ?? ""}
+          onValueChange={(value) => {
+            const selected = options?.find(
+              (opt) => opt.value.toString() == value,
+            );
+
+            field.onChange(Number(selected?.value));
+            onchange?.();
+          }}
+          disabled={disabled}
+        >
+          <SelectTrigger id={name} aria-invalid={fieldState.invalid}>
+            <SelectValue placeholder={placeholder} />
+            <SelectContent>
+              <SelectGroup>
+                {options?.map((item) => (
+                  <SelectItem key={item.value} value={item.value.toString()}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </SelectTrigger>
+        </Select>
+      );
+
+    case FormFieldType.DATE_PICKER:
+      return (
+        <DatePicker
+          id={name}
+          value={field.value}
+          onChange={field.onChange}
+          aria-invalid={fieldState.invalid}
+          placeholder=""
+          disabled={disabled}
+        />
+      );
+
+    default:
+      return null;
   }
 };
-const CustomFormField = (props: CustomFormProps) => {
-  const { control, name, label, placeholder, icon, disabled } = props;
+const CustomFormField = <T extends FieldValues>(props: Props<T>) => {
+  const { control, name, label, icon } = props;
+  const Icon = icon as LucideIcon | undefined;
   return (
-    <FormField
+    <Controller
       control={control}
       name={name}
-      disabled={disabled}
-      render={({ field }) => (
-        <FormItem className="flex-1">
-          <div className=" flex items-center justify-between gap-1">
-            {label && <FormLabel className="">{label}</FormLabel>}
-            {icon && icon}
-          </div>
-          <RenderInput field={field} props={props} />
-          <FormMessage />
-        </FormItem>
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel
+            htmlFor={name}
+            className="flex gap-2 justify-between items-center"
+          >
+            <span>{label}</span>
+            {Icon && <Icon className="w-4 h-4 text-foreground/70 mr-1" />}
+          </FieldLabel>
+
+          <RenderInput field={field} props={props} fieldState={fieldState} />
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
       )}
     />
   );

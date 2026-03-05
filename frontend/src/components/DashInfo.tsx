@@ -2,29 +2,20 @@ import { ArrowLeft, Phone, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import CustomFormField from "./CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
 import { Form } from "./ui/form";
-import { SelectItem } from "./ui/select";
 import { Spinner } from "@heroui/react";
 import ChangePassword from "./dialog/ChangePassword";
 import DeleteAccount from "./dialog/DeleteAccount";
 import {
   UpdateProfileForm,
   type UpdateProfileFormSchema,
-} from "@/features/auth/type";
+} from "@/features/auth/userType";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "./ui/field";
-import { FileInput } from "./ui/file-input";
-import { DatePicker } from "./ui/date-picker";
 import { useUpdateUserInfo } from "@/features/auth/hooks/useUpdateUserInfo";
+import { FieldGroup } from "./ui/field";
 
 const DashInfo = () => {
   const { user } = useCurrentUser();
@@ -68,38 +59,13 @@ const DashInfo = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 flex flex-col"
             >
-              <>
-                <FieldGroup>
-                  <Controller
-                    name="image_url"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="image_url">
-                          Profile Picture
-                        </FieldLabel>
-                        <FieldDescription></FieldDescription>
-                        {fieldState.invalid && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                        <FileInput
-                          {...field}
-                          id="image_url"
-                          aria-invalid={fieldState.invalid}
-                          value={field.value}
-                          maxFiles={1}
-                          maxSize={5242880}
-                          variant="minimal"
-                          previewSize="md"
-                          multiple={false}
-                          showPreview={true}
-                          accept="image/*"
-                          disabled={false}
-                        />
-                      </Field>
-                    )}
-                  />
-                </FieldGroup>
+              <FieldGroup>
+                <CustomFormField
+                  fieldType={FormFieldType.FILE_INPUT}
+                  control={form.control}
+                  name="image_url"
+                  label="Profile Picture"
+                />
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -114,49 +80,32 @@ const DashInfo = () => {
                   label="Gender"
                   placeholder="Enter your gender"
                   disabled={true}
-                >
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                </CustomFormField>
-
+                  options={[
+                    { label: "Male", value: "male" },
+                    { label: "Female", value: "female" },
+                  ]}
+                />
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="name"
                   label="Name"
-                  icon={<User className="w-4 h-4 text-slate-400" />}
+                  icon={User}
                 />
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="phone"
                   label="Phone"
-                  icon={<Phone className="w-4 h-4 text-slate-400" />}
+                  icon={Phone}
                 />
-                <FieldGroup>
-                  <Controller
-                    name="dob"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="dob">Date Of Birth</FieldLabel>
-                        <DatePicker
-                          id="dob"
-                          value={field.value}
-                          onChange={field.onChange}
-                          aria-invalid={fieldState.invalid}
-                          placeholder=""
-                          disabled={false}
-                        />
-                        <FieldDescription></FieldDescription>
-                        {fieldState.invalid && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                </FieldGroup>
-              </>
+                <CustomFormField
+                  fieldType={FormFieldType.DATE_PICKER}
+                  control={form.control}
+                  name="dob"
+                  label="Date Of Birth"
+                />
+              </FieldGroup>
               <Button
                 variant="secondary"
                 type="submit"
@@ -176,7 +125,7 @@ const DashInfo = () => {
             </form>
           </Form>
           <section className="flex gap-5 items-center justify-between">
-            <ChangePassword oldPassword={"password1234"} />
+            <ChangePassword oldPassword={user?.password || ""} />
             <DeleteAccount userId={59} />
           </section>
         </div>

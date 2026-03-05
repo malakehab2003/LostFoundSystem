@@ -36,7 +36,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 
 import { FileInput } from "@/components/ui/file-input";
 import { useSignup } from "@/features/auth/hooks/useSignup";
-import { SignupForm, type SignupFormSchema } from "@/features/auth/type";
+import { SignupForm, type SignupFormSchema } from "@/features/auth/userType";
 
 const Signup = () => {
   const { signupUser, isPending } = useSignup();

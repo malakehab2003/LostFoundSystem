@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Spinner } from "@heroui/react";
+import { FieldGroup } from "../ui/field";
 
 export const CreateAddressSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -111,7 +112,7 @@ const AddressDialog = ({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {type === "create" && "Add Address"}
@@ -127,10 +128,10 @@ const AddressDialog = ({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-6 no-scrollbar -mx-4 overflow-y-auto px-4 max-h-[400px] py-4"
+            className="space-y-4 no-scrollbar -mx-4 overflow-y-auto px-4 max-h-150 py-4"
           >
             {type !== "delete" && (
-              <>
+              <FieldGroup>
                 <CustomFormField
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -175,7 +176,7 @@ const AddressDialog = ({
                   name="landmark"
                   label="Landmark (optional)"
                 />
-              </>
+              </FieldGroup>
             )}
             <DialogFooter>
               <DialogClose asChild>

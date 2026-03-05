@@ -76,3 +76,16 @@ export type SignupFormSchema = z.infer<typeof SignupForm>;
 export const UpdateProfileForm = SignupForm.partial();
 
 export type UpdateProfileFormSchema = z.infer<typeof UpdateProfileForm>;
+
+export const ChangePasswordForm = z.object({
+  oldPassword: z.string().min(1, "Current password is required"),
+
+  newPassword: z
+    .string()
+    .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {
+      message:
+        "Password must be at least 7 characters long and include at least one number and one special character",
+    }),
+});
+
+export type ChangePasswordFormSchema = z.infer<typeof ChangePasswordForm>;

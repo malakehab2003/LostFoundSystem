@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { type LoginFormSchema } from "@/features/auth/type";
+import { type LoginFormSchema } from "@/features/auth/userType";
 import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +22,7 @@ export function useLogin() {
     },
     onSuccess: (data) => {
       login(data.token);
+      console.log("Login successful:", data);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
       toast.success("Logged in successfully!");
