@@ -1,4 +1,4 @@
-import { Message } from "../models/db.js";
+import { Message, User } from "../models/db.js";
 import { Op } from "sequelize";
 import { getIO } from "../utils/socket.js";
 
@@ -34,4 +34,34 @@ export const realTimeMessage = (chat, user_id, content) => {
         chat_id: chat.id,
         content,
     })
+}
+
+
+export const validateChatToUser = (chat, user_id) => {
+    if (chat.sender_id !== user_id && chat.receiver_id !== user_id) throw new Error("Can't send message to this chat");
+}
+
+
+export const getMessagesService = async (chat_id) => {
+    if (!chat_id) throw new Error("chat_id is required");
+
+    const messages = await Message.findAll({
+        where: { chat_id, },
+        order: [["created_at", "ASC"]],
+        attributes: { exclude: ["item_id", "receiver_id"] },
+        include: [
+            {
+                model: User,
+                as: 'sender',
+                attributes: ['id', 'name']
+            }
+        ]
+    });
+
+    await Message.update(
+        { is_read: true },
+        { where: { chat_id, is_read: false } }
+    );
+    
+    return messages;
 }

@@ -35,7 +35,7 @@ export const validateDob = (dob) => {
     }
 
     if (age < 0) {
-        throw ("User must be at least 13 years old");
+        throw ("User must be at least 0 years old");
     }
 
     if (age > 100) {

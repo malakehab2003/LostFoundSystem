@@ -6,6 +6,6 @@ const router = express.Router();
 
 // all routers used are here
 router.post('/create', middleware.AuthRequest, MessageController.createMessage);
-// router.delete('/delete/:id', middleware.AuthRequest, MessageController.deleteImage);
+router.get('/list/:chat_id', middleware.AuthRequest, MessageController.getMessages);
 
 export default router;

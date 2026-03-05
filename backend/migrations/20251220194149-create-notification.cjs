@@ -27,7 +27,7 @@ module.exports = {
       },
 
       entity: {
-        type: Sequelize.ENUM('order', 'item', 'message'),
+        type: Sequelize.ENUM('order', 'item', 'chat'),
         allowNull: true,
       },
 
