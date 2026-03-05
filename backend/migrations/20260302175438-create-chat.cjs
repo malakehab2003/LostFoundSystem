@@ -10,7 +10,7 @@ module.exports = {
         allowNull: false,
       },
 
-      owner_id: {
+      receiver_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -36,7 +36,7 @@ module.exports = {
 
     // prevent duplicate chats
     await queryInterface.addConstraint("Chats", {
-      fields: ["owner_id", "sender_id"],
+      fields: ["receiver_id", "sender_id"],
       type: "unique",
       name: "unique_chat",
     });

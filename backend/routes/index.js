@@ -17,7 +17,8 @@ import orderRouter from './orders.js';
 import orderItemRouter from './orderItems.js';
 import notificationRouter from './notifications.js';
 import reviewController from './review.js';
-import chatController from './chat.js'
+import chatController from './chat.js';
+import messageController from './message.js';
 
 const router = express.Router();
 
@@ -41,5 +42,6 @@ router.use('/order/item', orderItemRouter);
 router.use('/notification', notificationRouter);
 router.use('/review', reviewController);
 router.use('/chat', chatController);
+router.use('/message', messageController);
 
 export default router;

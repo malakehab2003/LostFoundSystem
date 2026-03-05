@@ -1,4 +1,4 @@
-import { Chat } from '../models/db.js';
+import { Chat, User, Message } from '../models/db.js';
 
 
 export const getChat = async (where) => {
@@ -12,8 +12,34 @@ export const getChat = async (where) => {
 export const getChats = async (where) => {
     if (!where) throw new Error("No where found");
 
-    const chat = await Chat.findAll({ where });
-    return chat;
+
+    const chats = await Chat.findAll(
+        { 
+            where,
+            include: [
+                {
+                    model: User,
+                    as: 'receiver',
+                    attributes: ['id', 'name']
+                },
+
+                {
+                    model: User,
+                    as: 'sender',
+                    attributes: ['id', 'name']
+                },
+
+                {
+                    model: Message,
+                    as: 'messages',
+                    attributes: ["id", "content", "created_at"],
+                    limit: 1,
+                    order: [["created_at", "DESC"]]
+                }
+            ]
+         }
+    );
+    return chats;
 }
 
 
