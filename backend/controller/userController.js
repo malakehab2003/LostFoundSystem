@@ -220,7 +220,7 @@ export const verifyUser = async (req, res) => {
 
         await userService.verifyUserService(token);
 
-        return res.redirect('http://localhost/3000/');
+        return res.redirect('http://localhost:5173/');
     } catch (err) {
         return res.status(400).send({ error: err.message });
     }
