@@ -28,9 +28,10 @@ export const createMessageService = async (data) => {
 
 export const realTimeMessage = (chat, user_id, content) => {
     const receiver_id = chat.sender_id === user_id ? chat.receiver_id : chat.sender_id;
+    const io = getIO();
 
-    io.to(receiver_id.toString()).emit("new_message"), {
+    io.to(receiver_id.toString()).emit("new_message", {
         chat_id: chat.id,
         content,
-    }
+    })
 }
