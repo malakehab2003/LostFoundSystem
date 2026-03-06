@@ -20,6 +20,7 @@ import reviewController from './review.js';
 import chatController from './chat.js';
 import messageController from './message.js';
 import promocodeController from './promocode.js';
+import dashboardController from './dashboard.js';
 
 const router = express.Router();
 
@@ -45,5 +46,6 @@ router.use('/review', reviewController);
 router.use('/chat', chatController);
 router.use('/message', messageController);
 router.use('/promocode', promocodeController);
+router.use('/dashboard', dashboardController);
 
 export default router;
