@@ -51,7 +51,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
 
-      promo_code_id: {
+      promocode_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {

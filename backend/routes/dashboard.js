@@ -6,6 +6,7 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/', middleware.AuthRequest, middleware.roleAuth(["admin"]), DashboardController.getDashboard);
+router.get('/month-orders', middleware.AuthRequest, middleware.roleAuth(["admin"]), DashboardController.getMonthOrders);
 
 
 export default router;
