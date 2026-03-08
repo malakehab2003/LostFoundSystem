@@ -1,5 +1,4 @@
 import {
-  Plus,
   MessageSquare,
   User,
   ChevronRight,
@@ -7,33 +6,19 @@ import {
   MapPin,
   ShoppingCartIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
 import { ItemDialog } from "@/components/dialog/ItemDialog";
+import type { Item } from "@/features/items/itemsType";
+import defaultItem from "@/assets/default-item.png";
+import defaultpage from "@/assets/default-profile.webp";
+import { Badge } from "@/components/ui/badge";
 const Dashboard = () => {
   const { items, isLoading } = useGetItems();
-  console.log(items);
-  const reportedItems = [
-    {
-      id: 1,
-      name: "Black Leather Wallet",
-      status: "lost",
-      image:
-        "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=150&q=80",
-      needsPhotos: true,
-    },
-    {
-      id: 1,
-      name: "Black Leather Wallet",
-      status: "lost",
-      image:
-        "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=150&q=80",
-      needsPhotos: true,
-    },
-  ];
+  console.log("Items", items);
+
   return (
     <div className="max-w-6xl mx-auto min-h-screen bg-white text-slate-800 p-6 md:8">
       {/* Dashboard Header */}
@@ -49,46 +34,58 @@ const Dashboard = () => {
             <ItemDialog type="create" />
           </div>
 
-          <div className="space-y-6 divide-y-2 divide-slate-200">
+          <div className="space-y-6!">
             {isLoading ? (
               <div className="text-center py-20 justify-center items-center">
                 <Spinner className="w-8 h-8 place-self-center text-primary" />
               </div>
             ) : items && items.length > 0 ? (
-              items.map((item) => (
-                <div key={item.id} className="group pb-8 cursor-pointer">
-                  <div className="flex items-center gap-6">
+              items.map((item: Item) => (
+                <Link
+                  key={item.id}
+                  to={`items/${item.id}`}
+                  className="block group cursor-pointer"
+                >
+                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all">
                     {/* Item Thumbnail */}
                     <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
                       <img
-                        src={item.image}
-                        alt={item.name}
+                        src={item.images[0] || defaultpage}
+                        alt={item.title}
                         className="w-full h-full object-cover"
                       />
                     </div>
 
                     {/* Item Info */}
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center">
-                        <h3 className="text-xl font-semibold text-slate-700 group-hover:text-slate-800 transition-colors">
-                          {item.name}
+                    <div className="flex-1 flex justify-between gap-4 px-2 py-2">
+                      <div className="flex flex-col gap-2 justify-between items-start">
+                        <h3 className="text-lg font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
+                          {item.title}
                         </h3>
-                        <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                      </div>
 
-                      {item.needsPhotos && (
-                        <div className="flex items-center gap-1 mt-2 text-slate-500">
-                          <AlertCircle className="w-3 h-3" />
-                          <span className="text-sm font-medium">
-                            Add photos to{" "}
-                            <span className="font-bold italic">lost</span>{" "}
-                            report
-                          </span>
-                        </div>
-                      )}
+                        <p className="text-foreground/80 capitalize text-semibold tracking-wide text-[12px] group-hover:text-foreground/90 transition-colors">
+                          {item.type} Date: {item.date}
+                        </p>
+                        {item.images && item.images.length < 4 && (
+                          <div className="flex items-center gap-1 text-foreground/80 text-xs">
+                            <AlertCircle className="w-3 h-3" />
+                            <span className="text-xs font-medium">
+                              Add photos to{" "}
+                              <span className="font-semibold">{item.type}</span>{" "}
+                              report
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col justify-between gap-2 items-center">
+                        <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                        <Badge variant={"secondary"} className="capitalize">
+                          {item.type}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <div className=" text-foreground/80 text-lg font-semibold tracking-wide text-center py-20">

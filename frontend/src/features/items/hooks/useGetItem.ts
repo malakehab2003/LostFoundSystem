@@ -1,30 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/AuthContext";
+import type { Item } from "../itemsType";
 
-export function useGetItem() {
+export function useGetItem(itemId: number) {
   const { token } = useAuth();
   const {
     data: item,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["userItem"],
+  } = useQuery<Item>({
+    queryKey: ["items", itemId],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/api/item/getItem", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `http://localhost:5000/api/item/getItem/${itemId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!res.ok) {
         throw new Error("Failed to fetch user items");
       }
       const data = await res.json();
-      return data.items;
+      return data.item;
     },
     enabled: !!token,
   });
 
-  return { items, isLoading, error };
+  return { item, isLoading, error };
 }

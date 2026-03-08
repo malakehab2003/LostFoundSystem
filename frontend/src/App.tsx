@@ -44,8 +44,8 @@ function App() {
             <Route path="info" element={<DashInfo />} />
             <Route path="messages" element={<Messages />} />
             <Route path="address" element={<DashAddress />} />
-            <Route path="item/:itemId" element={<DashItem />} />
-            <Route path="item/:itemId/info" element={<DashItemInfo />} />
+            <Route path="items/:itemId" element={<DashItem />} />
+            <Route path="items/:itemId/info" element={<DashItemInfo />} />
             <Route path="wishlist" element={<Wishlist />} />
           </Route>
 

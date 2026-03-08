@@ -1,6 +1,7 @@
 import { useAuth } from "@/lib/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateItemFormSchema } from "../itemsType";
+import toast from "react-hot-toast";
 
 export function useCreateItem() {
   const { token } = useAuth();
@@ -8,7 +9,7 @@ export function useCreateItem() {
 
   const { mutate: createItem, isPending } = useMutation({
     mutationFn: async (values: CreateItemFormSchema) => {
-      const res = await fetch("/api/item/create", {
+      const res = await fetch("http://localhost:5000/api/item/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,8 +27,8 @@ export function useCreateItem() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userItems"] });
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      toast.success("Item created successfully");
     },
   });
   return { createItem, isPending };

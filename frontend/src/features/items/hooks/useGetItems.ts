@@ -8,7 +8,7 @@ export function useGetItems() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["userItems"],
+    queryKey: ["items"],
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/api/item/getMyItems", {
         headers: {

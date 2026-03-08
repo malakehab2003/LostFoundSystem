@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import CustomFormField from "./CustomerFormField";
 import { Form } from "./ui/form";
 import { FieldGroup } from "./ui/field";
+import { useParams } from "react-router-dom";
+import { useEditItem } from "@/features/items/hooks/useEditItem";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -25,32 +27,9 @@ export enum FormFieldType {
   EMAIL = "email",
   FILE_INPUT = "file",
 }
-
-export const ItemFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-
-  place: z.string().min(1, "Place is required"),
-
-  date: z.date({
-    required_error: "Date is required",
-    invalid_type_error: "Invalid date format",
-  }),
-
-  type: z.enum(["lost", "found"], {
-    errorMap: () => ({ message: "Type is required" }),
-  }),
-
-  description: z.string().optional(),
-
-  category: z.string().nullable().optional(),
-
-  images: z.array(z.instanceof(File)).optional(),
-
-  government: z.string().min(1, "Government is required"),
-  city: z.string().min(1, "City is required"),
-});
-
 const DashItemInfo = () => {
+  const { itemId } = useParams();
+  const { editItem, isPending } = useEditItem();
   const itemData = [
     {
       title: "new",
