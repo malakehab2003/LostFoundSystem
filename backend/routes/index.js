@@ -21,6 +21,7 @@ import chatController from './chat.js';
 import messageController from './message.js';
 import promocodeController from './promocode.js';
 import dashboardController from './dashboard.js';
+import stripeController from './stipe.js';
 
 const router = express.Router();
 
@@ -47,5 +48,6 @@ router.use('/chat', chatController);
 router.use('/message', messageController);
 router.use('/promocode', promocodeController);
 router.use('/dashboard', dashboardController);
+router.use('/payment', stripeController);
 
 export default router;
