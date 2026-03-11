@@ -9,7 +9,7 @@ import { Spinner } from "./ui/spinner";
 const DashItem = () => {
   const { itemId } = useParams();
   const { item, isLoading } = useGetItem(Number(itemId));
-
+  console.log(item);
   const updates = [
     {
       id: 1,
@@ -32,7 +32,7 @@ const DashItem = () => {
             {/* Item Image */}
             <div className="w-36 h-36 rounded-xl overflow-hidden shadow-inner flex-shrink-0">
               <img
-                src={item?.images[0] || defaultpage}
+                src={item?.images?.[0] || defaultpage}
                 alt={item?.title}
                 className="w-full h-full object-cover"
               />

@@ -1,4 +1,4 @@
-import { Notification, User } from "../models/db.js";
+import { Notification } from "../models/db.js";
 import { getAllUsersService } from "../services/userService.js";
 import * as service from '../services/notificationService.js';
 

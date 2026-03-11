@@ -12,10 +12,12 @@ export function useEditItem() {
       itemId,
       ...values
     }: { itemId: number } & EditItemFormSchema) => {
+      console.log("item in edit item", values);
+
       const res = await fetch(
-        `http://localhost:5000/api/item/udpate/$${itemId}`,
+        `http://localhost:5000/api/item/update/${itemId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

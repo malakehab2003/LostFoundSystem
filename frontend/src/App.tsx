@@ -23,6 +23,8 @@ import Page1 from "./marktComponents/Page1";
 import SingelItem from "./marktComponents/SingelItem";
 import Wishlist from "./components/Wishlist";
 import Messages from "./pages/Messages";
+import Products from "./marktComponents/Products";
+import SingleProduct from "./marktComponents/SingleProduct";
 
 function App() {
   return (
@@ -53,6 +55,8 @@ function App() {
           <Route path="lost" element={<LostItems />} />
           <Route path="/lost/:itemId" element={<LostItem />} />
           <Route path="shop" element={<Categray />} />
+          <Route path="shop/products" element={<Products />} />
+          <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="page1" element={<Page1 />} />
           <Route path="singleitem" element={<SingelItem />} />
 

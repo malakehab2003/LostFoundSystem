@@ -7,40 +7,40 @@ import { emailQueue } from '../utils/emailQueue.js';
 export const sendNotificationsService = async (userIds, description, message, entity, entity_id) => {
     const io = getIO();
     const notificationsData = userIds.map(user => ({
-            description,
-            message,
-            user_id: user,
-            entity,
-            entity_id
-        }));
+        description,
+        message,
+        user_id: user,
+        entity,
+        entity_id
+    }));
 
-        const created = await Notification.bulkCreate(notificationsData);
+    const created = await Notification.bulkCreate(notificationsData);
 
-        created.forEach(notification => {
-            io.to(notification.user_id.toString()).emit("notification", {
-                id: notification.id,
-                description: notification.description,
-                message: notification.message,
-                entity: notification.entity,
-                entity_id: notification.entity_id,
-            });
+    created.forEach(notification => {
+        io.to(notification.user_id.toString()).emit("notification", {
+            id: notification.id,
+            description: notification.description,
+            message: notification.message,
+            entity: notification.entity,
+            entity_id: notification.entity_id,
         });
+    });
 
-        const users = await User.findAll({
-            where: { id: userIds },
-            attributes: ['email']
+    const users = await User.findAll({
+        where: { id: userIds },
+        attributes: ['email']
+    });
+
+    for (const user of users) {
+        await emailQueue.add('sendEmail', {
+            to: user.email,
+            subject: `New Notification ${message}`,
+            text: `${description} - Check it here: /${entity}/${entity_id}`
+        }, {
+            attempts: 3,
+            backoff: { type: 'exponential', delay: 5000 }
         });
-
-        for (const user of users) {
-            await emailQueue.add('sendEmail', {
-                to: user.email,
-                subject: `New Notification ${message}`,
-                text: `${description} - Check it here: /${entity}/${entity_id}`
-            }, {
-                attempts: 3,
-                backoff: { type: 'exponential', delay: 5000 }
-            });
-        }
+    }
 }
 
 

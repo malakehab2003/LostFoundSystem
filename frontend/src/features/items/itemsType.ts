@@ -8,16 +8,16 @@ export const CreateItemSchema = z
 
     place: z.string().min(1, "Place is required").max(255),
 
-    category_id: z
+    category_id: z.coerce
       .number({
         required_error: "Category is required",
       })
       .int("Invalid category")
       .positive("Invalid category"),
 
-    government_id: z.number().int().positive().optional(),
+    government_id: z.coerce.number().int().positive().optional(),
 
-    city_id: z.number().int().positive().optional(),
+    city_id: z.coerce.number().int().positive().optional(),
 
     type: z.enum(["lost", "found"], {
       errorMap: () => ({ message: "Type must be lost or found" }),
@@ -57,11 +57,11 @@ export const EditItemSchema = z
 
     place: z.string().min(1).max(255).optional(),
 
-    category_id: z.number().int().positive().optional(),
+    category_id: z.coerce.number().int().positive().optional(),
 
-    government_id: z.number().int().positive().optional(),
+    government_id: z.coerce.number().int().positive().optional(),
 
-    city_id: z.number().int().positive().optional(),
+    city_id: z.coerce.number().int().positive().optional(),
 
     type: z
       .enum(["lost", "found"], {

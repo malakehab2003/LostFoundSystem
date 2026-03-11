@@ -17,5 +17,7 @@ router.get('/getUser', UserController.getAnotherUser)
 router.get('/searchUser', middleware.AuthRequest, middleware.roleAuth(['admin']), UserController.searchUsers)
 router.post('/createAdmin', middleware.AuthRequest, middleware.roleAuth(['admin']), UserController.createAdmin)
 router.get('/verify-email', UserController.verifyUser);
+router.post('/forget-password', UserController.forgetPassword);
+router.post('/reset-password', UserController.resetPassword);
 
 export default router;

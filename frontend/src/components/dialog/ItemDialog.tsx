@@ -51,7 +51,6 @@ export function ItemDialog({ item, type }: Props) {
   const { governments } = useGovernments();
   const { cities } = useCities();
   const { itemCategories } = useGetItemCategory();
-  console.log(itemCategories);
   const schema =
     type === "create" ? CreateItemSchema : CreateItemSchema.partial();
 

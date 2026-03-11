@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   const Chat = sequelize.define(
     "Chat",
     {
-      owner_id: DataTypes.INTEGER,
+      receiver_id: DataTypes.INTEGER,
       sender_id: DataTypes.INTEGER,
       created_at: DataTypes.DATE,
     },
@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   Chat.associate = (models) => {
     // owner
     Chat.belongsTo(models.User, {
-      foreignKey: "owner_id",
-      as: "owner",
+      foreignKey: "receiver_id",
+      as: "receiver",
     });
 
     // sender
@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     // messages
     Chat.hasMany(models.Message, {
       foreignKey: "chat_id",
+      as: 'messages'
     });
   };
 

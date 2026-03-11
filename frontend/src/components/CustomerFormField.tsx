@@ -38,7 +38,7 @@ type Props<T extends FieldValues> = {
   options?: Option[];
   disabled?: boolean;
   icon?: LucideIcon;
-  onchange?: () => void;
+  onchange?: (any) => void;
 };
 type RenderInputProps<T extends FieldValues> = {
   field: ControllerRenderProps<T, FieldPath<T>>;
@@ -122,12 +122,10 @@ const RenderInput = <T extends FieldValues>({
           name={field.name}
           value={field.value?.toString() ?? ""}
           onValueChange={(value) => {
-            const selected = options?.find(
-              (opt) => opt.value.toString() == value,
-            );
+            const parsedValue = isNaN(Number(value)) ? value : Number(value);
 
-            field.onChange(Number(selected?.value));
-            onchange?.();
+            field.onChange(parsedValue);
+            onchange?.(parsedValue);
           }}
           disabled={disabled}
         >

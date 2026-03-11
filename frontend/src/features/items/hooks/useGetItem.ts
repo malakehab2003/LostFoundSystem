@@ -9,7 +9,7 @@ export function useGetItem(itemId: number) {
     isLoading,
     error,
   } = useQuery<Item>({
-    queryKey: ["items", itemId],
+    queryKey: ["items"],
     queryFn: async () => {
       const res = await fetch(
         `http://localhost:5000/api/item/getItem/${itemId}`,

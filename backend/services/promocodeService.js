@@ -1,4 +1,4 @@
-import { User, PromoCode } from "../models/db.js";
+import { PromoCode } from "../models/db.js";
 
 
 export const removePromocodeFromUser = async (id, user) => {

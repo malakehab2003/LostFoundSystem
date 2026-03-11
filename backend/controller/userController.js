@@ -1,6 +1,10 @@
 import * as validate from '../utils/validateData.js';
 import * as cleanData from '../utils/cleanData.js';
-import * as userService from '../services/userService.js'
+import * as userService from '../services/userService.js';
+import crypto from "crypto";
+import redisClient from '../utils/redisClient.js'; 
+import { sendEmail } from '../utils/emailService.js';
+import { hashPassword } from '../utils/hash.js';
 
 
 export const createUser = async (req, res) => {
@@ -220,8 +224,57 @@ export const verifyUser = async (req, res) => {
 
         await userService.verifyUserService(token);
 
-        return res.redirect('http://localhost/3000/');
+        return res.redirect('http://localhost:5173/');
     } catch (err) {
         return res.status(400).send({ error: err.message });
+    }
+}
+
+
+export const forgetPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).send({ err: "Missing email", });
+        
+        const user = await userService.getAnotherUserService(email, null);
+        if (!user) return res.status(400).send({ err: "User not found", });
+
+        const otp = crypto.randomInt(100000, 999999);
+        await redisClient.set(`${email}`, otp, 60 * 60 * 10);
+
+        await sendEmail(
+            email,
+            "Reset Your Password",
+            `Your OTP code is: ${otp}. It will expire in 10 minutes.`
+        );
+
+        return res.status(200).send({ message: "OTP send to email", });
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
+    }
+}
+
+
+export const resetPassword = async (req, res) => {
+    try {
+        const {email, otp, newPassword} = req.body;
+        if (!email || !otp || !newPassword)  return res.status(400).send({ err: "Missing required fields" });
+
+        const savedOtp = await redisClient.get(email);
+        if (!savedOtp) return res.status(400).send({err: "OTP expired" });
+
+        if (savedOtp !== otp) return res.status(400).send({ err: "Invalid OTP" });
+
+        const user = await userService.getAnotherUserService(email, null);
+        if (!user) return res.status(404).send({ err: "User not found" });
+
+        const hashedPassword = await hashPassword(newPassword);
+        await userService.updatePassword(user, hashedPassword);
+
+        await redisClient.del(email);
+
+        return res.status(200).send({ message: "Password reset successfully" });
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
     }
 }

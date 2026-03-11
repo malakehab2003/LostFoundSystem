@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.PromoCode, {
         through: 'UserPromoCodes',
         foreignKey: 'user_id',
-        otherKey: 'promo_code_id',
+        otherKey: 'promocode_id',
       });
     }
   }
