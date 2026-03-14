@@ -7,6 +7,6 @@ const router = express.Router();
 // all routers used are here
 router.get('/list', middleware.AuthRequest,  WishlistController.listWishlist);
 router.post('/addProduct', middleware.AuthRequest,  WishlistController.addProduct);
-router.delete('/delete/:id', middleware.AuthRequest,  WishlistController.deleteProduct);
+router.delete('/delete/:product_id', middleware.AuthRequest,  WishlistController.deleteProduct);
 
 export default router;

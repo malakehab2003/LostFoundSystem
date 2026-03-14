@@ -1,5 +1,4 @@
 import { Product, Wishlist } from "../models/db.js";
-import { getProductService } from "../services/productService.js";
 
 
 export const listWishlist = async (req, res) => {
@@ -7,7 +6,13 @@ export const listWishlist = async (req, res) => {
         const user = req.user;
 
         const wishlist = await Wishlist.findAll({
-            where: { user_id: user.id }
+            where: { user_id: user.id },
+            include: [
+                {
+                    model: Product,
+                    as: "product"
+                }
+            ]
         });
 
         return res.status(200).send({ wishlist });
@@ -54,12 +59,12 @@ export const addProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const user = req.user;
-        const { id } = req.params;
+        const { product_id } = req.params;
 
-        if (!user || !id) return res.status(400).send({ err: "Missing requried fields", });
+        if (!user || !product_id) return res.status(400).send({ err: "Missing requried fields", });
 
         const wishlist = await Wishlist.findOne({
-            where: {id, user_id: user.id}
+            where: {product_id, user_id: user.id}
         });
 
         if (!wishlist) return res.status(400).send({ err: "Can't find this item in wishlist", });

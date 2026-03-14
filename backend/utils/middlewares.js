@@ -15,7 +15,6 @@ export const AuthRequest = async (req, res, next) => {
 
         const user = await userAuth.getUserFromToken(token);
         
-        
         if (user.is_deleted) {
             return res.status(401).send({error: "User deleted"});
         }
