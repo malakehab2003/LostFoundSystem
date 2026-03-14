@@ -92,3 +92,14 @@ export const checkItemToUser = (id, user_id) => {
         throw new Error('This item not related to you');
     }
 }
+
+
+export const countItems = async (where) => {
+    if (!where) throw new Error("No where condition provided");
+
+    const count = await Item.count({
+        where
+    });
+
+    return count;
+};

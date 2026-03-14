@@ -11,11 +11,13 @@ export const listItemsService = async (filters, page, limit) => {
 
     const where = utils.buildWhereFilters(filters);
     const items = await utils.getItems(where, limit, offset, [['created_at', arrange]]);
+    let count = await utils.countItems(where);
 
     let categoryItems = [];
     if (filters.category_id) {
         const whereOfCategoryItems = utils.buildWhereForCategoryItems(filters, items);
         categoryItems = await utils.getItems(whereOfCategoryItems, limit, offset, [['created_at', arrange]]);
+        count += await utils.countItems(whereOfCategoryItems);
     }
 
     const allItems = [...items, ...categoryItems];
@@ -26,7 +28,7 @@ export const listItemsService = async (filters, page, limit) => {
             total: allItems.length,
             page,
             limit,
-            totalPages: Math.ceil(allItems.length / limit),
+            totalPages: Math.ceil(count / limit),
         }
     };
 }
