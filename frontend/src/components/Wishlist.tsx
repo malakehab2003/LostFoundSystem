@@ -1,8 +1,10 @@
-import React from "react";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import { DataTable } from "./table/DataTable";
 import { columns, products } from "./table/WishListColumns";
 
 const Wishlist = () => {
+  const { wishlist, isLoading } = useWishlist();
+  console.log(wishlist);
   return (
     <div className="z-10 overflow-hidden max-w-6xl mx-auto flex flex-col  min-h-screen p-8 md:p-12 ">
       <div className="flex flex-col items-center justify-center gap-5 py-2 px-2 max-w-xl  text-center mx-auto my-10">

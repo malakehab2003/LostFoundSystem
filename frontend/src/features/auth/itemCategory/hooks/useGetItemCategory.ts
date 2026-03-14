@@ -23,7 +23,7 @@ export function useGetItemCategory() {
       if (!res.ok) throw new Error("Unauthorized");
       const data = await res.json();
 
-      return data;
+      return data.categorys;
     },
   });
   return { itemCategories, isLoading, isError };

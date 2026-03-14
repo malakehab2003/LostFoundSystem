@@ -6,38 +6,14 @@ import {
   EmptyMedia,
 } from "@/components/ui/empty";
 import AddressDialog from "./dialog/AddressDialog";
-
-const addresses = [
-  {
-    id: 62,
-    name: "home",
-    address: "23 elnahas street",
-    city: "tanta",
-    state: "gharbia",
-    country: "egypt",
-    postal_code: "21311",
-  },
-  {
-    id: 61,
-    name: "home",
-    address: "23 elnahas street",
-    city: "tanta",
-    state: "gharbia",
-    country: "egypt",
-    postal_code: "21311",
-  },
-  {
-    id: 62,
-    name: "home",
-    address: "23 elnahas street",
-    city: "tanta",
-    state: "gharbia",
-    country: "egypt",
-    postal_code: "21311",
-  },
-];
+import { useGetAddresses } from "@/features/address/hooks/useGetAddresses";
+import { Spinner } from "./ui/spinner";
+import emptyAddresses from "@/assets/no-addressess.svg";
+import DeleteAddressDialog from "./dialog/DeleteAddressDialog";
 
 const DashAddress = () => {
+  const { addresses, isLoading } = useGetAddresses();
+  console.log(addresses);
   return (
     <div className="min-h-screen bg-gray-50/50 p-8 md:p-12 font-sans ">
       <div className="max-w-6xl mx-auto">
@@ -58,32 +34,44 @@ const DashAddress = () => {
               <AddressDialog type={"create"} />
             </EmptyContent>
           </Empty>
+          {isLoading ? (
+            <div className="text-center py-20 justify-center items-center">
+              <Spinner className="w-8 h-8 place-self-center text-primary" />
+            </div>
+          ) : addresses && addresses.length > 0 ? (
+            addresses?.map((addr) => (
+              <div
+                key={addr.id}
+                className="relative aspect-[4/3] flex flex-col bg-slate-50 border border-slate-100 rounded-3xl px-5 py-4 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex-1 space-y-2overflow-hidden">
+                  <h2 className="text-lg font-semibold text-slate-900 capitalize truncate">
+                    {addr.name}
+                  </h2>
+                  <div className="text-slate-900 text-[15px] tracking-wide font-semibold capitalize">
+                    <p className="">{addr.address}</p>
+                    <p>{addr.city.name},</p>
+                    <p>{addr.postal_code}</p>
+                  </div>
+                </div>
 
-          {addresses.map((addr) => (
-            <div
-              key={addr.id}
-              className="relative aspect-[4/3] flex flex-col bg-slate-50 border border-slate-100 rounded-3xl px-5 py-4 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex-1 space-y-2overflow-hidden">
-                <h2 className="text-lg font-semibold text-slate-900 capitalize truncate">
-                  {addr.name}
-                </h2>
-                <div className="text-slate-900 text-[15px] tracking-wide font-semibold capitalize">
-                  <p className="">{addr.address}</p>
-                  <p>
-                    {addr.city}, {addr.state}
-                  </p>
-                  <p>{addr.postal_code}</p>
-                  <p>{addr.country}</p>
+                <div className="mt-3 pt-3 border-t border-slate-50 flex items-center gap-4">
+                  <AddressDialog address={addr} type={"edit"} />
+                  <DeleteAddressDialog addressId={addr.id} />
                 </div>
               </div>
-
-              <div className="mt-3 pt-3 border-t border-slate-50 flex items-center gap-4">
-                <AddressDialog address={addr} type={"edit"} />
-                <AddressDialog address={addr} type={"delete"} />
-              </div>
+            ))
+          ) : (
+            <div className=" text-foreground/80 text-lg font-semibold tracking-wide text-center py-20">
+              there are no addresses yet to display, start by adding one to be
+              able placing orders.
+              <img
+                src={emptyAddresses}
+                alt="No addresses"
+                className="mx-auto mt-6 rounded-lg shadow-sm"
+              />
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,3 @@
-// date-picker.tsx
-// Put this file in your /components/ui/date-picker.tsx
-
 "use client";
 
 import * as React from "react";

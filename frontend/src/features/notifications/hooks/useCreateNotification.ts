@@ -1,15 +1,14 @@
 import { useAuth } from "@/lib/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateItemFormSchema } from "../itemsType";
 import toast from "react-hot-toast";
 
-export function useCreateItem() {
+export function useCreateNotification() {
   const { token } = useAuth();
   const queryClient = useQueryClient();
 
-  const { mutate: createItem, isPending } = useMutation({
-    mutationFn: async (values: CreateItemFormSchema) => {
-      const res = await fetch("http://localhost:5000/api/item/create", {
+  const { mutate: createNotification, isPending } = useMutation({
+    mutationFn: async (values) => {
+      const res = await fetch("http://localhost:5000/api/notification/list", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,14 +21,14 @@ export function useCreateItem() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.err || "Failed to create item");
+      if (!res.ok) throw new Error(data.err || "Failed to create notification");
 
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] });
-      toast.success("Item created successfully");
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success("notification created successfully");
     },
   });
-  return { createItem, isPending };
+  return { createNotification, isPending };
 }
