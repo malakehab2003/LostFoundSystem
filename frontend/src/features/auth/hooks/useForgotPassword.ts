@@ -29,7 +29,7 @@ export function useForgotPassword() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      toast.success("Email has been sent to your inbox");
+      toast.success("Email with OTP has been sent to your inbox");
     },
     onError: (err: any) => {
       console.error(err);

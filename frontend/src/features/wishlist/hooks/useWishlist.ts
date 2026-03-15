@@ -9,6 +9,7 @@ export function useWishlist() {
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/api/wishlist/list", {
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });

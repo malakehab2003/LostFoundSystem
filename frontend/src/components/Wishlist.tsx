@@ -5,7 +5,7 @@ import { Spinner } from "./ui/spinner";
 
 const Wishlist = () => {
   const { wishlist, isLoading } = useWishlist();
-  console.log(wishlist);
+  const products = wishlist?.map((pro) => pro?.product);
   return (
     <div className="max-w-4xl mx-auto flex flex-col">
       <div className="flex flex-col items-center justify-center gap-5 max-w-xl text-center mx-auto my-10">
@@ -21,7 +21,7 @@ const Wishlist = () => {
           <Spinner className="w-8 h-8 place-self-center text-primary" />
         </div>
       ) : (
-        <DataTable columns={columns} data={wishlist} />
+        <DataTable columns={columns} data={products} />
       )}
     </div>
   );

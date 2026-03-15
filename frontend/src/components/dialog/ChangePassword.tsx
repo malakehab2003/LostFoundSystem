@@ -23,12 +23,12 @@ import {
 } from "@/features/auth/userType";
 import { FieldGroup } from "../ui/field";
 
-const ChangePassword = ({ oldPassword }: { oldPassword: string }) => {
+const ChangePassword = () => {
   const { changePassword, isPending } = useChangePassword();
   const form = useForm<ChangePasswordFormSchema>({
     resolver: zodResolver(ChangePasswordForm),
     defaultValues: {
-      oldPassword: oldPassword || "",
+      oldPassword: "",
       newPassword: "",
     },
   });

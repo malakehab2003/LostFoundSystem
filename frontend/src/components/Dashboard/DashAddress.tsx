@@ -13,7 +13,6 @@ import DeleteAddressDialog from "../dialog/DeleteAddressDialog";
 
 const DashAddress = () => {
   const { addresses, isLoading } = useGetAddresses();
-  console.log(addresses);
   return (
     <div className="mx-auto max-w-6xl">
       <h1 className="header text-center mb-10">Your Addresses</h1>

@@ -1,5 +1,4 @@
-import { ArrowLeft, Phone, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Phone, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -103,7 +102,7 @@ const DashInfo = () => {
               size={"lg"}
               className="disabled:opacity-50 disabled:cursor-not-allowed  self-center"
             >
-              {!isPending ? (
+              {isPending ? (
                 <>
                   <span>Saving...</span>
                   <div className="text-center justify-center items-center">
@@ -117,7 +116,7 @@ const DashInfo = () => {
           </form>
         </Form>
         <section className="flex gap-5 items-center justify-between">
-          <ChangePassword oldPassword={user?.password || ""} />
+          <ChangePassword />
           <DeleteAccount userId={59} />
         </section>
       </div>
