@@ -4,6 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Trash2Icon } from "lucide-react";
+
 type Product = {
   id: string;
   productId: string;
@@ -73,7 +74,7 @@ export const columns: ColumnDef<Product>[] = [
     header: "Price",
     cell: ({ row }) => (
       <p className="text-base font-semibold text-gray-900">
-        ${row.original.price.toFixed(2)}
+        ${row.original.price}
       </p>
     ),
   },

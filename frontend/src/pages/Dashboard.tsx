@@ -5,6 +5,7 @@ import {
   AlertCircle,
   MapPin,
   ShoppingCartIcon,
+  Plus,
 } from "lucide-react";
 import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
@@ -12,26 +13,33 @@ import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
 import { ItemDialog } from "@/components/dialog/ItemDialog";
 import type { Item } from "@/features/items/itemsType";
-import defaultItem from "@/assets/default-item.png";
 import defaultpage from "@/assets/default-profile.webp";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 const Dashboard = () => {
   const { items, isLoading } = useGetItems();
   console.log("Items", items);
 
   return (
-    <div className="max-w-6xl mx-auto min-h-screen bg-white text-slate-800 p-6 md:8">
-      {/* Dashboard Header */}
-      <h1 className="header mb-10">Dashboard</h1>
+    <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
+      <h1 className="header mb-10 text-center">Dashboard</h1>
 
       <div className="mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
-        {/* Left Column: Your Items */}
         <div className="lg:col-span-7">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-semibold text-[#002D5B]">
-              Your Items
-            </h2>
-            <ItemDialog type="create" />
+            <h2 className="text-2xl sub-header">Your Items</h2>
+            {/* <ItemDialog type="create" /> */}
+            <Button
+              asChild
+              className="group duration-200 border-2 rounded-full border-primary text-primary hover:text-white hover:bg-primary px-5 py-3 flex items-center gap-3"
+              size={"lg"}
+              variant={"outline"}
+            >
+              <Link to={"/dashboard/itemdialog/create"} type="create">
+                <Plus className="w-5 h-5 transition-transform group-hover:rotate-90 text-primary group-hover:text-white" />
+                Add an Item
+              </Link>
+            </Button>
           </div>
 
           <div className="space-y-6!">
@@ -44,11 +52,10 @@ const Dashboard = () => {
                 <Link
                   key={item.id}
                   to={`items/${item.id}`}
-                  className="block group cursor-pointer"
+                  className="block group cursor-pointer rounded-lg border border-gray-200 bg-white py-4 px-2 shadow-sm"
                 >
-                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all">
-                    {/* Item Thumbnail */}
-                    <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                  <div className="flex items-center gap-3 ">
+                    <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                       <img
                         src={item.images[0] || defaultpage}
                         alt={item.title}
@@ -56,10 +63,9 @@ const Dashboard = () => {
                       />
                     </div>
 
-                    {/* Item Info */}
-                    <div className="flex-1 flex justify-between gap-4 px-2 py-2">
+                    <div className="flex-1 flex justify-between gap-4">
                       <div className="flex flex-col gap-2 justify-between items-start">
-                        <h3 className="text-lg font-semibold text-foreground/90 group-hover:text-foreground transition-colors">
+                        <h3 className="capitalize text-lg sub-header group-hover:text-foreground-90 transition-colors">
                           {item.title}
                         </h3>
 
@@ -78,7 +84,7 @@ const Dashboard = () => {
                         )}
                       </div>
                       <div className="flex flex-col justify-between gap-2 items-center">
-                        <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                        <ChevronRight className="w-5 h-5 text-primary/80 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                         <Badge variant={"secondary"} className="capitalize">
                           {item.type}
                         </Badge>
@@ -100,21 +106,17 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Right Column: Inbox & Settings */}
         <div className="lg:col-span-5 space-y-8">
-          {/* Inbox Section */}
           <section>
-            <h2 className="text-2xl font-semibold text-[#002D5B] mb-6">
-              Inbox
-            </h2>
+            <h2 className="text-2xl sub-header mb-6">Inbox</h2>
             <Link
               to="/dashboard/messages"
-              className="group w-full flex items-center justify-between gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+              className="group w-full flex items-center justify-between gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm"
             >
-              <div className="p-2 rounded-xl">
-                <MessageSquare className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+              <div className="p-2">
+                <MessageSquare className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
               </div>
-              <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+              <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
                 Messages
               </span>
               <span className="ml-auto bg-primary text-white text-xs font-black px-2 py-1 rounded-full">
@@ -125,40 +127,38 @@ const Dashboard = () => {
 
           {/* Account Settings Section */}
           <section>
-            <h2 className="text-2xl font-semibold text-[#002D5B] mb-6">
-              Account Settings
-            </h2>
+            <h2 className="text-2xl sub-header mb-6">Account Settings</h2>
             <div className="flex flex-col gap-5 ">
               <Link
                 to="/dashboard/info"
-                className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm"
               >
-                <div className="p-2 rounded-xl">
-                  <User className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+                <div className="p-2">
+                  <User className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
                   Personal Information
                 </span>
               </Link>
               <Link
                 to="/dashboard/address"
-                className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm"
               >
-                <div className="p-2 rounded-xl">
-                  <MapPin className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+                <div className="p-2">
+                  <MapPin className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
                   My Addresses
                 </span>
               </Link>
               <Link
                 to="/dashboard/wishlist"
-                className="group w-full flex items-center gap-1 border border-slate-200 py-2 px-4 rounded-xl hover:bg-slate-50 transition-all"
+                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm"
               >
-                <div className="p-2 rounded-xl">
-                  <ShoppingCartIcon className="w-5 h-5 text-slate-600 group-hover:text-primary" />
+                <div className="p-2">
+                  <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-slate-600 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
                   My Wishlist
                 </span>
               </Link>

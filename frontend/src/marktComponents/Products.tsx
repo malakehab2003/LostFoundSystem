@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import {
   FunnelIcon,
@@ -41,77 +42,86 @@ const Products = () => {
         </div>
       </div>
 
-      <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-        {products?.map((product) => (
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <div className="h-56 w-full">
-              <Link to={`/shop/products/${product.id}`}>
-                <img
-                  className="mx-auto h-full"
-                  src={`${product.image[0] || "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"}`}
-                  alt={product.name}
-                />
-              </Link>
-            </div>
-            <div className="pt-6">
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <div className="flex items-center justify-end gap-1">
-                  <Button className="group" variant={"secondary"}>
-                    <span className=""> Add to wishlist </span>
-                    <Heart className="w-5 h-5 transition duration-200 group-hover:fill-red-500 group-hover:text-red-500" />
+      {isLoading ? (
+        <div className="text-center justify-center items-center content-center h-full">
+          <Spinner className="w-8 h-8 place-self-center text-primary" />
+        </div>
+      ) : (
+        <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+          {products?.map((product) => (
+            <div
+              className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+              key={product.id}
+            >
+              <div className="h-56 w-full">
+                <Link to={`/shop/products/${product.id}`}>
+                  <img
+                    className="mx-auto h-full"
+                    src={`${product.image[0] || "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"}`}
+                    alt={product.name}
+                  />
+                </Link>
+              </div>
+              <div className="pt-6">
+                <div className="mb-4 flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-end gap-1">
+                    <Button className="group" variant={"secondary"}>
+                      <span className=""> Add to wishlist </span>
+                      <Heart className="w-5 h-5 transition duration-200 group-hover:fill-red-500 group-hover:text-red-500" />
+                    </Button>
+                  </div>
+                  <Badge
+                    variant={"outline"}
+                    className="text-xs font-semibold leading-tight text-foreground/80 line-clamp-2"
+                  >
+                    {product.category.name}
+                  </Badge>
+                </div>
+
+                <div className="flex flex-col items-start gap-1">
+                  <Link
+                    to={`/shop/products/${product.id}`}
+                    className="text-lg font-semibold leading-tight text-foreground/90 hover:underline"
+                  >
+                    {product.name}
+                  </Link>
+                  <p className="text-sm font-normal leading-tight text-foreground/70 line-clamp-2">
+                    {product.description}
+                  </p>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex items-center ">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <StarIcon
+                        className={`w-4 h-4 ${
+                          i < Math.round(product?.rate)
+                            ? "text-yellow-400 fill-yellow-400"
+                            : "text-yellow-400"
+                        }`}
+                        key={i}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm font-medium text-gray-900">
+                    {product.rate}
+                  </p>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between gap-4">
+                  <p className="text-xl font-semibold leading-tight text-foreground/90">
+                    ${product.price}
+                  </p>
+
+                  <Button type="button" variant={"default"}>
+                    <ShoppingCart className="w-5 h-5" />
+                    Add to cart
                   </Button>
                 </div>
-                <Badge
-                  variant={"outline"}
-                  className="text-xs font-semibold leading-tight text-foreground/80 line-clamp-2"
-                >
-                  {product.category.name}
-                </Badge>
-              </div>
-
-              <div className="flex flex-col items-start gap-1">
-                <Link
-                  to={`/shop/products/${product.id}`}
-                  className="text-lg font-semibold leading-tight text-foreground/90 hover:underline"
-                >
-                  {product.name}
-                </Link>
-                <p className="text-sm font-normal leading-tight text-foreground/70 line-clamp-2">
-                  {product.description}
-                </p>
-              </div>
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex items-center ">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <StarIcon
-                      className={`w-4 h-4 ${
-                        i < Math.round(product?.rate)
-                          ? "text-yellow-400 fill-yellow-400"
-                          : "text-yellow-400"
-                      }`}
-                      key={i}
-                    />
-                  ))}
-                </div>
-                <p className="text-sm font-medium text-gray-900">
-                  {product.rate}
-                </p>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between gap-4">
-                <p className="text-xl font-semibold leading-tight text-foreground/90">
-                  ${product.price}
-                </p>
-
-                <Button type="button" variant={"default"}>
-                  <ShoppingCart className="w-5 h-5" />
-                  Add to cart
-                </Button>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

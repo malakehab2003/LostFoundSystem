@@ -56,9 +56,7 @@ const Messages = () => {
 
       <div className="flex-1 flex flex-col">
         <header className="h-16 flex items-center justify-between px-5 border-b border-slate-200">
-          <h2 className="text-lg font-bold text-[#002D5B]">
-            Chat with Haitham B.
-          </h2>
+          <h2 className="sub-header">Chat with Haitham B.</h2>
         </header>
         <div className="px-5 py-4 border-b border-slate-100 flex items-center space-x-4">
           <img

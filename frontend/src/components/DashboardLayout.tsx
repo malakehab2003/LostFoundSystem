@@ -18,7 +18,7 @@ const DashboardLayout = () => {
   // }, [isLoading, user, navigate]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="py-10 px-3 xl:px-6 mx-auto">
       <Outlet />
     </div>
   );

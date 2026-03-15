@@ -43,7 +43,7 @@ const ChangePassword = ({ oldPassword }: { oldPassword: string }) => {
         <Button
           variant="link"
           size="sm"
-          className="text-[12px] text-slate-400 hover:text-slate-500 self-end"
+          className="text-[12px] text-foreground-400 hover:text-foreground-500 self-end"
         >
           <Lock className="w-2 h-2" /> Change Password
         </Button>

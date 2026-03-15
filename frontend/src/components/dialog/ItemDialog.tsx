@@ -131,10 +131,12 @@ export function ItemDialog({ item, type }: Props) {
                 name="place"
                 label="Place"
                 icon={Pin}
+                placeholder="Describe exactly where the item was lost, e.g., in a café or the center mall."
               />
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
+                placeholder="Describe the item's details if it has any, e.g. black wallet with a scratch in the middle."
                 name="description"
                 label="Description"
                 icon={MessageSquare}
@@ -142,6 +144,7 @@ export function ItemDialog({ item, type }: Props) {
               <CustomFormField
                 fieldType={FormFieldType.SELECT}
                 control={form.control}
+                placeholder="Did you find or lose this item?"
                 name="type"
                 label="Type"
                 icon={Shapes}

@@ -1,22 +1,28 @@
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import { DataTable } from "./table/DataTable";
-import { columns, products } from "./table/WishListColumns";
+import { columns } from "./table/WishListColumns";
+import { Spinner } from "./ui/spinner";
 
 const Wishlist = () => {
   const { wishlist, isLoading } = useWishlist();
   console.log(wishlist);
   return (
-    <div className="z-10 overflow-hidden max-w-6xl mx-auto flex flex-col  min-h-screen p-8 md:p-12 ">
-      <div className="flex flex-col items-center justify-center gap-5 py-2 px-2 max-w-xl  text-center mx-auto my-10">
+    <div className="max-w-4xl mx-auto flex flex-col">
+      <div className="flex flex-col items-center justify-center gap-5 max-w-xl text-center mx-auto my-10">
         <span className="header">My Wishlist </span>
-        <span className="text-gray-500 text-sm">
+        <span className="text-foreground/70 tracking-tight text-sm">
           Save items you love and create collections for future inspiration.
           Discover new arrivals and explore curated edits to find your perfect
           pieces.
         </span>
-        {/* <span className="text-gray-800 text-lg">{products.length} items</span> */}
       </div>
-      <DataTable columns={columns} data={products} />
+      {isLoading ? (
+        <div className="text-center justify-center items-center content-center h-full">
+          <Spinner className="w-8 h-8 place-self-center text-primary" />
+        </div>
+      ) : (
+        <DataTable columns={columns} data={wishlist} />
+      )}
     </div>
   );
 };

@@ -149,3 +149,15 @@ export interface Item {
   images: ItemImage[];
   comments: Comment[];
 }
+
+export type ItemFilters = {
+  title?: string;
+  government?: string;
+  city?: string;
+  place?: string;
+  category_id?: number;
+  date_from?: string;
+  page?: number;
+  limit?: number;
+  type?: "lost" | "found";
+};

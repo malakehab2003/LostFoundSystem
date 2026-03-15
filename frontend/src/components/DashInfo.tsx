@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import CustomFormField from "./CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
 import { Form } from "./ui/form";
-import { Spinner } from "@heroui/react";
+import { Spinner } from "./ui/spinner";
 import ChangePassword from "./dialog/ChangePassword";
 import DeleteAccount from "./dialog/DeleteAccount";
 import {
@@ -40,97 +40,88 @@ const DashInfo = () => {
     }
   }
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800">
-      <main className="max-w-xl mx-auto px-6 pb-20">
-        <div className="flex justify-between items-center gap-5 mb-10">
-          {/* Navigation Header */}
-          <Link to={"/dashboard"} className=" mx-auto flex items-center">
-            <button className="p-3 -ml-2 hover:bg-slate-50 rounded-full transition-colors group">
-              <ArrowLeft className="w-5 h-5 text-violet-500" />
-            </button>
-          </Link>
-          <h1 className="header">Personal information</h1>
-        </div>
+    <main className="max-w-2xl mx-auto">
+      <h1 className="header text-center mb-10">Personal information</h1>
 
-        <div className="flex flex-col gap-5">
-          {/* User Data Section */}
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 flex flex-col"
+      <div className="flex flex-col gap-5">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 flex flex-col"
+          >
+            <FieldGroup>
+              <CustomFormField
+                fieldType={FormFieldType.FILE_INPUT}
+                control={form.control}
+                name="image_url"
+                label="Profile Picture"
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="email"
+                label="Email"
+                disabled={true}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="gender"
+                label="Gender"
+                placeholder="Enter your gender"
+                disabled={true}
+                options={[
+                  { label: "Male", value: "male" },
+                  { label: "Female", value: "female" },
+                ]}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="name"
+                label="Name"
+                icon={User}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="phone"
+                label="Phone"
+                icon={Phone}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.DATE_PICKER}
+                control={form.control}
+                name="dob"
+                label="Date Of Birth"
+              />
+            </FieldGroup>
+            <Button
+              variant="secondary"
+              type="submit"
+              disabled={isPending}
+              size={"lg"}
+              className="disabled:opacity-50 disabled:cursor-not-allowed  self-center"
             >
-              <FieldGroup>
-                <CustomFormField
-                  fieldType={FormFieldType.FILE_INPUT}
-                  control={form.control}
-                  name="image_url"
-                  label="Profile Picture"
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="email"
-                  label="Email"
-                  disabled={true}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.SELECT}
-                  control={form.control}
-                  name="gender"
-                  label="Gender"
-                  placeholder="Enter your gender"
-                  disabled={true}
-                  options={[
-                    { label: "Male", value: "male" },
-                    { label: "Female", value: "female" },
-                  ]}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="name"
-                  label="Name"
-                  icon={User}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.INPUT}
-                  control={form.control}
-                  name="phone"
-                  label="Phone"
-                  icon={Phone}
-                />
-                <CustomFormField
-                  fieldType={FormFieldType.DATE_PICKER}
-                  control={form.control}
-                  name="dob"
-                  label="Date Of Birth"
-                />
-              </FieldGroup>
-              <Button
-                variant="secondary"
-                type="submit"
-                disabled={isPending}
-                size={"lg"}
-                className="disabled:opacity-50 disabled:cursor-not-allowed  self-center"
-              >
-                {isPending ? (
-                  <>
-                    <span className="mr-2">Saving...</span>
-                    <Spinner data-icon="inline-end" variant="simple" />
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </form>
-          </Form>
-          <section className="flex gap-5 items-center justify-between">
-            <ChangePassword oldPassword={user?.password || ""} />
-            <DeleteAccount userId={59} />
-          </section>
-        </div>
-      </main>
-    </div>
+              {!isPending ? (
+                <>
+                  <span>Saving...</span>
+                  <div className="text-center justify-center items-center">
+                    <Spinner className="w-5 h-5 place-self-center text-primary" />
+                  </div>
+                </>
+              ) : (
+                "Save Changes"
+              )}
+            </Button>
+          </form>
+        </Form>
+        <section className="flex gap-5 items-center justify-between">
+          <ChangePassword oldPassword={user?.password || ""} />
+          <DeleteAccount userId={59} />
+        </section>
+      </div>
+    </main>
   );
 };
 

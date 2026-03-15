@@ -9,19 +9,33 @@ import {
 } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { useProduct } from "@/features/products/hooks/useProduct";
+import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
+import { useDeleteFromWishlist } from "@/features/wishlist/hooks/useDeleteFromWishlist";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
+import { useWishlistToggle } from "@/features/wishlist/hooks/useWishlistToggle";
 import { Heart, ShoppingCart, StarIcon } from "lucide-react";
-import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
   const { productId } = useParams();
   const { product, isLoading } = useProduct(Number(productId));
-  const [productTypes, setProductTypes] = useState({
-    size: product?.sizes[0],
-    color: product?.colors[0],
-  });
+  const { wishlist } = useWishlist();
+  const { addToWishlist } = useAddToWishlist();
+  const { deleteFromWishlist } = useDeleteFromWishlist();
 
-  console.log(product);
+  const isInWishlist = wishlist?.some(
+    (item) => item.product_id === product?.id,
+  );
+  function handleWishlist() {
+    if (!product?.id) return;
+
+    if (isInWishlist) {
+      deleteFromWishlist(product?.id);
+    } else {
+      addToWishlist(product?.id);
+    }
+  }
+  console.log(wishlist);
   return (
     <section className="py-8 bg-gray-50 md:py-16 antialiased">
       <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
@@ -136,9 +150,24 @@ const SingleProduct = () => {
 
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                 <div className="flex items-center justify-end gap-1">
-                  <Button className="group" variant={"secondary"}>
-                    <Heart className="w-5 h-5 transition duration-200 group-hover:fill-red-500 group-hover:text-red-500" />
-                    <span className=""> Add to wishlist </span>
+                  <Button
+                    className="group"
+                    variant={"secondary"}
+                    onClick={handleWishlist}
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition duration-200
+      ${
+        isInWishlist
+          ? "fill-red-500 text-red-500"
+          : "group-hover:fill-red-500 group-hover:text-red-500"
+      }`}
+                    />
+                    <span>
+                      {isInWishlist
+                        ? "Remove from wishlist"
+                        : "Add to wishlist"}
+                    </span>
                   </Button>
                 </div>
 

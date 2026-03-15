@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Spinner } from "@/components/ui/spinner";
 import { loginForm, type LoginFormSchema } from "@/features/auth/userType";
 import { useLogin } from "@/features/auth/hooks/useLogin";
+import { Link } from "react-router-dom";
 
 export function Login() {
   const { loginUser } = useLogin();
@@ -98,12 +99,12 @@ export function Login() {
               />
             </FieldGroup>
             <div className="flex items-center justify-end mt-2">
-              <a
-                href="/forgot-password"
+              <Link
+                to="/forgot-password"
                 className="text-xs font-medium text-primary hover:underline"
               >
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </form>
         </CardContent>

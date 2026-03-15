@@ -9,10 +9,11 @@ export function useDeleteFromWishlist() {
   const { mutate: deleteFromWishlist, isPending } = useMutation({
     mutationFn: async (productId: number) => {
       const res = await fetch(
-        `http://localhost:5000/api/wishlist/${productId}`,
+        `http://localhost:5000/api/wishlist/delete/${productId}`,
         {
           method: "DELETE",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         },

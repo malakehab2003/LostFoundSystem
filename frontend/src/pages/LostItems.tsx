@@ -1,15 +1,39 @@
-import { useState } from "react";
-import { MapPin, Calendar, Filter, List, Landmark } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { category, government, cities } from "@/lib/constants";
-import { DatePicker } from "@/components/DatePicker";
+  Building2,
+  Calendar,
+  Captions,
+  Landmark,
+  List,
+  Pin,
+  Shapes,
+} from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import CustomFormField from "../components/CustomerFormField";
+import { Form } from "@/components/ui/form";
+import { Link, useParams } from "react-router-dom";
+import { useEditItem } from "@/features/items/hooks/useEditItem";
+import {
+  CreateItemSchema,
+  EditItemSchema,
+  type City,
+  type CreateItemFormSchema,
+  type EditItemFormSchema,
+  type Government,
+  type Item,
+  type ItemCategory,
+} from "@/features/items/itemsType";
+import { useGetItem } from "@/features/items/hooks/useGetItem";
+import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
+import { useGovernments } from "@/features/governments/hooks/useGovernments";
+import { useCities } from "@/features/cities/hooks/useCities";
+import { MapPin, Filter } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FormFieldType } from "@/components/DashItemInfo";
+import { useListItems } from "@/features/items/hooks/useListItems";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+
 const foundItems = [
   {
     id: 1,
@@ -34,156 +58,208 @@ const foundItems = [
   },
 ];
 
-const sidebarFitlers = [
-  {
-    name: "Category",
-    icon: List,
-    value: "Wallet",
-  },
-  {
-    name: "Government",
-    icon: Landmark,
-    value: "Cairo",
-  },
-  {
-    name: "City",
-    icon: MapPin,
-    value: "Nasr City",
-  },
-];
-
 const LostItems = () => {
-  const [activeTab, setActiveTab] = useState("photo");
+  const { governments } = useGovernments();
+  const { cities } = useCities();
+  const { itemCategories } = useGetItemCategory();
 
+  const form = useForm<CreateItemFormSchema>({
+    resolver: zodResolver(CreateItemSchema),
+    defaultValues: {
+      title: "",
+      place: "",
+      category_id: undefined,
+      type: "lost",
+      date: new Date(),
+      government_id: undefined,
+      city_id: undefined,
+    },
+  });
+  const selectedGovernment = form.watch("government_id");
+  const filteredCities = cities?.filter(
+    (city) => city.government_id === selectedGovernment,
+  );
+
+  const [appliedFilters, setAppliedFilters] = useState({});
+
+  const { items: filteredItems, isLoading } = useListItems({
+    title: appliedFilters.title,
+    government: governments?.find((g) => g.id === appliedFilters.government_id)
+      ?.name,
+    city: filteredCities?.find((c) => c.id === appliedFilters.city_id)?.name,
+    place: appliedFilters.place,
+    category_id: appliedFilters.category_id,
+    type: appliedFilters.type,
+    page: 1,
+    limit: 50,
+  });
+
+  const onSubmit = (data: CreateItemFormSchema) => {
+    console.log("data from form", data);
+    setAppliedFilters(data); // triggers refetch in useListItems
+    console.log(filteredItems);
+  };
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800">
-      {/* Header Section */}
-      <div className="pt-10 pb-6 text-center px-4">
-        <h1 className="text-4xl font-bold text-violet-900 text-center mb-4">
-          Items sorted by best photo match
-        </h1>
+    <div className="">
+      <div className="pt-10 text-center px-4 mb-8 flex flex-col items-center justify-between gap-4">
+        <h1 className="header">Items sorted by best photo match</h1>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          <button
-            onClick={() => setActiveTab("photo")}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-              activeTab === "photo"
-                ? "bg-violet-500/20 text-violet-500 ring-1 ring-violet-500"
-                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-            }`}
+        <div className="flex item-center justify-center gap-2">
+          <Badge
+            variant={"outline"}
+            className="text-sm font-semibold leading-tight text-foreground/80"
           >
-            Photo Matches
-          </button>
-          <button
-            onClick={() => setActiveTab("nearby")}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-1 ${
-              activeTab === "nearby"
-                ? "bg-violet-500/20 text-violet-500 ring-1 ring-violet-500"
-                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-            }`}
-          >
-            <MapPin className="w-3.5 h-3.5" /> Nearby Matches
-          </button>
+            <MapPin className="w-4 h-4" /> Nearby Matches
+          </Badge>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row gap-8">
-        {/* Sidebar Filters */}
-        <aside className="w-full md:w-64 flex-shrink-0">
+      <div className="mx-auto px-4 lg:px-10 flex flex-col md:flex-row gap-8 items-start">
+        <aside className="w-full md:w-70 flex-shrink-0">
           <div className="flex justify-between items-center mb-6 border-b pb-2">
-            <h2 className="font-bold text-slate-700 flex items-center gap-2 text-sm">
+            <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
               <Filter className="w-4 h-4" /> Filter
             </h2>
-            <button className="text-xs text-slate-400 hover:text-slate-600 underline">
+            <button className="text-xs text-foreground/70 hover:text-foreground/90 underline">
               Reset Filters
             </button>
           </div>
 
-          <div className="space-y-6">
-            {sidebarFitlers.map((filter) => (
-              <div
-                className="flex flex-col gap-4 border-b pb-4"
-                key={filter.name}
-              >
-                <span className="text-slate-700 flex font-medium items-center justify-between gap-1 text-sm">
-                  {filter.name}{" "}
-                  <filter.icon className="w-3.5 h-3.5 text-slate-400" />
-                </span>
-                <Select>
-                  <SelectTrigger className="w-full px-3 py-3 border border-slate-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-400">
-                    <SelectValue placeholder={filter.value} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filter.name === "Category" &&
-                      category.map((cat) => (
-                        <SelectItem key={cat} value={cat}>
-                          {cat}
-                        </SelectItem>
-                      ))}
-                    {filter.name === "Government" &&
-                      government.map((gov) => (
-                        <SelectItem key={gov} value={gov}>
-                          {gov}
-                        </SelectItem>
-                      ))}
-                    {filter.name === "City" &&
-                      cities.map((city) => (
-                        <SelectItem key={city} value={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            ))}
-            {/* Date Picker Filter */}
-            <div className="flex flex-col gap-4 border-b pb-4">
-              <span className="text-slate-700 flex font-medium items-center justify-between gap-1 text-sm">
-                Date <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              </span>
-              {/* <DatePicker /> */}
-            </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="title"
+                label="Title"
+                icon={Captions}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="place"
+                label="Place"
+                icon={Pin}
+              />
 
-            <Button
-              size={"lg"}
-              variant={"default"}
-              className="w-full align-center self-center mx-auto"
-            >
-              Apply Filters
-            </Button>
-          </div>
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="government_id"
+                label="Government"
+                options={governments?.map((gov: Government) => ({
+                  value: gov.id,
+                  label: gov.name,
+                }))}
+                onchange={() => form.setValue("city_id", undefined)}
+                icon={Landmark}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="city_id"
+                label="City"
+                options={filteredCities?.map((city: City) => ({
+                  value: city.id,
+                  label: city.name,
+                }))}
+                disabled={!selectedGovernment}
+                icon={Building2}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="type"
+                label="Type"
+                icon={Shapes}
+                options={[
+                  { label: "Lost", value: "lost" },
+                  { label: "Found", value: "found" },
+                ]}
+              />
+
+              <CustomFormField
+                fieldType={FormFieldType.SELECT}
+                control={form.control}
+                name="category_id"
+                label="Category"
+                options={itemCategories?.map((category: ItemCategory) => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
+                icon={List}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.DATE_PICKER}
+                control={form.control}
+                name="date"
+                label="Date"
+                placeholder="Select date of loss or finding"
+              />
+              <Button
+                type="submit"
+                size={"lg"}
+                variant={"default"}
+                className="w-full align-center self-center mx-auto"
+                disabled={isLoading}
+              >
+                Apply Filters
+              </Button>
+            </form>
+          </Form>
         </aside>
 
         {/* Results Grid */}
-        <main className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
-            {foundItems.map((item) => (
-              <div key={item.id} className="group cursor-pointer">
-                {/* Image Container */}
-                <div className="relative aspect-square overflow-hidden rounded-3xl bg-gray-100 mb-3 border border-gray-100">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+        <main className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {appliedFilters &&
+            appliedFilters.length > 0 &&
+            appliedFilters.map((item: Item) => (
+              <div
+                key={item.id}
+                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+              >
+                <div className="h-56 w-full">
+                  <Link to={`/lost/${item.id}`}>
+                    <img
+                      className="mx-auto h-full"
+                      src={`${item.images[0] || "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"}`}
+                      alt={item.title}
+                    />
+                  </Link>
                 </div>
+                <div className="pt-6">
+                  <div className="mb-4 flex items-center justify-between gap-4">
+                    <Badge
+                      variant={"outline"}
+                      className="text-xs font-semibold leading-tight text-foreground/80 line-clamp-2"
+                    >
+                      {item?.category}
+                    </Badge>
+                  </div>
 
-                {/* Info Section */}
-                <div className="space-y-1">
-                  <h3 className="font-bold text-[#002D5B] group-hover:text-violet-500 transition-colors line-clamp-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Found in: {item.location}
-                  </p>
-                  <p className="text-xs text-slate-400 flex items-center gap-1">
-                    <Calendar className="w-3 h-3" /> Reported on {item.date}
-                  </p>
+                  <div className="flex flex-col items-start gap-1">
+                    <Link
+                      to={`/lost/${item.id}`}
+                      className="text-lg font-semibold leading-tight text-foreground/90 hover:underline"
+                    >
+                      {item.title}
+                    </Link>
+                    <p className="text-sm font-normal leading-tight text-foreground/70 line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="mt-2 flex items-center text-sm text-foreground/80 font-semibold">
+                    Found In: {item.city}, {item.government}
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between gap-4">
+                    <Button type="button" variant={"default"}>
+                      Add to cart
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
-          </div>
         </main>
       </div>
     </div>

@@ -77,6 +77,9 @@ export const UpdateProfileForm = SignupForm.partial();
 
 export type UpdateProfileFormSchema = z.infer<typeof UpdateProfileForm>;
 
+export const ForgotPasswordForm = loginForm.partial();
+export type ForgotPasswordFormSchema = z.infer<typeof ForgotPasswordForm>;
+
 export const ChangePasswordForm = z.object({
   oldPassword: z.string().min(1, "Current password is required"),
 

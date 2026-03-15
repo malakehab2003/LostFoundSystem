@@ -19,10 +19,10 @@ const DeleteAccount = ({ userId }: { userId: number }) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
+          variant="destructive"
           size={"lg"}
           disabled={isPending}
-          className="text-red-600 bg-red-100/50 hover:bg-red-100/50 hover:text-red-600 disabled:bg-red-500/10 disabled:text-red-400 disabled:cursor-not-allowed"
+          className=""
         >
           Delete Account
         </Button>

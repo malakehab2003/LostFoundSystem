@@ -79,9 +79,7 @@ const DashItemInfo = () => {
     <div className="min-h-screen bg-white text-slate-800">
       <main className="max-w-3xl mx-auto px-6 pb-20">
         <div className="flex justify-center items-center gap-5 mb-10">
-          <h1 className="text-5xl font-bold text-center text-[#002D5B] ">
-            Edit item details
-          </h1>
+          <h1 className="header">Edit item details</h1>
         </div>
 
         <div className="space-y-4 divide-y-2 divide-slate-100">

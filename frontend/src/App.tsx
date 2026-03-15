@@ -1,15 +1,10 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import SignupLayout from "./components/SignupLayout";
-import SignupEmail from "./components/SignupEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/home/Home";
 import Layout from "./pages/home/Layout";
 import About from "./pages/home/About";
-import SignupPhone from "./components/SignupPhone";
-import SignupPhoto from "./components/SignupPhoto";
-import SignupLocation from "./components/SignupLocation";
 import LostItems from "./pages/LostItems";
 import LostItem from "./pages/LostItem";
 import Dashboard from "./pages/Dashboard";
@@ -25,6 +20,7 @@ import Wishlist from "./components/Wishlist";
 import Messages from "./pages/Messages";
 import Products from "./marktComponents/Products";
 import SingleProduct from "./marktComponents/SingleProduct";
+import { ItemDialog } from "./components/dialog/CreateItem";
 
 function App() {
   return (
@@ -48,6 +44,7 @@ function App() {
             <Route path="address" element={<DashAddress />} />
             <Route path="items/:itemId" element={<DashItem />} />
             <Route path="items/:itemId/info" element={<DashItemInfo />} />
+            <Route path="itemdialog/:type" element={<ItemDialog />} />
             <Route path="wishlist" element={<Wishlist />} />
           </Route>
 
@@ -62,6 +59,7 @@ function App() {
 
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>
