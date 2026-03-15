@@ -11,7 +11,6 @@ import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
-import { ItemDialog } from "@/components/dialog/ItemDialog";
 import type { Item } from "@/features/items/itemsType";
 import defaultpage from "@/assets/default-profile.webp";
 import { Badge } from "@/components/ui/badge";
@@ -28,14 +27,13 @@ const Dashboard = () => {
         <div className="lg:col-span-7">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl sub-header">Your Items</h2>
-            {/* <ItemDialog type="create" /> */}
             <Button
               asChild
               className="group duration-200 border-2 rounded-full border-primary text-primary hover:text-white hover:bg-primary px-5 py-3 flex items-center gap-3"
               size={"lg"}
               variant={"outline"}
             >
-              <Link to={"/dashboard/itemdialog/create"} type="create">
+              <Link to={"/dashboard/itemdialog"}>
                 <Plus className="w-5 h-5 transition-transform group-hover:rotate-90 text-primary group-hover:text-white" />
                 Add an Item
               </Link>

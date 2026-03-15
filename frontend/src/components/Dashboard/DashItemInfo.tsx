@@ -13,9 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import CustomFormField from "./CustomerFormField";
-import { Form } from "./ui/form";
-import { FieldGroup } from "./ui/field";
+import CustomFormField from "../CustomerFormField";
+import { Form } from "../ui/form";
+import { FieldGroup } from "../ui/field";
 import { useParams } from "react-router-dom";
 import { useEditItem } from "@/features/items/hooks/useEditItem";
 import {
@@ -29,7 +29,7 @@ import { useGetItem } from "@/features/items/hooks/useGetItem";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
 import { useCities } from "@/features/cities/hooks/useCities";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 
 export enum FormFieldType {
   INPUT = "input",

@@ -17,7 +17,7 @@ import {
 } from "@/features/auth/userType";
 
 import CustomFormField from "@/components/CustomerFormField";
-import { FormFieldType } from "@/components/DashItemInfo";
+import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useForgotPassword } from "@/features/auth/hooks/useForgotPassword";
 
 export function ForgotPassword() {

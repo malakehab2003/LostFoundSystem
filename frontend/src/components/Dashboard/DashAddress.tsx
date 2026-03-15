@@ -5,11 +5,11 @@ import {
   EmptyHeader,
   EmptyMedia,
 } from "@/components/ui/empty";
-import AddressDialog from "./dialog/AddressDialog";
+import AddressDialog from "../dialog/AddressDialog";
 import { useGetAddresses } from "@/features/address/hooks/useGetAddresses";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 import emptyAddresses from "@/assets/no-addressess.svg";
-import DeleteAddressDialog from "./dialog/DeleteAddressDialog";
+import DeleteAddressDialog from "../dialog/DeleteAddressDialog";
 
 const DashAddress = () => {
   const { addresses, isLoading } = useGetAddresses();

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "../ui/form";
 import CustomFormField from "../CustomerFormField";
-import { FormFieldType } from "../DashItemInfo";
+import { FormFieldType } from "../Dashboard/DashItemInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";

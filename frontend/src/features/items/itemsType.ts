@@ -47,7 +47,7 @@ export const CreateItemSchema = z
       path: ["city_id"],
     },
   );
-export type CreateItemFormSchema = z.infer<typeof CreateItemSchema>;
+export type CreateItemFormSchema = z.input<typeof CreateItemSchema>;
 
 export const EditItemSchema = z
   .object({

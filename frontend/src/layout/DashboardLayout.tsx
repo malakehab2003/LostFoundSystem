@@ -1,7 +1,7 @@
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../components/ui/spinner";
 
 const DashboardLayout = () => {
   const { data: user, isLoading } = useCurrentUser();

@@ -1,10 +1,10 @@
 import { Trash2, Eye, Send, Clock, Megaphone } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Link, useParams } from "react-router-dom";
 import { useGetItem } from "@/features/items/hooks/useGetItem";
 import defaultpage from "@/assets/default-profile.webp";
-import { Spinner } from "./ui/spinner";
+import { Spinner } from "../ui/spinner";
 
 const DashItem = () => {
   const { itemId } = useParams();

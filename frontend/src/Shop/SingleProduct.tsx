@@ -28,7 +28,7 @@ const SingleProduct = () => {
   );
   function handleWishlist() {
     if (!product?.id) return;
-
+    console.log(isInWishlist, productId, product.id);
     if (isInWishlist) {
       deleteFromWishlist(product?.id);
     } else {

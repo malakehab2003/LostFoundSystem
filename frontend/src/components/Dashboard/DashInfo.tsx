@@ -1,21 +1,21 @@
 import { ArrowLeft, Phone, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import CustomFormField from "./CustomerFormField";
+import CustomFormField from "../CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
-import { Form } from "./ui/form";
-import { Spinner } from "./ui/spinner";
-import ChangePassword from "./dialog/ChangePassword";
-import DeleteAccount from "./dialog/DeleteAccount";
+import { Form } from "../ui/form";
+import { Spinner } from "../ui/spinner";
+import ChangePassword from "../dialog/ChangePassword";
+import DeleteAccount from "../dialog/DeleteAccount";
 import {
   UpdateProfileForm,
   type UpdateProfileFormSchema,
 } from "@/features/auth/userType";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useUpdateUserInfo } from "@/features/auth/hooks/useUpdateUserInfo";
-import { FieldGroup } from "./ui/field";
+import { FieldGroup } from "../ui/field";
 
 const DashInfo = () => {
   const { user } = useCurrentUser();

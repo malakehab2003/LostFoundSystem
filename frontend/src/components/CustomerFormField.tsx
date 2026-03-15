@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
-import { FormFieldType } from "./DashItemInfo";
+import { FormFieldType } from "./Dashboard/DashItemInfo";
 import {
   Controller,
   type Control,

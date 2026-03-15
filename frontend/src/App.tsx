@@ -1,32 +1,33 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import Home from "./pages/home/Home";
-import Layout from "./pages/home/Layout";
-import About from "./pages/home/About";
-import LostItems from "./pages/LostItems";
-import LostItem from "./pages/LostItem";
-import Dashboard from "./pages/Dashboard";
-import DashInfo from "./components/DashInfo";
-import DashboardLayout from "./components/DashboardLayout";
-import DashItem from "./components/DashItem";
-import DashItemInfo from "./components/DashItemInfo";
-import DashAddress from "./components/DashAddress";
-import Categray from "./marktComponents/Categray";
-import Page1 from "./marktComponents/Page1";
-import SingelItem from "./marktComponents/SingelItem";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import ForgotPassword from "./components/ForgotPassword";
+import Home from "./layout/Home";
+import Layout from "./layout/Layout";
+import About from "./layout/About";
+import LostItems from "./components/LostItems";
+import LostItem from "./components/LostItem";
+import Dashboard from "./components/Dashboard/Dashboard";
+import DashInfo from "./components/Dashboard/DashInfo";
+import DashboardLayout from "./layout/DashboardLayout";
+import DashItem from "./components/Dashboard/DashItem";
+import DashItemInfo from "./components/Dashboard/DashItemInfo";
+import DashAddress from "./components/Dashboard/DashAddress";
 import Wishlist from "./components/Wishlist";
-import Messages from "./pages/Messages";
-import Products from "./marktComponents/Products";
-import SingleProduct from "./marktComponents/SingleProduct";
-import { ItemDialog } from "./components/dialog/CreateItem";
+import Messages from "./components/Messages";
+import Products from "./Shop/Products";
+import SingleProduct from "./Shop/SingleProduct";
+import { ItemDialog } from "./components/dialog/ItemDialog";
+import Categray from "./Shop/categray";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
+
+        <Route path="signup" element={<Signup />} />
+        <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
 
         {/* Routes under main Layout */}
@@ -44,22 +45,13 @@ function App() {
             <Route path="address" element={<DashAddress />} />
             <Route path="items/:itemId" element={<DashItem />} />
             <Route path="items/:itemId/info" element={<DashItemInfo />} />
-            <Route path="itemdialog/:type" element={<ItemDialog />} />
+            <Route path="itemdialog" element={<ItemDialog />} />
             <Route path="wishlist" element={<Wishlist />} />
           </Route>
 
-          <Route path="about" element={<About />} />
-          <Route path="lost" element={<LostItems />} />
-          <Route path="/lost/:itemId" element={<LostItem />} />
           <Route path="shop" element={<Categray />} />
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
-          <Route path="page1" element={<Page1 />} />
-          <Route path="singleitem" element={<SingelItem />} />
-
-          <Route path="signup" element={<Signup />} />
-          <Route path="login" element={<Login />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

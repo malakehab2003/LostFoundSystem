@@ -2,6 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useProducts } from "@/features/products/hooks/useProducts";
+import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
+import { useDeleteFromWishlist } from "@/features/wishlist/hooks/useDeleteFromWishlist";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import {
   FunnelIcon,
   Heart,
@@ -13,7 +16,23 @@ import { Link } from "react-router-dom";
 
 const Products = () => {
   const { products, isLoading } = useProducts();
-  console.log(products);
+
+  const { wishlist } = useWishlist();
+  const { addToWishlist } = useAddToWishlist();
+  const { deleteFromWishlist } = useDeleteFromWishlist();
+
+  const isProductInWishlist = (productId: number) =>
+    wishlist?.some(
+      (item: { product_id: number }) => item.product_id === productId,
+    );
+  const handleWishlist = (productId: number) => {
+    if (!productId) return;
+    if (isProductInWishlist(productId)) {
+      deleteFromWishlist(productId);
+    } else {
+      addToWishlist(productId);
+    }
+  };
   return (
     <div className="bg-gray-50 py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
@@ -65,9 +84,24 @@ const Products = () => {
               <div className="pt-6">
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <div className="flex items-center justify-end gap-1">
-                    <Button className="group" variant={"secondary"}>
-                      <span className=""> Add to wishlist </span>
-                      <Heart className="w-5 h-5 transition duration-200 group-hover:fill-red-500 group-hover:text-red-500" />
+                    <Button
+                      className="group"
+                      variant={"secondary"}
+                      onClick={() => handleWishlist(product.id)}
+                    >
+                      <Heart
+                        className={`w-5 h-5 transition duration-200
+      ${
+        isProductInWishlist(product.id)
+          ? "fill-red-500 text-red-500"
+          : "group-hover:fill-red-500 group-hover:text-red-500"
+      }`}
+                      />
+                      <span>
+                        {isProductInWishlist(product.id)
+                          ? "Remove from wishlist"
+                          : "Add to wishlist"}
+                      </span>
                     </Button>
                   </div>
                   <Badge

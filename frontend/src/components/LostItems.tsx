@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import CustomFormField from "../components/CustomerFormField";
+import CustomFormField from "./CustomerFormField";
 import { Form } from "@/components/ui/form";
 import { Link, useParams } from "react-router-dom";
 import { useEditItem } from "@/features/items/hooks/useEditItem";
@@ -29,7 +29,7 @@ import { useGovernments } from "@/features/governments/hooks/useGovernments";
 import { useCities } from "@/features/cities/hooks/useCities";
 import { MapPin, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FormFieldType } from "@/components/DashItemInfo";
+import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useListItems } from "@/features/items/hooks/useListItems";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
