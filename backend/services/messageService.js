@@ -33,7 +33,12 @@ export const realTimeMessage = (chat, user_id, content) => {
     io.to(receiver_id.toString()).emit("new_message", {
         chat_id: chat.id,
         content,
-    })
+    });
+
+    io.to(user_id.toString()).emit("new_message", {
+        chat_id: chat.id,
+        content,
+    });
 }
 
 
