@@ -8,8 +8,10 @@ export const checkColorService = (product, color) => {
 
     const colors = product.colors;
 
+    if (!colors) throw new Error('Not avaliable color');
+    
     const exists = colors.includes(color);
-
+    
     if (!exists) throw new Error("This product don't have this color");
 }
 
@@ -18,8 +20,10 @@ export const checkSizeService = (product, size) => {
     if (!product || !size) {
         throw new Error("Missing product_id or size");
     }
-
+    
     const sizes = product.sizes;
+
+    if (!sizes) throw new Error('Not avaliable size');
 
     const exists = sizes.includes(size);
 
