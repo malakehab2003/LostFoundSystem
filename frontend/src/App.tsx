@@ -19,6 +19,7 @@ import Products from "./Shop/Products";
 import SingleProduct from "./Shop/SingleProduct";
 import { ItemDialog } from "./components/dialog/ItemDialog";
 import Categray from "./Shop/categray";
+import Cart from "./cart/Cart";
 
 function App() {
   return (
@@ -52,6 +53,8 @@ function App() {
           <Route path="shop" element={<Categray />} />
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
+          <Route path="cart" element={<Cart />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

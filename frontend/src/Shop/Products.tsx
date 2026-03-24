@@ -5,6 +5,7 @@ import { useProducts } from "@/features/products/hooks/useProducts";
 import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
 import { useDeleteFromWishlist } from "@/features/wishlist/hooks/useDeleteFromWishlist";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
+import { useQuery } from "@tanstack/react-query";
 import {
   FunnelIcon,
   Heart,
@@ -13,6 +14,8 @@ import {
   StarIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AllItems } from "./callProducts";
+import SingleProduct from "./SingleProduct";
 
 const Products = () => {
   const { products, isLoading } = useProducts();
@@ -33,7 +36,11 @@ const Products = () => {
       addToWishlist(productId);
     }
   };
-  return (
+  ////////////// 
+ 
+ 
+
+  return (<>
     <div className="bg-gray-50 py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
         <div>
@@ -157,6 +164,9 @@ const Products = () => {
         </div>
       )}
     </div>
+  </>
+    
+  
   );
 };
 

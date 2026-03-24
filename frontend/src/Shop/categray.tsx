@@ -4,10 +4,11 @@ export default function Categray() {
   const navgate = useNavigate();
   return (
     <>
-      <p className="text-center text-3xl">catagery</p>
+    <div className="bg-chart-1">
+       <p className="text-center text-3xl">catagery</p>
       <div
         onClick={() => {
-          navgate("/page1");
+          navgate("/shop/products");
         }}
         className="h-screen flex flex-wrap  pt-30 "
       >
@@ -56,6 +57,9 @@ export default function Categray() {
           </p>
         </div>
       </div>
+
+    </div>
+     
     </>
   );
 }
