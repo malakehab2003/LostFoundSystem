@@ -26,18 +26,28 @@ export const createMessageService = async (data) => {
 }
 
 
-export const realTimeMessage = (chat, user_id, content) => {
-    const receiver_id = chat.sender_id === user_id ? chat.receiver_id : chat.sender_id;
+export const realTimeMessage = (chat, sender_id, content, sender_name, receiver_name, created_at) => {
+    const receiver_id = chat.sender_id === sender_id ? chat.receiver_id : chat.sender_id;
     const io = getIO();
 
     io.to(receiver_id.toString()).emit("new_message", {
         chat_id: chat.id,
+        sender_name,
+        receiver_name,
+        sender_id,
+        receiver_id,
         content,
+        created_at,
     });
 
-    io.to(user_id.toString()).emit("new_message", {
+    io.to(sender_id.toString()).emit("new_message", {
         chat_id: chat.id,
+        sender_name,
+        receiver_name,
+        sender_id,
+        receiver_id,
         content,
+        created_at,
     });
 }
 

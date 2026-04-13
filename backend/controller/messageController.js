@@ -1,6 +1,7 @@
 import * as service from '../services/messageService.js';
 import { getChat } from '../services/chatService.js';
 import { sendNotificationsService } from '../services/notificationService.js';
+import { getAnotherUserService } from '../services/userService.js'
 
 
 export const createMessage = async (req, res) => {
@@ -16,14 +17,17 @@ export const createMessage = async (req, res) => {
 
         const message = await service.createMessageService(data);
         if (!message) return res.status(400).send({ err: "Can't create message", });
+
+        // get receiver name
+        const receiver_id = chat.sender_id === user.id ? chat.receiver_id : chat.sender_id;
+        const receiver = await getAnotherUserService(null, receiver_id);
         
         // use socket io to make real time chat
-        service.realTimeMessage(chat, user.id, content);
+        service.realTimeMessage(chat, user.id, content, user.name, receiver.name, message.created_at);
         
         // send notification after create message
         const description = "You got a new Message go and check it";
         const notificationMessage = "New Message";
-        const receiver_id = chat.sender_id === user.id ? chat.receiver_id : chat.sender_id;
         await sendNotificationsService([receiver_id], description, notificationMessage, 'chat', chat.id)
 
         return res.status(201).send({ message, })
