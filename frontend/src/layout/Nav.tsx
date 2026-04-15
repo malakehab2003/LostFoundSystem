@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/logowebsite.png";
 import defaultProfile from "@/assets/default-profile.webp";
-import { Menu, MessageSquare } from "lucide-react";
+import { Menu, MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Notifications from "@/components/Notifications";
 import { useLogout } from "@/features/auth/hooks/useLogout";
@@ -12,37 +12,55 @@ export default function Nav() {
   const { user } = useCurrentUser();
   const { logoutUser } = useLogout();
   const [isNavOpen, setIsNavOpen] = useState(false);
+  
   function toggle() {
     setIsNavOpen((prev) => !prev);
   }
+
+  function closeNav() {
+    setIsNavOpen(false);
+  }
+
   return (
-    <nav className="bg-background fixed w-full z-20 top-0 start-0 border-b border-default">
+    <nav className="bg-white/95 backdrop-blur-md fixed w-full z-50 top-0 start-0 border-b border-gray-100 shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href={"/"} className="flex items-center space-x-3">
-          <img src={logo} className="h-7" alt="Logo" />
-          <span className="self-center text-xl text-heading font-semibold whitespace-nowrap">
+        {/* Logo Section */}
+        <Link to="/" className="flex items-center space-x-3 group" onClick={closeNav}>
+          <div className="relative">
+            <img src={logo} className="h-12 w-auto" alt="Logo" />
+          </div>
+          <span className="self-center text-xl font-bold text-gray-800 group-hover:text-primary transition-colors duration-300">
             ضايع
           </span>
-        </a>
+        </Link>
+
+        {/* Mobile Menu Button */}
         <button
           onClick={toggle}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-base md:hidden hover:text-primary focus:outline-none focus:ring-2"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors duration-300"
           aria-controls="navbar-default"
-          aria-expanded="false"
+          aria-expanded={isNavOpen}
         >
-          <Menu className="w-6 h-6" />
+          {isNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
+
+        {/* Navigation Links - Desktop & Mobile */}
         <div
-          className={`${isNavOpen ? "block" : "hidden"} w-full md:flex md:w-auto gap-5 justify-between items-center`}
+          className={`${
+            isNavOpen ? "flex" : "hidden"
+          } w-full md:flex md:w-auto md:items-center md:gap-6 transition-all duration-300 ease-in-out`}
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 md:border-0">
+          <ul className="flex flex-col md:flex-row gap-2 md:gap-1 mt-6 md:mt-0">
             <li>
               <NavLink
                 to="/something-lost"
+                onClick={closeNav}
                 className={({ isActive }) =>
-                  `block py-2 px-3 rounded md:p-0 hover:text-primary ${
-                    isActive ? "text-primary" : ""
+                  `block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
                 }
               >
@@ -52,9 +70,12 @@ export default function Nav() {
             <li>
               <NavLink
                 to="/something-found"
+                onClick={closeNav}
                 className={({ isActive }) =>
-                  `block py-2 px-3 rounded md:p-0 hover:text-primary ${
-                    isActive ? "text-primary" : ""
+                  `block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
                 }
               >
@@ -64,9 +85,12 @@ export default function Nav() {
             <li>
               <NavLink
                 to="/help"
+                onClick={closeNav}
                 className={({ isActive }) =>
-                  `block py-2 px-3 rounded md:p-0 hover:text-primary ${
-                    isActive ? "text-primary" : ""
+                  `block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
                 }
               >
@@ -76,9 +100,12 @@ export default function Nav() {
             <li>
               <NavLink
                 to="/shop"
+                onClick={closeNav}
                 className={({ isActive }) =>
-                  `block py-2 px-3 rounded md:p-0 hover:text-primary ${
-                    isActive ? "text-primary" : ""
+                  `block px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
                 }
               >
@@ -86,38 +113,86 @@ export default function Nav() {
               </NavLink>
             </li>
           </ul>
-        </div>
-        <div
-          className={`${isNavOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row gap-3 items-center justify-between max-md:w-full`}
-        >
-          <div>
+
+          {/* User Section - Mobile */}
+          <div className="flex flex-col md:hidden gap-3 mt-6 pt-6 border-t border-gray-100">
             {user && (
-              <div className="flex gap-3 items-center justify-center">
-                <Notifications />
-                <Link
-                  to="/dashboard/messages"
-                  className="cursor-pointer hover:text-primary"
-                >
-                  <MessageSquare className="w-5 h-5" />
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex gap-3 items-center">
+                  <Notifications />
+                  <Link
+                    to="/dashboard/messages"
+                    onClick={closeNav}
+                    className="text-gray-600 hover:text-primary transition-colors"
+                  >
+                    <MessageSquare className="w-5 h-5" />
+                  </Link>
+                </div>
+                <Link to="/dashboard" onClick={closeNav} className="cursor-pointer">
+                  <img
+                    src={user.image_url || defaultProfile}
+                    alt="User Avatar"
+                    className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200"
+                  />
                 </Link>
               </div>
             )}
+            {user ? (
+              <Button 
+                onClick={() => logoutUser()} 
+                variant="outline"
+                className="w-full border-gray-200 hover:border-primary/30 hover:bg-primary/5"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button 
+                asChild 
+                className="w-full bg-primary hover:bg-primary/90 text-white"
+              >
+                <Link to="/login" onClick={closeNav}>Sign In</Link>
+              </Button>
+            )}
           </div>
+        </div>
+
+        {/* User Section - Desktop */}
+        <div className="hidden md:flex items-center gap-4">
+          {user && (
+            <div className="flex gap-2 items-center">
+              <Notifications />
+              <Link
+                to="/dashboard/messages"
+                className="text-gray-600 hover:text-primary transition-colors p-2 rounded-lg hover:bg-gray-50"
+              >
+                <MessageSquare className="w-5 h-5" />
+              </Link>
+            </div>
+          )}
+          
           {user && (
             <Link to="/dashboard" className="cursor-pointer">
               <img
                 src={user.image_url || defaultProfile}
                 alt="User Avatar"
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-9 h-9 rounded-full object-cover ring-2 ring-gray-200 hover:ring-primary transition-all duration-300"
               />
             </Link>
           )}
+          
           {user ? (
-            <Button variant="outline" onClick={() => logoutUser()}>
+            <Button 
+              onClick={() => logoutUser()} 
+              variant="outline"
+              className="border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300"
+            >
               Logout
             </Button>
           ) : (
-            <Button asChild variant="outline">
+            <Button 
+              asChild 
+              className="bg-primary hover:bg-primary/90 text-white shadow-sm hover:shadow-md transition-all duration-300"
+            >
               <Link to="/login">Sign In</Link>
             </Button>
           )}

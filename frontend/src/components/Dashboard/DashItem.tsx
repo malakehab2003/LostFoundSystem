@@ -1,14 +1,45 @@
 import { Trash2, Eye, Send, Clock, Megaphone } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetItem } from "@/features/items/hooks/useGetItem";
 import defaultpage from "@/assets/default-profile.webp";
 import { Spinner } from "../ui/spinner";
+import { useAuth } from "@/lib/AuthContext";
 
 const DashItem = () => {
   const { itemId } = useParams();
+  const navigate = useNavigate();
+
+  const {user} = useAuth()
+  const isAdmin = user?.role == 'admin'
+
+
   const { item, isLoading } = useGetItem(Number(itemId));
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this item?")) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/item/${itemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      //  بعد الحذف يرجع للداش بورد
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   console.log(item);
   const updates = [
     {
@@ -49,13 +80,16 @@ const DashItem = () => {
                     Reported {item?.type}: {item?.date}
                   </p>
                 </div>
-                <Button
-                  className="cursor-pointer bg-red-500/40 hover:bg-red-500 text-white p-2 rounded-full flex items-center justify-center"
-                  size={"icon-sm"}
-                  variant={"destructive"}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                   {!isAdmin && (
+                  <Button
+                    onClick={handleDelete}
+                    className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full"
+                    size={"icon-sm"}
+                    variant={"destructive"}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-3 justify-center md:justify-start">
@@ -80,6 +114,8 @@ const DashItem = () => {
           </div>
         )}
       </div>
+
+      
 
       {/* Comment section */}
       <div className="space-y-4">
