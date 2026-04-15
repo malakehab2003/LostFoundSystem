@@ -1,3 +1,4 @@
+import Categray from "@/Shop/categray";
 import { Button } from "@heroui/react";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card"

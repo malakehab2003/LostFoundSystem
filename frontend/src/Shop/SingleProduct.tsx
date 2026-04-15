@@ -1,3 +1,4 @@
+import { addToCart } from "@/cart/serves/addTocart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +14,14 @@ import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
 import { useDeleteFromWishlist } from "@/features/wishlist/hooks/useDeleteFromWishlist";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import { useWishlistToggle } from "@/features/wishlist/hooks/useWishlistToggle";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Heart, ShoppingCart, StarIcon } from "lucide-react";
+import { useContext, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
+
   const { productId } = useParams();
   const { product, isLoading } = useProduct(Number(productId));
   const { wishlist } = useWishlist();
@@ -36,6 +41,37 @@ const SingleProduct = () => {
     }
   }
   console.log(wishlist);
+
+////////////get data to cart
+
+const [selectedSize, setSelectedSize] = useState('');
+const [selectedColor, setSelectedColor] = useState('');
+const [quantity, setQuantity] = useState(1);
+
+ const vaules={
+   color: selectedColor,
+    size: selectedSize,
+    product_id: productId,
+    quantity: quantity,
+
+  }
+  ////add to cart function
+    const queryClient=useQueryClient()
+
+
+  const { mutate: addCart ,data} = useMutation({
+  mutationFn:(data)=>addToCart(data),
+  onSuccess: () => {
+    toast.success('Product added to cart!');
+    queryClient.invalidateQueries({
+      queryKey:['get cart']
+    })
+  },
+  onError:() => {
+    toast.error('Product error');
+  },
+});
+console.log(data)
   return (
     <section className="py-8 bg-gray-50 md:py-16 antialiased">
       <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
@@ -98,6 +134,7 @@ const SingleProduct = () => {
                 <div className="flex flex-col gap-1">
                   <span className="text-foreground/80">Size</span>
                   <Select
+                  onValueChange={(value)=>{setSelectedSize(value)}}
                     name="size"
                     defaultValue={
                       product?.sizes?.length ? product.sizes[0] : undefined
@@ -107,7 +144,7 @@ const SingleProduct = () => {
                       <SelectValue placeholder="Select a size" />
                     </SelectTrigger>
 
-                    <SelectContent>
+                    <SelectContent >
                       {product?.sizes?.map((size) => (
                         <SelectItem value={size} key={size}>
                           {size}
@@ -119,6 +156,7 @@ const SingleProduct = () => {
                 <div className="flex flex-col gap-1">
                   <span className="text-foreground/80">Color</span>
                   <Select
+                  onValueChange={(value)=>{setSelectedColor(value)}}
                     name="color"
                     defaultValue={
                       product?.colors?.length ? product.colors[0] : undefined
@@ -160,7 +198,7 @@ const SingleProduct = () => {
       ${
         isInWishlist
           ? "fill-red-500 text-red-500"
-          : "group-hover:fill-red-500 group-hover:text-red-500"
+          : "group-hover:fill-red-500 group-h)over:text-red-500"
       }`}
                     />
                     <span>
@@ -171,7 +209,13 @@ const SingleProduct = () => {
                   </Button>
                 </div>
 
-                <Button type="button" variant={"default"}>
+                <Button  onClick={() =>  addCart({
+      color: selectedColor,     
+     product_id: Number(productId),
+      quantity: quantity,   
+      size: selectedSize
+    })
+}  type="button" variant={"default"}>
                   <ShoppingCart className="w-5 h-5" />
                   Add to cart
                 </Button>

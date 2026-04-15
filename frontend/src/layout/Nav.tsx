@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/logowebsite.png";
 import defaultProfile from "@/assets/default-profile.webp";
@@ -7,8 +7,22 @@ import { Button } from "@/components/ui/button";
 import Notifications from "@/components/Notifications";
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import { AuthContext } from "@/lib/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import { getCart } from "@/cart/serves/GetCard";
+
 
 export default function Nav() {
+  let{data:cartitem}=useQuery({
+        queryKey:['get cart'],
+        queryFn:getCart,
+        
+    })
+
+  ///////
+  let {token} =useContext(AuthContext)
+  console.log(token)
+  /////////
   const { user } = useCurrentUser();
   const { logoutUser } = useLogout();
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -116,6 +130,18 @@ export default function Nav() {
 
           {/* User Section - Mobile */}
           <div className="flex flex-col md:hidden gap-3 mt-6 pt-6 border-t border-gray-100">
+        </div>
+        <div
+          className={`${isNavOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row gap-3 items-center justify-between max-md:w-full`}
+        >
+          {token?<Link to='/cart'>
+          {cartitem?.length>0?<div className="bg-chart-1 w-[40px] rounded-full text-center" >
+            <span className="">{cartitem.length}</span></div>:null}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+</svg>
+</Link> :null}
+          <div>
             {user && (
               <div className="flex items-center justify-between gap-4">
                 <div className="flex gap-3 items-center">
@@ -178,6 +204,7 @@ export default function Nav() {
                 className="w-9 h-9 rounded-full object-cover ring-2 ring-gray-200 hover:ring-primary transition-all duration-300"
               />
             </Link>
+            
           )}
           
           {user ? (
