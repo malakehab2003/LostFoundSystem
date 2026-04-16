@@ -1,4 +1,4 @@
-import { Cart } from "../models/db.js";
+import { Cart, Product, ProductImage } from "../models/db.js";
 import * as service from '../services/cart.js';
 import { getProductService } from "../services/productService.js";
 
@@ -9,7 +9,20 @@ export const listCart = async (req, res) => {
         const user = req.user;
 
         const cart = await Cart.findAll({
-            where: {user_id: user.id}
+            where: {user_id: user.id},
+            include: [
+                {
+                    model: Product,
+                    as: 'product',
+                    attributes: ["name", "price", "sale"],
+                    include: [
+                        {
+                            model: ProductImage,
+                            as: 'image',
+                        }
+                    ]
+                }
+            ]
         });
 
         return res.status(200).send({ cart });
