@@ -6,6 +6,7 @@ const router = express.Router();
 
 // all routers used are here
 router.get('/list', middleware.AuthRequest,  CartController.listCart);
+router.put('/update/quantity', middleware.AuthRequest,  CartController.updateQuantity);
 router.post('/addProduct', middleware.AuthRequest,  CartController.addProduct);
 router.delete('/delete/:id', middleware.AuthRequest,  CartController.deleteProduct);
 

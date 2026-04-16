@@ -2946,14 +2946,14 @@
               }
             },
             "url": {
-              "raw": "{{base}}/item/update/32",
+              "raw": "{{base}}/item/update/33",
               "host": [
                 "{{base}}"
               ],
               "path": [
                 "item",
                 "update",
-                "32"
+                "33"
               ]
             }
           },
@@ -4908,6 +4908,68 @@
               ],
               "cookie": [],
               "body": "{\n    \"cart\": [\n        {\n            \"id\": 46,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:48:47.000Z\",\n            \"updated_at\": \"2026-02-04T00:48:47.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        },\n        {\n            \"id\": 47,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:48:51.000Z\",\n            \"updated_at\": \"2026-02-04T00:48:51.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        },\n        {\n            \"id\": 48,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:51:11.000Z\",\n            \"updated_at\": \"2026-02-04T00:51:11.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        },\n        {\n            \"id\": 49,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:57:14.000Z\",\n            \"updated_at\": \"2026-02-04T00:57:14.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        },\n        {\n            \"id\": 50,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:57:40.000Z\",\n            \"updated_at\": \"2026-02-04T00:57:40.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        },\n        {\n            \"id\": 51,\n            \"quantity\": 32,\n            \"color\": \"yellow\",\n            \"size\": \"XXXL\",\n            \"created_at\": \"2026-02-04T00:57:41.000Z\",\n            \"updated_at\": \"2026-02-04T00:57:41.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 13\n        }\n    ]\n}"
+            },
+            {
+              "name": "list cart",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base}}/cart/list",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "cart",
+                    "list"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "706"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2c2-XydalMyCDIPK5jYURQ+3MjOa5PM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 16 Apr 2026 14:44:40 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"cart\": [\n        {\n            \"id\": 46,\n            \"quantity\": 32,\n            \"color\": null,\n            \"size\": null,\n            \"created_at\": \"2026-03-23T19:03:01.000Z\",\n            \"updated_at\": \"2026-03-23T19:03:01.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 8,\n            \"product\": {\n                \"name\": \"Action Figure Set\",\n                \"price\": 59.99,\n                \"sale\": 0,\n                \"image\": []\n            }\n        },\n        {\n            \"id\": 47,\n            \"quantity\": 32,\n            \"color\": null,\n            \"size\": null,\n            \"created_at\": \"2026-03-23T19:05:55.000Z\",\n            \"updated_at\": \"2026-03-23T19:05:55.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 9,\n            \"product\": {\n                \"name\": \"Fitness Tracker Watch\",\n                \"price\": 79.99,\n                \"sale\": 20,\n                \"image\": []\n            }\n        },\n        {\n            \"id\": 48,\n            \"quantity\": 32,\n            \"color\": \"Brown\",\n            \"size\": \"Small\",\n            \"created_at\": \"2026-03-23T19:08:35.000Z\",\n            \"updated_at\": \"2026-03-23T19:08:35.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 10,\n            \"product\": {\n                \"name\": \"Pet Dog Bed\",\n                \"price\": 49.99,\n                \"sale\": 0,\n                \"image\": []\n            }\n        }\n    ]\n}"
             }
           ]
         },
@@ -5104,6 +5166,114 @@
               "body": "{\n    \"err\": \"Can't delete product from cart\"\n}"
             }
           ]
+        },
+        {
+          "name": "update quantity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"product_id\": 8,\r\n    \"cart_id\": 48,\r\n    \"operation\": \"sub\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base}}/cart/update/quantity",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "cart",
+                "update",
+                "quantity"
+              ]
+            },
+            "description": "operations is: \"add\" or \"sub\""
+          },
+          "response": [
+            {
+              "name": "update quantity",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"product_id\": 8,\r\n    \"cart_id\": 48,\r\n    \"operation\": \"sub\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/cart/update/quantity",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "cart",
+                    "update",
+                    "quantity"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "57"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"39-pnrxUrzLxKJpmADGVvGT7EeU0uw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 16 Apr 2026 17:53:11 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Quantity updated successfully\",\n    \"quantity\": 32\n}"
+            }
+          ]
         }
       ]
     },
@@ -5194,6 +5364,68 @@
               ],
               "cookie": [],
               "body": "{\n    \"wishlist\": [\n        {\n            \"id\": 31,\n            \"product_id\": 13,\n            \"created_at\": \"2026-02-04T01:23:58.000Z\",\n            \"updated_at\": \"2026-02-04T01:23:58.000Z\",\n            \"user_id\": 59\n        },\n        {\n            \"id\": 32,\n            \"product_id\": 13,\n            \"created_at\": \"2026-02-04T01:24:03.000Z\",\n            \"updated_at\": \"2026-02-04T01:24:03.000Z\",\n            \"user_id\": 59\n        },\n        {\n            \"id\": 33,\n            \"product_id\": 11,\n            \"created_at\": \"2026-02-04T01:26:00.000Z\",\n            \"updated_at\": \"2026-02-04T01:26:00.000Z\",\n            \"user_id\": 59\n        },\n        {\n            \"id\": 36,\n            \"product_id\": 10,\n            \"created_at\": \"2026-02-04T01:29:19.000Z\",\n            \"updated_at\": \"2026-02-04T01:29:19.000Z\",\n            \"user_id\": 59\n        }\n    ]\n}"
+            },
+            {
+              "name": "list wishlist",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base}}/wishlist/list",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "wishlist",
+                    "list"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "467"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1d3-rvEVsSF9PX7egGjlv0XfJ2gQR2E\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 15 Mar 2026 12:09:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"wishlist\": [\n        {\n            \"id\": 31,\n            \"product_id\": 10,\n            \"created_at\": \"2026-03-14T16:29:27.000Z\",\n            \"updated_at\": \"2026-03-14T16:29:27.000Z\",\n            \"user_id\": 59,\n            \"product\": {\n                \"id\": 10,\n                \"name\": \"Pet Dog Bed\",\n                \"rate\": 4.5,\n                \"status\": \"active\",\n                \"price\": 49.99,\n                \"colors\": [\n                    \"Brown\",\n                    \"Gray\"\n                ],\n                \"sizes\": [\n                    \"Small\",\n                    \"Medium\",\n                    \"Large\"\n                ],\n                \"stock\": 60,\n                \"sale\": 0,\n                \"description\": \"Comfortable bed for your pet dogs.\",\n                \"created_at\": \"2026-03-07T10:54:18.000Z\",\n                \"updated_at\": \"2026-03-07T10:54:18.000Z\",\n                \"brand_id\": 5,\n                \"product_category_id\": 10\n            }\n        }\n    ]\n}"
             }
           ]
         },
@@ -7866,7 +8098,7 @@
   "variable": [
     {
       "key": "auth_value",
-      "value": ""
+      "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzczNTA1NjQ3LCJleHAiOjE3NzQxMTA0NDd9.lOB5R_nkLNqWjby-pwx8d2yiBQ--SlCc84fLzswY91w"
     },
     {
       "key": "auth_key",

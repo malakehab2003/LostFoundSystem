@@ -1,3 +1,4 @@
+import cart from "../models/cart.cjs";
 import { Cart, Product, ProductImage } from "../models/db.js";
 import * as service from '../services/cart.js';
 import { getProductService } from "../services/productService.js";
@@ -9,7 +10,7 @@ export const listCart = async (req, res) => {
         const user = req.user;
 
         const cart = await Cart.findAll({
-            where: {user_id: user.id},
+            where: { user_id: user.id },
             include: [
                 {
                     model: Product,
@@ -32,6 +33,41 @@ export const listCart = async (req, res) => {
 }
 
 
+export const updateQuantity = async (req, res) => {
+    try {
+        const { operation, product_id, cart_id } = req.body;
+
+        if (!operation || !product_id || !cart_id) return res.status(400).send({ err: 'Missing required fields' });
+
+        const product = await Product.findByPk(product_id);
+        if (!product) return res.status(404).send({ err: 'Product not found' });
+
+        const cart = await Cart.findByPk(cart_id);
+        if (!cart) return res.status(404).send({ err: 'Cart item not found' });
+
+        let newQuantity = cart.quantity;
+
+        if (operation === 'add') {
+            if (cart.quantity >= product.stock) return res.status(400).send({ err: 'Stock limit reached' });
+            newQuantity++;
+        } else if (operation === 'sub') {
+            if (cart.quantity <= 1) return res.status(400).send({ err: 'Quantity cannot be less than 1' });
+            newQuantity--;
+        } else return res.status(400).send({ err: 'Invalid operation' });
+
+        cart.quantity = newQuantity;
+        await cart.save();
+
+        return res.status(200).send({
+            message: 'Quantity updated successfully',
+            quantity: cart.quantity,
+        });
+    } catch (err) {
+        return res.status(500).send({ err: err.message });
+    }
+};
+
+
 export const addProduct = async (req, res) => {
     try {
         const user = req.user;
@@ -46,7 +82,7 @@ export const addProduct = async (req, res) => {
             !data.product_id ||
             !data.quantity
         ) return res.status(400).send({ err: "Missing requried fields", });
-        
+
         const product = await getProductService(data.product_id);
 
         if (!product) return res.status(400).send({ err: "Can't get product", });
