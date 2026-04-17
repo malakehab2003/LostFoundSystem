@@ -58,8 +58,8 @@ export const SignupForm = z.object({
   phone: z
     .string()
     .refine(
-      (val) => val === "" || (isValidPhoneNumber(val) && val.startsWith("+20")),
-      "Phone number must be a valid Egyptian number starting with +20",
+      (val) => val === "" || /^\+201[0125][0-9]{8}$/.test(val),
+      "Must be a valid Egyptian mobile number (+201XXXXXXXXX)",
     )
     .optional(),
   image_url: z.string().optional().or(z.literal("")),

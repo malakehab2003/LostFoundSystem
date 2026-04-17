@@ -1,90 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Chat Test Page</title>
-</head>
-<body>
-  <h1>Real-Time Chat Test</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat Test Page</title>
+  </head>
+  <body>
+    <h1>Real-Time Chat Test</h1>
 
-  <div>
-    <label>Your JWT Token:</label>
-    <input type="text" id="token" placeholder="Paste your token" style="width: 400px;">
-    <button id="connectBtn">Connect</button>
-  </div>
+    <div>
+      <label>Your JWT Token:</label>
+      <input
+        type="text"
+        id="token"
+        placeholder="Paste your token"
+        style="width: 400px"
+      />
+      <button id="connectBtn">Connect</button>
+    </div>
 
-  <hr>
+    <hr />
 
-  <div>
-    <label>Chat ID:</label>
-    <input type="number" id="chatId" placeholder="Chat ID">
-    <label>Message:</label>
-    <input type="text" id="msgInput" placeholder="Type your message" style="width: 300px;">
-    <button id="sendBtn">Send Message</button>
-  </div>
+    <div>
+      <label>Chat ID:</label>
+      <input type="number" id="chatId" placeholder="Chat ID" />
+      <label>Message:</label>
+      <input
+        type="text"
+        id="msgInput"
+        placeholder="Type your message"
+        style="width: 300px"
+      />
+      <button id="sendBtn">Send Message</button>
+    </div>
 
-  <hr>
+    <hr />
 
-  <h3>Messages:</h3>
-  <ul id="messages"></ul>
+    <h3>Messages:</h3>
+    <ul id="messages"></ul>
 
-  <!-- Socket.IO client -->
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script>
-    let socket;
+    <!-- Socket.IO client -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+      let socket;
 
-    document.getElementById('connectBtn').addEventListener('click', () => {
-      const token = document.getElementById('token').value;
-      if (!token) return alert("Please enter your JWT token");
+      document.getElementById("connectBtn").addEventListener("click", () => {
+        const token = document.getElementById("token").value;
+        if (!token) return alert("Please enter your JWT token");
 
-      // connect to socket.io server
-      socket = io("http://localhost:5000", {
-        auth: { token }
-      });
-
-      socket.on("connect", () => {
-        console.log("✅ Connected, socket id:", socket.id);
-        alert("Connected!");
-      });
-
-      socket.on("disconnect", () => {
-        console.log("❌ Disconnected");
-      });
-
-      socket.on("new_message", (data) => {
-        console.log("🔥 New message:", data);
-        const li = document.createElement("li");
-        li.textContent = `[Chat ${data.chat_id}] ${data.content}`;
-        document.getElementById("messages").appendChild(li);
-      });
-    });
-
-    document.getElementById('sendBtn').addEventListener('click', async () => {
-      const chatId = document.getElementById('chatId').value;
-      const content = document.getElementById('msgInput').value;
-      const token = document.getElementById('token').value;
-
-      if (!chatId || !content || !token) return alert("Fill everything");
-
-      try {
-        const res = await fetch("http://localhost:5000/api/message/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-          },
-          body: JSON.stringify({
-            chat_id: chatId,
-            content
-          })
+        // connect to socket.io server
+        socket = io("http://localhost:5000", {
+          auth: { token },
         });
 
-        const data = await res.json();
-        console.log("Message sent:", data);
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  </script>
-</body>
+        socket.on("connect", () => {
+          console.log("✅ Connected, socket id:", socket.id);
+          alert("Connected!");
+        });
+
+        socket.on("disconnect", () => {
+          console.log("❌ Disconnected");
+        });
+
+        socket.on("new_message", (data) => {
+          console.log("🔥 New message:", data);
+          const li = document.createElement("li");
+          li.textContent = `[Chat ${data.chat_id}] ${data.content}`;
+          document.getElementById("messages").appendChild(li);
+        });
+      });
+
+      document.getElementById("sendBtn").addEventListener("click", async () => {
+        const chatId = document.getElementById("chatId").value;
+        const content = document.getElementById("msgInput").value;
+        const token = document.getElementById("token").value;
+
+        if (!chatId || !content || !token) return alert("Fill everything");
+
+        try {
+          const res = await fetch("http://localhost:5000/api/message/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+              chat_id: chatId,
+              content,
+            }),
+          });
+
+          const data = await res.json();
+          console.log("Message sent:", data);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
 </html>

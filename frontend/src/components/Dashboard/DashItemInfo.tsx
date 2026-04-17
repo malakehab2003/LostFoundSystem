@@ -1,7 +1,5 @@
-import { useState } from "react";
 import {
   Building2,
-  Calendar,
   Captions,
   Landmark,
   LandPlotIcon,
@@ -10,8 +8,7 @@ import {
   Shapes,
 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
-import * as z from "zod";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import CustomFormField from "../CustomerFormField";
 import { Form } from "../ui/form";
@@ -68,8 +65,7 @@ const DashItemInfo = () => {
   );
   async function onSubmit(data: EditItemFormSchema) {
     try {
-      console.log(data);
-      editItem({ itemId: Number(itemId), data });
+      editItem({ itemId: Number(itemId), ...data });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
