@@ -10,87 +10,77 @@ import { useCreateMessage } from "@/features/message/hooks/useCreateMessage";
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";
 import { Input } from "./ui/input";
+import { useState } from "react";
 
 const ChatRoom = ({ chatId }: { chatId: number }) => {
   const { messages, isLoading } = useGetMessages(chatId);
-  const { createMessage, isPending } = useCreateMessage();
-  const form = useForm<MessageFormSchema>({
-    resolver: zodResolver(messageSchema),
-    defaultValues: {
-      message: "",
-    },
-  });
+  const { sendMessage, isPending } = useCreateMessage();
+  const [content, setContent] = useState("");
 
-  const onSubmit = async (data: MessageFormSchema) => {
-    createMessage({
-      content: data.message,
-      chatId,
-    });
+  const handleSendMessage = () => {
+    if (!content.trim()) return;
 
-    form.reset();
+    sendMessage(
+      { content, chat_id: chatId },
+      {
+        onSuccess: () => {
+          setContent("");
+        },
+      },
+    );
   };
-  console.log(messages);
+
   return (
-    <div className="flex-1 flex flex-col gap-5 px-5 py-4">
-      <header className="sub-header py-4 border-b border-slate-200">
-        Chat with Haitham B.
-      </header>
-
-      <div className=" border-b border-slate-100 flex items-center space-x-2">
-        <img
-          alt="Reported Golden Retriever"
-          className="w-16 h-16 rounded-lg object-cover border border-slate-200 shadow-sm"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPmh9vMiqDqPVkhMaiBN3AOAGapplXpgLVOcFp8iJpUzKxBI1JA9UA58K83HiNZRjdSrgA22lgLnB4q4GeHgIeyyyNPojSthksX4ped19hB2FE6cLmA4NaS9oKH9VEOipYA_crgejpXcZmBSZH6PmCC9bkOgWzUZx-d9vFCOJ_btT8NIlxFft4c7ep5MJeDOH-dgUNCqr3ofROMPnGKmJyPw0me5IGd8oAk6sCK2GUXZzSJaV0P207NRHC4dS7N_x1qHNmoOhHGhk"
-        />
-        <span className="font-semibold text-foreground-800">Reported item</span>
-      </div>
-      <div className="flex-1 overflow-y-auto px-5 space-y-6 custom-scrollbar">
-        <div className="flex items-start space-x-4">
-          <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-primary font-bold">HB</span>
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-semibold text-foreground-800">
-                Haitham B.
-              </span>
-              <span className="text-xs text-slate-500">Today at 2:09 PM</span>
+    <div className="flex flex-col h-screen">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {isLoading ? (
+          <p>Loading messages...</p>
+        ) : (
+          messages?.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex ${
+                msg.sender_id === msg.sender_id
+                  ? "justify-end"
+                  : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-xs px-4 py-2 rounded-lg ${
+                  msg.sender_id === msg.sender_id
+                    ? "bg-primary text-white"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+              >
+                <p>{msg.content}</p>
+                <span className="text-xs opacity-70">
+                  {new Date(msg.created_at).toLocaleTimeString()}
+                </span>
+              </div>
             </div>
-            <p className="text-slate-700">Hey</p>
-          </div>
-        </div>
+          ))
+        )}
       </div>
 
-      <div className="max-w-2xl px-2 py-2 border-t border-slate-100 flex max-md:flex-col items-end justify-between gap-3 flex-wrap">
-        <form
-          id="message"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex-1 "
-        >
-          <FieldGroup className="flex-1">
-            <Controller
-              name="message"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <Input
-                    {...field}
-                    placeholder="Write a message..."
-                    disabled={isPending}
-                  />
-                </Field>
-              )}
-            />
-          </FieldGroup>
-        </form>
-        <Button
-          type="submit"
-          form="message"
-          disabled={isPending}
-          className="min-w-5"
-        >
-          {isPending ? <Spinner /> : "Send Message"}
-        </Button>
+      <div className="p-4 border-t">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            placeholder="Type a message..."
+            className="flex-1 px-4 py-2 border rounded-lg"
+            disabled={isPending}
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={isPending || !content.trim()}
+            className="px-4 py-2 bg-primary text-white rounded-lg disabled:opacity-50"
+          >
+            {isPending ? "Sending..." : "Send"}
+          </button>
+        </div>
       </div>
     </div>
   );

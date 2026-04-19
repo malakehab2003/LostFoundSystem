@@ -1,33 +1,49 @@
-import { useAuth } from "@/lib/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useAuth } from "@/lib/AuthContext";
+
+interface Chat {
+  id: number;
+  sender_id: number;
+  receiver_id: number;
+  created_at: string;
+}
 
 export function useCreateChat() {
   const { token } = useAuth();
   const queryClient = useQueryClient();
 
-  const { mutate: createChat, isPending } = useMutation({
-    mutationFn: async (senderId: number) => {
-      console.log("senderID:", senderId);
+  const {
+    mutate: createChat,
+    isPending,
+    error,
+    data,
+  } = useMutation({
+    mutationFn: async (receiverId: number) => {
       const res = await fetch("http://localhost:5000/api/chat/create", {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          sender_id: senderId,
-        }),
+        body: JSON.stringify({ receiver_id: receiverId }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.err || "Failed to create the chat");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.err || "Failed to create chat");
+      }
 
-      return data;
+      const data = await res.json();
+      return data.chat as Chat;
     },
-    onSuccess: () => {
+    onSuccess: (chat) => {
+      // Invalidate and refetch chats
       queryClient.invalidateQueries({ queryKey: ["chats"] });
-      toast.success("chat has been sent successfully");
+    },
+    onError: (error) => {
+      console.error("Error creating chat:", error);
     },
   });
-  return { createChat, isPending };
+
+  return { createChat, isPending, error, data };
 }

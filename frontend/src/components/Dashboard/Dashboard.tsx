@@ -11,6 +11,7 @@ import {
 import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
+import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { Spinner } from "@/components/ui/spinner";
 import type { Item } from "@/features/items/itemsType";
 import defaultpage from "@/assets/default-profile.webp";
@@ -19,38 +20,18 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/AuthContext";
 
 const Dashboard = () => {
-  // خد كل حاجة من useAuth
-  const { user, token, isAdmin: isAdminFromAuth } = useAuth();
-  
-  // استخدم isAdmin من useGetItems أو useAuth
-  const { items, isLoading, isAdmin: isAdminFromItems } = useGetItems();
-  
-  // استخدم isAdmin من AuthContext (الأفضل)
-  const isAdmin = isAdminFromAuth || isAdminFromItems;
+  const { token } = useAuth();
+  const { user } = useCurrentUser();
+  const { items, isLoading } = useGetItems();
 
-  // Console logs للـ debugging
-  console.log("User object:", user);
-  console.log("User role:", user?.role);
-  console.log("Is Admin from Auth:", isAdminFromAuth);
-  console.log("Is Admin from Items:", isAdminFromItems);
-  
-  // Check token payload
-  if (token) {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log("Token payload:", payload);
-      console.log("Role from token:", payload.role);
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
+  const isAdmin = user?.role === "admin";
 
   return (
     <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
       <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto relative">
         {/* Manage Users Button - Only for Admin */}
         <div className="flex justify-end mb-6 p-4 rounded">
-          {!isAdmin && (
+          {isAdmin && (
             <Link to="/dashboard/admin-users">
               <Button className="flex items-center gap-2 mr-4 bg-primary hover:bg-primary/90">
                 <Shield className="w-4 h-4" />
@@ -138,7 +119,7 @@ const Dashboard = () => {
                         <Badge variant={"secondary"} className="capitalize">
                           {item.type}
                         </Badge>
-                        {!isAdmin && (
+                        {isAdmin && (
                           <Button
                             variant="destructive"
                             size="sm"

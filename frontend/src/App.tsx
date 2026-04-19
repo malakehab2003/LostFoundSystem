@@ -36,7 +36,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* Public routes */}
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
@@ -44,7 +43,6 @@ function App() {
 
         {/* Main Layout */}
         <Route path="/" element={<Layout />}>
-
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="lost" element={<LostItems />} />
@@ -52,7 +50,6 @@ function App() {
 
           {/* Dashboard */}
           <Route path="dashboard" element={<DashboardLayout />}>
-
             <Route index element={<Dashboard />} />
             <Route path="info" element={<DashInfo />} />
             <Route path="messages" element={<Messages />} />
@@ -65,7 +62,6 @@ function App() {
             {/*  Admin Routes (جوه dashboard) */}
             <Route path="admin" element={<AdminPage />} />
             <Route path="/dashboard/admin-users" element={<AdminUsers />} />
-
           </Route>
 
           {/* Shop */}
@@ -73,7 +69,6 @@ function App() {
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
-
         </Route>
       </Routes>
     </BrowserRouter>

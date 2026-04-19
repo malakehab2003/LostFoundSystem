@@ -4,7 +4,7 @@ import ChatRoom from "./ChatRoom";
 
 const Messages = () => {
   const { chats } = useGetChats();
-  console.log(chats);
+  console.log("all chats", chats);
   const { createChat } = useCreateChat();
 
   return (
@@ -15,7 +15,7 @@ const Messages = () => {
         <button
           onClick={() => {
             console.log("clicker");
-            createChat(26);
+            createChat(53);
           }}
         >
           click me

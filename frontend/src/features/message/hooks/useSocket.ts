@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/AuthContext";
+import { SocketContext } from "@/lib/SocketContext";
 
 export function useSocket() {
   const { token } = useAuth();
@@ -21,4 +22,12 @@ export function useSocket() {
   }, [token]);
 
   return socketRef;
+}
+
+export function useSocketContext() {
+  const context = useContext(SocketContext);
+  if (context === undefined) {
+    throw new Error("useSocketContext must be used within SocketProvider");
+  }
+  return context;
 }

@@ -30,8 +30,6 @@ export const initSocket = (server) => {
 
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
-    console.log("User:", user);
-    console.log("User email:", email);
 
     socket.on("disconnect", () => {
       console.log("User disconnected");

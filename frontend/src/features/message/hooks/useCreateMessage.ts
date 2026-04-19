@@ -1,76 +1,60 @@
-import { useAuth } from "@/lib/AuthContext";
-import { useSocket } from "@/lib/SocketContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/AuthContext";
+
+interface CreateMessageInput {
+  content: string;
+  chat_id: number;
+}
+
+interface Message {
+  id: number;
+  chat_id: number;
+  sender_id: number;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+}
 
 export function useCreateMessage() {
   const { token } = useAuth();
   const queryClient = useQueryClient();
-  const socket = useSocket();
 
-  const { mutate: createMessage, isPending } = useMutation({
-    mutationFn: async ({
-      content,
-      chatId,
-    }: {
-      content: string;
-      chatId: number;
-    }) => {
+  const {
+    mutate: sendMessage,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: async (input: CreateMessageInput) => {
       const res = await fetch("http://localhost:5000/api/message/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          chat_id: chatId,
-          content,
-        }),
+        body: JSON.stringify(input),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.err);
-
-      return data;
-    },
-
-    onMutate: async ({ content, chatId }) => {
-      await queryClient.cancelQueries({ queryKey: ["messages", chatId] });
-
-      const previous = queryClient.getQueryData(["messages", chatId]);
-      const tempId = Date.now();
-      const optimisticMessage = {
-        id: tempId,
-        content,
-        chat_id: chatId,
-        pending: true,
-      };
-
-      queryClient.setQueryData(["messages", chatId], (old: any) => [
-        ...(old || []),
-        optimisticMessage,
-      ]);
-
-      return { previous, tempId };
-    },
-
-    onError: (_err, variables, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(
-          ["messages", variables.chatId],
-          context.previous,
-        );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.err || "Failed to send message");
       }
-    },
-    onSuccess: (data, variables, context) => {
-      // REMOVE: socket?.emit("sendMessage", data);
 
-      queryClient.setQueryData(["messages", variables.chatId], (old: any) =>
-        old?.map(
-          (msg: any) => (msg.id === context?.tempId ? data.message : msg), // Access data.message
-        ),
-      );
+      const data = await res.json();
+      return data.message as Message;
+    },
+    onSuccess: (message) => {
+      // Invalidate messages for this chat to refresh
+      queryClient.invalidateQueries({
+        queryKey: ["messages", message.chat_id],
+      });
+
+      // Update chats list
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    },
+    onError: (error) => {
+      console.error("Error sending message:", error);
     },
   });
 
-  return { createMessage, isPending };
+  return { sendMessage, isPending, error };
 }

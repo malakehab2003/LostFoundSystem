@@ -1,33 +1,69 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
-import { useAuth } from "@/lib/AuthContext";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
+import { getSocket } from "./socket";
+import { useAuth } from "./AuthContext";
 
-const SocketContext = createContext<Socket | null>(null);
+interface SocketContextType {
+  socket: Socket | null;
+  isConnected: boolean;
+}
 
-export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+const SocketContext = createContext<SocketContextType | undefined>(undefined);
+
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { token } = useAuth();
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // Only connect if we have a token
-    if (!token) return;
+    if (!token) {
+      setSocket(null);
+      setIsConnected(false);
+      return;
+    }
 
-    const newSocket = io("http://localhost:5000", {
-      auth: { token },
-      transports: ["websocket"], // Optimization: usually faster
+    const newSocket = getSocket(token);
+
+    newSocket.on("connect", () => {
+      setIsConnected(true);
+      console.log("Socket connected");
+    });
+
+    newSocket.on("disconnect", () => {
+      setIsConnected(false);
+      console.log("Socket disconnected");
     });
 
     setSocket(newSocket);
 
-    // Cleanup: Disconnect when user logs out or app unmounts
     return () => {
-      newSocket.disconnect();
+      // Don't disconnect, just cleanup listeners
+      newSocket.off("connect");
+      newSocket.off("disconnect");
     };
   }, [token]);
 
   return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={{ socket, isConnected }}>
+      {children}
+    </SocketContext.Provider>
   );
 };
 
-export const useSocket = () => useContext(SocketContext);
+export const useSocket = (): Socket | null => {
+  const context = useContext(SocketContext);
+  if (context === undefined) {
+    throw new Error("useSocket must be used within SocketProvider");
+  }
+  return context.socket;
+};
+
+export const useSocketConnected = (): boolean => {
+  const context = useContext(SocketContext);
+  if (context === undefined) {
+    throw new Error("useSocketConnected must be used within SocketProvider");
+  }
+  return context.isConnected;
+};
