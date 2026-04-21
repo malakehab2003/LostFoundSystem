@@ -30,13 +30,16 @@ export function useGetMessages(chatId: number) {
     queryFn: async () => {
       if (!chatId) throw new Error("Chat ID is required");
 
-      const res = await fetch(`http://localhost:5000/api/message/list/1`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `http://localhost:5000/api/message/list/${chatId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!res.ok) {
         throw new Error("Failed to fetch messages");

@@ -24,14 +24,14 @@ export function useCreateMessage() {
     isPending,
     error,
   } = useMutation({
-    mutationFn: async (input: CreateMessageInput) => {
+    mutationFn: async ({ content, chat_id }: CreateMessageInput) => {
       const res = await fetch("http://localhost:5000/api/message/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(input),
+        body: JSON.stringify({ content, chat_id }),
       });
 
       if (!res.ok) {
