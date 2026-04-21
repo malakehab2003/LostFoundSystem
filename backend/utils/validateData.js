@@ -105,7 +105,7 @@ export const validateImageUrl = (image_url) => {
         throw new Error('Invalid image URL');
     }
 
-    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
 
     const isValid = allowedExtensions.some(ext =>
         image_url.toLowerCase().endsWith(ext)
