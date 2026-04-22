@@ -53,7 +53,7 @@ export default function Nav() {
           <ul className="flex gap-1">
             <li>
               <NavLink
-                to="/something-lost"
+                to="/lost"
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive
@@ -95,7 +95,7 @@ export default function Nav() {
             </li>
             <li>
               <NavLink
-                to="/shop"
+                to="/shop/Products"
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     isActive

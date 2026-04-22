@@ -6,16 +6,30 @@ import { useGetItem } from "@/features/items/hooks/useGetItem";
 import defaultpage from "@/assets/default-profile.webp";
 import { Spinner } from "../ui/spinner";
 import { useAuth } from "@/lib/AuthContext";
+import { useState } from "react";
 
 const DashItem = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
 
-  const {user} = useAuth()
-  const isAdmin = user?.role == 'admin'
-
+  const { user } = useAuth();
+  const isAdmin = user?.role == "admin";
 
   const { item, isLoading } = useGetItem(Number(itemId));
+
+  // ✅ state بدل const
+  const [updates, setUpdates] = useState([
+    {
+      id: 1,
+      userInitials: "HB",
+      userName: "Haitham B.",
+      message:
+        "Checked the local transit office today, no luck yet but they have my contact info.",
+      timestamp: "Today at 3:06 PM",
+    },
+  ]);
+
+  const [newComment, setNewComment] = useState("");
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this item?")) return;
@@ -33,24 +47,28 @@ const DashItem = () => {
 
       if (!res.ok) throw new Error("Delete failed");
 
-      //  بعد الحذف يرجع للداش بورد
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
     }
   };
 
-  console.log(item);
-  const updates = [
-    {
-      id: 1,
-      userInitials: "HB",
-      userName: "Haitham B.",
-      message:
-        "Checked the local transit office today, no luck yet but they have my contact info.",
-      timestamp: "Today at 3:06 PM",
-    },
-  ];
+  //   comment 
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+
+    const newUpdate = {
+      id: Date.now(),
+      userInitials: "N",
+      userName: "username",
+      message: newComment,
+      timestamp: "TIME",
+    };
+
+    setUpdates((prev) => [...prev, newUpdate]);
+    setNewComment("");
+  };
+
   return (
     <div className="max-w-3xl mx-auto p-4 space-y-8">
       <div className="rounded-xl px-5 py-6 shadow-lg">
@@ -60,7 +78,6 @@ const DashItem = () => {
           </div>
         ) : (
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-5">
-            {/* Item Image */}
             <div className="w-36 h-36 rounded-xl overflow-hidden shadow-inner flex-shrink-0">
               <img
                 src={item?.images?.[0] || defaultpage}
@@ -69,7 +86,6 @@ const DashItem = () => {
               />
             </div>
 
-            {/* Item Info & Main Actions */}
             <div className="flex-1 space-y-4 w-full text-center md:text-left">
               <div className="pb-4 flex justify-between gap-5 items-start">
                 <div>
@@ -80,7 +96,8 @@ const DashItem = () => {
                     Reported {item?.type}: {item?.date}
                   </p>
                 </div>
-                   {!isAdmin && (
+
+                {!isAdmin && (
                   <Button
                     onClick={handleDelete}
                     className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full"
@@ -91,7 +108,7 @@ const DashItem = () => {
                   </Button>
                 )}
               </div>
-
+              <Link to={`/lost/${itemId}`}  >
               <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                 <Button
                   variant={"default"}
@@ -100,22 +117,23 @@ const DashItem = () => {
                 >
                   <Eye className="w-4 h-4" /> Search
                 </Button>
+
                 <Link to={"info"}>
                   <Button
                     variant={"outline"}
                     size={"lg"}
-                    className="cursor-pointer flex items-center px-4 py-2  text-slate-800 hover:text-white hover:bg-primary transition-all duration-300 rounded-2xl"
+                    className="cursor-pointer flex items-center px-4 py-2 text-slate-800 hover:text-white hover:bg-primary transition-all duration-300 rounded-2xl"
                   >
                     Edit Item Details
                   </Button>
                 </Link>
               </div>
+              </Link>
+              
             </div>
           </div>
         )}
       </div>
-
-      
 
       {/* Comment section */}
       <div className="space-y-4">
@@ -155,14 +173,23 @@ const DashItem = () => {
           </div>
         ))}
 
+        {/* Add Comment */}
         <div className="flex gap-4 mt-10 border-t pt-10">
           <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-primary font-bold">HB</span>
+            <span className="text-primary font-bold">N</span>
           </div>
 
           <div className="flex-1 relative">
-            <Textarea placeholder="Post an update..." />
-            <button className=" cursor-pointer absolute bottom-1 right-1 p-2 bg-primary/10 text-primary/80 rounded-full hover:bg-primary/40 duration-200">
+            <Textarea
+              placeholder="Post an update..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+
+            <button
+              onClick={handleAddComment}
+              className="cursor-pointer absolute bottom-1 right-1 p-2 bg-primary/10 text-primary/80 rounded-full hover:bg-primary/40 duration-200"
+            >
               <Send className="w-5 h-5 fill-current" />
             </button>
           </div>

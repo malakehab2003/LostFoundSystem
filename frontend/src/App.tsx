@@ -7,6 +7,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import Home from "./layout/Home";
 import Layout from "./layout/Layout";
 import About from "./layout/About";
+import Help from '@/layout/Help'
 
 import LostItems from "./components/LostItems";
 import LostItem from "./components/LostItem";
@@ -47,6 +48,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="lost" element={<LostItems />} />
           <Route path="lost/:itemId" element={<LostItem />} />
+          <Route path="help" element={<Help />} />
 
           {/* Dashboard */}
           <Route path="dashboard" element={<DashboardLayout />}>
