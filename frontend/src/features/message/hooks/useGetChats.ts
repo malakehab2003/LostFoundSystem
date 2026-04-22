@@ -31,6 +31,7 @@ export function useGetChats() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        // body: JSON.stringify({ sender_id: 59 }),
       });
 
       if (!res.ok) {
@@ -38,7 +39,7 @@ export function useGetChats() {
       }
 
       const data = await res.json();
-      return data.formattedChats;
+      return data.formattedChats as Chat[];
     },
     enabled: !!token,
   });

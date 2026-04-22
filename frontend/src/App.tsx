@@ -29,9 +29,7 @@ import Categray from "./Shop/categray";
 import Cart from "./cart/Cart";
 
 import AdminPage from "@/components/Dashboard/AdminPage";
-
-// ✅ مهم: ده component مش hook
-import AdminUsers from "@/components/Dashboard/AdminUsers";
+import AdminUsers from "./components/Dashboard/AdminUsers";
 
 function App() {
   return (

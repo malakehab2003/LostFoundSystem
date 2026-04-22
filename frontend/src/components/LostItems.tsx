@@ -6,261 +6,390 @@ import {
   List,
   Pin,
   Shapes,
+  Search,
+  X,
+  AlertCircle,
+  Loader,
+  Filter,
 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import CustomFormField from "./CustomerFormField";
 import { Form } from "@/components/ui/form";
-import { Link, useParams } from "react-router-dom";
-import { useEditItem } from "@/features/items/hooks/useEditItem";
+import { Link } from "react-router-dom";
+import { z } from "zod";
 import {
-  CreateItemSchema,
-  EditItemSchema,
   type City,
-  type CreateItemFormSchema,
-  type EditItemFormSchema,
   type Government,
   type Item,
   type ItemCategory,
 } from "@/features/items/itemsType";
-import { useGetItem } from "@/features/items/hooks/useGetItem";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
 import { useCities } from "@/features/cities/hooks/useCities";
-import { MapPin, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useListItems } from "@/features/items/hooks/useListItems";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
-const foundItems = [
-  {
-    id: 1,
-    title: "Black Leather Wallet",
-    location: "Downtown Central",
-    date: "Jan 14, 2026",
-    img: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    id: 2,
-    title: "Silver Keychain",
-    location: "North Park Area",
-    date: "Jan 12, 2026",
-    img: "https://images.unsplash.com/photo-1575908539614-ff89490f4a78?q=80&w=733&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 3,
-    title: "Blue Smartphone",
-    location: "Metro Station",
-    date: "Jan 13, 2026",
-    img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
-  },
-];
+// Filter Schema - all fields optional except type
+const ItemFilterSchema = z.object({
+  title: z.string().optional().default(""),
+  place: z.string().optional().default(""),
+  category_id: z.coerce.number().optional(),
+  government_id: z.coerce.number().optional(),
+  city_id: z.coerce.number().optional(),
+  type: z.enum(["lost", "found"]),
+  date: z.date().optional(),
+});
+
+type ItemFilterFormSchema = z.infer<typeof ItemFilterSchema>;
 
 const LostItems = () => {
   const { governments } = useGovernments();
   const { cities } = useCities();
   const { itemCategories } = useGetItemCategory();
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const form = useForm<CreateItemFormSchema>({
-    resolver: zodResolver(CreateItemSchema),
+  const form = useForm<ItemFilterFormSchema>({
+    resolver: zodResolver(ItemFilterSchema),
     defaultValues: {
       title: "",
       place: "",
       category_id: undefined,
       type: "lost",
-      date: new Date(),
+      date: undefined,
       government_id: undefined,
       city_id: undefined,
     },
   });
+
   const selectedGovernment = form.watch("government_id");
   const filteredCities = cities?.filter(
     (city) => city.government_id === selectedGovernment,
   );
 
-  const [appliedFilters, setAppliedFilters] = useState({});
+  // Build query filters
+  const buildFilters = (data: ItemFilterFormSchema) => {
+    const govt = governments?.find((g) => g.id === data.government_id);
+    const city = filteredCities?.find((c) => c.id === data.city_id);
 
-  const { items: filteredItems, isLoading } = useListItems({
-    title: appliedFilters.title,
-    government: governments?.find((g) => g.id === appliedFilters.government_id)
-      ?.name,
-    city: filteredCities?.find((c) => c.id === appliedFilters.city_id)?.name,
-    place: appliedFilters.place,
-    category_id: appliedFilters.category_id,
-    type: appliedFilters.type,
-    page: 1,
-    limit: 50,
-  });
-
-  const onSubmit = (data: CreateItemFormSchema) => {
-    console.log("data from form", data);
-    setAppliedFilters(data); // triggers refetch in useListItems
-    console.log(filteredItems);
+    return {
+      title: data.title || undefined,
+      place: data.place || undefined,
+      government: govt?.name || undefined,
+      city: city?.name || undefined,
+      category_id: data.category_id,
+      type: data.type,
+      page: 1,
+      limit: 50,
+    };
   };
+
+  const [appliedFilters, setAppliedFilters] = useState(
+    buildFilters(form.getValues()),
+  );
+  const {
+    items: filteredItems,
+    isLoading,
+    error,
+  } = useListItems(appliedFilters);
+
+  const onSubmit = (data: ItemFilterFormSchema) => {
+    const filters = buildFilters(data);
+    setAppliedFilters(filters);
+    setHasSearched(true);
+  };
+
+  const handleResetFilters = () => {
+    form.reset({
+      title: "",
+      place: "",
+      category_id: undefined,
+      government_id: undefined,
+      city_id: undefined,
+      type: "lost",
+      date: undefined,
+    });
+    setAppliedFilters(buildFilters(form.getValues()));
+    setHasSearched(false);
+  };
+
   return (
-    <div className="">
+    <div className="min-h-screen">
+      {/* Header Section */}
       <div className="pt-10 text-center px-4 mb-8 flex flex-col items-center justify-between gap-4">
-        <h1 className="header">Items sorted by best photo match</h1>
-
-        <div className="flex item-center justify-center gap-2">
-          <Badge
-            variant={"outline"}
-            className="text-sm font-semibold leading-tight text-foreground/80"
-          >
-            <MapPin className="w-4 h-4" /> Nearby Matches
-          </Badge>
-        </div>
+        <h1 className="header">Lost & Found Items</h1>
+        <p className="sub-header">
+          Search and filter items to find what you're looking for
+        </p>
       </div>
-
-      <div className="mx-auto px-4 lg:px-10 flex flex-col md:flex-row gap-8 items-start">
-        <aside className="w-full md:w-70 flex-shrink-0">
-          <div className="flex justify-between items-center mb-6 border-b pb-2">
-            <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
-              <Filter className="w-4 h-4" /> Filter
-            </h2>
-            <button className="text-xs text-foreground/70 hover:text-foreground/90 underline">
-              Reset Filters
-            </button>
-          </div>
-
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="title"
-                label="Title"
-                icon={Captions}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="place"
-                label="Place"
-                icon={Pin}
-              />
-
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="government_id"
-                label="Government"
-                options={governments?.map((gov: Government) => ({
-                  value: gov.id,
-                  label: gov.name,
-                }))}
-                onchange={() => form.setValue("city_id", undefined)}
-                icon={Landmark}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="city_id"
-                label="City"
-                options={filteredCities?.map((city: City) => ({
-                  value: city.id,
-                  label: city.name,
-                }))}
-                disabled={!selectedGovernment}
-                icon={Building2}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="type"
-                label="Type"
-                icon={Shapes}
-                options={[
-                  { label: "Lost", value: "lost" },
-                  { label: "Found", value: "found" },
-                ]}
-              />
-
-              <CustomFormField
-                fieldType={FormFieldType.SELECT}
-                control={form.control}
-                name="category_id"
-                label="Category"
-                options={itemCategories?.map((category: ItemCategory) => ({
-                  value: category.id,
-                  label: category.name,
-                }))}
-                icon={List}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.DATE_PICKER}
-                control={form.control}
-                name="date"
-                label="Date"
-                placeholder="Select date of loss or finding"
-              />
-              <Button
-                type="submit"
-                size={"lg"}
-                variant={"default"}
-                className="w-full align-center self-center mx-auto"
-                disabled={isLoading}
+      {/* Main Content */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <aside className="w-full md:w-70 flex-shrink-0">
+            <div className="flex justify-between items-center mb-6 border-b pb-2">
+              <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
+                <Filter className="w-4 h-4" /> Filter
+              </h2>
+              {hasSearched && (
+                <button
+                  onClick={handleResetFilters}
+                  className="text-xs text-foreground/70 hover:text-foreground/90 underline"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
               >
-                Apply Filters
-              </Button>
-            </form>
-          </Form>
-        </aside>
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="title"
+                  label="Title"
+                  icon={Captions}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="place"
+                  label="Place"
+                  icon={Pin}
+                />
 
-        {/* Results Grid */}
-        <main className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {appliedFilters &&
-            appliedFilters.length > 0 &&
-            appliedFilters.map((item: Item) => (
-              <div
-                key={item.id}
-                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
-              >
-                <div className="h-56 w-full">
-                  <Link to={`/lost/${item.id}`}>
-                    <img
-                      className="mx-auto h-full"
-                      src={`${item.images[0] || "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"}`}
-                      alt={item.title}
-                    />
-                  </Link>
-                </div>
-                <div className="pt-6">
-                  <div className="mb-4 flex items-center justify-between gap-4">
-                    <Badge
-                      variant={"outline"}
-                      className="text-xs font-semibold leading-tight text-foreground/80 line-clamp-2"
-                    >
-                      {item?.category}
-                    </Badge>
-                  </div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="government_id"
+                  label="Government"
+                  options={governments?.map((gov: Government) => ({
+                    value: gov.id,
+                    label: gov.name,
+                  }))}
+                  onchange={() => form.setValue("city_id", undefined)}
+                  icon={Landmark}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="city_id"
+                  label="City"
+                  options={filteredCities?.map((city: City) => ({
+                    value: city.id,
+                    label: city.name,
+                  }))}
+                  disabled={!selectedGovernment}
+                  icon={Building2}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="type"
+                  label="Type"
+                  icon={Shapes}
+                  options={[
+                    { label: "Lost", value: "lost" },
+                    { label: "Found", value: "found" },
+                  ]}
+                />
 
-                  <div className="flex flex-col items-start gap-1">
-                    <Link
-                      to={`/lost/${item.id}`}
-                      className="text-lg font-semibold leading-tight text-foreground/90 hover:underline"
-                    >
-                      {item.title}
-                    </Link>
-                    <p className="text-sm font-normal leading-tight text-foreground/70 line-clamp-2">
-                      {item.description}
-                    </p>
-                  </div>
-                  <div className="mt-2 flex items-center text-sm text-foreground/80 font-semibold">
-                    Found In: {item.city}, {item.government}
-                  </div>
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="category_id"
+                  label="Category"
+                  options={itemCategories?.map((category: ItemCategory) => ({
+                    value: category.id,
+                    label: category.name,
+                  }))}
+                  icon={List}
+                />
+                <CustomFormField
+                  fieldType={FormFieldType.DATE_PICKER}
+                  control={form.control}
+                  name="date"
+                  label="Date"
+                  placeholder="Select date of loss or finding"
+                />
+                <Button
+                  type="submit"
+                  size={"lg"}
+                  variant={"default"}
+                  className="w-full align-center self-center mx-auto"
+                  disabled={isLoading}
+                >
+                  Apply Filters
+                </Button>
+              </form>
+            </Form>
+          </aside>
 
-                  <div className="mt-4 flex items-center justify-between gap-4">
-                    <Button type="button" variant={"default"}>
-                      Add to cart
-                    </Button>
-                  </div>
+          <main className="lg:col-span-3">
+            {/* Results Header */}
+            {hasSearched && (
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-900">
+                  Found{" "}
+                  <span className="font-semibold">
+                    {filteredItems?.length || 0}
+                  </span>{" "}
+                  items
+                </p>
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isLoading && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+                  <p className="text-slate-600">Searching for items...</p>
                 </div>
               </div>
-            ))}
-        </main>
+            )}
+
+            {/* Error State */}
+            {error && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                  <p className="text-slate-600 mb-2">Error loading items</p>
+                  <p className="text-sm text-slate-500">
+                    {error instanceof Error
+                      ? error.message
+                      : "Please try again"}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Empty State */}
+            {!isLoading &&
+              !error &&
+              hasSearched &&
+              filteredItems?.length === 0 && (
+                <div className="flex items-center justify-center py-12">
+                  <div className="text-center">
+                    <X className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                    <p className="text-slate-600 font-medium">No items found</p>
+                    <p className="text-sm text-slate-500">
+                      Try adjusting your filters to find what you're looking for
+                    </p>
+                  </div>
+                </div>
+              )}
+
+            {/* Initial State */}
+            {!hasSearched && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <Search className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                  <p className="text-slate-600 font-medium">
+                    Start searching for items
+                  </p>
+                  <p className="text-sm text-slate-500">
+                    Use the filters on the left to find lost or found items
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Results Grid */}
+            {!isLoading && filteredItems && filteredItems.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredItems.map((item: Item) => (
+                  <Link key={item.id} to={`/lost/${item.id}`} className="group">
+                    <div className="h-full bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-lg hover:border-slate-300 transition-all duration-200 overflow-hidden">
+                      {/* Image Container */}
+                      <div className="relative h-56 w-full bg-slate-100 overflow-hidden">
+                        <img
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          src={
+                            item.images?.[0]?.image_url ||
+                            "https://images.unsplash.com/photo-1606107557529-da4dd904007d?w=500&h=500&fit=crop"
+                          }
+                          alt={item.title}
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://images.unsplash.com/photo-1606107557529-da4dd904007d?w=500&h=500&fit=crop";
+                          }}
+                        />
+                        {/* Type Badge */}
+                        <div className="absolute top-3 right-3">
+                          <Badge
+                            variant={
+                              item.type === "lost" ? "destructive" : "default"
+                            }
+                            className="capitalize font-semibold"
+                          >
+                            {item.type}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-4">
+                        {/* Category Badge */}
+                        <div className="mb-3">
+                          <Badge variant="outline" className="text-xs">
+                            {item.category?.name || "Uncategorized"}
+                          </Badge>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="font-semibold text-slate-900 line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+
+                        {/* Description */}
+                        {item.description && (
+                          <p className="text-sm text-slate-600 line-clamp-2 mb-3">
+                            {item.description}
+                          </p>
+                        )}
+
+                        {/* Location Info */}
+                        <div className="space-y-2 mb-4 text-sm">
+                          <div className="flex items-center gap-2 text-slate-700">
+                            <Pin className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span className="font-medium">{item.place}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <Building2 className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>
+                              {item.city?.name}, {item.government?.name}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <Calendar className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>
+                              {new Date(item.date).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* View Details Button */}
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
+                        >
+                          View Details
+                        </Button>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
