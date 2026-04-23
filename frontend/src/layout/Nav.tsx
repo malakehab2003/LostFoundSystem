@@ -292,6 +292,7 @@ export default function Nav() {
                       <span>Messages</span>
                     </Link>
                   </div>
+                  
                   <Link
                     to="/dashboard"
                     onClick={closeNav}

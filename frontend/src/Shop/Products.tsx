@@ -252,7 +252,7 @@ const [createData, setCreateData] = useState({
         )}
       </div>
 
-      {/* ✨ EDIT MODAL */}
+      {/*  EDIT MODAL */}
       {isEditOpen && selectedProduct && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">

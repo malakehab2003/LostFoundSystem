@@ -18,13 +18,31 @@ import defaultpage from "@/assets/default-profile.webp";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/AuthContext";
+import { useDeleteItem } from "@/features/items/hooks/useDeleteItem"; // ✅ استورد الـ hook
 
 const Dashboard = () => {
   const { token } = useAuth();
   const { user } = useCurrentUser();
-  const { items, isLoading } = useGetItems();
+  const { items, isLoading, refetch } = useGetItems(); // ✅ أضف refetch
+  const { deleteItem, isPending } = useDeleteItem(); // ✅ استخدم الـ hook
 
   const isAdmin = user?.role === "admin";
+
+  // ✅ دالة حذف العنصر
+  const handleDeleteItem = (e: React.MouseEvent, itemId: number) => {
+    e.preventDefault(); // منع الـ Link من التنقل
+    e.stopPropagation(); // منع انتشار الحدث
+    
+    // تأكيد الحذف
+    if (confirm("Are you sure you want to delete this item?")) {
+      deleteItem(itemId, {
+        onSuccess: () => {
+          // تحديث القائمة بعد الحذف
+          refetch();
+        },
+      });
+    }
+  };
 
   return (
     <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
@@ -88,7 +106,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-3">
                     <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                       <img
-                        src={item.images[0] || defaultpage}
+                        src={item.images?.[0] || defaultpage}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
@@ -123,12 +141,14 @@ const Dashboard = () => {
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              // Add delete logic here
-                            }}
+                            onClick={(e) => handleDeleteItem(e, item.id)}
+                            disabled={isPending}
                           >
-                            Delete
+                            {isPending ? (
+                              <Spinner className="w-4 h-4" />
+                            ) : (
+                              "Delete"
+                            )}
                           </Button>
                         )}
                       </div>
