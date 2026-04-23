@@ -7,6 +7,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import Home from "./layout/Home";
 import Layout from "./layout/Layout";
 import About from "./layout/About";
+import Help from '@/layout/Help'
 
 import LostItems from "./components/LostItems";
 import LostItem from "./components/LostItem";
@@ -28,9 +29,8 @@ import Categray from "./Shop/categray";
 import Cart from "./cart/Cart";
 
 import AdminPage from "@/components/Dashboard/AdminPage";
-
-// ✅ مهم: ده component مش hook
-import AdminUsers from "@/components/Dashboard/AdminUsers";
+import AdminUsers from "./components/Dashboard/AdminUsers";
+import CheckOut from "./check out/CheckOut";
 
 function App() {
   return (
@@ -47,6 +47,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="lost" element={<LostItems />} />
           <Route path="lost/:itemId" element={<LostItem />} />
+          <Route path="help" element={<Help />} />
 
           {/* Dashboard */}
           <Route path="dashboard" element={<DashboardLayout />}>
@@ -69,6 +70,8 @@ function App() {
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
+            <Route path="check out" element={<CheckOut />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -14,3 +14,8 @@ export interface cartitem {
   user_id: number
   product_id: number
 }
+ export interface updataValue {
+  product_id: number
+  cart_id: number
+  operation: string
+}

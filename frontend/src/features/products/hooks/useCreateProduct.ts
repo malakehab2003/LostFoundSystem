@@ -7,23 +7,35 @@ export function useCreateProduct() {
 
   const { mutate: createProduct, isPending } = useMutation({
     mutationFn: async (productData: CreateProductForm) => {
-      const res = await fetch("http://localhost:5000/api/product/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      });
+      const res = await fetch(
+        "http://localhost:5000/api/product/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
+          body: JSON.stringify(productData),
+        }
+      );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.err || "Failed to create product");
+
+      if (!res.ok) {
+        throw new Error(data.err || "Failed to create product");
+      }
 
       return data;
     },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+
       toast.success("Product created successfully");
+    },
+
+    onError: (err: any) => {
+      toast.error(err.message || "Create failed");
     },
   });
 

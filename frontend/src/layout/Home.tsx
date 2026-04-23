@@ -13,13 +13,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const items = [
-    { icon: ShoppingCart, label: "Shop" },
-    { icon: User, label: "Dashboard" },
-    { icon: Bell, label: "Alerts" },
-    { icon: Mail, label: "Get Social" },
+    { icon: ShoppingCart, label: "Shop", path: "/shop" },
+    { icon: User, label: "Dashboard", path: "/dashboard" },
+    { icon: Bell, label: "Alerts", path: "#" },
+    { icon: Mail, label: "Get Social", path: "#" },
   ];
   return (
     <>
@@ -112,94 +113,97 @@ export default function Home() {
         </div>
       </div>
 
-      
+      {/* القسم الثاني - What can you do? */}
       <div className="w-full flex flex-col items-center mt-20 relative z-20 px-4">
-  <div className="text-center mb-10">
-    <span className="text-primary font-semibold text-sm uppercase tracking-wider">Get Started</span>
-    <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
-      What can you do?
-    </h3>
-    <p className="text-gray-500 mt-3 max-w-md mx-auto">
-      Choose from our services to help reunite lost items with their owners
-    </p>
-  </div>
-
-  <div className=" px-6 sm:px-10 py-12 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl w-full">
-    {items.map((item, index) => {
-      const Icon = item.icon;
-      return (
-        <div
-          key={index}
-          className="flex flex-col items-center justify-center cursor-pointer"
-        >
-          <div className="w-30 h-30 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:text-purple-200 hover:bg-purple-700 mb-4 border border-primary/20">
-            <Icon size={80} strokeWidth={2} />
-          </div>
-          <p className="text-base font-medium text-gray-700">
-            {item.label}
+        <div className="text-center mb-10">
+          <span className="text-primary font-semibold text-sm uppercase tracking-wider">Get Started</span>
+          <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+            What can you do?
+          </h3>
+          <p className="text-gray-500 mt-3 max-w-md mx-auto">
+            Choose from our services to help reunite lost items with their owners
           </p>
         </div>
-      );
-    })}
-  </div>
-</div>
 
-      
-      <div className="relative w-full flex justify-center items-center bg-gray-50 py-16 px-4">
-        <div className="absolute top-1 right-1 w-full flex justify-center items-center bg-gray-50"> <div className="absolute top-6 right-6 z-20"> <Button className="bg-white text-primary font-semibold px-6 py-2 rounded-full shadow-md"> <i className="fa-solid fa-store mr-2"></i> Shop </Button> </div> </div>
-        <Carousel opts={{ align: "start" }} className="w-full max-w-7xl">
-          <CarouselContent>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <CarouselItem
+        <div className="px-6 sm:px-10 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 max-w-5xl w-full">
+          {items.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Link
                 key={index}
-                className="basis-full sm:basis-1/2 md:basis-1/3"
+                to={item.path}
+                className="flex flex-col items-center justify-center cursor-pointer group"
               >
-                <div className="p-3">
-                  <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group cursor-pointer">
-                    {/* صورة */}
-                    <div className="h-48 bg-gray-200 relative overflow-hidden">
-                      <img
-                        src={LostPhoto}
-                        alt="item"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <span className="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs px-3 py-1 rounded-full font-semibold">
-                        Found
-                      </span>
-                    </div>
-
-                    {/* المحتوى */}
-                    <CardContent className="p-4">
-                      <h3 className="text-lg font-bold text-gray-800">
-                        Lost Wallet
-                      </h3>
-                      <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
-                        <i className="fa-solid fa-location-dot"></i>
-                        Cairo, Egypt
-                      </p>
-                      <div className="flex justify-between items-center mt-4">
-                        <span className="text-xs text-gray-400">
-                          2 hours ago
-                        </span>
-                        <button className="text-sm font-semibold text-primary hover:underline">
-                          View
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <div className="w-28 h-28 md:w-32 md:h-32 flex items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-[#7F22FE] transition-all duration-200 mb-4 border border-primary/20 group-hover:border-transparent">
+                  <Icon size={80} strokeWidth={2} className="group-hover:text-white transition-colors duration-200" />
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
-        </Carousel>
+                <p className="text-base font-medium text-gray-700 group-hover:text-[#7F22FE] transition-colors duration-200">
+                  {item.label}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
-      {/* القسم الثاني - Lost & Found System (مطابق للشكل المطلوب) */}
+      {/* Categories */}
+      <div className="bg-white py-16">
+        <p className="text-center text-3xl font-bold text-gray-800 mb-2">Categories</p>
+        <p className="text-center text-gray-500 mb-10">Shop by category to find what you need</p>
+        <Link to={'/shop/Products'}>
+         <div className="flex flex-wrap max-w-7xl mx-auto px-4 ">
+          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+            <img
+              src="./src/assets/elastic-wristband-on-kid.webp"
+              alt="shop for loved"
+              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+              Shop for loved
+            </p>
+          </div>
+          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+            <img
+              src="./src/assets/keychain-on-bikekeys.webp"
+              alt="shop for items"
+              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+              Shop for items
+            </p>
+          </div>
+          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+            <img
+              src="./src/assets/metal-tag-on-dog-collar.webp"
+              alt="shop for pets"
+              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+              Shop for pets
+            </p>
+          </div>
+          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+            <img
+              src="./src/assets/label-on-suitcase.webp"
+              alt="shop for luggage"
+              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+              Shop for luggage
+            </p>
+          </div>
+        </div>
+          </Link>
+       
+      </div>
+
+      {/* قسم Lost & Found System */}
       <section className="w-full bg-white py-16 px-6 md:px-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          {/* الصورة */}
           <div className="w-full h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-lg">
             <img
               src={photoHome}
@@ -207,8 +211,6 @@ export default function Home() {
               className="w-full h-full object-cover"
             />
           </div>
-
-          {/* المحتوى */}
           <div>
             <p className="text-primary font-semibold mb-2">
               Lost & Found System
@@ -233,10 +235,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* القسم الثالث - It Takes a Community (مطابق للشكل المطلوب) */}
-      <section className="w-full bg-gray-50 py-16 px-6 md:px-12">
+      {/* قسم Best Sellers */}
+      <div className="w-full bg-gray-50 py-16">
+        <div className="text-center mb-10">
+          <span className="text-primary font-semibold text-sm uppercase tracking-wider">Shop</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+            Best Sellers
+          </h2>
+          <p className="text-gray-500 mt-3 max-w-md mx-auto">
+            Our most popular items loved by customers
+          </p>
+        </div>
+        
+        <div className="relative w-full flex justify-center items-center px-4">
+          <Carousel opts={{ align: "start" }} className="w-full max-w-7xl">
+            <CarouselContent>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-full sm:basis-1/2 md:basis-1/3"
+                >
+                  <div className="p-3">
+                    <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                      <div className="h-48 bg-gray-200 relative overflow-hidden">
+                        <img
+                          src={LostPhoto}
+                          alt="item"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <span className="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs px-3 py-1 rounded-full font-semibold">
+                          Best Seller
+                        </span>
+                      </div>
+                      <CardContent className="p-4">
+                        <h3 className="text-lg font-bold text-gray-800">
+                          Lost Wallet
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
+                          <i className="fa-solid fa-location-dot"></i>
+                          Cairo, Egypt
+                        </p>
+                        <div className="flex justify-between items-center mt-4">
+                          <span className="text-xs text-gray-400">
+                            2 hours ago
+                          </span>
+                          <button className="text-sm font-semibold text-primary hover:text-[#7F22FE] transition-colors">
+                            View
+                          </button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
+        </div>
+        
+        <div className="text-center mt-10">
+          <Button className="bg-primary text-white hover:bg-[#6B1EE6] px-8 py-3 rounded-full font-semibold transition-all duration-200">
+            <i className="fa-solid fa-store mr-2"></i>
+            Shop All Products
+          </Button>
+        </div>
+      </div>
+
+      {/* قسم It Takes a Community */}
+      <section className="w-full bg-white py-16 px-6 md:px-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          {/* النص */}
           <div>
             <p className="text-gray-500 mb-2">It Takes a Community</p>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -247,12 +315,10 @@ export default function Home() {
               Browse all reported lost items and easily connect with their owners.
               Create an account to connect with others and make a real difference.
             </p>
-            <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:opacity-80 transition">
+            <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:text-[#7F22FE] hover:border-[#7F22FE] transition-all duration-200">
               Search Lost & Found Items
             </button>
           </div>
-
-          {/* الصورة */}
           <div className="w-full h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-lg">
             <img
               src="https://images.unsplash.com/photo-1593113598332-cd288d649433"
