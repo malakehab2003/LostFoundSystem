@@ -4,18 +4,22 @@ import { getCart } from './serves/GetCard'
 import type { cartitem } from './serves/types'
 import { deletItem } from './serves/DeletItemCart'
 import toast from 'react-hot-toast'
+import { Link, useNavigate } from 'react-router-dom'
+import { Uptada } from './serves/updataCart'
 
 export default function Cart() {
+  const navagite =useNavigate()
+ ////////
   const queryClient=useQueryClient()
 //////display cart
     let{data}=useQuery({
         queryKey:['get cart'],
-        queryFn:getCart,
+        queryFn:getCart
         
     })
 
 const allitems=data
-console.log(allitems)
+console.log('allitems', allitems)
 //////////////delet item
 let{mutate:deletprod}=useMutation({
   mutationFn:deletItem,
@@ -27,91 +31,193 @@ let{mutate:deletprod}=useMutation({
 
   }
 
-})
+}
+)
+/////////total price fun
+function total_Price() {
+  if (!allitems) return 0;
+
+  let sum = 0;
+
+  for (let i = 0; i < allitems.length; i++) {
+    sum += allitems[i].product.price * allitems[i].quantity;
+  }
+
+  return sum;
+}
+
+const totalPrice = total_Price() || 0;
+console.log(totalPrice)
 
 
+ function buutonCheckout(){
+    navagite('/check out',{state:totalPrice })
+  }
+
+
+
+  ////////////////////////updata
+  let{mutate:UpdataQUT ,data:ss}=useMutation({
+      mutationFn:Uptada,
+      onSuccess:(ss)=>{
+        toast.success(ss?.message)
+        console.log(ss)
+    queryClient.invalidateQueries({
+      queryKey: ['get cart']
+    })
+      },
+    onError:()=>{
+      toast.error('erro')
+              console.log(ss)
+
+    }  
+
+    
+    })
+ console.log(ss)
   return (
     <>
-    <div className="container mx-auto px-4 py-10">
-  <div className="grid md:grid-cols-3 gap-6">
+ <div className="mx-auto max-w-4xl px-4 py-10">
 
-    {/* 🛒 TABLE */}
-    <div className="md:col-span-2 bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+  <div className="space-y-8">
 
-      <table className="w-full text-sm">
-        <thead className="bg-chart-1 text-gray-600">
-          <tr className='text-center'>
-            <th className=" p-4">Product</th>
-            <th className=" p-4">Qty</th>
-            <th className=" p-4">buy</th>
-            <th className=" p-4">Delet</th>
-          </tr>
-        </thead>
+    {/* 🛒 CART TABLE */}
+    <div className="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
 
-        <tbody className="divide-y">
-          {allitems?.map((elem:cartitem)=>
-            <tr className="hover:bg-gray-50  pt-5 transition text-center">
-            
-            <td className="font-semibold">مش لاقي الاسم عشان احطه</td>
+      <div className="px-6 py-5 border-b bg-gray-50">
+        <h2 className="text-xl font-bold text-gray-800">Your Shopping Cart</h2>
+        <p className="text-sm text-gray-500">Review your items before checkout</p>
+      </div>
 
-            {/* 🔢 Qty */}
-            <td>
-              <div className="flex items-center gap-2 bg-gray-100 w-fit px-2 py-1 rounded-full">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
 
-                <span className="px-2 font-medium">{elem.quantity}</span>
-              
-              </div>
-            </td>
+          <thead className="bg-gray-100 text-gray-600">
+            <tr className="text-center">
+              <th className="p-4">Product</th>
+              <th className="p-4">Name</th>
+              <th className="p-4">Qty</th>
+              <th className="p-4">Price</th>
+              <th className="p-4">Delete</th>
+            </tr>
+          </thead>
 
-            {/* 💰 buy */}
-            <td className="font-semibold   p-4 text-green-600 flex justify-center items-center">
- <button className="w-full bg-chart-5 text-white py-3 rounded-xl hover:bg-gray-800 transition">
-        Checkout
-      </button>            </td>
+          <tbody className="divide-y divide-gray-100">
 
-            {/* ❌ Delete */}
-            <td>
-              <div className='text-center'>
-                 <button onClick={()=>{deletprod(elem.id)}} className="text-red-500 hover:text-red-700 transition text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 text-center">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-</svg>
+            {allitems?.map((elem: cartitem) => (
+              <tr key={elem.id} className="hover:bg-gray-50 transition text-center">
 
-              </button>
+                {/* Product */}
+                <td className="p-4">
+                  <Link
+                    to={`/shop/products/${elem.product_id}`}
+                    className="flex items-center justify-center gap-3"
+                  >
+                    <img
+                      src={elem.product.image[0]}
+                      className="w-12 h-12 object-cover rounded-xl border"
+                      alt=""
+                    />
+                  </Link>
+                </td>
 
-              </div>
-             
-            </td>
-          </tr>
+                {/* Name */}
+                <td className="p-4 font-medium text-gray-700">
+                  {elem.product.name}
+                </td>
 
-          )}
+                {/* Qty */}
+                <td className="p-4">
+                  <div className="flex items-center justify-center">
+                    <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full">
 
-          
+                      <span
+                        onClick={() => {
+                          UpdataQUT({
+                            product_id: elem.product_id,
+                            cart_id: elem.id,
+                            operation: "sub"
+                          })
+                        }}
+                        className="w-7 h-7 flex items-center justify-center bg-white rounded-full shadow cursor-pointer"
+                      >
+                        -
+                      </span>
 
-        </tbody>
-      </table>
+                      <span className="font-semibold">
+                        {elem.quantity}
+                      </span>
+
+                      <span
+                        onClick={() => {
+                          UpdataQUT({
+                            product_id: elem.product_id,
+                            cart_id: elem.id,
+                            operation: "add"
+                          })
+                        }}
+                        className="w-7 h-7 flex items-center justify-center bg-white rounded-full shadow cursor-pointer"
+                      >
+                        +
+                      </span>
+
+                    </div>
+                  </div>
+                </td>
+
+                {/* Price */}
+                <td className="p-4 font-semibold text-green-600">
+                  {elem.product.price}
+                </td>
+
+                {/* Delete */}
+                <td className="p-4">
+                 <button
+  onClick={() => deletprod(elem.id)}
+  className="bg-red-100 text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full transition shadow-sm"
+>
+  🗑️
+</button>
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    {/* 🧾 SUMMARY */}
-    <div className="bg-white rounded-2xl shadow-md p-6 h-fit border border-gray-200">
+    {/* 🧾 SUMMARY (BELOW) */}
+    <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 w-full">
 
-      <h2 className="text-xl font-semibold mb-4">
+      <h2 className="text-xl font-bold text-gray-800 mb-6">
         Order Summary
       </h2>
 
-      <div className="flex justify-between mb-3 text-gray-600">
-        <span>Items</span>
-        <span>3</span>
+      <div className="space-y-4 text-gray-600">
+
+        <div className="flex justify-between">
+          <span>Items</span>
+          <span className="font-medium">{allitems?.length}</span>
+        </div>
+
+        <div className="flex justify-between text-lg">
+          <span>Total</span>
+          <span className="font-bold text-green-600">
+            {total_Price()} EGP
+          </span>
+        </div>
+
       </div>
 
-      <div className="flex justify-between mb-4 text-gray-600">
-        <span>Total</span>
-        <span className="font-bold text-lg text-green-600">$3597</span>
-      </div>
-
-      <button className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition">
-        Checkout
+      <button
+        onClick={buutonCheckout}
+        className="mt-6 w-full bg-black text-white py-3 rounded-2xl hover:bg-gray-800 transition font-medium"
+      >
+        Proceed to Checkout
       </button>
+
     </div>
 
   </div>

@@ -30,6 +30,7 @@ import Cart from "./cart/Cart";
 
 import AdminPage from "@/components/Dashboard/AdminPage";
 import AdminUsers from "./components/Dashboard/AdminUsers";
+import CheckOut from "./check out/CheckOut";
 
 function App() {
   return (
@@ -69,6 +70,8 @@ function App() {
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
+            <Route path="check out" element={<CheckOut />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
