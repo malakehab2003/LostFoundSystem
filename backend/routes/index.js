@@ -16,12 +16,13 @@ import wishlistRouter from './wishlist.js';
 import orderRouter from './orders.js';
 import orderItemRouter from './orderItems.js';
 import notificationRouter from './notifications.js';
-import reviewController from './review.js';
-import chatController from './chat.js';
-import messageController from './message.js';
-import promocodeController from './promocode.js';
-import dashboardController from './dashboard.js';
-import stripeController from './stipe.js';
+import reviewRouter from './review.js';
+import chatRouter from './chat.js';
+import messageRouter from './message.js';
+import promocodeRouter from './promocode.js';
+import dashboardRouter from './dashboard.js';
+import stripeRouter from './stipe.js';
+import uploadPhotoRouter from './uploadPhoto.js'
 
 const router = express.Router();
 
@@ -43,11 +44,12 @@ router.use('/wishlist', wishlistRouter);
 router.use('/order', orderRouter);
 router.use('/order/item', orderItemRouter);
 router.use('/notification', notificationRouter);
-router.use('/review', reviewController);
-router.use('/chat', chatController);
-router.use('/message', messageController);
-router.use('/promocode', promocodeController);
-router.use('/dashboard', dashboardController);
-router.use('/payment', stripeController);
+router.use('/review', reviewRouter);
+router.use('/chat', chatRouter);
+router.use('/message', messageRouter);
+router.use('/promocode', promocodeRouter);
+router.use('/dashboard', dashboardRouter);
+router.use('/payment', stripeRouter);
+router.use('/photo', uploadPhotoRouter);
 
 export default router;
