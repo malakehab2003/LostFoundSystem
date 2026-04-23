@@ -20,11 +20,13 @@ import {
   StarIcon,
 } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useState } from "react";
 
 const Products = () => {
+    const navagite=useNavigate()
+
   const { products, isLoading } = useProducts();
 
   const { wishlist } = useWishlist();
@@ -217,7 +219,7 @@ const [createData, setCreateData] = useState({
                   <div className="mt-4 flex flex-col gap-3">
                     <p className="font-bold text-lg">${product.price}</p>
 
-                    <Button>
+                    <Button onClick={()=>{navagite(`/shop/products/${product.id}`)}}>
                       <ShoppingCart className="w-5 h-5" />
                       Add to cart
                     </Button>
