@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createOrder } from './servicePayment/createOrder';
 import toast from 'react-hot-toast';
@@ -17,6 +17,7 @@ import { getCart } from '@/cart/serves/GetCard';
 import { paymentOnline } from './servicePayment/paymentOnline';
 export default function CheckOut() {
     const location =useLocation();
+    const navagite =useNavigate()
 const totalprice = location.state?.totalPrice || 0    
 console.log(totalprice)
     ////////////
@@ -29,10 +30,12 @@ console.log(totalprice)
 
     console.log('adrees', adressUser)
    ///////////
-    const id= adressUser?.addresses?.[0]?.id
-     console.log(id)
+   
  let [receive_typee,Setreceive_type]=useState('')
   let [payment_typee,Setpayment_type]=useState('')
+   let [idadress,Setidadress]=useState(0)
+   
+     console.log('id' , idadress)
 
  console.log(payment_typee)
  /////////////////////
@@ -64,7 +67,7 @@ async function getpaymentValues() {
     total_price:44,
     receive_type: receive_typee,
     payment_type: payment_typee,
-    address_id: id,
+    address_id: idadress,
     promo_code_id: 0
 }
 
@@ -82,6 +85,18 @@ const { mutate: order,data:orders } = useMutation({
           payment({products:xx})
         
     }
+    else if(resp?.err === "Missing requried fields") {
+            toast.error('Missing requried fields')
+
+      
+    }  else if(resp?.err === "Address is requried") {
+          toast.error('Address is requried')
+          navagite('/dashboard/address')
+      
+    }
+    else{
+      toast.error('errrrror')
+    }
   }
 })
 ////////////////payment
@@ -91,8 +106,8 @@ if (orders?.order?.id) {
   localStorage.setItem('idOrder', orders.order.id.toString());
 }
 ///////////////////
-console.log("njknk",paymentResp)
-
+console.log("strip",paymentResp)
+console.log('order',orders)
   return (<>
 
 
@@ -122,35 +137,64 @@ console.log("njknk",paymentResp)
   <div className="border-t border-gray-100 my-6"></div>
 
   {/* Selects */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
 
-    <Select onValueChange={(value) => Setreceive_type(value)}>
-      <SelectTrigger className="w-full bg-gray-50 border border-gray-200 rounded-xl h-11">
-        <SelectValue placeholder="Delivery type" />
+  {/* Receive Type */}
+  <div className="space-y-2">
+    <label className="text-sm font-medium text-gray-600">Delivery Type</label>
+    <Select required onValueChange={(value) => Setreceive_type(value)}>
+      <SelectTrigger className="w-full bg-gray-50 border border-gray-200 rounded-xl h-12 px-4 shadow-sm hover:border-gray-300 transition">
+        <SelectValue placeholder="Choose delivery method" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="rounded-xl shadow-lg">
         <SelectGroup>
-          <SelectLabel>Receive Type</SelectLabel>
-          <SelectItem value="delivery">Delivery</SelectItem>
-          <SelectItem value="pickup">Pickup</SelectItem>
+          <SelectItem value="delivery" className="py-2">🚚 Delivery</SelectItem>
+          <SelectItem value="pickup" className="py-2">🏪 Pickup</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
-
-    <Select onValueChange={(value) => Setpayment_type(value)}>
-      <SelectTrigger className="w-full bg-gray-50 border border-gray-200 rounded-xl h-11">
-        <SelectValue placeholder="Payment method" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Payment Type</SelectLabel>
-          <SelectItem value="cash">Cash</SelectItem>
-          <SelectItem value="card">Online</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-
   </div>
+
+  {/* Payment Type */}
+  <div className="space-y-2">
+    <label className="text-sm font-medium text-gray-600">Payment Method</label>
+    <Select required onValueChange={(value) => Setpayment_type(value)}>
+      <SelectTrigger className="w-full bg-gray-50 border border-gray-200 rounded-xl h-12 px-4 shadow-sm hover:border-gray-300 transition">
+        <SelectValue placeholder="Choose payment method" />
+      </SelectTrigger>
+      <SelectContent className="rounded-xl shadow-lg">
+        <SelectGroup>
+          <SelectItem value="cash" className="py-2">💵 Cash</SelectItem>
+          <SelectItem value="card" className="py-2">💳 Online</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  </div>
+
+  {/* Address */}
+  <div className="md:col-span-2 space-y-2">
+    <label className="text-sm font-medium text-gray-600">Address</label>
+    <Select required onValueChange={(value) => Setidadress(value)}>
+      <SelectTrigger className="w-full bg-gray-50 border border-gray-200 rounded-xl h-12 px-4 shadow-sm hover:border-gray-300 transition">
+        <SelectValue placeholder="Select your address" />
+      </SelectTrigger>
+      <SelectContent className="rounded-xl shadow-lg max-h-60 overflow-y-auto">
+        <SelectGroup>
+          {adressUser?.addresses?.map((item) => (
+            <SelectItem
+              key={item.id}
+              value={item.id}
+              className="py-2 hover:bg-gray-100 rounded-lg"
+            >
+              📍 {item.address}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  </div>
+
+</div>
 
   {/* Button */}
   <button
