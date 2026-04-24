@@ -68,7 +68,7 @@ async function getpaymentValues() {
     promo_code_id: 0
 }
 
-const { mutate: order } = useMutation({
+const { mutate: order,data:orders } = useMutation({
   mutationFn: createOrder,
 
   onSuccess: async (resp) => {
@@ -86,7 +86,10 @@ const { mutate: order } = useMutation({
 })
 ////////////////payment
 console.log('xx', xx)
-
+if (orders?.order?.id) {
+  console.log('orders', orders.order.id);
+  localStorage.setItem('idOrder', orders.order.id.toString());
+}
 ///////////////////
 console.log("njknk",paymentResp)
 
