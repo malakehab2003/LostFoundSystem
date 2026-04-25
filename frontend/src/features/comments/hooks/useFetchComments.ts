@@ -23,32 +23,53 @@ export const useFetchComments = (itemId: number | undefined) => {
   const fetchComments = async () => {
     if (!itemId) return;
 
-    console.log("🔵 useFetchComments - Fetching comments for item:", itemId);
-
     setIsLoading(true);
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/comment/item/${itemId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log("📥 Response status:", res.status);
-      const data = await res.json();
-      console.log("📥 Response data:", data);
-
-      if (res.ok) {
-        setComments(data.comments || []);
-        console.log("✅ Comments loaded:", data.comments?.length || 0);
+      const STORAGE_KEY = `comments_item_${itemId}`;
+      const savedComments = localStorage.getItem(STORAGE_KEY);
+      
+      if (savedComments) {
+        setComments(JSON.parse(savedComments));
+        console.log(`✅ Comments loaded from localStorage for item ${itemId}`);
       } else {
-        console.log("🔴 API failed:", data);
-        setError(data.err || data.message || "Failed to fetch comments");
+        // بيانات افتراضية للعرض الأول
+        const defaultComments: Comment[] = [
+          {
+            id: 1,
+            content: "Checked the local transit office today, no luck yet but they have my contact info.",
+            item_id: itemId,
+            user_id: 1,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            user: { id: 1, name: "Haitham B." }
+          },
+          {
+            id: 2,
+            content: "I called the police station, they said they'll check the cameras.",
+            item_id: itemId,
+            user_id: 2,
+            created_at: new Date(Date.now() - 86400000).toISOString(),
+            updated_at: new Date(Date.now() - 86400000).toISOString(),
+            user: { id: 2, name: "Ahmed M." }
+          },
+          {
+            id: 3,
+            content: "Found someone who saw something! Waiting for more info.",
+            item_id: itemId,
+            user_id: 3,
+            created_at: new Date(Date.now() - 172800000).toISOString(),
+            updated_at: new Date(Date.now() - 172800000).toISOString(),
+            user: { id: 3, name: "Sara A." }
+          }
+        ];
+        setComments(defaultComments);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultComments));
+        console.log(`✅ Default comments saved for item ${itemId}`);
       }
     } catch (err: any) {
-      console.error("🔴 Error:", err.message);
+      console.error("Error loading comments:", err.message);
       setError(err.message);
     } finally {
       setIsLoading(false);

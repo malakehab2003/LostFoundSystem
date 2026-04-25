@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import toast from "react-hot-toast";
 
 export const useUpdateComment = () => {
-  const { user, isLoading: isUserLoading } = useCurrentUser();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateComment = async (id: number, content: string) => {
+  const updateComment = async (id: number, content: string, itemId: number) => {
     if (!content.trim()) {
+      toast.error("Comment cannot be empty");
       setError("Comment cannot be empty");
       return false;
     }
@@ -16,30 +16,33 @@ export const useUpdateComment = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/comment/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content }),
-      });
-
-      console.log("📥 Response status:", res.status);
-      const data = await res.json();
-      console.log("📥 Response data:", data);
-
-      if (res.ok) {
-        console.log("✅ Comment updated successfully!");
+      const STORAGE_KEY = `comments_item_${itemId}`;
+      const savedComments = localStorage.getItem(STORAGE_KEY);
+      
+      if (savedComments) {
+        let existingComments = JSON.parse(savedComments);
+        const commentExists = existingComments.some((comment: any) => comment.id === id);
+        
+        if (!commentExists) {
+          toast.error("Comment not found");
+          return false;
+        }
+        
+        existingComments = existingComments.map((comment: any) => 
+          comment.id === id 
+            ? { ...comment, content: content, updated_at: new Date().toISOString() }
+            : comment
+        );
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existingComments));
+        console.log(`✅ Comment updated for item ${itemId}:`, { id, content });
+        toast.success("Comment updated successfully! ✏️");
         return true;
-      } else {
-        console.log("🔴 API failed:", data);
-        setError(data.err || data.message || "Failed to update comment");
-        return false;
       }
+      return false;
     } catch (err: any) {
-      console.error("🔴 Error:", err.message);
+      console.error("Error updating comment:", err.message);
+      toast.error(err.message);
       setError(err.message);
       return false;
     } finally {
@@ -47,9 +50,5 @@ export const useUpdateComment = () => {
     }
   };
 
-  return { 
-    updateComment, 
-    isLoading: isLoading || isUserLoading, 
-    error 
-  };
+  return { updateComment, isLoading, error };
 };

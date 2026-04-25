@@ -17,24 +17,27 @@ import defaultpage from "@/assets/default-profile.webp";
 import { Spinner } from "../ui/spinner";
 import { useAuth } from "@/lib/AuthContext";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser"; // ✅ أضف هذا
+
 
 // ✅ hooks
 import { useFetchComments } from "@/features/comments/hooks/useFetchComments";
 import { useAddComment } from "@/features/comments/hooks/useAddComment";
 import { useDeleteComment } from "@/features/comments/hooks/useDeleteComment";
 import { useUpdateComment } from "@/features/comments/hooks/useUpdateComment";
-import { useDeleteItem } from "@/features/items/hooks/useDeleteItem"; // ✅ استورد useDeleteItem
+import { useDeleteItem } from "@/features/items/hooks/useDeleteItem";
 
 const DashItem = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
 
   const { user } = useAuth();
+  const { user: currentUser } = useCurrentUser(); // ✅ أضف هذا
+
   const isAdmin = user?.role == "admin";
 
   const { item, isLoading: itemLoading } = useGetItem(Number(itemId));
-
-  // ✅ useDeleteItem hook
   const { deleteItem, isPending: isDeletingItem } = useDeleteItem();
 
   // ================= COMMENTS FROM API =================
@@ -49,13 +52,38 @@ const DashItem = () => {
   const [localComments, setLocalComments] = useState<any[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // ================= SYNC API COMMENTS TO LOCAL =================
+  // ✅ KEY للتخزين في localStorage
+  const STORAGE_KEY = `comments_item_${itemId}`;
+
+  // ✅ تحميل التعليقات من localStorage عند بدء التشغيل
   useEffect(() => {
+    const savedComments = localStorage.getItem(STORAGE_KEY);
+    if (savedComments) {
+      try {
+        const parsed = JSON.parse(savedComments);
+        setLocalComments(parsed);
+        setIsInitialized(true);
+        console.log("✅ Loaded comments from localStorage:", parsed.length);
+      } catch (err) {
+        console.error("Failed to parse saved comments:", err);
+      }
+    }
+  }, [STORAGE_KEY]);
+
+  // ✅ حفظ التعليقات في localStorage عند التغيير
+  useEffect(() => {
+    if (localComments.length > 0 || isInitialized) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(localComments));
+      console.log("💾 Saved comments to localStorage:", localComments.length);
+    }
+  }, [localComments, STORAGE_KEY, isInitialized]);
+
+  // ================= SYNC API COMMENTS TO LOCAL (first time only) =================
+  useEffect(() => {
+    // فقط أول مرة يتم تحميلها من API
     if (apiComments && apiComments.length > 0 && !isInitialized) {
       setLocalComments(apiComments);
       setIsInitialized(true);
-    } else if (apiComments && apiComments.length > 0 && isInitialized) {
-      setLocalComments(apiComments);
     }
   }, [apiComments]);
 
@@ -67,19 +95,47 @@ const DashItem = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
 
-  // ================= ITEM DELETE (using hook) =================
+  // ================= ITEM DELETE =================
   const handleDeleteItem = () => {
-    if (!confirm("Are you sure you want to delete this item?")) return;
-    deleteItem(Number(itemId), {
-      onSuccess: () => {
-        navigate("/dashboard");
-      },
+    toast((t) => (
+      <div className="flex flex-col gap-2">
+        <p className="text-sm">Are you sure you want to delete this item?</p>
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              deleteItem(Number(itemId), {
+                onSuccess: () => {
+                  // ✅ مسح التعليقات من localStorage عند حذف العنصر
+                  localStorage.removeItem(STORAGE_KEY);
+                  navigate("/dashboard");
+                },
+              });
+            }}
+            className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+          >
+            Yes, Delete
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: 5000,
+      position: "top-center",
     });
   };
 
   // ================= ADD COMMENT =================
   const handleAddComment = async () => {
-    if (!newComment.trim()) return;
+    if (!newComment.trim()) {
+      toast.error("Please write a comment");
+      return;
+    }
 
     const tempId = Date.now();
     const newCommentObj = {
@@ -88,12 +144,15 @@ const DashItem = () => {
       item_id: Number(itemId),
       user_id: user?.id || 1,
       created_at: new Date().toISOString(),
-      user: { id: user?.id || 1, name: user?.name || "Current User" }
+      user: { id: currentUser?.id || 1, name: currentUser?.name }
     };
     
+    // ✅ تحديث UI فوراً وحفظ في localStorage
     setLocalComments([newCommentObj, ...localComments]);
     setNewComment("");
+    toast.success("Comment added successfully! 🎉");
 
+    // ✅ محاولة إرسال للـ API في الخلفية
     const success = await addComment(newComment, Number(itemId));
     if (success) {
       refetch();
@@ -102,37 +161,96 @@ const DashItem = () => {
 
   // ================= DELETE COMMENT =================
   const handleDeleteComment = async (id: number) => {
-    if (!confirm("Delete this comment?")) return;
-
-    setLocalComments(localComments.filter(comment => comment.id !== id));
-
-    const success = await deleteComment(id);
-    if (success) {
-      refetch();
-    }
+    toast((t) => (
+      <div className="flex flex-col gap-2">
+        <p className="text-sm">Delete this comment?</p>
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              // ✅ حذف من UI فوراً ومن localStorage
+              setLocalComments(localComments.filter(comment => comment.id !== id));
+              deleteComment(id, () => {
+                refetch();
+              });
+            }}
+            className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+          >
+            Yes, Delete
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: 5000,
+      position: "top-center",
+    });
   };
 
   // ================= EDIT COMMENT =================
   const handleEditComment = async (id: number) => {
     if (!editText.trim()) return;
 
+    // ✅ تعديل في UI فوراً وفي localStorage
     setLocalComments(localComments.map(comment => 
       comment.id === id 
         ? { ...comment, content: editText }
         : comment
     ));
     setEditingId(null);
+    toast.success("Comment updated successfully! ✏️");
 
+    // ✅ محاولة إرسال للـ API في الخلفية
     const success = await updateComment(id, editText);
     if (success) {
       refetch();
     }
   };
 
+  // ✅ استخدام التعليقات المحلية إذا كانت موجودة، وإلا استخدم تعليقات API
   const displayComments = localComments.length > 0 ? localComments : apiComments;
 
   return (
     <div className="max-w-3xl mx-auto p-4 space-y-8">
+      {/* EDIT POPUP MODAL */}
+      {editingId !== null && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-[500px] max-w-[90%] shadow-2xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Edit Comment</h2>
+              <button
+                onClick={() => setEditingId(null)}
+                className="p-1 rounded-full hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <Textarea
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              className="min-h-[120px] mb-4"
+              placeholder="Edit your comment..."
+            />
+            
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setEditingId(null)}>
+                Cancel
+              </Button>
+              <Button onClick={() => handleEditComment(editingId)} disabled={isUpdating}>
+                {isUpdating ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ITEM DETAILS */}
       <div className="rounded-xl px-5 py-6 shadow-lg">
         {itemLoading ? (
           <div className="text-center justify-center items-center">
@@ -227,7 +345,7 @@ const DashItem = () => {
 
       {/* Updates Feed */}
       <div className="space-y-4">
-        {commentsLoading ? (
+        {commentsLoading && localComments.length === 0 ? (
           <Spinner className="w-6 h-6" />
         ) : (
           displayComments?.map((update) => {
@@ -265,26 +383,9 @@ const DashItem = () => {
                     {update.user?.name || "User"}
                   </h3>
 
-                  {editingId === update.id ? (
-                    <div>
-                      <Textarea
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                      />
-                      <div className="flex gap-2 mt-2">
-                        <Button onClick={() => handleEditComment(update.id)} disabled={isUpdating}>
-                          {isUpdating ? "Saving..." : "Save"}
-                        </Button>
-                        <Button variant="outline" onClick={() => setEditingId(null)}>
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="text-slate-700 mb-2 text-sm pr-16">
-                      {update.content}
-                    </p>
-                  )}
+                  <p className="text-slate-700 mb-2 text-sm pr-16">
+                    {update.content}
+                  </p>
 
                   <div className="flex items-center font-semibold gap-1 text-slate-500 text-xs tracking-wide italic">
                     <Clock className="w-3 h-3" />

@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import toast from "react-hot-toast";
 
 export const useDeleteComment = () => {
-  const { user, isLoading: isUserLoading } = useCurrentUser();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteComment = async (id: number) => {
+  const deleteComment = async (id: number, itemId: number) => {
     if (!confirm("Are you sure you want to delete this comment?")) {
       return false;
     }
@@ -15,28 +14,27 @@ export const useDeleteComment = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/comment/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      console.log("📥 Response status:", res.status);
-      const data = await res.json();
-      console.log("📥 Response data:", data);
-
-      if (res.ok) {
-        console.log("✅ Comment deleted successfully!");
+      const STORAGE_KEY = `comments_item_${itemId}`;
+      const savedComments = localStorage.getItem(STORAGE_KEY);
+      
+      if (savedComments) {
+        let existingComments = JSON.parse(savedComments);
+        const newComments = existingComments.filter((comment: any) => comment.id !== id);
+        
+        if (newComments.length === existingComments.length) {
+          toast.error("Comment not found");
+          return false;
+        }
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(newComments));
+        console.log(`✅ Comment deleted for item ${itemId}:`, { id });
+        toast.success("Comment deleted successfully! 🗑️");
         return true;
-      } else {
-        console.log("🔴 API failed:", data);
-        setError(data.err || data.message || "Failed to delete comment");
-        return false;
       }
+      return false;
     } catch (err: any) {
-      console.error("🔴 Error:", err.message);
+      console.error("Error deleting comment:", err.message);
+      toast.error(err.message);
       setError(err.message);
       return false;
     } finally {
@@ -44,9 +42,5 @@ export const useDeleteComment = () => {
     }
   };
 
-  return { 
-    deleteComment, 
-    isLoading: isLoading || isUserLoading, 
-    error 
-  };
+  return { deleteComment, isLoading, error };
 };

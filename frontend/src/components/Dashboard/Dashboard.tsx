@@ -27,6 +27,9 @@ const Dashboard = () => {
   const { deleteItem, isPending } = useDeleteItem(); // ✅ استخدم الـ hook
 
   const isAdmin = user?.role === "admin";
+  
+  console.log(items);
+
 
   // ✅ دالة حذف العنصر
   const handleDeleteItem = (e: React.MouseEvent, itemId: number) => {

@@ -23,9 +23,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useState } from "react";
+import toast from "react-hot-toast";
+
+import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 
 const Products = () => {
-    const navagite=useNavigate()
+  const navigate = useNavigate();
 
   const { products, isLoading } = useProducts();
 
@@ -41,36 +44,69 @@ const Products = () => {
 
   const { createProduct, isPending: isCreating } = useCreateProduct();
 
+  const { itemCategories } = useGetItemCategory();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
-const [createData, setCreateData] = useState({
-  name: "",
-  price: 0,
-  description: "",
-  color: [],
-  size: [],
-});
+  const [createData, setCreateData] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    color: [] as string[],
+    size: [] as string[],
+    category_id: 0, // 0 يعني لم يتم الاختيار بعد
+  });
 
   const handleCreate = () => {
-  createProduct({
-  name: createData.name,
-  price: createData.price,
-  description: createData.description,
-  stock: 100,
-  brand_id: 1,
+    // التحقق من اختيار category
+    if (!createData.category_id || createData.category_id === 0) {
+      toast.error("Please select a category");
+      return;
+    }
 
-  category_id: 1,        
-  images_url: ["https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.jpg"],
+    // التحقق من تعبئة الحقول الأساسية
+    if (!createData.name.trim()) {
+      toast.error("Please enter product name");
+      return;
+    }
 
-  sale: 20,
-  rate: 4,
-});
-};
+    if (createData.price <= 0) {
+      toast.error("Please enter a valid price");
+      return;
+    }
 
-  
+    const productData = {
+      name: createData.name,
+      price: createData.price,
+      description: createData.description,
+      category_id: createData.category_id, // ✅ استخدام category_id
+      colors: createData.color,
+      sizes: createData.size,
+      brand_id: 1,
+      stock: 100,
+      images_url: ["https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.jpg"],
+      sale: 20,
+      rate: 4,
+    };
 
-  //  EDIT STATE
+    console.log("Sending product data:", productData); // للتأكد من البيانات
+
+    createProduct(productData);
+    
+    // إعادة تعيين الفورم
+    setCreateData({
+      name: "",
+      price: 0,
+      description: "",
+      color: [],
+      size: [],
+      category_id: 0,
+    });
+    
+    setIsCreateOpen(false);
+  };
+
+  // EDIT
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
@@ -80,7 +116,6 @@ const [createData, setCreateData] = useState({
     description: "",
   });
 
-  //  Wishlist
   const isProductInWishlist = (productId: number) =>
     wishlist?.some((item: any) => item.product_id === productId);
 
@@ -90,7 +125,6 @@ const [createData, setCreateData] = useState({
       : addToWishlist(productId);
   };
 
-  //  EDIT
   const handleEdit = (product: any) => {
     setSelectedProduct(product);
     setFormData({
@@ -110,7 +144,6 @@ const [createData, setCreateData] = useState({
     setIsEditOpen(false);
   };
 
-  // 🗑️ DELETE
   const handleDelete = (id: number) => {
     if (!confirm("Are you sure?")) return;
     deleteProduct(id);
@@ -126,13 +159,14 @@ const [createData, setCreateData] = useState({
               Our Products
             </h2>
           </div>
-        
+
           <div className="flex items-center space-x-4">
             {isAdmin && (
-  <Button onClick={() => setIsCreateOpen(true)}>
-    + Add Product
-  </Button>
-)}
+              <Button onClick={() => setIsCreateOpen(true)}>
+                + Add Product
+              </Button>
+            )}
+
             <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
               <FunnelIcon className="w-4 h-4" />
               Filters
@@ -161,7 +195,7 @@ const [createData, setCreateData] = useState({
                   <img
                     className="mx-auto h-56"
                     src={
-                      product.image[0] ||
+                      product.image?.[0]?.image_url ||
                       "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
                     }
                     alt={product.name}
@@ -169,7 +203,6 @@ const [createData, setCreateData] = useState({
                 </Link>
 
                 <div className="pt-6">
-                  {/* Wishlist */}
                   <div className="flex justify-between mb-4">
                     <Button
                       variant="secondary"
@@ -185,10 +218,9 @@ const [createData, setCreateData] = useState({
                       Wishlist
                     </Button>
 
-                    <Badge>{product.category.name}</Badge>
+                    <Badge>{product.category?.name}</Badge>
                   </div>
 
-                  {/* Name */}
                   <Link
                     to={`/shop/products/${product.id}`}
                     className="font-semibold"
@@ -196,12 +228,10 @@ const [createData, setCreateData] = useState({
                     {product.name}
                   </Link>
 
-                  {/* Desc */}
                   <p className="text-sm text-gray-500 line-clamp-2">
                     {product.description}
                   </p>
 
-                  {/* Rating */}
                   <div className="flex gap-1 mt-2">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <StarIcon
@@ -215,16 +245,14 @@ const [createData, setCreateData] = useState({
                     ))}
                   </div>
 
-                  {/* PRICE + BUTTONS */}
                   <div className="mt-4 flex flex-col gap-3">
                     <p className="font-bold text-lg">${product.price}</p>
 
-                    <Button onClick={()=>{navagite(`/shop/products/${product.id}`)}}>
+                    <Button onClick={() => navigate(`/shop/products/${product.id}`)}>
                       <ShoppingCart className="w-5 h-5" />
                       Add to cart
                     </Button>
 
-                    {/* 🛡️ ADMIN */}
                     {isAdmin && (
                       <div className="flex flex-col gap-2">
                         <Button
@@ -234,7 +262,6 @@ const [createData, setCreateData] = useState({
                         >
                           Edit
                         </Button>
-                        
 
                         <Button
                           className="w-full"
@@ -254,7 +281,7 @@ const [createData, setCreateData] = useState({
         )}
       </div>
 
-      {/*  EDIT MODAL */}
+      {/* EDIT MODAL */}
       {isEditOpen && selectedProduct && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
@@ -303,79 +330,102 @@ const [createData, setCreateData] = useState({
           </div>
         </div>
       )}
+
+      {/* CREATE MODAL */}
       {isCreateOpen && (
-  <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-    <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
-      <h2 className="font-bold text-lg">Add Product</h2>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
+            <h2 className="font-bold text-lg">Add Product</h2>
 
-      <input
-        className="border w-full p-2"
-        placeholder="Name"
-        value={createData.name}
-        onChange={(e) =>
-          setCreateData({ ...createData, name: e.target.value })
-        }
-      />
-      <input
-  className="border w-full p-2"
-  placeholder="Colors (comma separated)"
-  value={createData.color.join(",")}
-  onChange={(e) =>
-    setCreateData({
-      ...createData,
-      color: e.target.value.split(",").map((c) => c.trim()),
-    })
-  }
-/>
-<input
-  className="border w-full p-2"
-  placeholder="Sizes (comma separated)"
-  value={createData.size.join(",")}
-  onChange={(e) =>
-    setCreateData({
-      ...createData,
-      size: e.target.value.split(",").map((s) => s.trim()),
-    })
-  }
-/>
+            <input
+              className="border w-full p-2"
+              placeholder="Name"
+              value={createData.name}
+              onChange={(e) =>
+                setCreateData({ ...createData, name: e.target.value })
+              }
+            />
 
-      <input
-        className="border w-full p-2"
-        placeholder="Price"
-        value={createData.price}
-        onChange={(e) =>
-          setCreateData({
-            ...createData,
-            price: Number(e.target.value),
-          })
-        }
-      />
+            <input
+              className="border w-full p-2"
+              placeholder="Colors (comma separated)"
+              value={createData.color.join(",")}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  color: e.target.value.split(",").map((c) => c.trim()),
+                })
+              }
+            />
 
-      <textarea
-        className="border w-full p-2"
-        placeholder="Description"
-        value={createData.description}
-        onChange={(e) =>
-          setCreateData({
-            ...createData,
-            description: e.target.value,
-          })
-        }
-      />
+            <input
+              className="border w-full p-2"
+              placeholder="Sizes (comma separated)"
+              value={createData.size.join(",")}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  size: e.target.value.split(",").map((s) => s.trim()),
+                })
+              }
+            />
 
-      <div className="flex justify-end gap-2">
-        <Button onClick={() => setIsCreateOpen(false)}>
-          Cancel
-        </Button>
+            {/* CATEGORY SELECT */}
+            <select
+              className="border w-full p-2"
+              value={createData.category_id || ""}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  category_id: Number(e.target.value),
+                })
+              }
+            >
+              <option value="">Select Category</option>
+              {itemCategories?.map((cat: any) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
 
-        <Button onClick={handleCreate} disabled={isCreating}>
-          Create
-        </Button>
-      </div>
-    </div>
-  </div>
-)}
+            <input
+              className="border w-full p-2"
+              placeholder="Price"
+              type="number"
+              value={createData.price || ""}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  price: Number(e.target.value),
+                })
+              }
+            />
 
+            <textarea
+              className="border w-full p-2"
+              placeholder="Description"
+              value={createData.description}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  description: e.target.value,
+                })
+              }
+            />
+
+            <div className="flex justify-end gap-2">
+              <Button onClick={() => setIsCreateOpen(false)}>
+                Cancel
+              </Button>
+
+              <Button onClick={handleCreate} disabled={isCreating}>
+                Create
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

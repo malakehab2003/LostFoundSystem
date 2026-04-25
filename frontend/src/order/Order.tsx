@@ -23,8 +23,7 @@ export default function Order() {
     <h5 className="mb-6 text-2xl font-semibold text-center text-gray-700">
       Details Order
     </h5>
-
-    <div className="space-y-4 text-gray-600 text-lg">
+      {data?<div className="space-y-4 text-gray-600 text-lg">
 
       <p className="flex justify-between">
         <span className="font-medium">Name</span>
@@ -52,7 +51,8 @@ export default function Order() {
         </span>
       </p>
 
-    </div>
+    </div>  :'no reslt'}
+    
 
   </div>
 
