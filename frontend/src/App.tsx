@@ -32,6 +32,7 @@ import AdminPage from "@/components/Dashboard/AdminPage";
 import AdminUsers from "./components/Dashboard/AdminUsers";
 import CheckOut from "./check out/CheckOut";
 import Order from "./order/Order";
+import AdminOrders from './components/Dashboard/AdminOrders';
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="check out" element={<CheckOut />} />
           <Route path="orders" element={<Order />} />
+          <Route path="adminOrders" element={<AdminOrders />} />
         </Route>
       </Routes>
     </BrowserRouter>
