@@ -9,12 +9,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createOrder } from './servicePayment/createOrder';
 import toast from 'react-hot-toast';
 import { adressid } from './servicePayment/address';
 import { getCart } from '@/cart/serves/GetCard';
 import { paymentOnline } from './servicePayment/paymentOnline';
+import { createorderItems } from '@/order/createOrderItems';
 export default function CheckOut() {
     const location =useLocation();
     const navagite =useNavigate()
@@ -70,7 +71,22 @@ async function getpaymentValues() {
     address_id: idadress,
     promo_code_id: 0
 }
+//////////////create order Items
+  const queryClientOrderItems=useQueryClient()
+   const queryClient=useQueryClient()
 
+let{data:massageOrder,mutate:orderCreate}=useMutation({
+      mutationFn:createorderItems,
+      onSuccess:()=>{
+queryClientOrderItems.invalidateQueries({
+      queryKey:['get all orders']})
+
+queryClient.invalidateQueries({
+      queryKey:['get cart']})      
+      }
+
+    })
+//////////////////
 const { mutate: order,data:orders } = useMutation({
   mutationFn: createOrder,
 
@@ -78,7 +94,7 @@ const { mutate: order,data:orders } = useMutation({
 
     if (resp?.message === "Order created successfully") {
       toast.success("Order created successfully")
-      
+      orderCreate(resp?.order?.id)
     const xx = await getpaymentValues(); // ✅ استنى البيانات
  
        
@@ -108,6 +124,7 @@ if (orders?.order?.id) {
 ///////////////////
 console.log("strip",paymentResp)
 console.log('order',orders)
+console.log('message',massageOrder)
   return (<>
 
 
