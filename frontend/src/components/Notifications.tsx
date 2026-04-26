@@ -9,6 +9,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCreateNotification } from "@/features/notifications/hooks/useCreateNotification";
+import { useGetNotifications } from "@/features/notifications/hooks/useGetNotifications";
 import { BellRing } from "lucide-react";
 
 let notifications = [
@@ -42,6 +44,9 @@ let notifications = [
 ];
 
 const Notifications = () => {
+  // const { notifi, isPending } = useCreateNotification();
+  const { notifications: getNotify, isLoading } = useGetNotifications();
+  console.log(getNotify, isLoading);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -56,7 +61,7 @@ const Notifications = () => {
         </SheetHeader>
         <div className=" flex flex-col divide-y divide-gray-200">
           {notifications.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-10">
+            <p className="text-sm text-foreground-500 text-center py-10">
               No notifications yet
             </p>
           ) : (
@@ -67,40 +72,35 @@ const Notifications = () => {
                   !notif.is_read ? "bg-slate-50" : ""
                 }`}
               >
-                {/* top row */}
                 <div className="flex items-center justify-between px-2">
                   <span className="font-semibold text-foreground-900 text-sm capitalize tracking-wide ">
-                    {notif.message} 
+                    {notif.message}
                   </span>
 
                   {!notif.is_read && (
-                    <span className="w-2 h-2 rounded-full bg-red-500 mr-2"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-2"></span>
                   )}
                 </div>
 
-                {/* description */}
                 <p className="text-sm text-foreground-800 px-2">
-                  {notif.description}this is a notification for you this is a
-                    notification for you this is a notification for you
+                  {notif.description}
                 </p>
 
-                {/* date */}
-                <span className="text-xs text-gray-400">
-                  {new Date(notif.created_at).toLocaleString()}
-                </span>
+                <div className="flex justify-between items-center px-2 ">
+                  <span className="text-xs text-foreground-400">
+                    {new Date(notif.created_at).toLocaleString()}
+                  </span>
 
-                {/* mark as read button */}
-                {!notif.is_read && (
-                  <button
-                    className="text-xs text-blue-600 mt-1 hover:underline self-start"
-                    onClick={() => {
-                      console.log("mark as read", notif.id);
-                      // later connect API here
-                    }}
-                  >
-                    Mark as read
-                  </button>
-                )}
+                  {/* {!notif.is_read && (
+                    <button
+                      className="text-xs text-blue-600 hover:underline self-start"
+                      onClick={() => {
+                      }}
+                    >
+                      Mark as read
+                    </button>
+                  )} */}
+                </div>
               </div>
             ))
           )}

@@ -7,7 +7,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import Home from "./layout/Home";
 import Layout from "./layout/Layout";
 import About from "./layout/About";
-import Help from '@/layout/Help'
+import Help from "@/layout/Help";
 
 import LostItems from "./components/LostItems";
 import LostItem from "./components/LostItem";
@@ -72,9 +72,7 @@ function App() {
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
           <Route path="check out" element={<CheckOut />} />
-          <Route path="orders" element={<Order/>} />
-
-
+          <Route path="orders" element={<Order />} />
         </Route>
       </Routes>
     </BrowserRouter>

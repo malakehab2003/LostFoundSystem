@@ -1,54 +1,54 @@
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/AuthContext";
 import toast from "react-hot-toast";
 
-export const useUpdateComment = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export function useUpdateComment() {
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-  const updateComment = async (id: number, content: string, itemId: number) => {
-    if (!content.trim()) {
-      toast.error("Comment cannot be empty");
-      setError("Comment cannot be empty");
-      return false;
-    }
+  const {
+    mutate: updateComment,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: async ({
+      commentId,
+      content,
+    }: {
+      commentId: number;
+      content: string;
+    }) => {
+      const res = await fetch(
+        `http://localhost:5000/api/comment/update/${commentId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ content }),
+        },
+      );
 
-    setIsLoading(true);
-    setError(null);
+      if (!res.ok) throw new Error("Failed to update comment");
 
-    try {
-      const STORAGE_KEY = `comments_item_${itemId}`;
-      const savedComments = localStorage.getItem(STORAGE_KEY);
-      
-      if (savedComments) {
-        let existingComments = JSON.parse(savedComments);
-        const commentExists = existingComments.some((comment: any) => comment.id === id);
-        
-        if (!commentExists) {
-          toast.error("Comment not found");
-          return false;
-        }
-        
-        existingComments = existingComments.map((comment: any) => 
-          comment.id === id 
-            ? { ...comment, content: content, updated_at: new Date().toISOString() }
-            : comment
-        );
-        
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(existingComments));
-        console.log(`✅ Comment updated for item ${itemId}:`, { id, content });
-        toast.success("Comment updated successfully! ✏️");
-        return true;
-      }
-      return false;
-    } catch (err: any) {
-      console.error("Error updating comment:", err.message);
-      toast.error(err.message);
-      setError(err.message);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
+      return res.json();
+    },
+
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", variables.commentId],
+      });
+      toast.success("Comment updated successfully!");
+    },
+    onError: () => {
+      toast.error("Failed to update comment. Please try again.");
+    },
+  });
+
+  return {
+    updateComment,
+    isPending,
+    error,
   };
-
-  return { updateComment, isLoading, error };
-};
+}

@@ -20,9 +20,8 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser"; // ✅ أضف هذا
 
-
 // ✅ hooks
-import { useFetchComments } from "@/features/comments/hooks/useFetchComments";
+import { useGetComments } from "@/features/comments/hooks/useGetComments";
 import { useAddComment } from "@/features/comments/hooks/useAddComment";
 import { useDeleteComment } from "@/features/comments/hooks/useDeleteComment";
 import { useUpdateComment } from "@/features/comments/hooks/useUpdateComment";
@@ -46,7 +45,7 @@ const DashItem = () => {
     isLoading: commentsLoading,
     usingFakeData,
     refetch,
-  } = useFetchComments(Number(itemId));
+  } = useGetComments(Number(itemId));
 
   // ================= LOCAL STATE =================
   const [localComments, setLocalComments] = useState<any[]>([]);
@@ -97,37 +96,40 @@ const DashItem = () => {
 
   // ================= ITEM DELETE =================
   const handleDeleteItem = () => {
-    toast((t) => (
-      <div className="flex flex-col gap-2">
-        <p className="text-sm">Are you sure you want to delete this item?</p>
-        <div className="flex gap-2 justify-end">
-          <button
-            onClick={() => {
-              toast.dismiss(t.id);
-              deleteItem(Number(itemId), {
-                onSuccess: () => {
-                  // ✅ مسح التعليقات من localStorage عند حذف العنصر
-                  localStorage.removeItem(STORAGE_KEY);
-                  navigate("/dashboard");
-                },
-              });
-            }}
-            className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
-          >
-            Yes, Delete
-          </button>
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
-          >
-            Cancel
-          </button>
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm">Are you sure you want to delete this item?</p>
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+                deleteItem(Number(itemId), {
+                  onSuccess: () => {
+                    // ✅ مسح التعليقات من localStorage عند حذف العنصر
+                    localStorage.removeItem(STORAGE_KEY);
+                    navigate("/dashboard");
+                  },
+                });
+              }}
+              className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+            >
+              Yes, Delete
+            </button>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
-    ), {
-      duration: 5000,
-      position: "top-center",
-    });
+      ),
+      {
+        duration: 5000,
+        position: "top-center",
+      },
+    );
   };
 
   // ================= ADD COMMENT =================
@@ -144,9 +146,9 @@ const DashItem = () => {
       item_id: Number(itemId),
       user_id: user?.id || 1,
       created_at: new Date().toISOString(),
-      user: { id: currentUser?.id || 1, name: currentUser?.name }
+      user: { id: currentUser?.id || 1, name: currentUser?.name },
     };
-    
+
     // ✅ تحديث UI فوراً وحفظ في localStorage
     setLocalComments([newCommentObj, ...localComments]);
     setNewComment("");
@@ -161,35 +163,40 @@ const DashItem = () => {
 
   // ================= DELETE COMMENT =================
   const handleDeleteComment = async (id: number) => {
-    toast((t) => (
-      <div className="flex flex-col gap-2">
-        <p className="text-sm">Delete this comment?</p>
-        <div className="flex gap-2 justify-end">
-          <button
-            onClick={() => {
-              toast.dismiss(t.id);
-              // ✅ حذف من UI فوراً ومن localStorage
-              setLocalComments(localComments.filter(comment => comment.id !== id));
-              deleteComment(id, () => {
-                refetch();
-              });
-            }}
-            className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
-          >
-            Yes, Delete
-          </button>
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
-          >
-            Cancel
-          </button>
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm">Delete this comment?</p>
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={() => {
+                toast.dismiss(t.id);
+                // ✅ حذف من UI فوراً ومن localStorage
+                setLocalComments(
+                  localComments.filter((comment) => comment.id !== id),
+                );
+                deleteComment(id, () => {
+                  refetch();
+                });
+              }}
+              className="px-3 py-1 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+            >
+              Yes, Delete
+            </button>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1 bg-gray-200 text-gray-800 rounded-lg text-sm hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
-    ), {
-      duration: 5000,
-      position: "top-center",
-    });
+      ),
+      {
+        duration: 5000,
+        position: "top-center",
+      },
+    );
   };
 
   // ================= EDIT COMMENT =================
@@ -197,11 +204,11 @@ const DashItem = () => {
     if (!editText.trim()) return;
 
     // ✅ تعديل في UI فوراً وفي localStorage
-    setLocalComments(localComments.map(comment => 
-      comment.id === id 
-        ? { ...comment, content: editText }
-        : comment
-    ));
+    setLocalComments(
+      localComments.map((comment) =>
+        comment.id === id ? { ...comment, content: editText } : comment,
+      ),
+    );
     setEditingId(null);
     toast.success("Comment updated successfully! ✏️");
 
@@ -213,7 +220,8 @@ const DashItem = () => {
   };
 
   // ✅ استخدام التعليقات المحلية إذا كانت موجودة، وإلا استخدم تعليقات API
-  const displayComments = localComments.length > 0 ? localComments : apiComments;
+  const displayComments =
+    localComments.length > 0 ? localComments : apiComments;
 
   return (
     <div className="max-w-3xl mx-auto p-4 space-y-8">
@@ -230,19 +238,22 @@ const DashItem = () => {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
+
             <Textarea
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
               className="min-h-[120px] mb-4"
               placeholder="Edit your comment..."
             />
-            
+
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setEditingId(null)}>
                 Cancel
               </Button>
-              <Button onClick={() => handleEditComment(editingId)} disabled={isUpdating}>
+              <Button
+                onClick={() => handleEditComment(editingId)}
+                disabled={isUpdating}
+              >
                 {isUpdating ? "Saving..." : "Save Changes"}
               </Button>
             </div>
@@ -338,7 +349,10 @@ const DashItem = () => {
         {usingFakeData && (
           <div className="flex items-center gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-700 text-sm">
             <AlertCircle className="w-4 h-4" />
-            <span>⚠️ API connection failed. Showing demo data. Check console for errors.</span>
+            <span>
+              ⚠️ API connection failed. Showing demo data. Check console for
+              errors.
+            </span>
           </div>
         )}
       </div>
@@ -358,7 +372,6 @@ const DashItem = () => {
                 </div>
 
                 <div className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm relative">
-
                   {/* Actions - ظاهرة للكل */}
                   <div className="absolute top-2 right-2 flex gap-2">
                     <button

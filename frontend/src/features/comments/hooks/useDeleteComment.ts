@@ -1,46 +1,46 @@
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/AuthContext";
 import toast from "react-hot-toast";
 
-export const useDeleteComment = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export function useDeleteComment() {
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-  const deleteComment = async (id: number, itemId: number) => {
-    if (!confirm("Are you sure you want to delete this comment?")) {
-      return false;
-    }
+  const {
+    mutate: deleteComment,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: async ({ commentId }: { commentId: number }) => {
+      const res = await fetch(
+        `http://localhost:5000/api/comment/delete/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-    setIsLoading(true);
-    setError(null);
+      if (!res.ok) throw new Error("Failed to delete comment");
 
-    try {
-      const STORAGE_KEY = `comments_item_${itemId}`;
-      const savedComments = localStorage.getItem(STORAGE_KEY);
-      
-      if (savedComments) {
-        let existingComments = JSON.parse(savedComments);
-        const newComments = existingComments.filter((comment: any) => comment.id !== id);
-        
-        if (newComments.length === existingComments.length) {
-          toast.error("Comment not found");
-          return false;
-        }
-        
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newComments));
-        console.log(`✅ Comment deleted for item ${itemId}:`, { id });
-        toast.success("Comment deleted successfully! 🗑️");
-        return true;
-      }
-      return false;
-    } catch (err: any) {
-      console.error("Error deleting comment:", err.message);
-      toast.error(err.message);
-      setError(err.message);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
+      return res.json();
+    },
+
+    onSuccess: (_, variables: any) => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
+      toast.success("Comment deleted successfully!");
+    },
+    onError: () => {
+      toast.error("Failed to delete comment. Please try again.");
+    },
+  });
+
+  return {
+    deleteComment,
+    isPending,
+    error,
   };
-
-  return { deleteComment, isLoading, error };
-};
+}

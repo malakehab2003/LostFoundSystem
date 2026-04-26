@@ -84,7 +84,9 @@ const Products = () => {
       sizes: createData.size,
       brand_id: 1,
       stock: 100,
-      images_url: ["https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.jpg"],
+      images_url: [
+        "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.jpg",
+      ],
       sale: 20,
       rate: 4,
     };
@@ -92,7 +94,7 @@ const Products = () => {
     console.log("Sending product data:", productData); // للتأكد من البيانات
 
     createProduct(productData);
-    
+
     // إعادة تعيين الفورم
     setCreateData({
       name: "",
@@ -102,7 +104,7 @@ const Products = () => {
       size: [],
       category_id: 0,
     });
-    
+
     setIsCreateOpen(false);
   };
 
@@ -190,7 +192,6 @@ const Products = () => {
                 key={product.id}
                 className="rounded-lg border bg-white p-6 shadow-sm"
               >
-                {/* IMAGE */}
                 <Link to={`/shop/products/${product.id}`}>
                   <img
                     className="mx-auto h-56"
@@ -248,7 +249,9 @@ const Products = () => {
                   <div className="mt-4 flex flex-col gap-3">
                     <p className="font-bold text-lg">${product.price}</p>
 
-                    <Button onClick={() => navigate(`/shop/products/${product.id}`)}>
+                    <Button
+                      onClick={() => navigate(`/shop/products/${product.id}`)}
+                    >
                       <ShoppingCart className="w-5 h-5" />
                       Add to cart
                     </Button>
@@ -319,9 +322,7 @@ const Products = () => {
             />
 
             <div className="flex justify-end gap-2">
-              <Button onClick={() => setIsEditOpen(false)}>
-                Close
-              </Button>
+              <Button onClick={() => setIsEditOpen(false)}>Close</Button>
 
               <Button onClick={handleSaveEdit} disabled={isEditing}>
                 Save
@@ -415,9 +416,7 @@ const Products = () => {
             />
 
             <div className="flex justify-end gap-2">
-              <Button onClick={() => setIsCreateOpen(false)}>
-                Cancel
-              </Button>
+              <Button onClick={() => setIsCreateOpen(false)}>Cancel</Button>
 
               <Button onClick={handleCreate} disabled={isCreating}>
                 Create

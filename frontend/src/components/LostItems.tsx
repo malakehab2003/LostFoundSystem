@@ -6,10 +6,7 @@ import {
   List,
   Pin,
   Shapes,
-  Search,
   X,
-  AlertCircle,
-  Loader,
   Filter,
 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,8 +29,8 @@ import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useListItems } from "@/features/items/hooks/useListItems";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Spinner } from "./ui/spinner";
 
-// Filter Schema - all fields optional except type
 const ItemFilterSchema = z.object({
   title: z.string().optional().default(""),
   place: z.string().optional().default(""),
@@ -70,7 +67,6 @@ const LostItems = () => {
     (city) => city.government_id === selectedGovernment,
   );
 
-  // Build query filters
   const buildFilters = (data: ItemFilterFormSchema) => {
     const govt = governments?.find((g) => g.id === data.government_id);
     const city = filteredCities?.find((c) => c.id === data.city_id);
@@ -118,17 +114,15 @@ const LostItems = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header Section */}
       <div className="pt-10 text-center px-4 mb-8 flex flex-col items-center justify-between gap-4">
         <h1 className="header">Lost & Found Items</h1>
         <p className="sub-header">
           Search and filter items to find what you're looking for
         </p>
       </div>
-      {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <aside className="w-full md:w-70 flex-shrink-0">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row md:justify-between gap-6">
+          <aside className="w-full md:w-96 flex-shrink-0">
             <div className="flex justify-between items-center mb-6 border-b pb-2">
               <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
                 <Filter className="w-4 h-4" /> Filter
@@ -229,11 +223,10 @@ const LostItems = () => {
             </Form>
           </aside>
 
-          <main className="lg:col-span-3">
-            {/* Results Header */}
+          <main className="w-full">
             {hasSearched && (
-              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-900">
+              <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                <p className="text-sm text-primary/90">
                   Found{" "}
                   <span className="font-semibold">
                     {filteredItems?.length || 0}
@@ -243,28 +236,10 @@ const LostItems = () => {
               </div>
             )}
 
-            {/* Loading State */}
             {isLoading && (
-              <div className="flex items-center justify-center py-12">
-                <div className="text-center">
-                  <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-                  <p className="text-slate-600">Searching for items...</p>
-                </div>
-              </div>
-            )}
-
-            {/* Error State */}
-            {error && (
-              <div className="flex items-center justify-center py-12">
-                <div className="text-center">
-                  <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                  <p className="text-slate-600 mb-2">Error loading items</p>
-                  <p className="text-sm text-slate-500">
-                    {error instanceof Error
-                      ? error.message
-                      : "Please try again"}
-                  </p>
-                </div>
+              <div className="text-center justify-center items-center py-12">
+                <Spinner className="w-8 h-8 place-self-center text-primary" />{" "}
+                Searching for items...
               </div>
             )}
 
@@ -284,104 +259,63 @@ const LostItems = () => {
                 </div>
               )}
 
-            {/* Initial State */}
-            {!hasSearched && (
-              <div className="flex items-center justify-center py-12">
-                <div className="text-center">
-                  <Search className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                  <p className="text-slate-600 font-medium">
-                    Start searching for items
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    Use the filters on the left to find lost or found items
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Results Grid */}
             {!isLoading && filteredItems && filteredItems.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredItems.map((item: Item) => (
-                  <Link key={item.id} to={`/lost/${item.id}`} className="group">
-                    <div className="h-full bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-lg hover:border-slate-300 transition-all duration-200 overflow-hidden">
-                      {/* Image Container */}
-                      <div className="relative h-56 w-full bg-slate-100 overflow-hidden">
-                        <img
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          src={
-                            item.images?.[0]?.image_url ||
-                            "https://images.unsplash.com/photo-1606107557529-da4dd904007d?w=500&h=500&fit=crop"
+                  <Link
+                    key={item.id}
+                    to={`/lost/${item.id}`}
+                    className="group rounded-lg border bg-white shadow-xs hover:shadow-sm transition-shadow duration-300 flex flex-col h-full"
+                  >
+                    <div className="mx-auto relative h-56 w-full rounded-lg bg-slate-50 overflow-hidden">
+                      <img
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        src={
+                          item.images?.[0]?.image_url ||
+                          "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80"
+                        }
+                        alt={item.title}
+                      />
+                      <div className="absolute top-3 right-3">
+                        <Badge
+                          variant={
+                            item.type === "lost" ? "destructive" : "default"
                           }
-                          alt={item.title}
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              "https://images.unsplash.com/photo-1606107557529-da4dd904007d?w=500&h=500&fit=crop";
-                          }}
-                        />
-                        {/* Type Badge */}
-                        <div className="absolute top-3 right-3">
-                          <Badge
-                            variant={
-                              item.type === "lost" ? "destructive" : "default"
-                            }
-                            className="capitalize font-semibold"
-                          >
-                            {item.type}
-                          </Badge>
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-4">
-                        {/* Category Badge */}
-                        <div className="mb-3">
-                          <Badge variant="outline" className="text-xs">
-                            {item.category?.name || "Uncategorized"}
-                          </Badge>
-                        </div>
-
-                        {/* Title */}
-                        <h3 className="font-semibold text-slate-900 line-clamp-2 mb-2 group-hover:text-primary transition-colors">
-                          {item.title}
-                        </h3>
-
-                        {/* Description */}
-                        {item.description && (
-                          <p className="text-sm text-slate-600 line-clamp-2 mb-3">
-                            {item.description}
-                          </p>
-                        )}
-
-                        {/* Location Info */}
-                        <div className="space-y-2 mb-4 text-sm">
-                          <div className="flex items-center gap-2 text-slate-700">
-                            <Pin className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span className="font-medium">{item.place}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-slate-600">
-                            <Building2 className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>
-                              {item.city?.name}, {item.government?.name}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 text-slate-600">
-                            <Calendar className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>
-                              {new Date(item.date).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* View Details Button */}
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
+                          className="capitalize font-semibold"
                         >
-                          View Details
-                        </Button>
+                          {item.type}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div className="p-4">
+                      <h3 className="font-semibold text-foreground-800 line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h3>
+
+                      {item.description && (
+                        <p className="text-sm text-foreground-600 line-clamp-2 mb-2">
+                          {item.description}
+                        </p>
+                      )}
+
+                      <div className="space-y-1 mb-3 text-sm">
+                        <div className="flex items-center gap-2 text-foreground-500">
+                          <Pin className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span className="font-medium">{item.place}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-foreground-500">
+                          <Building2 className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span>
+                            {item.city?.name}, {item.government?.name}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-foreground-500">
+                          <Calendar className="w-4 h-4 text-primary flex-shrink-0" />
+                          <span>
+                            {new Date(item.date).toLocaleDateString()}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </Link>

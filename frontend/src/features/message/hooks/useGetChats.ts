@@ -15,8 +15,6 @@ interface Chat {
 
 export function useGetChats() {
   const { token } = useAuth();
-  const socket = useSocket();
-  const queryClient = useQueryClient();
 
   const {
     data: chats,
