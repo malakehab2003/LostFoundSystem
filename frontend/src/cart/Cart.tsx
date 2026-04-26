@@ -11,6 +11,7 @@ export default function Cart() {
   const navagite =useNavigate()
  ////////
   const queryClient=useQueryClient()
+  
 //////display cart
     let{data}=useQuery({
         queryKey:['get cart'],
@@ -54,7 +55,7 @@ console.log(totalPrice)
     navagite('/check out',{state:totalPrice })
   }
 
-
+ 
 
   ////////////////////////updata
   let{mutate:UpdataQUT ,data:ss}=useMutation({
