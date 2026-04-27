@@ -7,8 +7,8 @@ export function useCreateNotification() {
   const queryClient = useQueryClient();
 
   const { mutate: createNotification, isPending } = useMutation({
-    mutationFn: async (values) => {
-      const res = await fetch("http://localhost:5000/api/notification/list", {
+    mutationFn: async ({ values }) => {
+      const res = await fetch("http://localhost:5000/api/notification/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -16,7 +16,6 @@ export function useCreateNotification() {
         },
         body: JSON.stringify({
           ...values,
-          date: values.date.toISOString(),
         }),
       });
 
@@ -27,7 +26,7 @@ export function useCreateNotification() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
-      toast.success("notification created successfully");
+      toast.success("Notification created successfully");
     },
   });
   return { createNotification, isPending };

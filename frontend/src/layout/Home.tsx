@@ -94,13 +94,15 @@ export default function Home() {
 
         {/* الأزرار */}
         <div className="flex flex-col sm:flex-row gap-5 mt-12 z-10">
-          <Button 
+          <Link to={'/lost'}>
+           <Button 
             size="lg" 
             className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-colors"
           >
             <i className="fa-solid fa-circle-exclamation mr-2 text-red-500"></i>
             I lost something
           </Button>
+          </Link>
           
           <Button 
             size="lg" 

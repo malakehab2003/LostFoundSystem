@@ -18,13 +18,34 @@ import defaultpage from "@/assets/default-profile.webp";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/AuthContext";
+import { useDeleteItem } from "@/features/items/hooks/useDeleteItem"; // ✅ استورد الـ hook
 
 const Dashboard = () => {
   const { token } = useAuth();
   const { user } = useCurrentUser();
-  const { items, isLoading } = useGetItems();
+  const { items, isLoading, refetch } = useGetItems(); // ✅ أضف refetch
+  const { deleteItem, isPending } = useDeleteItem(); // ✅ استخدم الـ hook
 
   const isAdmin = user?.role === "admin";
+  
+  console.log(items);
+
+
+  // ✅ دالة حذف العنصر
+  const handleDeleteItem = (e: React.MouseEvent, itemId: number) => {
+    e.preventDefault(); // منع الـ Link من التنقل
+    e.stopPropagation(); // منع انتشار الحدث
+    
+    // تأكيد الحذف
+    if (confirm("Are you sure you want to delete this item?")) {
+      deleteItem(itemId, {
+        onSuccess: () => {
+          // تحديث القائمة بعد الحذف
+          refetch();
+        },
+      });
+    }
+  };
 
   return (
     <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
@@ -36,6 +57,14 @@ const Dashboard = () => {
               <Button className="flex items-center gap-2 mr-4 bg-primary hover:bg-primary/90">
                 <Shield className="w-4 h-4" />
                 Manage Users
+              </Button>
+            </Link>
+          )}
+          {isAdmin && (
+            <Link to="/AdminOrders">
+              <Button className="flex items-center gap-2 mr-4 bg-primary hover:bg-primary/90">
+                <Shield className="w-4 h-4" />
+                Manage Orders
               </Button>
             </Link>
           )}
@@ -88,7 +117,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-3">
                     <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                       <img
-                        src={item.images[0] || defaultpage}
+                        src={item.images?.[0] || defaultpage}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
@@ -123,12 +152,14 @@ const Dashboard = () => {
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              // Add delete logic here
-                            }}
+                            onClick={(e) => handleDeleteItem(e, item.id)}
+                            disabled={isPending}
                           >
-                            Delete
+                            {isPending ? (
+                              <Spinner className="w-4 h-4" />
+                            ) : (
+                              "Delete"
+                            )}
                           </Button>
                         )}
                       </div>
@@ -205,6 +236,20 @@ const Dashboard = () => {
                   My Wishlist
                 </span>
               </Link>
+              {isAdmin && (
+                 <Link
+                to="/orders"
+                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
+              >
+                <div className="p-2">
+                  <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                </div>
+                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
+                orders
+                </span>
+              </Link>
+          )}
+             
             </div>
           </section>
         </div>

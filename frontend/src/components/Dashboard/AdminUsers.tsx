@@ -30,34 +30,42 @@ const AdminUsers = () => {
     setOpenUserId((prev) => (prev === id ? null : id));
   };
 
+  // ✅ فلترة الأدمن
   const filteredAdmins =
     users?.filter(
       (user: UserType) =>
         user.role === "admin" &&
         (user.name.toLowerCase().includes(adminSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(adminSearch.toLowerCase())),
+          user.email.toLowerCase().includes(adminSearch.toLowerCase()))
     ) || [];
 
+  // ✅ فلترة اليوزر
   const filteredUsers =
     users?.filter(
       (user: UserType) =>
         user.role !== "admin" &&
         (user.name.toLowerCase().includes(userSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(userSearch.toLowerCase())),
+          user.email.toLowerCase().includes(userSearch.toLowerCase()))
     ) || [];
 
+  // ✅ أهم جزء (ربط الـ items بالـ user)
   const getItemsForUser = (userId: number): Item[] => {
-    return items?.filter((item: Item) => item.userId === userId) || [];
+    if (!items) return [];
+
+    return items.filter(
+      (item: any) =>
+        item.userId === userId || // لو الباك بيرجع userId
+        item.user?.id === userId  // لو بيرجع nested user
+    );
   };
 
   const isLoading = usersLoading || itemsLoading;
 
-  // ✅ Render List
   const renderUsersList = (
     usersList: UserType[],
     isAdmin: boolean,
     searchValue: string,
-    setSearchValue: (val: string) => void,
+    setSearchValue: (val: string) => void
   ) => {
     return (
       <div className="space-y-4">
@@ -71,12 +79,9 @@ const AdminUsers = () => {
           />
         </div>
 
-        {/* ❗ No Results */}
         {usersList.length === 0 ? (
           <p className="text-center text-gray-500 py-10">
-            {searchValue
-              ? `No results for "${searchValue}"`
-              : `No ${isAdmin ? "administrators" : "users"} found`}
+            No users found
           </p>
         ) : (
           usersList.map((user: UserType) => {
@@ -85,7 +90,7 @@ const AdminUsers = () => {
             return (
               <div
                 key={user.id}
-                className="border rounded-xl p-4 shadow-sm bg-white hover:shadow-md transition-shadow"
+                className="border rounded-xl p-4 shadow-sm bg-white"
               >
                 {/* Header */}
                 <div
@@ -106,102 +111,15 @@ const AdminUsers = () => {
                     </div>
 
                     <div>
-                      <div className="flex items-center gap-2">
-                        <h2 className="font-semibold text-lg">
-                          {user.name} {user.id}
-                        </h2>
-                        {isAdmin && (
-                          <span className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full">
-                            Admin
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-gray-500">{user.email}</p>
+                      <h2 className="font-semibold text-lg">
+                        {user.name}
+                      </h2>
+                      <p className="text-sm text-gray-500">
+                        {user.email}
+                      </p>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm bg-primary/10 text-primary px-2 py-1 rounded-full">
-                      {userItems.length} items
-                    </span>
-                    <ChevronDown
-                      className={`w-5 h-5 transition-transform ${
-                        openUserId === user.id ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
                 </div>
-
-                {/* Items */}
-                {openUserId === user.id && (
-                  <div className="mt-5 space-y-3 border-t pt-4">
-                    {userItems.length > 0 ? (
-                      userItems.map((item: Item) => (
-                        <div
-                          key={item.id}
-                          className="flex justify-between items-center border p-3 rounded-lg hover:bg-gray-50"
-                        >
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={item.images?.[0] || defaultpage}
-                              className="w-12 h-12 rounded-md object-cover border"
-                              alt={item.title}
-                            />
-                            <div>
-                              <span className="font-medium block">
-                                {item.title}
-                              </span>
-                              <span className="text-xs text-gray-500">
-                                {item.type} • {item.date}
-                              </span>
-                            </div>
-                          </div>
-
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              console.log("delete item", item.id);
-                            }}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-sm text-gray-500 text-center py-4">
-                        No items for this user
-                      </p>
-                    )}
-
-                    {/* Delete User */}
-                    {!isAdmin && (
-                      <Button
-                        variant="destructive"
-                        className="w-full mt-3"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteUser(user.id);
-                        }}
-                      >
-                        Delete User
-                      </Button>
-                    )}
-                    {!isAdmin && (
-                      <Button
-                        variant="destructive"
-                        className="w-full mt-3 bg-orange-600 hover:bg-orange-500"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteUser(user.id);
-                        }}
-                      >
-                        Mark as Admin
-                      </Button>
-                    )}
-                  </div>
-                )}
               </div>
             );
           })
@@ -224,32 +142,30 @@ const AdminUsers = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Admins */}
           <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-6">
-              <Shield className="w-6 h-6 text-purple-600" />
-              <h2 className="text-2xl font-semibold text-purple-900">
-                Administrators
-              </h2>
-              <span className="ml-auto bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">
-                {filteredAdmins.length}
-              </span>
-            </div>
+            <h2 className="text-xl font-bold mb-4 text-purple-600">
+              Admins ({filteredAdmins.length})
+            </h2>
 
-            {renderUsersList(filteredAdmins, true, adminSearch, setAdminSearch)}
+            {renderUsersList(
+              filteredAdmins,
+              true,
+              adminSearch,
+              setAdminSearch
+            )}
           </div>
 
           {/* Users */}
           <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-6">
-              <User className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-semibold text-primary">
-                Regular Users
-              </h2>
-              <span className="ml-auto bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
-                {filteredUsers.length}
-              </span>
-            </div>
+            <h2 className="text-xl font-bold mb-4 text-primary">
+              Users ({filteredUsers.length})
+            </h2>
 
-            {renderUsersList(filteredUsers, false, userSearch, setUserSearch)}
+            {renderUsersList(
+              filteredUsers,
+              false,
+              userSearch,
+              setUserSearch
+            )}
           </div>
         </div>
       )}
@@ -258,11 +174,3 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
-
-// import React from "react";
-
-// const AdminUsers = () => {
-//   return <div>AdminUsers</div>;
-// };
-
-// export default AdminUsers;
