@@ -27,7 +27,9 @@ export const listCart = async (req, res) => {
             ]
         });
 
-        return res.status(200).send({ cart });
+        const result = service.calculateCartTotal(cart);
+
+        return res.status(200).send({ cart: result.formattedCart, total: result.total, });
     } catch (err) {
         return res.status(400).send({ err: err.message, });
     }

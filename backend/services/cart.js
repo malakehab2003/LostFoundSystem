@@ -48,3 +48,29 @@ export const checkUniqueProduct = async (product_id, user_id) => {
 
     if (cart) throw new Error ("Product already exists");
 }
+
+export const calculateCartTotal = (cart) => {
+    let total = 0;
+
+    const formattedCart = cart.map(item => {
+        const product = item.product;
+
+        const price = Number(product.price);
+        const sale = Number(product.sale || 0);
+        const quantity = Number(item.quantity || 1);
+
+        const finalPrice = price * (1 - sale / 100) * quantity;
+
+        total += finalPrice;
+
+        return {
+            ...item.toJSON(),
+            finalPrice
+        };
+    });
+
+    return {
+        formattedCart,
+        total
+    };
+};
