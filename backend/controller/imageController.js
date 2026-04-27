@@ -15,6 +15,7 @@ export const deleteImage = async (req, res) => {
         if (!image) return res.status(400).send({ err: "Can't get image", });
 
         if (image.owner_type === 'item') await checkItemToUser(image.owner_id, user.id)
+        if (image.owner_type === 'user' && image.owner_id !== user.id) return res.status(400).send({ err: "Can't delete image", });
 
         await deleteFromCloudinary(image.public_id);
         

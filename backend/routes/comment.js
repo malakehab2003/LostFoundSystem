@@ -6,6 +6,7 @@ const router = express.Router();
 
 // all routers used are here
 router.post('/addComment', middleware.AuthRequest, CommentController.addComment);
+router.get('/get/:item_id', CommentController.getComments);
 router.delete('/delete/:id', middleware.AuthRequest, CommentController.deleteComment);
 router.put('/update/:id', middleware.AuthRequest, CommentController.updateComment);
 

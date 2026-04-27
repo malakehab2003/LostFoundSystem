@@ -1,4 +1,5 @@
-import { Comment } from "../models/db.js";
+import { compare } from "bcrypt";
+import { Comment, User, Item, Image } from "../models/db.js";
 import * as service from '../services/commentService.js';
 import { sendNotificationsService } from "../services/notificationService.js";
 
@@ -36,6 +37,39 @@ export const addComment = async (req, res) => {
     }
 }
 
+
+export const getComments = async (req, res) => {
+    try {
+        const { item_id } = req.params;
+
+        const comments = await Comment.findAll({
+            where: {item_id,},
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: Image,
+                            as: 'image',
+                            attributes: ['id', 'url'],
+                        }
+                    ]
+                },
+                {
+                    model: Item,
+                    as: 'item',
+                    attributes: ['id', 'title', 'type']
+                }
+            ]
+        });
+
+        return res.status(200).send({ comments, });
+    } catch (err) {
+        return res.status(400).send({ err: err.message, });
+    }
+}
 
 
 export const deleteComment = async (req, res) => {

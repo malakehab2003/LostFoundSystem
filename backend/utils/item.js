@@ -76,9 +76,9 @@ export const getItems = async (where, limit, offset, order) => {
                 as: 'comments',
                 include: [
                     {
-                    model: User,
-                    as: 'user',
-                    attributes: ['id', 'name'],
+                        model: User,
+                        as: 'user',
+                        attributes: ['id', 'name'],
                     },
                 ],
             },
