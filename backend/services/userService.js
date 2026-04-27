@@ -1,4 +1,5 @@
-import { User } from '../models/db.js';
+import { User, Image } from '../models/db.js';
+import { uploadToCloudinary } from '../utils/uploadPhotos.js';
 import * as jwt from '../utils/jwt.js';
 import * as hash from '../utils/hash.js';
 import * as auth from '../utils/auth.js';
@@ -6,7 +7,7 @@ import redisClient from '../utils/redisClient.js';
 import { Op } from 'sequelize';
 
 
-export const createUserService  = async (userData) => {
+export const createUserService  = async (userData, file) => {
     try {
         const existUser = await auth.getUserByEmail(userData.email);
     
@@ -23,6 +24,17 @@ export const createUserService  = async (userData) => {
             last_login: new Date(),
             role: 'user',
         });
+
+        if (file) {
+            const uploaded = await uploadToCloudinary(file.buffer);
+
+            await Image.create({
+                url: uploaded.url,
+                public_id: uploaded.public_id,
+                owner_id: user.id,
+                owner_type: "user",
+            });
+        }
 
         const token = jwt.createToken(userData.email);
         await auth.generateTokenForVerification(userData.email);
@@ -139,7 +151,18 @@ export const getAnotherUserService = async (email, id) => {
     if (id) where.id = id;
     if (email) where.email = email;
 
-    const user = await User.findOne({ where });
+    const user = await User.findOne(
+        { 
+            where,
+            includes: [
+                {
+                    model: Image,
+                    as: 'image',
+                    attributes: ['url']
+                }
+            ]
+         }
+    );
 
     if (!user) throw new Error ('No user Found');
 

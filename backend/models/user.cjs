@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Message, { foreignKey: 'sender_id', as: 'SentMessages' });
       User.hasMany(models.Message, { foreignKey: 'receiver_id', as: 'ReceivedMessages' });
       User.hasMany(models.Comment, { foreignKey: 'user_id', as: 'comments', });
+      User.hasMany(models.Image, { foreignKey: "owner_id", as: 'image', constraints: false, scope: { owner_type: "user", }, });
 
       User.belongsToMany(models.PromoCode, {
         through: 'UserPromoCodes',
@@ -106,11 +107,6 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-
-    image_url: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
 
     is_verified: {

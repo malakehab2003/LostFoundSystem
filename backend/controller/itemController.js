@@ -1,6 +1,5 @@
 import * as service from '../services/itemService.js';
 import * as validate from '../utils/validateData.js';
-import { addItemImageService } from '../services/itemImageService.js';
 import { getItems } from '../utils/item.js';
 import { sendNotificationToRelatedReports } from '../services/notificationService.js';
 
@@ -51,7 +50,8 @@ export const getItem = async (req, res) => {
 export const createItem = async (req, res) => {
     try {
         const user = req.user;
-        const { category_id, images_url, ...rest } = req.body;
+        const files = req.files;
+        const { category_id, ...rest } = req.body;
 
         const data = {
         ...rest,
@@ -71,11 +71,10 @@ export const createItem = async (req, res) => {
 
         if (!data.government_id) delete data.city_id;
 
-        const item = await service.createItemService(data);
+        const item = await service.createItemService(data, files);
 
         if (!item) return res.status(400).send({ err: "Can't create item" });
 
-        if (images_url) await addItemImageService(item.id, images_url);
         await sendNotificationToRelatedReports(category_id, data.type, data.city_id, item.id);
 
         return res.status(201).send({

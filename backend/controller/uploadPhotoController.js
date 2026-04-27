@@ -1,21 +1,35 @@
-import { uploadToCloudinary } from "../utils/uploadPhotos.js";
+  import { uploadToCloudinary, deleteFromCloudinary } from "../utils/uploadPhotos.js";
 
-export const uploadImage = async (req, res) => {
+export const uploadMultipleImages = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    if (!req.files || req.files.length === 0)
+      return res.status(400).json({ message: "No files uploaded" });
 
-    const url = await uploadToCloudinary(req.file.buffer);
+    const uploads = await Promise.all(
+      req.files.map(file => uploadToCloudinary(file.buffer))
+    );
 
-    return res.status(200).json({
-      message: "Image uploaded successfully",
-      url,
+    res.status(200).json({
+      message: "Images uploaded successfully",
+      images: uploads,
     });
   } catch (err) {
-    return res.status(500).json({
-      message: "Upload failed",
-      error: err.message,
-    });
+    res.status(500).json({ message: err.message });
   }
-};
+}
+
+
+export const deleteImage = async (req, res) => {
+  try {
+    const { public_id } = req.body;
+
+    if (!public_id)
+      return res.status(400).json({ message: "public_id required" });
+
+    await deleteFromCloudinary(public_id);
+
+    res.status(200).json({ message: "Image deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}

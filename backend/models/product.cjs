@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Product.belongsTo(models.Brand, { foreignKey: 'brand_id', as: 'brand' });
       Product.belongsTo(models.ProductCategory, { foreignKey: 'product_category_id', as: 'category' });
-      Product.hasMany(models.ProductImage, { foreignKey: 'product_id', as: 'image' });
+      Product.hasMany(models.Image, { foreignKey: "owner_id", as: 'image', constraints: false, scope: { owner_type: "product", }, });
       Product.hasMany(models.Review, { foreignKey: 'product_id', as: 'review' });
       Product.hasMany(models.Cart, { foreignKey: 'product_id' });
       Product.hasMany(models.Wishlist, { foreignKey: 'product_id' });

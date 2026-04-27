@@ -1,4 +1,4 @@
-import { Item, ItemCategory, ItemImage, User, Comment, City, Government } from '../models/db.js';
+import { Item, ItemCategory, Image, User, Comment, City, Government } from '../models/db.js';
 import { Op } from 'sequelize';
 
 export const buildWhereFilters = (filters) => {
@@ -52,9 +52,9 @@ export const getItems = async (where, limit, offset, order) => {
                 attributes: ['id', 'name'],
             },
             {
-                model: ItemImage,
-                as: 'images',
-                attributes: ['id', 'image_url'],
+                model: Image,
+                as: 'image',
+                attributes: ['id', 'url'],
             },
             {
                 model: User,
@@ -87,10 +87,11 @@ export const getItems = async (where, limit, offset, order) => {
 }
 
 
-export const checkItemToUser = (id, user_id) => {
-    if (id !== user_id) {
-        throw new Error('This item not related to you');
-    }
+export const checkItemToUser = async (item_id, user_id) => {
+    const item = await Item.findByPk(item_id);
+    if (!item) throw new Error('No item found');
+
+    if (item.user_id !== user_id) throw new Error('This item not related to you');
 }
 
 

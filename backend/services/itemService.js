@@ -1,6 +1,7 @@
 import * as utils from '../utils/item.js';
 import * as validate from '../utils/validateData.js';
-import { Item, User } from '../models/db.js';
+import { Item, User, Image } from '../models/db.js';
+import { uploadToCloudinary } from '../utils/uploadPhotos.js';
 
 
 export const listItemsService = async (filters, page, limit) => {
@@ -41,10 +42,25 @@ export const getItemService = async (id) => {
 }
 
 
-export const createItemService = async (data) => {
+export const createItemService = async (data, files) => {
     const item = await Item.create({
         ...data,
     });
+
+    if (files && files.length > 0) {
+        const uploadedImages = await Promise.all(
+            files.map(file => uploadToCloudinary(file.buffer))
+        );
+
+        const imagesToCreate = uploadedImages.map(img => ({
+            url: img.url,
+            public_id: img.public_id,
+            owner_id: item.id,
+            owner_type: "item",
+        }));
+
+        await Image.bulkCreate(imagesToCreate);
+    }
 
     return item
 }

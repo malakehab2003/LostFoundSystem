@@ -5,16 +5,17 @@ import crypto from "crypto";
 import redisClient from '../utils/redisClient.js'; 
 import { sendEmail } from '../utils/emailService.js';
 import { hashPassword } from '../utils/hash.js';
+import { Image } from '../models/db.js';
 
 
 export const createUser = async (req, res) => {
     try {
-        const { name, dob, gender, phone, email, password, image_url } = req.body;
-        const userData = { name, dob, gender, phone, email, password, image_url };
+        const { name, dob, gender, phone, email, password } = req.body;
+        const userData = { name, dob, gender, phone, email, password };
 
         validate.validateUserData(userData);
 
-        const { token, user } = await userService.createUserService(userData);
+        const { token, user } = await userService.createUserService(userData, req.file);
 
         return res.status(201).send({
             message: "User created successfully",
@@ -33,7 +34,20 @@ export const getMe = async (req, res) => {
             return res.status(400).send({ error: "No user" });
         }
 
-        return res.status(200).send(cleanData.cleanUser(req.user));
+        const userImage = await Image.findOne({
+            where: {
+                owner_id: req.user.id,
+                owner_type: "user",
+            },
+        });
+
+        const user = cleanData.cleanUser(req.user);
+
+        return res.status(200).send({
+            ...user,
+            image: userImage ? userImage.url : null,
+        });
+
     } catch (err) {
         return res.status(400).send({ error: err.message });
     }
@@ -62,14 +76,13 @@ export const login = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const user = req.user;
-        const { name, phone, dob, image_url } = req.body;
+        const { name, phone, dob } = req.body;
 
         if (name) validate.validateName(name);
         if (phone) validate.validatePhone(phone);
         if (dob) validate.validateDob(dob);
-        if (image_url) validate.validateImageUrl(image_url);
 
-        const updatedUser = await userService.updateUserService(user, { name, phone, dob, image_url });
+        const updatedUser = await userService.updateUserService(user, { name, phone, dob });
 
         return res.status(200).send({
             message: "User updated successfully",

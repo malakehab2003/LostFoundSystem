@@ -130,10 +130,6 @@ export const validateUserData = (userData) => {
         if (userData.phone) {
             validatePhone(userData.phone);
         }
-        
-        if (userData.image_url) {
-            validateImageUrl(userData.image_url);
-        }
     } catch (err) {
         throw new Error(err)
     }

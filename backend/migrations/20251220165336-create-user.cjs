@@ -57,11 +57,6 @@ module.exports = {
         allowNull: false,
       },
 
-      image_url: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-
       is_verified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

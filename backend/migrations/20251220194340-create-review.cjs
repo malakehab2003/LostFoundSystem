@@ -10,11 +10,6 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
 
-      image_url: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-
       message: {
         type: Sequelize.TEXT,
         allowNull: false,

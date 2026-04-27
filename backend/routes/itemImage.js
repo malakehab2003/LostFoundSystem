@@ -1,11 +1,12 @@
 import express from 'express';
-import * as ItemImageController from '../controller/itemImageController.js';
+import * as imageController from '../controller/imageController.js';
 import * as middleware from '../utils/middlewares.js';
+import { upload } from '../utils/multer.js';
 
 const router = express.Router();
 
 // all routers used are here
-router.delete('/delete/:id', middleware.AuthRequest, ItemImageController.deleteImage);
-router.post('/addImage', middleware.AuthRequest, ItemImageController.addImages);
+router.delete('/delete/:id', middleware.AuthRequest, imageController.deleteImage);
+router.post('/addImages', upload.array("images", 10), middleware.AuthRequest, imageController.addImages);
 
 export default router;

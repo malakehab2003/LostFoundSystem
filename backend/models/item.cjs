@@ -13,8 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Item.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
       Item.belongsTo(models.ItemCategory, { foreignKey: 'item_category_id', as: 'category' });
-      Item.hasMany(models.ItemImage, { foreignKey: 'item_id', as: 'images' });
-      Item.hasMany(models.Message, { foreignKey: 'item_id' });
+      Item.hasMany(models.Image, { foreignKey: "owner_id", as: 'image', constraints: false, scope: { owner_type: "item", }, });
       Item.hasMany(models.Comment, { foreignKey: 'item_id', as: 'comments', });
       Item.belongsTo(models.Government, { foreignKey: 'government_id', as: 'government' });
       Item.belongsTo(models.City, { foreignKey: 'city_id', as: 'city' });
