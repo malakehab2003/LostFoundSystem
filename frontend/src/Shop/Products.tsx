@@ -79,7 +79,7 @@ const Products = () => {
       name: createData.name,
       price: createData.price,
       description: createData.description,
-      category_id: createData.category_id, // ✅ استخدام category_id
+      category_id: createData.category_id, 
       colors: createData.color,
       sizes: createData.size,
       brand_id: 1,

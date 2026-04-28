@@ -13,7 +13,9 @@ module.exports = {
       { name: 'Automotive', created_at: new Date(), updated_at: new Date() },
       { name: 'Music & Instruments', created_at: new Date(), updated_at: new Date() },
       { name: 'Pet Supplies', created_at: new Date(), updated_at: new Date() }
-    ], {});
+    ], {
+        ignoreDuplicates: true
+    });
   },
 
   async down(queryInterface, Sequelize) {

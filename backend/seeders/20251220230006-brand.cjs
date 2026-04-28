@@ -8,7 +8,9 @@ module.exports = {
       { name: 'Brand C', created_at: new Date(), updated_at: new Date() },
       { name: 'Brand D', created_at: new Date(), updated_at: new Date() },
       { name: 'Brand E', created_at: new Date(), updated_at: new Date() },
-    ], {});
+    ], {
+      ignoreDuplicates: true
+    });
   },
 
   async down(queryInterface, Sequelize) {
