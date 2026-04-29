@@ -1,3 +1,4 @@
+// features/products/hooks/useProducts.ts
 import { useQuery } from "@tanstack/react-query";
 import type { Product, ProductFilters } from "../productType";
 
@@ -20,7 +21,9 @@ export function useProducts(filters: ProductFilters = {}) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.err || "Failed to fetch products");
 
+      
       return data?.products ?? [];
+
     },
   });
 

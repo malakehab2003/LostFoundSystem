@@ -1,3 +1,4 @@
+// Products.tsx - Simplified version (image upload moved to hook)
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -18,20 +19,25 @@ import {
   ShoppingCart,
   SortAscIcon,
   StarIcon,
+  Package,
+  Upload,
+  X,
 } from "lucide-react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 
 const Products = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { products, isLoading } = useProducts();
-
   const { wishlist } = useWishlist();
   const { addToWishlist } = useAddToWishlist();
   const { deleteFromWishlist } = useDeleteFromWishlist();
@@ -47,6 +53,8 @@ const Products = () => {
   const { itemCategories } = useGetItemCategory();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
 
   const [createData, setCreateData] = useState({
     name: "",
@@ -54,17 +62,28 @@ const Products = () => {
     description: "",
     color: [] as string[],
     size: [] as string[],
-    category_id: 0, // 0 يعني لم يتم الاختيار بعد
+    category_id: 0,
+    stock: 0,
   });
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleCreate = () => {
-    // التحقق من اختيار category
     if (!createData.category_id || createData.category_id === 0) {
       toast.error("Please select a category");
       return;
     }
 
-    // التحقق من تعبئة الحقول الأساسية
     if (!createData.name.trim()) {
       toast.error("Please enter product name");
       return;
@@ -79,33 +98,32 @@ const Products = () => {
       name: createData.name,
       price: createData.price,
       description: createData.description,
-      category_id: createData.category_id, 
+      category_id: createData.category_id,
       colors: createData.color,
       sizes: createData.size,
       brand_id: 1,
-      stock: 100,
-      images_url: [
-        "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.jpg",
-      ],
-      sale: 20,
-      rate: 4,
+      stock: createData.stock || 0,
+      imageFile: selectedImage || undefined,
     };
 
-    console.log("Sending product data:", productData); // للتأكد من البيانات
+    console.log("Sending product data:", productData);
 
-    createProduct(productData);
-
-    // إعادة تعيين الفورم
-    setCreateData({
-      name: "",
-      price: 0,
-      description: "",
-      color: [],
-      size: [],
-      category_id: 0,
+    createProduct(productData, {
+      onSuccess: () => {
+        setCreateData({
+          name: "",
+          price: 0,
+          description: "",
+          color: [],
+          size: [],
+          category_id: 0,
+          stock: 0,
+        });
+        setSelectedImage(null);
+        setImagePreview("");
+        setIsCreateOpen(false);
+      },
     });
-
-    setIsCreateOpen(false);
   };
 
   // EDIT
@@ -116,6 +134,7 @@ const Products = () => {
     name: "",
     price: 0,
     description: "",
+    stock: 0,
   });
 
   const isProductInWishlist = (productId: number) =>
@@ -133,6 +152,7 @@ const Products = () => {
       name: product.name,
       price: product.price,
       description: product.description,
+      stock: product.stock || 0,
     });
     setIsEditOpen(true);
   };
@@ -141,6 +161,10 @@ const Products = () => {
     editProduct({
       productId: selectedProduct.id,
       data: formData,
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+      },
     });
 
     setIsEditOpen(false);
@@ -148,7 +172,11 @@ const Products = () => {
 
   const handleDelete = (id: number) => {
     if (!confirm("Are you sure?")) return;
-    deleteProduct(id);
+    deleteProduct(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+      },
+    });
   };
 
   return (
@@ -187,21 +215,26 @@ const Products = () => {
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-            {products?.map((product) => (
+            {products?.map((product: any) => (
               <div
                 key={product.id}
                 className="rounded-lg border bg-white p-6 shadow-sm"
               >
                 <Link to={`/shop/products/${product.id}`}>
                   <img
-                    className="mx-auto h-56"
+                    className="mx-auto h-56 object-cover"
                     src={
+                      product.images_url?.[0] ||
                       product.image?.[0]?.image_url ||
-                      "https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
+                      "https://placehold.co/400x400?text=No+Image"
                     }
                     alt={product.name}
+                    onError={(e)=> {
+                      (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
+                    }}
                   />
                 </Link>
+                
 
                 <div className="pt-6">
                   <div className="flex justify-between mb-4">
@@ -246,8 +279,16 @@ const Products = () => {
                     ))}
                   </div>
 
-                  <div className="mt-4 flex flex-col gap-3">
+                  <div className="mt-4 flex flex-col gap-2">
                     <p className="font-bold text-lg">${product.price}</p>
+                    
+                    {/* Stock Display */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <Package className="w-4 h-4 text-gray-500" />
+                      <span className={product.stock > 0 ? "text-green-600" : "text-red-500"}>
+                        Stock: {product.stock || 0} units
+                      </span>
+                    </div>
 
                     <Button
                       onClick={() => navigate(`/shop/products/${product.id}`)}
@@ -286,12 +327,13 @@ const Products = () => {
 
       {/* EDIT MODAL */}
       {isEditOpen && selectedProduct && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
             <h2 className="font-bold text-lg">Edit Product</h2>
 
             <input
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
+              placeholder="Name"
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
@@ -300,7 +342,8 @@ const Products = () => {
 
             <input
               type="number"
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
+              placeholder="Price"
               value={formData.price}
               onChange={(e) =>
                 setFormData({
@@ -310,8 +353,23 @@ const Products = () => {
               }
             />
 
+            <input
+              type="number"
+              className="border w-full p-2 rounded"
+              placeholder="Stock"
+              value={formData.stock}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  stock: Number(e.target.value),
+                })
+              }
+            />
+
             <textarea
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
+              placeholder="Description"
+              rows={3}
               value={formData.description}
               onChange={(e) =>
                 setFormData({
@@ -334,13 +392,54 @@ const Products = () => {
 
       {/* CREATE MODAL */}
       {isCreateOpen && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto space-y-4">
             <h2 className="font-bold text-lg">Add Product</h2>
 
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Product Image</label>
+              <div 
+                className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {imagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="mx-auto h-32 object-cover rounded-lg"
+                    />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImage(null);
+                        setImagePreview("");
+                      }}
+                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500">Click to upload product image</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <input
-              className="border w-full p-2"
-              placeholder="Name"
+              className="border w-full p-2 rounded"
+              placeholder="Product Name"
               value={createData.name}
               onChange={(e) =>
                 setCreateData({ ...createData, name: e.target.value })
@@ -348,7 +447,7 @@ const Products = () => {
             />
 
             <input
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
               placeholder="Colors (comma separated)"
               value={createData.color.join(",")}
               onChange={(e) =>
@@ -360,7 +459,7 @@ const Products = () => {
             />
 
             <input
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
               placeholder="Sizes (comma separated)"
               value={createData.size.join(",")}
               onChange={(e) =>
@@ -373,7 +472,7 @@ const Products = () => {
 
             {/* CATEGORY SELECT */}
             <select
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
               value={createData.category_id || ""}
               onChange={(e) =>
                 setCreateData({
@@ -391,7 +490,7 @@ const Products = () => {
             </select>
 
             <input
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
               placeholder="Price"
               type="number"
               value={createData.price || ""}
@@ -403,9 +502,23 @@ const Products = () => {
               }
             />
 
+            <input
+              className="border w-full p-2 rounded"
+              placeholder="Stock Quantity"
+              type="number"
+              value={createData.stock || ""}
+              onChange={(e) =>
+                setCreateData({
+                  ...createData,
+                  stock: Number(e.target.value),
+                })
+              }
+            />
+
             <textarea
-              className="border w-full p-2"
+              className="border w-full p-2 rounded"
               placeholder="Description"
+              rows={3}
               value={createData.description}
               onChange={(e) =>
                 setCreateData({
@@ -416,10 +529,16 @@ const Products = () => {
             />
 
             <div className="flex justify-end gap-2">
-              <Button onClick={() => setIsCreateOpen(false)}>Cancel</Button>
+              <Button onClick={() => {
+                setIsCreateOpen(false);
+                setSelectedImage(null);
+                setImagePreview("");
+              }}>
+                Cancel
+              </Button>
 
               <Button onClick={handleCreate} disabled={isCreating}>
-                Create
+                {isCreating ? "Creating..." : "Create Product"}
               </Button>
             </div>
           </div>

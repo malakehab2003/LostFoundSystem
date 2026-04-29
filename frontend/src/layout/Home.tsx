@@ -226,12 +226,18 @@ export default function Home() {
               quickly and safely.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <button className="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
+             <Link to="/lost">
+             <button className="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
                 Report Lost Item
               </button>
+             </Link>
+              
+              <Link to="/something-found">
               <button className="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary/10 transition">
                 Report Found Item
               </button>
+              </Link>
+            
             </div>
           </div>
         </div>
@@ -297,10 +303,13 @@ export default function Home() {
         </div>
         
         <div className="text-center mt-10">
+          <Link to="./shop/products">
           <Button className="bg-primary text-white hover:bg-[#6B1EE6] px-8 py-3 rounded-full font-semibold transition-all duration-200">
             <i className="fa-solid fa-store mr-2"></i>
             Shop All Products
           </Button>
+          </Link>
+          
         </div>
       </div>
 
@@ -317,9 +326,11 @@ export default function Home() {
               Browse all reported lost items and easily connect with their owners.
               Create an account to connect with others and make a real difference.
             </p>
+            <Link to="/dashboard/messages">
             <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:text-[#7F22FE] hover:border-[#7F22FE] transition-all duration-200">
               Search Lost & Found Items
             </button>
+            </Link>
           </div>
           <div className="w-full h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-lg">
             <img

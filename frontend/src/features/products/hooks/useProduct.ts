@@ -3,7 +3,7 @@ import type { Product } from "../productType";
 
 export function useProduct(productId: number) {
   const { data, isLoading, error } = useQuery<Product>({
-    queryKey: ["product", productId],
+    queryKey: ["products", productId],
     queryFn: async () => {
       const res = await fetch(
         `http://localhost:5000/api/product/getProduct/${productId}`,
