@@ -160,7 +160,8 @@ export const getAnotherUserService = async (email, id) => {
                     as: 'image',
                     attributes: ['url']
                 }
-            ]        }
+            ] 
+        }
     );
 
     if (!user) throw new Error ('No user Found');
