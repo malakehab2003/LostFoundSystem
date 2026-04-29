@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/AuthContext";
 import type { Item } from "../itemsType";
 
 export function useGetItem(itemId: number) {
- const { token, user, isAdmin } = useAuth();
+  const { token } = useAuth();
   const {
     data: item,
     isLoading,
@@ -30,5 +30,5 @@ export function useGetItem(itemId: number) {
     enabled: !!token,
   });
 
-  return { item, isLoading, error, user, token,isAdmin };
+  return { item, isLoading, error };
 }

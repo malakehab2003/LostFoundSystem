@@ -8,14 +8,25 @@ export function useSignup() {
 
   const { mutate: signupUser, isPending } = useMutation({
     mutationFn: async (values: SignupFormSchema) => {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "image") return; // Handle separately
+        if (key === "dob" && value instanceof Date) {
+          formData.append(key, value.toISOString());
+        } else if (value !== undefined && value !== "") {
+          formData.append(key, String(value));
+        }
+      });
+
+      if (values.image?.length) {
+        formData.append("image", values.image[0]);
+      }
+
       const response = await fetch(
         "http://localhost:5000/api/user/createUser",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
+          body: formData,
         },
       );
 

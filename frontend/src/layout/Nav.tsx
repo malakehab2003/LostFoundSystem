@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/logowebsite.png";
 import defaultProfile from "@/assets/default-profile.webp";
@@ -33,7 +33,6 @@ export default function Nav() {
   return (
     <nav className="bg-white/95 backdrop-blur-md fixed w-full z-50 top-0 start-0 border-b border-gray-100 shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
-        {/* Logo Section */}
         <Link
           to="/"
           className="flex items-center space-x-2 group flex-shrink-0"
@@ -49,7 +48,6 @@ export default function Nav() {
 
         {/* Desktop Right Section */}
         <div className="hidden md:flex items-center gap-6">
-          {/* Navigation Links */}
           <ul className="flex gap-1">
             <li>
               <NavLink
@@ -146,7 +144,7 @@ export default function Nav() {
                 </Link>
                 <Link to="/dashboard" className="cursor-pointer">
                   <img
-                    src={user.image_url || defaultProfile}
+                    src={user.image || defaultProfile}
                     alt="User Avatar"
                     className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 hover:ring-primary transition-all duration-300"
                   />
@@ -292,14 +290,14 @@ export default function Nav() {
                       <span>Messages</span>
                     </Link>
                   </div>
-                  
+
                   <Link
                     to="/dashboard"
                     onClick={closeNav}
                     className="flex items-center gap-3"
                   >
                     <img
-                      src={user.image_url || defaultProfile}
+                      src={user.image || defaultProfile}
                       alt="User Avatar"
                       className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200"
                     />

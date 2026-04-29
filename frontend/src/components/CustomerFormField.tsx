@@ -38,6 +38,7 @@ type Props<T extends FieldValues> = {
   options?: Option[];
   disabled?: boolean;
   icon?: LucideIcon;
+  maxFiles?: number;
   onchange?: (any) => void;
 };
 type RenderInputProps<T extends FieldValues> = {
@@ -51,7 +52,15 @@ const RenderInput = <T extends FieldValues>({
   fieldState,
   props,
 }: RenderInputProps<T>) => {
-  const { fieldType, name, placeholder, disabled, options, onchange } = props;
+  const {
+    fieldType,
+    name,
+    placeholder,
+    disabled,
+    options,
+    onchange,
+    maxFiles,
+  } = props;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
@@ -93,11 +102,11 @@ const RenderInput = <T extends FieldValues>({
           {...field}
           id={name}
           aria-invalid={fieldState.invalid}
-          maxFiles={1}
+          maxFiles={maxFiles || 1}
           maxSize={5242880}
           variant="default"
           previewSize="md"
-          multiple={false}
+          multiple={maxFiles !== 1}
           showPreview={true}
           accept="image/*"
           disabled={disabled}

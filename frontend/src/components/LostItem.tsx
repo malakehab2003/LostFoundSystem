@@ -2,7 +2,6 @@ import { Link, useParams } from "react-router-dom";
 import { useGetItem } from "@/features/items/hooks/useGetItem";
 import { useState } from "react";
 import {
-  ArrowLeft,
   ChevronLeft,
   ChevronRight,
   Info,
@@ -14,21 +13,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "./ui/spinner";
 import ItemComments from "./ItemComments";
+import defaultpage from "@/assets/default-item-image.svg";
 
 const LostItem = () => {
   const { itemId } = useParams();
   const { item, isLoading } = useGetItem(Number(itemId));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   console.log(item);
-  const images = item?.images || [];
+  const images = item?.image || [];
   const displayImages: string[] =
     images.length > 0
       ? (images
-          .map((img) => (typeof img === "string" ? img : img.image_url))
+          .map((img) => (typeof img === "string" ? img : img.url))
           .filter(Boolean) as string[])
-      : [
-          "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80",
-        ];
+      : [defaultpage];
 
   const currentImage = displayImages[currentImageIndex];
 
@@ -186,15 +184,11 @@ const LostItem = () => {
                   </div>
                 )}
 
-                <Button
-                  size="lg"
-                  className="w-full"
-                  onClick={() => {
-                    console.log("Navigate to user profile:", item.user_id);
-                  }}
-                >
-                  <User className="w-5 h-5 mr-2" />
-                  View {item.user?.name || "User"}'s Profile
+                <Button size="lg" className="w-full" asChild>
+                  <Link to={`/profile/${item.user?.id}`}>
+                    <User className="w-5 h-5 mr-2" />
+                    View {item.user?.name || "User"}'s Profile
+                  </Link>
                 </Button>
               </div>
             </div>

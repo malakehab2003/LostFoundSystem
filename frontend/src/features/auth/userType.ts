@@ -62,7 +62,7 @@ export const SignupForm = z.object({
       "Must be a valid Egyptian mobile number (+201XXXXXXXXX)",
     )
     .optional(),
-  image_url: z.string().optional().or(z.literal("")),
+  image: z.array(z.instanceof(File)).max(1).optional(),
   password: z
     .string()
     .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {

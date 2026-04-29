@@ -27,7 +27,7 @@ const DashInfo = () => {
       phone: user?.phone || "",
       dob: user?.dob ? new Date(user.dob) : new Date(),
       gender: user?.gender || "male",
-      image_url: user?.image_url || "",
+      image: user?.image || "",
     },
   });
 
@@ -49,12 +49,12 @@ const DashInfo = () => {
             className="space-y-6 flex flex-col"
           >
             <FieldGroup>
-              <CustomFormField
+              {/* <CustomFormField
                 fieldType={FormFieldType.FILE_INPUT}
                 control={form.control}
-                name="image_url"
+                name="image"
                 label="Profile Picture"
-              />
+              /> */}
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}

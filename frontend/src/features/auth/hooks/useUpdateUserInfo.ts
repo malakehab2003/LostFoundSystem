@@ -11,6 +11,7 @@ export function useUpdateUserInfo() {
 
   const { mutate: updateUserInfo, isPending } = useMutation({
     mutationFn: async (values: UpdateProfileFormSchema) => {
+      console.log("update ", values);
       const response = await fetch("http://localhost:5000/api/user/update", {
         method: "PUT",
         headers: {

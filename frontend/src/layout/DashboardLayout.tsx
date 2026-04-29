@@ -1,22 +1,13 @@
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Spinner } from "../components/ui/spinner";
 
 const DashboardLayout = () => {
-  const { data: user, isLoading } = useCurrentUser();
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (isLoading)
-  //     return (
-  //       <Spinner className="w-8 h-8 text-primary place-self-center "></Spinner>
-  //     );
-  //   if (!isLoading && !user) {
-  //     navigate("/login");
-  //   }
-  // }, [isLoading, user, navigate]);
-
+  const { token } = useAuth();
+  const { user } = useCurrentUser();
+  if (!token || !user || user.is_verified == false) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="py-10 px-3 xl:px-6 mx-auto">
       <Outlet />

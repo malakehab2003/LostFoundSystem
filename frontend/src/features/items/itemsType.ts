@@ -32,7 +32,10 @@ export const CreateItemSchema = z
         message: "Date cannot be in the future",
       }),
 
-    images_url: z.array(z.string().url()).optional(),
+    images: z
+      .array(z.instanceof(File))
+      .max(10, "Maximum 10 images allowed")
+      .optional(),
   })
   .refine(
     (data) => {
@@ -117,7 +120,7 @@ export interface User {
 
 export interface ItemImage {
   id?: number;
-  image_url?: string;
+  url?: string;
 }
 
 export interface Comment {
@@ -146,7 +149,7 @@ export interface Item {
   government: Government;
   user: User;
 
-  images: ItemImage[];
+  image: ItemImage[];
   comments: Comment[];
 }
 

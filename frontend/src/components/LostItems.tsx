@@ -30,6 +30,7 @@ import { useListItems } from "@/features/items/hooks/useListItems";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "./ui/spinner";
+import defaultpage from "@/assets/default-item-image.svg";
 
 const ItemFilterSchema = z.object({
   title: z.string().optional().default(""),
@@ -270,10 +271,7 @@ const LostItems = () => {
                     <div className="mx-auto relative h-56 w-full rounded-lg bg-slate-50 overflow-hidden">
                       <img
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        src={
-                          item.images?.[0]?.image_url ||
-                          "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=400&q=80"
-                        }
+                        src={item.image?.[0]?.url || defaultpage}
                         alt={item.title}
                       />
                       <div className="absolute top-3 right-3">

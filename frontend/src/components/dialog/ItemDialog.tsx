@@ -50,13 +50,7 @@ export const ItemDialog = () => {
     {
       title: "Step 2",
       description: "",
-      fields: [
-        "type",
-        "category_id",
-        "date",
-        "description",
-        "images_url",
-      ] as const,
+      fields: ["type", "category_id", "date", "description", "images"] as const,
     },
   ];
   const [currentStep, setCurrentStep] = useState(0);
@@ -83,7 +77,7 @@ export const ItemDialog = () => {
       date: "",
       government_id: null,
       city_id: null,
-      images_url: [],
+      images: [],
     },
     mode: "onChange",
     reValidateMode: "onChange",
@@ -219,7 +213,8 @@ export const ItemDialog = () => {
             <CustomFormField
               fieldType={FormFieldType.FILE_INPUT}
               control={form.control}
-              name="images_url"
+              maxFiles={10}
+              name="images"
               label="Item Images"
             />
           </>

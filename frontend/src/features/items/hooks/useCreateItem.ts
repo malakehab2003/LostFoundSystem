@@ -9,16 +9,27 @@ export function useCreateItem() {
 
   const { mutate: createItem, isPending } = useMutation({
     mutationFn: async (values: CreateItemFormSchema) => {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "images") return;
+        if (key === "date" && value instanceof Date) {
+          formData.append(key, value.toISOString());
+        } else if (value !== null && value !== undefined) {
+          formData.append(key, String(value));
+        }
+      });
+      if (values.images?.length) {
+        values.images.forEach((file) => {
+          formData.append("images", file);
+        });
+      }
+
       const res = await fetch("http://localhost:5000/api/item/create", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...values,
-          date: values.date.toISOString(),
-        }),
+        body: formData,
       });
 
       const data = await res.json();

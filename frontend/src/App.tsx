@@ -32,7 +32,8 @@ import AdminPage from "@/components/Dashboard/AdminPage";
 import AdminUsers from "./components/Dashboard/AdminUsers";
 import CheckOut from "./check out/CheckOut";
 import Order from "./order/Order";
-import AdminOrders from './components/Dashboard/AdminOrders';
+import AdminOrders from "./components/Dashboard/AdminOrders";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -47,11 +48,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="profile/:userId" element={<Profile />} />
           <Route path="lost" element={<LostItems />} />
           <Route path="lost/:itemId" element={<LostItem />} />
           <Route path="help" element={<Help />} />
 
-          {/* Dashboard */}
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="info" element={<DashInfo />} />
@@ -62,7 +63,6 @@ function App() {
             <Route path="itemdialog" element={<ItemDialog />} />
             <Route path="wishlist" element={<Wishlist />} />
 
-            {/*  Admin Routes (جوه dashboard) */}
             <Route path="admin" element={<AdminPage />} />
             <Route path="/dashboard/admin-users" element={<AdminUsers />} />
           </Route>

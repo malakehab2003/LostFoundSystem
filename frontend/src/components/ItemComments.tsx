@@ -16,7 +16,7 @@ interface ItemCommentsProps {
 const ItemComments = ({ itemId }: ItemCommentsProps) => {
   const { user: currentUser } = useCurrentUser();
   const { comments, isLoading: commentsLoading } = useGetComments(itemId);
-
+  console.log(comments);
   const { addComment, isPending: isAdding } = useAddComment();
   const { deleteComment } = useDeleteComment();
   const { updateComment, isPending: isUpdating } = useUpdateComment();
@@ -159,9 +159,7 @@ const ItemComments = ({ itemId }: ItemCommentsProps) => {
             />
 
             <button
-              onClick={() =>
-                addComment({  itemId, content: newComment })
-              }
+              onClick={() => addComment({ itemId, content: newComment })}
               disabled={isAdding}
               className="absolute bottom-2 right-2 p-3 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition disabled:opacity-50"
             >

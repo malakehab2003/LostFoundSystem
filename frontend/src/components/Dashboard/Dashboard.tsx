@@ -2,7 +2,6 @@ import {
   MessageSquare,
   User,
   ChevronRight,
-  AlertCircle,
   MapPin,
   ShoppingCartIcon,
   Plus,
@@ -14,43 +13,17 @@ import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { Spinner } from "@/components/ui/spinner";
 import type { Item } from "@/features/items/itemsType";
-import defaultpage from "@/assets/default-profile.webp";
+import defaultpage from "@/assets/default-item-image.svg";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/AuthContext";
-import { useDeleteItem } from "@/features/items/hooks/useDeleteItem"; // ✅ استورد الـ hook
 
 const Dashboard = () => {
-  const { token } = useAuth();
   const { user } = useCurrentUser();
-  const { items, isLoading, refetch } = useGetItems(); // ✅ أضف refetch
-  const { deleteItem, isPending } = useDeleteItem(); // ✅ استخدم الـ hook
-
+  const { items, isLoading } = useGetItems();
   const isAdmin = user?.role === "admin";
-  
-  console.log(items);
-
-
-  // ✅ دالة حذف العنصر
-  const handleDeleteItem = (e: React.MouseEvent, itemId: number) => {
-    e.preventDefault(); // منع الـ Link من التنقل
-    e.stopPropagation(); // منع انتشار الحدث
-    
-    // تأكيد الحذف
-    if (confirm("Are you sure you want to delete this item?")) {
-      deleteItem(itemId, {
-        onSuccess: () => {
-          // تحديث القائمة بعد الحذف
-          refetch();
-        },
-      });
-    }
-  };
-
   return (
     <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
       <div className="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto relative">
-        {/* Manage Users Button - Only for Admin */}
         <div className="flex justify-end mb-6 p-4 rounded">
           {isAdmin && (
             <Link to="/dashboard/admin-users">
@@ -72,7 +45,6 @@ const Dashboard = () => {
 
         <div className="flex flex-col items-center gap-4 mb-10">
           <h1 className="header text-center">Dashboard</h1>
-          {/* Optional: Show admin badge */}
           {isAdmin && (
             <Badge variant="default" className="bg-primary">
               Admin Access
@@ -86,9 +58,7 @@ const Dashboard = () => {
       <div className="mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
         <div className="lg:col-span-7">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl sub-header">
-              {isAdmin ? "All Items" : "Your Items"}
-            </h2>
+            <h2 className="text-2xl sub-header">Your Items</h2>
             <Button
               asChild
               className="group duration-200 border-2 rounded-full border-primary text-primary hover:text-white hover:bg-primary px-5 py-3 flex items-center gap-3"
@@ -112,56 +82,32 @@ const Dashboard = () => {
                 <Link
                   key={item.id}
                   to={`items/${item.id}`}
-                  className="block group cursor-pointer rounded-lg border border-gray-200 bg-white py-4 px-2 shadow-sm hover:shadow-md transition-shadow"
+                  className="block group cursor-pointer rounded-xl border border-gray-50 bg-white shadow-xs hover:shadow-sm transition-shadow"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-32 h-32 rounded-xl overflow-hidden flex-shrink-0">
                       <img
-                        src={item.images?.[0] || defaultpage}
+                        src={item.image?.[0]?.url || defaultpage}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
                     </div>
 
-                    <div className="flex-1 flex justify-between gap-4">
+                    <div className="flex-1 flex justify-between gap-4 px-4">
                       <div className="flex flex-col gap-2 justify-between items-start">
-                        <h3 className="capitalize text-lg sub-header group-hover:text-foreground-90 transition-colors">
+                        <h3 className="capitalize text-xl sub-header group-hover:text-foreground-90 transition-colors">
                           {item.title}
                         </h3>
 
                         <p className="text-foreground/80 capitalize text-semibold tracking-wide text-[12px] group-hover:text-foreground/90 transition-colors">
                           {item.type} Date: {item.date}
                         </p>
-                        {item.images && item.images.length < 4 && (
-                          <div className="flex items-center gap-1 text-foreground/80 text-xs">
-                            <AlertCircle className="w-3 h-3" />
-                            <span className="text-xs font-medium">
-                              Add photos to{" "}
-                              <span className="font-semibold">{item.type}</span>{" "}
-                              report
-                            </span>
-                          </div>
-                        )}
                       </div>
                       <div className="flex flex-col justify-between gap-2 items-center">
                         <ChevronRight className="w-5 h-5 text-primary/80 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                         <Badge variant={"secondary"} className="capitalize">
                           {item.type}
                         </Badge>
-                        {isAdmin && (
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={(e) => handleDeleteItem(e, item.id)}
-                            disabled={isPending}
-                          >
-                            {isPending ? (
-                              <Spinner className="w-4 h-4" />
-                            ) : (
-                              "Delete"
-                            )}
-                          </Button>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -185,57 +131,54 @@ const Dashboard = () => {
             <h2 className="text-2xl sub-header mb-6">Inbox</h2>
             <Link
               to="/dashboard/messages"
-              className="group w-full flex items-center justify-between gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
+              className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
             >
               <div className="p-2">
                 <MessageSquare className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
               </div>
-              <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
+              <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
                 Messages
-              </span>
-              <span className="ml-auto bg-primary text-white text-xs font-black px-2 py-1 rounded-full">
-                2
               </span>
             </Link>
           </section>
 
-          {/* Account Settings Section */}
           <section>
             <h2 className="text-2xl sub-header mb-6">Account Settings</h2>
             <div className="flex flex-col gap-5">
               <Link
                 to="/dashboard/info"
-                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
+                className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
               >
                 <div className="p-2">
                   <User className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
                   Personal Information
                 </span>
               </Link>
               <Link
                 to="/dashboard/address"
-                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
+                className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
               >
                 <div className="p-2">
                   <MapPin className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
                   My Addresses
                 </span>
               </Link>
               <Link
                 to="/dashboard/wishlist"
-                className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
+                className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
               >
                 <div className="p-2">
                   <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
-                <span className="text-base font-semibold text-foreground/60 group-hover:text-primary">
+                <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
                   My Wishlist
                 </span>
               </Link>
+<<<<<<< HEAD
               <Link
                 to="/orders"
                 className="group w-full flex items-center gap-1 py-2 px-4 transition-all rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md"
@@ -247,6 +190,21 @@ const Dashboard = () => {
                 orders
                 </span>
               </Link>
+=======
+              {isAdmin && (
+                <Link
+                  to="/orders"
+                  className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
+                >
+                  <div className="p-2">
+                    <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                  </div>
+                  <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
+                    orders
+                  </span>
+                </Link>
+              )}
+>>>>>>> b2527ff (add images to user and items)
             </div>
           </section>
         </div>

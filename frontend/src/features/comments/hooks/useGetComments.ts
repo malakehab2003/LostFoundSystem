@@ -9,7 +9,7 @@ export function useGetComments(itemId: number) {
     queryKey: ["comments", itemId],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/api/comment/list/${itemId}`,
+        `http://localhost:5000/api/comment/get/${itemId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

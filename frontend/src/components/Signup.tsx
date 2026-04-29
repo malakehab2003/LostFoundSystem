@@ -54,7 +54,7 @@ const Signup = () => {
     {
       title: "Step 3",
       description: "",
-      fields: ["phone", "image_url"],
+      fields: ["phone", "image"],
     },
   ];
 
@@ -74,7 +74,7 @@ const Signup = () => {
       gender: "",
       dob: undefined,
       phone: "",
-      image_url: "",
+      image: [],
     },
     mode: "onChange",
     reValidateMode: "onChange",
@@ -273,28 +273,25 @@ const Signup = () => {
             />
 
             <Controller
-              name="image_url"
+              name="image"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="image_url">Profile Picture</FieldLabel>
+                  <FieldLabel htmlFor="image">Profile Picture</FieldLabel>
                   <FieldDescription></FieldDescription>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
                   <FileInput
-                    {...field}
-                    id="image_url"
-                    aria-invalid={fieldState.invalid}
+                    id="image"
+                    onChange={(file) => field.onChange(file)}
+                    value={field.value}
                     maxFiles={1}
                     maxSize={5242880}
-                    variant="default"
-                    previewSize="md"
                     multiple={false}
-                    showPreview={true}
+                    showPreview
                     accept="image/*"
-                    disabled={false}
-                  />
+                  />{" "}
                 </Field>
               )}
             />
