@@ -101,6 +101,114 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"User created successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW9AZ21haWwuY29tIiwiaWF0IjoxNzY3MDExMDQzLCJleHAiOjE3Njc2MTU4NDN9.4nilnhL_oFyz7El0Iti4-xO34oQwOtP_HmrkBGqqUT0\",\n    \"user\": {\n        \"name\": \"hamo\",\n        \"dob\": \"2006-07-26\",\n        \"gender\": \"male\",\n        \"phone\": \"+201512345678\",\n        \"email\": \"hamo@gmail.com\"\n    }\n}"
+            },
+            {
+              "name": "create user",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "image",
+                      "type": "file",
+                      "uuid": "a2c7f644-7212-44f7-9c0b-db6e36896f25",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "name",
+                      "value": "hamo2",
+                      "type": "text",
+                      "uuid": "eff24cf4-31f8-4dd2-ba44-119fd54aa948"
+                    },
+                    {
+                      "key": "dob",
+                      "value": "2006-07-26",
+                      "type": "text",
+                      "uuid": "b70b7f57-b47c-4e32-8c9c-a0edf87f4984"
+                    },
+                    {
+                      "key": "gender",
+                      "value": "male",
+                      "type": "text",
+                      "uuid": "13b241ca-4909-4669-bf51-b5bd716cf649"
+                    },
+                    {
+                      "key": "phone",
+                      "value": "+201111111111",
+                      "type": "text",
+                      "uuid": "c9238c0c-a40b-4673-8806-8754e2c3ddf9"
+                    },
+                    {
+                      "key": "email",
+                      "value": "hamo3@gmail.com",
+                      "type": "text",
+                      "uuid": "f014365a-4962-4123-867f-6cc5e67d52e8"
+                    },
+                    {
+                      "key": "password",
+                      "value": "hamo@123",
+                      "type": "text",
+                      "uuid": "ab92380c-c3e2-471c-9098-e1e0ad4eb04a"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/user/createUser",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "user",
+                    "createUser"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "389"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"185-qF0iHHPsxNwLmxin6i0flW9FNhc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 02:49:32 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"User created successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbW8zQGdtYWlsLmNvbSIsImlhdCI6MTc3NzI1ODE2OCwiZXhwIjoxNzc3ODYyOTY4fQ.JTo3n5KPsghd3aQ6ZjybGEfNtGVkaVBWK9Sy7O-vwZY\",\n    \"user\": {\n        \"show_phone_number\": true,\n        \"is_verified\": false,\n        \"id\": 60,\n        \"name\": \"hamo2\",\n        \"dob\": \"2006-07-26\",\n        \"gender\": \"male\",\n        \"phone\": \"+201111111111\",\n        \"email\": \"hamo3@gmail.com\",\n        \"role\": \"user\"\n    }\n}"
             }
           ]
         },
@@ -2922,6 +3030,132 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"Item created Successfully\",\n    \"item\": {\n        \"id\": 36,\n        \"title\": \"new\",\n        \"government_id\": 1,\n        \"city_id\": 1,\n        \"place\": \"transportation\",\n        \"type\": \"lost\",\n        \"description\": \"i lost this item help please\",\n        \"date\": \"2025-12-01\",\n        \"item_category_id\": 3,\n        \"user_id\": 59,\n        \"updated_at\": \"2026-02-02T18:15:21.774Z\",\n        \"created_at\": \"2026-02-02T18:15:21.774Z\"\n    }\n}"
+            },
+            {
+              "name": "create item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "uuid": "25441abb-650d-493e-bfb6-ffcaf97a6345",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "title",
+                      "value": "new",
+                      "type": "text",
+                      "uuid": "58f60e7d-d6b2-4c57-a18f-7f52f7007617"
+                    },
+                    {
+                      "key": "government_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "fe9373da-71e4-44de-831a-e14b960fefff"
+                    },
+                    {
+                      "key": "city_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "573c347c-acc3-4582-95d7-6a485c1245b7"
+                    },
+                    {
+                      "key": "place",
+                      "value": "transportation",
+                      "type": "text",
+                      "uuid": "dbc1a230-8dc4-4b89-99a6-7732f65d829b"
+                    },
+                    {
+                      "key": "type",
+                      "value": "found",
+                      "type": "text",
+                      "uuid": "c17ab0de-1937-4c0f-9d12-5e5936eaab63"
+                    },
+                    {
+                      "key": "description",
+                      "value": "i lost this item help please",
+                      "type": "text",
+                      "uuid": "b2c2583c-8f8d-4e74-a8b6-3b5927c9664d"
+                    },
+                    {
+                      "key": "category_id",
+                      "value": "3",
+                      "type": "text",
+                      "uuid": "b752bf2d-f833-4bcc-a31c-23f38db20397"
+                    },
+                    {
+                      "key": "date",
+                      "value": "2025-12-01",
+                      "type": "text",
+                      "uuid": "f26b640f-3fe3-4ec7-a798-49a066b6f0b6"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/item/create",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "325"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"145-GbDYOzVfzOihP/LrOMHLLy+y8SA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 02:46:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Item created Successfully\",\n    \"item\": {\n        \"id\": 40,\n        \"title\": \"new\",\n        \"government_id\": \"1\",\n        \"city_id\": \"1\",\n        \"place\": \"transportation\",\n        \"type\": \"found\",\n        \"description\": \"i lost this item help please\",\n        \"date\": \"2025-12-01\",\n        \"item_category_id\": \"3\",\n        \"user_id\": 59,\n        \"updated_at\": \"2026-04-27T02:46:51.137Z\",\n        \"created_at\": \"2026-04-27T02:46:51.137Z\"\n    }\n}"
             }
           ]
         },
@@ -3402,6 +3636,108 @@
               ],
               "cookie": [],
               "body": "{\n    \"products\": {\n        \"count\": 1,\n        \"rows\": [\n            {\n                \"id\": 2,\n                \"name\": \"Running Shoes Pro\",\n                \"rate\": 4.2,\n                \"status\": \"active\",\n                \"price\": 89.99,\n                \"colors\": [\n                    \"Red\",\n                    \"Blue\",\n                    \"Black\"\n                ],\n                \"sizes\": [\n                    38,\n                    39,\n                    40,\n                    41,\n                    42\n                ],\n                \"stock\": 100,\n                \"sale\": 0,\n                \"description\": \"Comfortable running shoes for daily workouts.\",\n                \"created_at\": \"2026-01-26T20:58:27.000Z\",\n                \"updated_at\": \"2026-01-26T20:58:27.000Z\",\n                \"brand_id\": 2,\n                \"product_category_id\": 2\n            }\n        ]\n    },\n    \"pagination\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPages\": null\n    }\n}"
+            },
+            {
+              "name": "list products",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base}}/product/list?status=active&min_price=1&max_price=10000&category_id=2&brand_id=2&rate=1&name=Shoes&colors=Black",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "product",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "key": "min_price",
+                      "value": "1"
+                    },
+                    {
+                      "key": "max_price",
+                      "value": "10000"
+                    },
+                    {
+                      "key": "category_id",
+                      "value": "2"
+                    },
+                    {
+                      "key": "brand_id",
+                      "value": "2"
+                    },
+                    {
+                      "key": "is_sale",
+                      "value": "true",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "rate",
+                      "value": "1"
+                    },
+                    {
+                      "key": "name",
+                      "value": "Shoes"
+                    },
+                    {
+                      "key": "colors",
+                      "value": "Black"
+                    },
+                    {
+                      "key": "sizes",
+                      "value": "\"38\", \"39\"",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "599"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"257-XaZFhscvicw5w3GBLRqj8IosrTE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 29 Apr 2026 10:07:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"products\": [\n        {\n            \"id\": 2,\n            \"name\": \"Running Shoes Pro\",\n            \"rate\": 4.2,\n            \"status\": \"active\",\n            \"price\": 89.99,\n            \"colors\": [\n                \"Red\",\n                \"Blue\",\n                \"Black\"\n            ],\n            \"sizes\": [\n                38,\n                39,\n                40,\n                41,\n                42\n            ],\n            \"stock\": 100,\n            \"sale\": 0,\n            \"description\": \"Comfortable running shoes for daily workouts.\",\n            \"created_at\": \"2026-04-25T16:59:34.000Z\",\n            \"updated_at\": \"2026-04-25T16:59:34.000Z\",\n            \"brand_id\": 2,\n            \"product_category_id\": 2,\n            \"category\": {\n                \"id\": 2,\n                \"name\": \"Clothing\"\n            },\n            \"image\": [],\n            \"brand\": {\n                \"id\": 2,\n                \"name\": \"Brand B\"\n            },\n            \"review\": [\n                {\n                    \"rate\": 4,\n                    \"message\": \"Good value for the price.\",\n                    \"user\": {\n                        \"id\": 2,\n                        \"name\": \"Bob Smith\"\n                    },\n                    \"image\": []\n                }\n            ]\n        }\n    ],\n    \"pagination\": {\n        \"total\": 1,\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPages\": 1\n    }\n}"
             }
           ]
         },
@@ -3585,6 +3921,144 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"Product created successfully\",\n    \"product\": {\n        \"id\": 12,\n        \"name\": \"new\",\n        \"price\": 200,\n        \"rate\": 4,\n        \"status\": \"active\",\n        \"stock\": 100,\n        \"colors\": [\n            \"black\",\n            \"green\"\n        ],\n        \"sizes\": [\n            \"L\",\n            \"XL\"\n        ],\n        \"description\": \"this is new product\",\n        \"brand_id\": 1,\n        \"sale\": 20,\n        \"product_category_id\": 1,\n        \"updated_at\": \"2026-02-03T00:50:20.624Z\",\n        \"created_at\": \"2026-02-03T00:50:20.624Z\"\n    }\n}"
+            },
+            {
+              "name": "create product",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "uuid": "491f3b39-d088-432f-ba4d-44e5d64a174d",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "name",
+                      "value": "air jordon",
+                      "type": "text",
+                      "uuid": "d6df1e0d-cd2b-4b98-9f54-15662af00dc2"
+                    },
+                    {
+                      "key": "price",
+                      "value": "200",
+                      "type": "text",
+                      "uuid": "d38c9de4-d83c-4ccb-8711-68ae66f5376e"
+                    },
+                    {
+                      "key": "sale",
+                      "value": "20",
+                      "type": "text",
+                      "uuid": "8ba52741-caaa-4fb4-86dd-76c1c203e66d"
+                    },
+                    {
+                      "key": "status",
+                      "value": "active",
+                      "type": "text",
+                      "uuid": "1e569cb5-0893-4968-b2fc-e2d538801dc2"
+                    },
+                    {
+                      "key": "stock",
+                      "value": "5",
+                      "type": "text",
+                      "uuid": "00759c32-9515-4601-b930-5eb362eabe7e"
+                    },
+                    {
+                      "key": "colors",
+                      "value": "black",
+                      "type": "text",
+                      "uuid": "51658dc5-e3e5-4028-9308-a0734b11071c"
+                    },
+                    {
+                      "key": "sizes",
+                      "value": "L",
+                      "type": "text",
+                      "uuid": "b182fc39-1005-4600-9202-b803781360d0"
+                    },
+                    {
+                      "key": "description",
+                      "value": "i am new",
+                      "type": "text",
+                      "uuid": "d2338987-a6d4-40b0-b8a7-a2e3863ec639"
+                    },
+                    {
+                      "key": "category_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "fa21336d-ac76-4749-a850-d3a549233bf3"
+                    },
+                    {
+                      "key": "brand_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "4919fde3-318f-45f0-b917-bada4d9669d7"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/product/create",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "product",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "322"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"142-PlVroxnNKUZ7c+re2Wm/J0IRJ5s\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 02:58:50 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Product created successfully\",\n    \"product\": {\n        \"rate\": 0,\n        \"id\": 15,\n        \"name\": \"air jordon\",\n        \"price\": \"200\",\n        \"status\": \"active\",\n        \"stock\": \"5\",\n        \"colors\": \"black\",\n        \"sizes\": \"L\",\n        \"description\": \"i am new\",\n        \"brand_id\": \"1\",\n        \"sale\": \"20\",\n        \"product_category_id\": \"1\",\n        \"updated_at\": \"2026-04-27T02:58:46.226Z\",\n        \"created_at\": \"2026-04-27T02:58:46.226Z\"\n    }\n}"
             }
           ]
         },
@@ -3984,6 +4458,97 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"Images Added Successfully\"\n}"
+            },
+            {
+              "name": "add image to item",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "uuid": "568d607e-a6d4-4f79-adc0-e99da2ae6be0",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "owner_id",
+                      "value": "40",
+                      "type": "text",
+                      "uuid": "31bf1b23-c783-4e72-901a-1bc74d27d7a4"
+                    },
+                    {
+                      "key": "owner_type",
+                      "value": "item",
+                      "type": "text",
+                      "uuid": "31c0a403-d5d3-4ddf-8228-dbd6a2f33ecc"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/item/image/addImages",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "item",
+                    "image",
+                    "addImages"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "39"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"27-VESb/ZSoAc1ghcdilJiA8f9Qls0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:21:08 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Images Added Successfully\"\n}"
             }
           ]
         }
@@ -4184,6 +4749,194 @@
                 {
                   "key": "Date",
                   "value": "Tue, 03 Feb 2026 02:09:09 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Images Added Successfully\"\n}"
+            },
+            {
+              "name": "add image to product",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "product_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "9cf8b435-a458-4328-8d52-9e0cef9f5b61"
+                    },
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "uuid": "3d4ee5c9-0afe-49f3-a13a-066aa47ce448",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "owner_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "35f681a1-e85e-4525-b771-4de00c92cbcf"
+                    },
+                    {
+                      "key": "owner_type",
+                      "value": "product",
+                      "type": "text",
+                      "uuid": "c7759eb8-fa7b-46a9-acb4-a5a7cefc36d1"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/product/image/addImages",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "product",
+                    "image",
+                    "addImages"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "39"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"27-VESb/ZSoAc1ghcdilJiA8f9Qls0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:17:26 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Images Added Successfully\"\n}"
+            },
+            {
+              "name": "add image to product",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "images",
+                      "type": "file",
+                      "uuid": "3d4ee5c9-0afe-49f3-a13a-066aa47ce448",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "owner_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "35f681a1-e85e-4525-b771-4de00c92cbcf"
+                    },
+                    {
+                      "key": "owner_type",
+                      "value": "product",
+                      "type": "text",
+                      "uuid": "c7759eb8-fa7b-46a9-acb4-a5a7cefc36d1"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/product/image/addImages",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "product",
+                    "image",
+                    "addImages"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "39"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"27-VESb/ZSoAc1ghcdilJiA8f9Qls0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:19:20 GMT"
                 },
                 {
                   "key": "Connection",
@@ -4818,6 +5571,72 @@
               "body": "{\n    \"message\": \"comment updated successfully\",\n    \"comment\": {\n        \"id\": 6,\n        \"content\": \"No need to write content\",\n        \"user_id\": 59,\n        \"item_id\": 1,\n        \"created_at\": \"2026-02-03T21:48:10.000Z\",\n        \"updated_at\": \"2026-02-03T21:48:17.735Z\"\n    }\n}"
             }
           ]
+        },
+        {
+          "name": "get comments",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "get comments",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base}}/comment/get/1",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "comment",
+                    "get",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "725"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2d5-JcIb+onqRT9WMB9rhczAuJHgu60\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:42:59 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"comments\": [\n        {\n            \"id\": 4,\n            \"content\": \"I am new comment\",\n            \"user_id\": 59,\n            \"item_id\": 1,\n            \"created_at\": \"2026-04-27T03:41:08.000Z\",\n            \"updated_at\": \"2026-04-27T03:41:08.000Z\",\n            \"user\": {\n                \"id\": 59,\n                \"name\": \"hamo\",\n                \"image\": []\n            },\n            \"item\": {\n                \"id\": 1,\n                \"title\": \"Lost Wallet\",\n                \"type\": \"lost\"\n            }\n        },\n        {\n            \"id\": 5,\n            \"content\": \"I am new comment\",\n            \"user_id\": 59,\n            \"item_id\": 1,\n            \"created_at\": \"2026-04-27T03:41:10.000Z\",\n            \"updated_at\": \"2026-04-27T03:41:10.000Z\",\n            \"user\": {\n                \"id\": 59,\n                \"name\": \"hamo\",\n                \"image\": []\n            },\n            \"item\": {\n                \"id\": 1,\n                \"title\": \"Lost Wallet\",\n                \"type\": \"lost\"\n            }\n        },\n        {\n            \"id\": 6,\n            \"content\": \"I am new comment\",\n            \"user_id\": 59,\n            \"item_id\": 1,\n            \"created_at\": \"2026-04-27T03:41:12.000Z\",\n            \"updated_at\": \"2026-04-27T03:41:12.000Z\",\n            \"user\": {\n                \"id\": 59,\n                \"name\": \"hamo\",\n                \"image\": []\n            },\n            \"item\": {\n                \"id\": 1,\n                \"title\": \"Lost Wallet\",\n                \"type\": \"lost\"\n            }\n        }\n    ]\n}"
+            }
+          ]
         }
       ]
     },
@@ -4970,6 +5789,68 @@
               ],
               "cookie": [],
               "body": "{\n    \"cart\": [\n        {\n            \"id\": 46,\n            \"quantity\": 32,\n            \"color\": null,\n            \"size\": null,\n            \"created_at\": \"2026-03-23T19:03:01.000Z\",\n            \"updated_at\": \"2026-03-23T19:03:01.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 8,\n            \"product\": {\n                \"name\": \"Action Figure Set\",\n                \"price\": 59.99,\n                \"sale\": 0,\n                \"image\": []\n            }\n        },\n        {\n            \"id\": 47,\n            \"quantity\": 32,\n            \"color\": null,\n            \"size\": null,\n            \"created_at\": \"2026-03-23T19:05:55.000Z\",\n            \"updated_at\": \"2026-03-23T19:05:55.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 9,\n            \"product\": {\n                \"name\": \"Fitness Tracker Watch\",\n                \"price\": 79.99,\n                \"sale\": 20,\n                \"image\": []\n            }\n        },\n        {\n            \"id\": 48,\n            \"quantity\": 32,\n            \"color\": \"Brown\",\n            \"size\": \"Small\",\n            \"created_at\": \"2026-03-23T19:08:35.000Z\",\n            \"updated_at\": \"2026-03-23T19:08:35.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 10,\n            \"product\": {\n                \"name\": \"Pet Dog Bed\",\n                \"price\": 49.99,\n                \"sale\": 0,\n                \"image\": []\n            }\n        }\n    ]\n}"
+            },
+            {
+              "name": "list cart",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base}}/cart/list",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "cart",
+                    "list"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "538"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"21a-nmYe4Kic3bN8OI9DdPFbMoU+Zn4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:12:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"cart\": [\n        {\n            \"id\": 46,\n            \"quantity\": 32,\n            \"color\": \"Brown\",\n            \"size\": \"Small\",\n            \"created_at\": \"2026-04-27T03:11:22.000Z\",\n            \"updated_at\": \"2026-04-27T03:11:22.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 10,\n            \"product\": {\n                \"name\": \"Pet Dog Bed\",\n                \"price\": 49.99,\n                \"sale\": 0,\n                \"image\": []\n            },\n            \"finalPrice\": 1599.68\n        },\n        {\n            \"id\": 47,\n            \"quantity\": 32,\n            \"color\": \"Blue\",\n            \"size\": null,\n            \"created_at\": \"2026-04-27T03:12:42.000Z\",\n            \"updated_at\": \"2026-04-27T03:12:42.000Z\",\n            \"user_id\": 59,\n            \"product_id\": 9,\n            \"product\": {\n                \"name\": \"Fitness Tracker Watch\",\n                \"price\": 79.99,\n                \"sale\": 20,\n                \"image\": []\n            },\n            \"finalPrice\": 2047.744\n        }\n    ],\n    \"total\": 3647.424\n}"
             }
           ]
         },
@@ -6711,6 +7592,102 @@
               ],
               "cookie": [],
               "body": "{\n    \"message\": \"Review created successfully\",\n    \"review\": {\n        \"id\": 11,\n        \"message\": \"this is new review\",\n        \"rate\": 4,\n        \"user_id\": 59,\n        \"product_id\": 1,\n        \"image_url\": \"image.jpg\",\n        \"updated_at\": \"2026-02-12T16:30:09.196Z\",\n        \"created_at\": \"2026-02-12T16:30:09.196Z\"\n    }\n}"
+            },
+            {
+              "name": "create reivew",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "image",
+                      "type": "file",
+                      "uuid": "ef2fec37-b8da-4d97-af4a-9ad11b82dc35",
+                      "src": "/D:/baba/insurance cards/malak card.jpg"
+                    },
+                    {
+                      "key": "message",
+                      "value": "i am review",
+                      "type": "text",
+                      "uuid": "00faa6eb-6188-4952-88b3-62c538580d17"
+                    },
+                    {
+                      "key": "rate",
+                      "value": "5",
+                      "type": "text",
+                      "uuid": "e3267960-e172-4c40-9883-43e4a133f514"
+                    },
+                    {
+                      "key": "product_id",
+                      "value": "1",
+                      "type": "text",
+                      "uuid": "ab0013c1-e1a1-4987-8674-fc10d3da9337"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base}}/review/create",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "review",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "205"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"cd-C1M8dL5SfR1PlZ7MpcjJwh9At04\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 27 Apr 2026 03:02:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Review created successfully\",\n    \"review\": {\n        \"id\": 12,\n        \"message\": \"i am review\",\n        \"rate\": \"5\",\n        \"user_id\": 59,\n        \"product_id\": \"1\",\n        \"updated_at\": \"2026-04-27T03:02:32.318Z\",\n        \"created_at\": \"2026-04-27T03:02:32.318Z\"\n    }\n}"
             }
           ]
         },
@@ -6944,6 +7921,72 @@
               ],
               "cookie": [],
               "body": "{\n    \"chats\": [\n        {\n            \"id\": 26,\n            \"owner_id\": 59,\n            \"sender_id\": 1,\n            \"created_at\": \"2026-03-03T18:41:07.000Z\"\n        }\n    ]\n}"
+            },
+            {
+              "name": "get all chats",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "{{auth_key}}",
+                    "value": "{{auth_value}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"sender_id\": 1\r\n}"
+                },
+                "url": {
+                  "raw": "{{base}}/chat/list",
+                  "host": [
+                    "{{base}}"
+                  ],
+                  "path": [
+                    "chat",
+                    "list"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "188"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"bc-ETcTBKU0Q7o5fwP3YSJlW0DnP1s\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 19 Apr 2026 13:36:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"formattedChats\": [\n        {\n            \"chat_id\": 26,\n            \"other_user\": {\n                \"id\": 60,\n                \"name\": \"hamo\"\n            },\n            \"last_message\": \"sfddf\",\n            \"unread\": 1\n        },\n        {\n            \"chat_id\": 27,\n            \"other_user\": {\n                \"id\": 62,\n                \"name\": \"hamo\"\n            },\n            \"last_message\": \"s\",\n            \"unread\": 6\n        }\n    ]\n}"
             }
           ]
         }
@@ -8067,6 +9110,49 @@
               "body": "{\n    \"clientSecret\": \"pi_3T8mqIBCcAEvUHrX0zgF8zS8_secret_nZfVthTLMwrgKZFfdWlaY2sOL\",\n    \"amount\": 92498\n}"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "upload photo disabled",
+      "item": [
+        {
+          "name": "upload photo",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "{{auth_key}}",
+                "value": "{{auth_value}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "654daefe-4795-492f-869c-58f5e2881bae",
+                  "src": "/D:/baba/insurance cards/malak card.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base}}/photo/upload",
+              "host": [
+                "{{base}}"
+              ],
+              "path": [
+                "photo",
+                "upload"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
