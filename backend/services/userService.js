@@ -150,18 +150,17 @@ export const getAnotherUserService = async (email, id) => {
     const where = {};
     if (id) where.id = id;
     if (email) where.email = email;
-
+    
     const user = await User.findOne(
         { 
             where,
-            includes: [
+            include: [
                 {
                     model: Image,
                     as: 'image',
                     attributes: ['url']
                 }
-            ]
-         }
+            ]        }
     );
 
     if (!user) throw new Error ('No user Found');
