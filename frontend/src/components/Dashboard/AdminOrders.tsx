@@ -13,6 +13,7 @@ export default function AdminOrders() {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [filterUserId, setFilterUserId] = useState<string>('');
     const [searchByName, setSearchByName] = useState<string>('');
+    const [searchByStatus, setSearchByStatus] = useState<string>('');
     const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
     
     const { 
@@ -52,8 +53,12 @@ export default function AdminOrders() {
             result = searchOrdersByName(searchByName);
         }
         
+        if (searchByStatus) {
+            result = result.filter(order => order.order_status === searchByStatus);
+        }
+        
         return result;
-    }, [orders, filterUserId, searchByName, searchOrdersByName]);
+    }, [orders, filterUserId, searchByName, searchByStatus, searchOrdersByName]);
 
     // إحصائيات
     const stats = {
@@ -211,6 +216,28 @@ export default function AdminOrders() {
                                     style={{ focusRingColor: PRIMARY_COLOR }}
                                 />
                             </div>
+
+                            {/* Filter by Status */}
+                            <div className="flex-1 flex flex-col sm:flex-row gap-3 items-center w-full">
+                                <div className="flex items-center gap-2 min-w-fit">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                    </svg>
+                                    <label className="text-sm font-medium text-gray-700">Order Status:</label>
+                                </div>
+                                <select
+                                    value={searchByStatus}
+                                    onChange={(e) => setSearchByStatus(e.target.value)}
+                                    className="flex-1 px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 transition-all bg-white"
+                                    style={{ focusRingColor: PRIMARY_COLOR }}
+                                >
+                                    <option value="">All Status</option>
+                                    <option value="processing">⏳ Processing</option>
+                                    <option value="shipped">🚚 Shipped</option>
+                                    <option value="delivered">✅ Delivered</option>
+                                    <option value="cancelled">❌ Cancelled</option>
+                                </select>
+                            </div>
                         </div>
                         
                         {/* Action Buttons */}
@@ -225,11 +252,12 @@ export default function AdminOrders() {
                                 </svg>
                                 Refresh
                             </button>
-                            {(filterUserId || searchByName) && (
+                            {(filterUserId || searchByName || searchByStatus) && (
                                 <button
                                     onClick={() => {
                                         setFilterUserId('');
                                         setSearchByName('');
+                                        setSearchByStatus('');
                                     }}
                                     className="px-5 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition-all"
                                 >
@@ -276,85 +304,36 @@ export default function AdminOrders() {
                                                         )}
                                                     </div>
                                                 </div>
-                                            </td>
+                                             </td>
                                             {/* ✅ عمود المنتجات */}
-                                            <td className="px-6 py-4">
-                                                <button
-                                                    onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}
-                                                    className="flex items-center gap-2 text-sm text-purple-600 hover:text-purple-700 transition"
-                                                >
-                                                    <span>📦</span>
-                                                    <span>{expandedOrderId === order.id ? 'Hide Products' : 'View Products'}</span>
-                                                    <svg className={`w-4 h-4 transition-transform ${expandedOrderId === order.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                    </svg>
-                                                </button>
-                                                
-                                                {/* ✅ عرض المنتجات عند التوسيع */}
-                                                {expandedOrderId === order.id && (
-                                                    <div className="mt-3 pt-3 border-t border-gray-100">
-                                                        {isLoadingItems ? (
-                                                            <div className="flex items-center gap-2 text-sm text-gray-400">
-                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-purple-600"></div>
-                                                                Loading products...
-                                                            </div>
-                                                        ) : productsList && productsList.length > 0 ? (
-                                                            <div className="space-y-2">
-                                                                <div className="text-xs font-semibold text-gray-500 mb-2">
-                                                                    {totalItems} product{totalItems !== 1 ? 's' : ''} in this order:
-                                                                </div>
-                                                                {productsList.map((product, idx) => (
-                                                                    <div key={idx} className="flex items-center justify-between text-sm bg-gray-50 rounded-lg p-2">
-                                                                        <div className="flex items-center gap-2">
-                                                                            <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                                                                            <span className="font-medium text-gray-800">{product.name}</span>
-                                                                        </div>
-                                                                        <div className="flex items-center gap-4">
-                                                                            <span className="text-gray-500">Qty: <span className="font-semibold">{product.quantity}</span></span>
-                                                                            <span className="text-gray-500">Price: ${product.price.toFixed(2)}</span>
-                                                                            <span className="text-purple-600 font-semibold">Subtotal: ${product.subtotal.toFixed(2)}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
-                                                                <div className="flex justify-end pt-2 mt-2 border-t border-gray-200">
-                                                                    <span className="text-sm font-semibold text-purple-600">
-                                                                        Total: ${itemsOrderTotal.toFixed(2)}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        ) : (
-                                                            <p className="text-sm text-gray-400 text-center py-2">No products found</p>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </td>
+                                            
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="text-sm font-bold" style={{ color: PRIMARY_COLOR }}>
                                                     ${Number(order.total_price).toFixed(2)}
                                                 </span>
-                                            </td>
+                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-600">
                                                     {order.payment_type === 'card' ? '💳' : '💵'} {order.payment_type}
                                                 </span>
-                                            </td>
+                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="inline-flex items-center gap-1 text-sm text-gray-600">
                                                     {order.receive_type === 'delivery' ? '🚚' : '🏪'} {order.receive_type}
                                                 </span>
-                                            </td>
+                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full border ${getStatusColor(order.order_status)}`}>
                                                     {getStatusIcon(order.order_status)} {order.order_status}
                                                 </span>
-                                            </td>
+                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {order.created_at ? new Date(order.created_at).toLocaleDateString('en-US', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
                                                 }) : '-'}
-                                            </td>
+                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <button
                                                     onClick={() => handleUpdateOrder(order)}
@@ -366,12 +345,12 @@ export default function AdminOrders() {
                                                     </svg>
                                                     Edit
                                                 </button>
-                                            </td>
+                                             </td>
                                         </tr>
                                     </Fragment>
                                 ))}
                             </tbody>
-                        </table>
+                         </table>
                     </div>
                     {filteredOrders.length === 0 && (
                         <div className="text-center py-16">

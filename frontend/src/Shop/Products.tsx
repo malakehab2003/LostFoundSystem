@@ -1,7 +1,15 @@
-// Products.tsx - Simplified version (image upload moved to hook)
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
@@ -24,9 +32,9 @@ import {
   X,
 } from "lucide-react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -36,14 +44,21 @@ const Products = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [isRefetching, setIsRefetching] = useState(false);
 
-  const { products, isLoading } = useProducts();
+  const { products, isLoading, pagination, refetch } = useProducts(currentPage, 10);
   const { wishlist } = useWishlist();
   const { addToWishlist } = useAddToWishlist();
   const { deleteFromWishlist } = useDeleteFromWishlist();
 
   const { user } = useCurrentUser();
   const isAdmin = user?.role === "admin";
+
+  const [editImages, setEditImages] = useState<File[]>([]);
+  const [editPreviews, setEditPreviews] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<any[]>([]);
 
   const { editProduct, isPending: isEditing } = useEditProduct();
   const { deleteProduct, isPending: isDeleting } = useDeleteProduct();
@@ -53,8 +68,8 @@ const Products = () => {
   const { itemCategories } = useGetItemCategory();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const [createData, setCreateData] = useState({
     name: "",
@@ -66,16 +81,57 @@ const Products = () => {
     stock: 0,
   });
 
+  const handlePageChange = (page: number) => {
+    setSearchParams({ page: page.toString() });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSaveEdit = () => {
+    if (!selectedProduct) return;
+    
+    const jsonData = {
+      name: formData.name,
+      price: Number(formData.price),
+      description: formData.description,
+      stock: Number(formData.stock),
+    };
+
+    console.log("Sending edit data:", jsonData);
+
+    editProduct(
+      {
+        productId: selectedProduct.id,
+        data: jsonData,
+      },
+      {
+        onSuccess: () => {
+          setSearchParams({ page: currentPage.toString() });
+          setIsEditOpen(false);
+          refetch();
+          toast.success("Product updated successfully");
+        },
+        onError: (error: any) => {
+          toast.error(error.message || "Failed to update product");
+        },
+      }
+    );
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
+    const files = e.target.files;
+    if (!files) return;
+
+    const filesArray = Array.from(files);
+
+    setSelectedImages((prev) => [...prev, ...filesArray]);
+
+    filesArray.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        setImagePreviews((prev) => [...prev, reader.result as string]);
       };
       reader.readAsDataURL(file);
-    }
+    });
   };
 
   const handleCreate = () => {
@@ -103,13 +159,20 @@ const Products = () => {
       sizes: createData.size,
       brand_id: 1,
       stock: createData.stock || 0,
-      imageFile: selectedImage || undefined,
+      sale: 0,
+      rate: 0,
+      images: selectedImages.length > 0 ? selectedImages : undefined,
     };
 
     console.log("Sending product data:", productData);
+    setIsRefetching(true);
 
     createProduct(productData, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+        
+        setSearchParams({ page: "1" });
+        
         setCreateData({
           name: "",
           price: 0,
@@ -119,9 +182,13 @@ const Products = () => {
           category_id: 0,
           stock: 0,
         });
-        setSelectedImage(null);
-        setImagePreview("");
+        setSelectedImages([]);
+        setImagePreviews([]);
         setIsCreateOpen(false);
+        setIsRefetching(false);
+      },
+      onError: () => {
+        setIsRefetching(false);
       },
     });
   };
@@ -154,20 +221,27 @@ const Products = () => {
       description: product.description,
       stock: product.stock || 0,
     });
+    setExistingImages(product.image || []);
+    setEditImages([]);
+    setEditPreviews([]);
     setIsEditOpen(true);
   };
 
-  const handleSaveEdit = () => {
-    editProduct({
-      productId: selectedProduct.id,
-      data: formData,
-    }, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["products"] });
-      },
-    });
+  const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
 
-    setIsEditOpen(false);
+    const filesArray = Array.from(files);
+
+    setEditImages((prev) => [...prev, ...filesArray]);
+
+    filesArray.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditPreviews((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleDelete = (id: number) => {
@@ -175,9 +249,16 @@ const Products = () => {
     deleteProduct(id, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["products"] });
+        refetch();
       },
     });
   };
+
+  useEffect(() => {
+    console.log("Pagination data:", pagination);
+    console.log("Total pages:", pagination?.totalPages);
+    console.log("Current page:", currentPage);
+  }, [pagination, currentPage]);
 
   return (
     <>
@@ -188,6 +269,11 @@ const Products = () => {
             <h2 className="mt-3 text-xl font-semibold text-foreground/90 sm:text-2xl">
               Our Products
             </h2>
+            {pagination && (
+              <p className="text-sm text-gray-500 mt-1">
+                Showing {(pagination.page - 1) * pagination.limit + 1} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} products
+              </p>
+            )}
           </div>
 
           <div className="flex items-center space-x-4">
@@ -209,127 +295,280 @@ const Products = () => {
           </div>
         </div>
 
-        {isLoading ? (
+        {isLoading || isRefetching ? (
           <div className="text-center py-20">
             <Spinner className="w-8 h-8 text-primary" />
+            <p className="mt-2 text-gray-500">Loading products...</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-            {products?.map((product: any) => (
-              <div
-                key={product.id}
-                className="rounded-lg border bg-white p-6 shadow-sm"
-              >
-                <Link to={`/shop/products/${product.id}`}>
-                  <img
-                    className="mx-auto h-56 object-cover"
-                    src={
-                      product.images_url?.[0] ||
-                      product.image?.[0]?.image_url ||
-                      "https://placehold.co/400x400?text=No+Image"
-                    }
-                    alt={product.name}
-                    onError={(e)=> {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
-                    }}
-                  />
-                </Link>
-                
-
-                <div className="pt-6">
-                  <div className="flex justify-between mb-4">
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleWishlist(product.id)}
-                    >
-                      <Heart
-                        className={`w-5 h-5 ${
-                          isProductInWishlist(product.id)
-                            ? "fill-red-500 text-red-500"
-                            : ""
-                        }`}
-                      />
-                      Wishlist
-                    </Button>
-
-                    <Badge>{product.category?.name}</Badge>
-                  </div>
-
-                  <Link
-                    to={`/shop/products/${product.id}`}
-                    className="font-semibold"
-                  >
-                    {product.name}
+          <>
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+              {products?.map((product: any) => (
+                <div
+                  key={product.id}
+                  className="rounded-lg border bg-white p-6 shadow-sm"
+                >
+                  <Link to={`/shop/products/${product.id}`}>
+                    <img
+                      className="mx-auto h-56 object-cover"
+                      src={
+                        product.image?.[0]?.url ||
+                        product.images_url?.[0] ||
+                        product.image?.[0]?.image_url ||
+                        "https://placehold.co/400x400?text=No+Image"
+                      }
+                      alt={product.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          "https://placehold.co/400x400?text=No+Image";
+                      }}
+                    />
                   </Link>
 
-                  <p className="text-sm text-gray-500 line-clamp-2">
-                    {product.description}
-                  </p>
+                  <div className="pt-6">
+                    <div className="flex justify-between mb-4">
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleWishlist(product.id)}
+                      >
+                        <Heart
+                          className={`w-5 h-5 ${
+                            isProductInWishlist(product.id)
+                              ? "fill-red-500 text-red-500"
+                              : ""
+                          }`}
+                        />
+                        Wishlist
+                      </Button>
 
-                  <div className="flex gap-1 mt-2">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <StarIcon
-                        key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.round(product.rate)
-                            ? "text-yellow-400 fill-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  <div className="mt-4 flex flex-col gap-2">
-                    <p className="font-bold text-lg">${product.price}</p>
-                    
-                    {/* Stock Display */}
-                    <div className="flex items-center gap-2 text-sm">
-                      <Package className="w-4 h-4 text-gray-500" />
-                      <span className={product.stock > 0 ? "text-green-600" : "text-red-500"}>
-                        Stock: {product.stock || 0} units
-                      </span>
+                      <Badge>{product.category?.name}</Badge>
                     </div>
 
-                    <Button
-                      onClick={() => navigate(`/shop/products/${product.id}`)}
+                    <Link
+                      to={`/shop/products/${product.id}`}
+                      className="font-semibold"
                     >
-                      <ShoppingCart className="w-5 h-5" />
-                      Add to cart
-                    </Button>
+                      {product.name}
+                    </Link>
 
-                    {isAdmin && (
-                      <div className="flex flex-col gap-2">
-                        <Button
-                          className="w-full"
-                          variant="secondary"
-                          onClick={() => handleEdit(product)}
-                        >
-                          Edit
-                        </Button>
+                    <p className="text-sm text-gray-500 line-clamp-2">
+                      {product.description}
+                    </p>
 
-                        <Button
-                          className="w-full"
-                          variant="destructive"
-                          disabled={isDeleting}
-                          onClick={() => handleDelete(product.id)}
+                    <div className="flex gap-1 mt-2">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <StarIcon
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < Math.round(product.rate)
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="mt-4 flex flex-col gap-2">
+                      <p className="font-bold text-lg">${product.price}</p>
+
+                      <div className="flex items-center gap-2 text-sm">
+                        <Package className="w-4 h-4 text-gray-500" />
+                        <span
+                          className={
+                            product.stock > 0
+                              ? "text-green-600"
+                              : "text-red-500"
+                          }
                         >
-                          Delete
-                        </Button>
+                          Stock: {product.stock || 0} units
+                        </span>
                       </div>
-                    )}
+
+                      <Button
+                        onClick={() =>
+                          navigate(`/shop/products/${product.id}`)
+                        }
+                      >
+                        <ShoppingCart className="w-5 h-5" />
+                        Add to cart
+                      </Button>
+
+                      {isAdmin && (
+                        <div className="flex flex-col gap-2">
+                          <Button
+                            className="w-full"
+                            variant="secondary"
+                            onClick={() => handleEdit(product)}
+                          >
+                            Edit
+                          </Button>
+
+                          <Button
+                            className="w-full"
+                            variant="destructive"
+                            disabled={isDeleting}
+                            onClick={() => handleDelete(product.id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+            
+            {/* Pagination */}
+            {pagination && pagination.totalPages >= 1 && (
+              <div className="mt-12 pt-6 border-t border-gray-200">
+                <div className="flex justify-center gap-2 flex-wrap">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (currentPage > 1) {
+                        handlePageChange(currentPage - 1);
+                      }
+                    }}
+                    disabled={currentPage === 1}
+                  >
+                    ← Previous
+                  </Button>
+                  
+                  {pagination && (
+                    <>
+                      <Button
+                        variant={currentPage === 1 ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handlePageChange(1)}
+                        className="min-w-[40px]"
+                      >
+                        1
+                      </Button>
+                      
+                      {pagination.totalPages >= 2 && (
+                        <Button
+                          variant={currentPage === 2 ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => handlePageChange(2)}
+                          className="min-w-[40px]"
+                        >
+                          2
+                        </Button>
+                      )}
+                      
+                      {pagination.totalPages >= 3 && (
+                        <Button
+                          variant={currentPage === 3 ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => handlePageChange(3)}
+                          className="min-w-[40px]"
+                        >
+                          3
+                        </Button>
+                      )}
+                    </>
+                  )}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (pagination && currentPage < pagination.totalPages) {
+                        handlePageChange(currentPage + 1);
+                      } else {
+                        if (currentPage === 1 && pagination?.totalPages === 1) {
+                          handlePageChange(2);
+                        }
+                      }
+                    }}
+                    disabled={pagination && currentPage >= pagination.totalPages && pagination.totalPages > 1}
+                  >
+                    Next →
+                  </Button>
+                </div>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 
       {/* EDIT MODAL */}
       {isEditOpen && selectedProduct && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-[400px] space-y-4">
+          <div className="bg-white p-6 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto space-y-4">
             <h2 className="font-bold text-lg">Edit Product</h2>
+
+            <div
+              className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                multiple
+                onChange={handleEditImageUpload}
+              />
+
+              {existingImages.length > 0 || editPreviews.length > 0 ? (
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {existingImages.map((img, index) => (
+                    <div key={`old-${index}`} className="relative">
+                      <img
+                        src={img.url}
+                        className="h-24 w-24 object-cover rounded"
+                        alt="existing"
+                      />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExistingImages((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+
+                  {editPreviews.map((src, index) => (
+                    <div key={`new-${index}`} className="relative">
+                      <img
+                        src={src}
+                        className="h-24 w-24 object-cover rounded"
+                        alt="preview"
+                      />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditPreviews((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                          setEditImages((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                  <p className="text-sm text-gray-500">
+                    Click to upload product images
+                  </p>
+                </div>
+              )}
+            </div>
 
             <input
               className="border w-full p-2 rounded"
@@ -396,10 +635,11 @@ const Products = () => {
           <div className="bg-white p-6 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto space-y-4">
             <h2 className="font-bold text-lg">Add Product</h2>
 
-            {/* Image Upload */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Product Image</label>
-              <div 
+              <label className="text-sm font-medium text-gray-700">
+                Product Image
+              </label>
+              <div
                 className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -408,30 +648,41 @@ const Products = () => {
                   ref={fileInputRef}
                   className="hidden"
                   accept="image/*"
+                  multiple
                   onChange={handleImageUpload}
                 />
-                {imagePreview ? (
-                  <div className="relative">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="mx-auto h-32 object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedImage(null);
-                        setImagePreview("");
-                      }}
-                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
+                {imagePreviews.length > 0 ? (
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {imagePreviews.map((src, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={src}
+                          alt={`Preview-${index}`}
+                          className="h-24 w-24 object-cover rounded-lg"
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setImagePreviews((prev) =>
+                              prev.filter((_, i) => i !== index)
+                            );
+                            setSelectedImages((prev) =>
+                              prev.filter((_, i) => i !== index)
+                            );
+                          }}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 ) : (
                   <div>
                     <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">Click to upload product image</p>
+                    <p className="text-sm text-gray-500">
+                      Click to upload product images
+                    </p>
                   </div>
                 )}
               </div>
@@ -470,7 +721,6 @@ const Products = () => {
               }
             />
 
-            {/* CATEGORY SELECT */}
             <select
               className="border w-full p-2 rounded"
               value={createData.category_id || ""}
@@ -529,16 +779,18 @@ const Products = () => {
             />
 
             <div className="flex justify-end gap-2">
-              <Button onClick={() => {
-                setIsCreateOpen(false);
-                setSelectedImage(null);
-                setImagePreview("");
-              }}>
+              <Button
+                onClick={() => {
+                  setIsCreateOpen(false);
+                  setSelectedImages([]);
+                  setImagePreviews([]);
+                }}
+              >
                 Cancel
               </Button>
 
-              <Button onClick={handleCreate} disabled={isCreating}>
-                {isCreating ? "Creating..." : "Create Product"}
+              <Button onClick={handleCreate} disabled={isCreating || isRefetching}>
+                {isCreating || isRefetching ? "Creating..." : "Create Product"}
               </Button>
             </div>
           </div>

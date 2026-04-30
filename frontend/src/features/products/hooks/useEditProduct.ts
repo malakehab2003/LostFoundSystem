@@ -3,12 +3,11 @@ import toast from "react-hot-toast";
 
 type EditProductPayload = {
   productId: number;
-  data: {
+  data: FormData | {
     name?: string;
     price?: number;
     description?: string;
-    image?: string[];
-    category?: string;
+    stock?: number;
   };
 };
 
@@ -17,15 +16,17 @@ export function useEditProduct() {
 
   const { mutate: editProduct, isPending } = useMutation({
     mutationFn: async ({ productId, data }: EditProductPayload) => {
+      const isFormData = data instanceof FormData;
+
       const res = await fetch(
         `http://localhost:5000/api/product/update/${productId}`,
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
           },
-          body: JSON.stringify(data),
+          body: isFormData ? data : JSON.stringify(data),
         }
       );
 
@@ -38,12 +39,19 @@ export function useEditProduct() {
       return result;
     },
 
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+    onSuccess: (data, variables) => {
+      // 🔥 تحديث سريع للـ UI (مهم جدًا)
+      queryClient.setQueryData(["products"], (old: any) => {
+        if (!old) return old;
 
-      queryClient.invalidateQueries({
-        queryKey: ["product", variables.productId],
+        return old.map((p: any) =>
+          p.id === variables.productId
+            ? { ...p, ...data.product } // لازم API يرجع product
+            : p
+        );
       });
+
+      queryClient.invalidateQueries({ queryKey: ["products"] });
 
       toast.success("Product updated successfully");
     },
