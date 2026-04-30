@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import logo from "@/assets/logowebsite.png";
 import defaultProfile from "@/assets/default-profile.webp";
 import { Menu, MessageSquare, X } from "lucide-react";
@@ -16,7 +16,9 @@ export default function Nav() {
     queryKey: ["get cart"],
     queryFn: getCart,
   });
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const typeFromUrl = searchParams.get("type") as "lost" | "found" | null;
   const { token } = useAuth();
   const { user } = useCurrentUser();
   const { logoutUser } = useLogout();
@@ -51,10 +53,10 @@ export default function Nav() {
           <ul className="flex gap-1">
             <li>
               <NavLink
-                to="/lost"
+                to="/items?type=lost"
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    isActive
+                    typeFromUrl === "lost" || null
                       ? "bg-primary/10 text-primary"
                       : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
@@ -65,10 +67,10 @@ export default function Nav() {
             </li>
             <li>
               <NavLink
-                to="/something-found"
+                to="/items?type=found"
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    isActive
+                    typeFromUrl === "found"
                       ? "bg-primary/10 text-primary"
                       : "text-gray-600 hover:bg-gray-50 hover:text-primary"
                   }`
@@ -189,7 +191,7 @@ export default function Nav() {
             <ul className="flex flex-col gap-1 mb-4">
               <li>
                 <NavLink
-                  to="/something-lost"
+                  to="/items?type=lost"
                   onClick={closeNav}
                   className={({ isActive }) =>
                     `block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
@@ -204,7 +206,7 @@ export default function Nav() {
               </li>
               <li>
                 <NavLink
-                  to="/something-found"
+                  to="/items?type=found"
                   onClick={closeNav}
                   className={({ isActive }) =>
                     `block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${

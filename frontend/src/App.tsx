@@ -49,8 +49,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="profile/:userId" element={<Profile />} />
-          <Route path="lost" element={<LostItems />} />
-          <Route path="lost/:itemId" element={<LostItem />} />
+          <Route path="items" element={<LostItems />} />
+          <Route path="items/:itemId" element={<LostItem />} />
           <Route path="help" element={<Help />} />
 
           <Route path="dashboard" element={<DashboardLayout />}>

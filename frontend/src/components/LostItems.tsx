@@ -9,12 +9,9 @@ import {
   X,
   Filter,
 } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import CustomFormField from "./CustomerFormField";
 import { Form } from "@/components/ui/form";
 import { Link } from "react-router-dom";
-import { z } from "zod";
 import {
   type City,
   type Government,
@@ -23,95 +20,22 @@ import {
 } from "@/features/items/itemsType";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
-import { useCities } from "@/features/cities/hooks/useCities";
 import { Button } from "@/components/ui/button";
 import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useListItems } from "@/features/items/hooks/useListItems";
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "./ui/spinner";
 import defaultpage from "@/assets/default-item-image.svg";
-
-const ItemFilterSchema = z.object({
-  title: z.string().optional().default(""),
-  place: z.string().optional().default(""),
-  category_id: z.coerce.number().optional(),
-  government_id: z.coerce.number().optional(),
-  city_id: z.coerce.number().optional(),
-  type: z.enum(["lost", "found"]),
-  date: z.date().optional(),
-});
-
-type ItemFilterFormSchema = z.infer<typeof ItemFilterSchema>;
+import { useItemFilters } from "@/features/items/hooks/useItemFilters";
 
 const LostItems = () => {
+  const { form, onSubmit, resetFilters, appliedFilters, filteredCities } =
+    useItemFilters();
+
+  const { items, isLoading } = useListItems(appliedFilters);
+
   const { governments } = useGovernments();
-  const { cities } = useCities();
   const { itemCategories } = useGetItemCategory();
-  const [hasSearched, setHasSearched] = useState(false);
-
-  const form = useForm<ItemFilterFormSchema>({
-    resolver: zodResolver(ItemFilterSchema),
-    defaultValues: {
-      title: "",
-      place: "",
-      category_id: undefined,
-      type: "lost",
-      date: undefined,
-      government_id: undefined,
-      city_id: undefined,
-    },
-  });
-
-  const selectedGovernment = form.watch("government_id");
-  const filteredCities = cities?.filter(
-    (city) => city.government_id === selectedGovernment,
-  );
-
-  const buildFilters = (data: ItemFilterFormSchema) => {
-    const govt = governments?.find((g) => g.id === data.government_id);
-    const city = filteredCities?.find((c) => c.id === data.city_id);
-
-    return {
-      title: data.title || undefined,
-      place: data.place || undefined,
-      government: govt?.name || undefined,
-      city: city?.name || undefined,
-      category_id: data.category_id,
-      type: data.type,
-      page: 1,
-      limit: 50,
-    };
-  };
-
-  const [appliedFilters, setAppliedFilters] = useState(
-    buildFilters(form.getValues()),
-  );
-  const {
-    items: filteredItems,
-    isLoading,
-    error,
-  } = useListItems(appliedFilters);
-
-  const onSubmit = (data: ItemFilterFormSchema) => {
-    const filters = buildFilters(data);
-    setAppliedFilters(filters);
-    setHasSearched(true);
-  };
-
-  const handleResetFilters = () => {
-    form.reset({
-      title: "",
-      place: "",
-      category_id: undefined,
-      government_id: undefined,
-      city_id: undefined,
-      type: "lost",
-      date: undefined,
-    });
-    setAppliedFilters(buildFilters(form.getValues()));
-    setHasSearched(false);
-  };
 
   return (
     <div className="min-h-screen">
@@ -128,14 +52,12 @@ const LostItems = () => {
               <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
                 <Filter className="w-4 h-4" /> Filter
               </h2>
-              {hasSearched && (
-                <button
-                  onClick={handleResetFilters}
-                  className="text-xs text-foreground/70 hover:text-foreground/90 underline"
-                >
-                  Reset
-                </button>
-              )}
+              <button
+                onClick={resetFilters}
+                className="text-xs text-foreground/70 hover:text-foreground/90 underline"
+              >
+                Reset
+              </button>
             </div>
             <Form {...form}>
               <form
@@ -178,7 +100,7 @@ const LostItems = () => {
                     value: city.id,
                     label: city.name,
                   }))}
-                  disabled={!selectedGovernment}
+                  disabled={!form.watch("government_id")}
                   icon={Building2}
                 />
                 <CustomFormField
@@ -225,17 +147,13 @@ const LostItems = () => {
           </aside>
 
           <main className="w-full">
-            {hasSearched && (
-              <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-                <p className="text-sm text-primary/90">
-                  Found{" "}
-                  <span className="font-semibold">
-                    {filteredItems?.length || 0}
-                  </span>{" "}
-                  items
-                </p>
-              </div>
-            )}
+            <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <p className="text-sm text-primary/90">
+                Found{" "}
+                <span className="font-semibold">{items?.length || 0}</span>{" "}
+                items
+              </p>
+            </div>
 
             {isLoading && (
               <div className="text-center justify-center items-center py-12">
@@ -245,27 +163,24 @@ const LostItems = () => {
             )}
 
             {/* Empty State */}
-            {!isLoading &&
-              !error &&
-              hasSearched &&
-              filteredItems?.length === 0 && (
-                <div className="flex items-center justify-center py-12">
-                  <div className="text-center">
-                    <X className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                    <p className="text-slate-600 font-medium">No items found</p>
-                    <p className="text-sm text-slate-500">
-                      Try adjusting your filters to find what you're looking for
-                    </p>
-                  </div>
+            {!isLoading && items?.length === 0 && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <X className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                  <p className="text-slate-600 font-medium">No items found</p>
+                  <p className="text-sm text-slate-500">
+                    Try adjusting your filters to find what you're looking for
+                  </p>
                 </div>
-              )}
+              </div>
+            )}
 
-            {!isLoading && filteredItems && filteredItems.length > 0 && (
+            {!isLoading && items && items.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredItems.map((item: Item) => (
+                {items.map((item: Item) => (
                   <Link
                     key={item.id}
-                    to={`/lost/${item.id}`}
+                    to={`/items/${item.id}`}
                     className="group rounded-lg border bg-white shadow-xs hover:shadow-sm transition-shadow duration-300 flex flex-col h-full"
                   >
                     <div className="mx-auto relative h-56 w-full rounded-lg bg-slate-50 overflow-hidden">

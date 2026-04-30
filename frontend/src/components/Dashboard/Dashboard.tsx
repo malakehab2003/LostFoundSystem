@@ -178,7 +178,8 @@ const Dashboard = () => {
                   My Wishlist
                 </span>
               </Link>
-               <Link
+              {isAdmin && (
+                <Link
                   to="/orders"
                   className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
                 >
@@ -189,7 +190,7 @@ const Dashboard = () => {
                     orders
                   </span>
                 </Link>
-              
+              )}
             </div>
           </section>
         </div>

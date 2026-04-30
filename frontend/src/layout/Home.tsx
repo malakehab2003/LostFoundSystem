@@ -1,10 +1,10 @@
 import Categray from "@/Shop/categray";
 import { Button } from "@heroui/react";
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card"
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import photoHome from "@/assets/photo-home.jfif"
-import LostPhoto from "@/assets/elastic-wristband-on-kid.webp"
+import { Card, CardContent } from "@/components/ui/card";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import photoHome from "@/assets/photo-home.jfif";
+import LostPhoto from "@/assets/elastic-wristband-on-kid.webp";
 import { ShoppingCart, User, Bell, Mail } from "lucide-react";
 import {
   Carousel,
@@ -12,7 +12,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
 
 export default function Home() {
@@ -25,9 +25,7 @@ export default function Home() {
   return (
     <>
       {/* القسم الأول - الخلفية الزرقاء */}
-      <div 
-        className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-primary relative overflow-hidden"
-      >
+      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-primary relative overflow-hidden">
         {/* الأيقونات الخلفية */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 text-white/10 text-7xl">
@@ -59,33 +57,39 @@ export default function Home() {
 
         {/* العنوان الرئيسي */}
         <h1 className="text-center text-4xl md:text-7xl font-bold text-white max-w-4xl leading-tight z-10">
-          We are here to help <br /> 
+          We are here to help <br />
           <span className="text-yellow-300">find your lost</span> items
         </h1>
 
         {/* الوصف */}
         <p className="text-center text-lg md:text-2xl text-white/90 mt-8 max-w-3xl z-10">
           <i className="fa-solid fa-heart text-red-400 mr-2"></i>
-          Day3 is a free and easy way to search 300K+ lost and found 
-          things to help them return home.
+          Day3 is a free and easy way to search 300K+ lost and found things to
+          help them return home.
         </p>
 
         {/* إحصائيات سريعة */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-12 z-10">
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-yellow-300">300K+</div>
+            <div className="text-3xl md:text-4xl font-bold text-yellow-300">
+              300K+
+            </div>
             <div className="text-white/80 text-sm md:text-base mt-1">
               <i className="fa-solid fa-box-open mr-1"></i> Lost items
             </div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-yellow-300">85%</div>
+            <div className="text-3xl md:text-4xl font-bold text-yellow-300">
+              85%
+            </div>
             <div className="text-white/80 text-sm md:text-base mt-1">
               <i className="fa-solid fa-arrow-rotate-left mr-1"></i> Returned
             </div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-yellow-300">24/7</div>
+            <div className="text-3xl md:text-4xl font-bold text-yellow-300">
+              24/7
+            </div>
             <div className="text-white/80 text-sm md:text-base mt-1">
               <i className="fa-solid fa-headset mr-1"></i> Support
             </div>
@@ -94,36 +98,39 @@ export default function Home() {
 
         {/* الأزرار */}
         <div className="flex flex-col sm:flex-row gap-5 mt-12 z-10">
-          <Link to={'/lost'}>
-           <Button 
-            size="lg" 
-            className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-colors"
-          >
-            <i className="fa-solid fa-circle-exclamation mr-2 text-red-500"></i>
-            I lost something
-          </Button>
+          <Link to={"/items?type=found"}>
+            <Button
+              size="lg"
+              className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-colors"
+            >
+              <i className="fa-solid fa-circle-exclamation mr-2 text-red-500"></i>
+              I lost something
+            </Button>
           </Link>
-          
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-full text-lg font-semibold transition-colors backdrop-blur-sm"
-          >
-            <i className="fa-solid fa-hand-peace mr-2"></i>
-            I found something
-          </Button>
+          <Link to={"/items?type=lost"}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-full text-lg font-semibold transition-colors backdrop-blur-sm"
+            >
+              <i className="fa-solid fa-hand-peace mr-2"></i>I found something
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* القسم الثاني - What can you do? */}
       <div className="w-full flex flex-col items-center mt-20 relative z-20 px-4">
         <div className="text-center mb-10">
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">Get Started</span>
+          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+            Get Started
+          </span>
           <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
             What can you do?
           </h3>
           <p className="text-gray-500 mt-3 max-w-md mx-auto">
-            Choose from our services to help reunite lost items with their owners
+            Choose from our services to help reunite lost items with their
+            owners
           </p>
         </div>
 
@@ -137,7 +144,11 @@ export default function Home() {
                 className="flex flex-col items-center justify-center cursor-pointer group"
               >
                 <div className="w-28 h-28 md:w-32 md:h-32 flex items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-[#7F22FE] transition-all duration-200 mb-4 border border-primary/20 group-hover:border-transparent">
-                  <Icon size={80} strokeWidth={2} className="group-hover:text-white transition-colors duration-200" />
+                  <Icon
+                    size={80}
+                    strokeWidth={2}
+                    className="group-hover:text-white transition-colors duration-200"
+                  />
                 </div>
                 <p className="text-base font-medium text-gray-700 group-hover:text-[#7F22FE] transition-colors duration-200">
                   {item.label}
@@ -150,57 +161,60 @@ export default function Home() {
 
       {/* Categories */}
       <div className="bg-white py-16">
-        <p className="text-center text-3xl font-bold text-gray-800 mb-2">Categories</p>
-        <p className="text-center text-gray-500 mb-10">Shop by category to find what you need</p>
-        <Link to={'/shop/Products'}>
-         <div className="flex flex-wrap max-w-7xl mx-auto px-4 ">
-          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-            <img
-              src="./src/assets/elastic-wristband-on-kid.webp"
-              alt="shop for loved"
-              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-              Shop for loved
-            </p>
+        <p className="text-center text-3xl font-bold text-gray-800 mb-2">
+          Categories
+        </p>
+        <p className="text-center text-gray-500 mb-10">
+          Shop by category to find what you need
+        </p>
+        <Link to={"/shop/Products"}>
+          <div className="flex flex-wrap max-w-7xl mx-auto px-4 ">
+            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+              <img
+                src="./src/assets/elastic-wristband-on-kid.webp"
+                alt="shop for loved"
+                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+                Shop for loved
+              </p>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+              <img
+                src="./src/assets/keychain-on-bikekeys.webp"
+                alt="shop for items"
+                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+                Shop for items
+              </p>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+              <img
+                src="./src/assets/metal-tag-on-dog-collar.webp"
+                alt="shop for pets"
+                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+                Shop for pets
+              </p>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
+              <img
+                src="./src/assets/label-on-suitcase.webp"
+                alt="shop for luggage"
+                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
+              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
+                Shop for luggage
+              </p>
+            </div>
           </div>
-          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-            <img
-              src="./src/assets/keychain-on-bikekeys.webp"
-              alt="shop for items"
-              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-              Shop for items
-            </p>
-          </div>
-          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-            <img
-              src="./src/assets/metal-tag-on-dog-collar.webp"
-              alt="shop for pets"
-              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-              Shop for pets
-            </p>
-          </div>
-          <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-            <img
-              src="./src/assets/label-on-suitcase.webp"
-              alt="shop for luggage"
-              className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-            <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-              Shop for luggage
-            </p>
-          </div>
-        </div>
-          </Link>
-       
+        </Link>
       </div>
 
       {/* قسم Lost & Found System */}
@@ -222,8 +236,8 @@ export default function Home() {
             </h2>
             <p className="text-gray-600 mt-6 text-lg">
               Report your lost items or help others by uploading found objects.
-              Our platform makes it easy to reconnect people with their belongings
-              quickly and safely.
+              Our platform makes it easy to reconnect people with their
+              belongings quickly and safely.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
              <Link to="/lost">
@@ -246,7 +260,9 @@ export default function Home() {
       {/* قسم Best Sellers */}
       <div className="w-full bg-gray-50 py-16">
         <div className="text-center mb-10">
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">Shop</span>
+          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+            Shop
+          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
             Best Sellers
           </h2>
@@ -254,7 +270,7 @@ export default function Home() {
             Our most popular items loved by customers
           </p>
         </div>
-        
+
         <div className="relative w-full flex justify-center items-center px-4">
           <Carousel opts={{ align: "start" }} className="w-full max-w-7xl">
             <CarouselContent>
@@ -301,7 +317,7 @@ export default function Home() {
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
-        
+
         <div className="text-center mt-10">
           <Link to="./shop/products">
           <Button className="bg-primary text-white hover:bg-[#6B1EE6] px-8 py-3 rounded-full font-semibold transition-all duration-200">
@@ -322,9 +338,9 @@ export default function Home() {
               Help People Get Their Belongings Back
             </h2>
             <p className="text-gray-600 mt-6 text-lg leading-relaxed">
-              Want to help return lost items to their owners?
-              Browse all reported lost items and easily connect with their owners.
-              Create an account to connect with others and make a real difference.
+              Want to help return lost items to their owners? Browse all
+              reported lost items and easily connect with their owners. Create
+              an account to connect with others and make a real difference.
             </p>
             <Link to="/dashboard/messages">
             <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:text-[#7F22FE] hover:border-[#7F22FE] transition-all duration-200">

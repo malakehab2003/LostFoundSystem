@@ -12,14 +12,14 @@ import {
 import { useDeleteItem } from "@/features/items/hooks/useDeleteItem";
 import { Trash2 } from "lucide-react";
 
-const DeleteItemDialog = (itemId: number) => {
+const DeleteItemDialog = ({ itemId }: { itemId: number }) => {
   const { deleteItem, isPending } = useDeleteItem();
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="destructive" size="sm">
-          <Trash2 className="w-4 h-4" />
+          Delete <Trash2 className="w-4 h-4" />
         </Button>
       </DialogTrigger>
 

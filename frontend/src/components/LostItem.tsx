@@ -19,7 +19,6 @@ const LostItem = () => {
   const { itemId } = useParams();
   const { item, isLoading } = useGetItem(Number(itemId));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  console.log(item);
   const images = item?.image || [];
   const displayImages: string[] =
     images.length > 0
