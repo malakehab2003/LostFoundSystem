@@ -30,7 +30,7 @@ const HowToHelp = () => {
       description:
         "Explore lost and found items in your area and help reconnect people with their belongings.",
       actionText: "Browse Now",
-      actionLink: "/lost",
+      actionLink: "/items?type=lost",
       color: "from-blue-500/10 to-blue-600/5",
       iconColor: "text-blue-600",
       border: "border-blue-200",
@@ -44,7 +44,7 @@ const HowToHelp = () => {
       description:
         "Discover amazing products from our collection. Every purchase helps support our mission.",
       actionText: "Shop Now",
-      actionLink: "/shop",
+      actionLink: "/shop/Products",
       color: "from-green-500/10 to-green-600/5",
       iconColor: "text-green-600",
       border: "border-green-200",
@@ -72,7 +72,7 @@ const HowToHelp = () => {
       description:
         "Join efforts with others and organize a community search team.",
       actionText: "Form Team",
-      actionLink: "/dashboard",
+      actionLink: "/dashboard/messages",
       color: "from-purple-500/10 to-purple-600/5",
       iconColor: "text-purple-600",
       border: "border-purple-200",
@@ -209,13 +209,13 @@ const HowToHelp = () => {
             </Button>
           </Link>
           
-          <Link to="/shop">
+          <Link to="/">
             <Button
               variant="outline"
               size="lg"
               className="border-white bg-primary text-white hover:bg-white/10 rounded-xl hover:scale-105 transition-transform"
             >
-              Shop Products
+              Home page
             </Button>
           </Link>
         </div>

@@ -1,4 +1,4 @@
-// SingleProduct.tsx - مع Carousel للصور
+// SingleProduct.tsx - Complete working file with Carousel
 import { addToCart } from "@/cart/serves/addTocart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -97,7 +97,6 @@ const SingleProduct = () => {
   const sizesArray = getSizesArray();
   const colorsArray = getColorsArray();
 
-  // Get all images array for carousel
   const getImagesArray = () => {
     if (!product) return [];
     

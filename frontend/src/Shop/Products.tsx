@@ -1,3 +1,4 @@
+// Products.tsx - Complete working file
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -37,7 +38,8 @@ import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { useAddProductImage } from "@/features/products/hooks/useAddProductImage";
+import { useDeleteProductImage } from "@/features/products/hooks/useDeleteProductImage";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 
 const Products = () => {
@@ -71,6 +73,9 @@ const Products = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
+  const { addImage, isPending: isAddingImage } = useAddProductImage();
+  const { deleteImage, isPending: isDeletingImage } = useDeleteProductImage();
+
   const [createData, setCreateData] = useState({
     name: "",
     price: 0,
@@ -88,25 +93,57 @@ const Products = () => {
 
   const handleSaveEdit = () => {
     if (!selectedProduct) return;
-    
-    const jsonData = {
-      name: formData.name,
-      price: Number(formData.price),
-      description: formData.description,
-      stock: Number(formData.stock),
-    };
 
-    console.log("Sending edit data:", jsonData);
+    const hasNewImages = editImages.length > 0;
+    const hasDataChanges = 
+      formData.name !== selectedProduct.name ||
+      formData.price !== selectedProduct.price ||
+      formData.description !== selectedProduct.description ||
+      formData.stock !== selectedProduct.stock;
+
+    if (!hasDataChanges && !hasNewImages) {
+      toast.info("No changes to save");
+      setIsEditOpen(false);
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    const categoryId = selectedProduct.category_id || selectedProduct.product_category_id || 1;
+
+    formDataToSend.append("category_id", String(categoryId));
+
+    
+    if (formData.name !== selectedProduct.name) {
+      formDataToSend.append("name", formData.name);
+    }
+    if (formData.price !== selectedProduct.price) {
+      formDataToSend.append("price", String(formData.price));
+    }
+    if (formData.description !== selectedProduct.description) {
+      formDataToSend.append("description", formData.description);
+    }
+    if (formData.stock !== selectedProduct.stock) {
+      formDataToSend.append("stock", String(formData.stock));
+    }
+
+
+    editImages.forEach((img) => {
+      formDataToSend.append("images", img);
+    });
+
+    console.log("Sending edit data with FormData");
 
     editProduct(
       {
         productId: selectedProduct.id,
-        data: jsonData,
+        data: formDataToSend,
       },
       {
         onSuccess: () => {
           setSearchParams({ page: currentPage.toString() });
           setIsEditOpen(false);
+          setEditImages([]);
+          setEditPreviews([]);
           refetch();
           toast.success("Product updated successfully");
         },
@@ -193,7 +230,6 @@ const Products = () => {
     });
   };
 
-  // EDIT
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
@@ -227,20 +263,35 @@ const Products = () => {
     setIsEditOpen(true);
   };
 
-  const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  // Products.tsx - replace handleEditImageUpload
+const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (!files) return;
 
-    const filesArray = Array.from(files);
+  const filesArray = Array.from(files);
+  
+  // ✅ Store images in state, will be sent with save
+  setEditImages((prev) => [...prev, ...filesArray]);
 
-    setEditImages((prev) => [...prev, ...filesArray]);
+  filesArray.forEach((file) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditPreviews((prev) => [...prev, reader.result as string]);
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  toast.success(`${filesArray.length} image(s) selected. They will be saved when you click Save.`);
+};
 
-    filesArray.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditPreviews((prev) => [...prev, reader.result as string]);
-      };
-      reader.readAsDataURL(file);
+  const handleDeleteImage = (imageId: number) => {
+    deleteImage({
+      imageId: imageId,
+      productId: selectedProduct.id,
+    }, {
+      onSuccess: () => {
+        refetch();
+      },
     });
   };
 
@@ -422,73 +473,53 @@ const Products = () => {
             {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
               <div className="mt-12 pt-6 border-t border-gray-200">
-                <div className="flex justify-center gap-2 flex-wrap">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (currentPage > 1) {
-                        handlePageChange(currentPage - 1);
-                      }
-                    }}
-                    disabled={currentPage === 1}
-                  >
-                    ← Previous
-                  </Button>
-                  
-                  {pagination && (
-                    <>
-                      <Button
-                        variant={currentPage === 1 ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => handlePageChange(1)}
-                        className="min-w-[40px]"
-                      >
-                        1
-                      </Button>
-                      
-                      {pagination.totalPages >= 2 && (
-                        <Button
-                          variant={currentPage === 2 ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handlePageChange(2)}
-                          className="min-w-[40px]"
-                        >
-                          2
-                        </Button>
-                      )}
-                      
-                      {pagination.totalPages >= 3 && (
-                        <Button
-                          variant={currentPage === 3 ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handlePageChange(3)}
-                          className="min-w-[40px]"
-                        >
-                          3
-                        </Button>
-                      )}
-                    </>
-                  )}
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (pagination && currentPage < pagination.totalPages) {
-                        handlePageChange(currentPage + 1);
-                      } else {
-                        if (currentPage === 1 && pagination?.totalPages === 1) {
-                          handlePageChange(2);
-                        }
-                      }
-                    }}
-                    disabled={pagination && currentPage >= pagination.totalPages && pagination.totalPages > 1}
-                  >
-                    Next →
-                  </Button>
-                </div>
-              </div>
+  <div className="flex justify-center gap-2 flex-wrap">
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      ← Previous
+    </Button>
+    
+    <Button
+      variant="default"
+      size="sm"
+      onClick={() => handlePageChange(1)}
+      className="min-w-[40px]"
+    >
+      1
+    </Button>
+    
+    {pagination && pagination.totalPages >= 2 && (
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => handlePageChange(2)}
+        className="min-w-[40px]"
+      >
+        2
+      </Button>
+    )}
+    
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => {
+        if (pagination && currentPage < pagination.totalPages) {
+          handlePageChange(currentPage + 1);
+        } else if (currentPage === 1 && pagination?.totalPages === 1) {
+          // مؤقت للاختبار: اذهب لصفحة 2 (حتى لو مفيش منتجات)
+          handlePageChange(2);
+        }
+      }}
+      disabled={pagination ? currentPage >= pagination.totalPages && pagination.totalPages > 1 : false}
+    >
+      Next →
+    </Button>
+  </div>
+</div>
             )}
           </>
         )}
@@ -518,16 +549,14 @@ const Products = () => {
                   {existingImages.map((img, index) => (
                     <div key={`old-${index}`} className="relative">
                       <img
-                        src={img.url}
+                        src={img.url || img.image_url || img}
                         className="h-24 w-24 object-cover rounded"
                         alt="existing"
                       />
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setExistingImages((prev) =>
-                            prev.filter((_, i) => i !== index)
-                          );
+                          handleDeleteImage(img.id);
                         }}
                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
                       >
@@ -621,8 +650,8 @@ const Products = () => {
             <div className="flex justify-end gap-2">
               <Button onClick={() => setIsEditOpen(false)}>Close</Button>
 
-              <Button onClick={handleSaveEdit} disabled={isEditing}>
-                Save
+              <Button onClick={handleSaveEdit} disabled={isEditing || isAddingImage || isDeletingImage}>
+                {isEditing || isAddingImage || isDeletingImage ? "Saving..." : "Save"}
               </Button>
             </div>
           </div>
