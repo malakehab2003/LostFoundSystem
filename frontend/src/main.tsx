@@ -8,7 +8,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SocketProvider } from "./lib/SocketContext.tsx";
 
+// 🔥 Stripe imports
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe("pk_test_51TSm2IIOkMl7atsbhXQJEPLtNOhvL9oW7vXqeKWrWquEVovDU2LjODPODF54oasBEEFkhbk26YZaboJzsExuRZJT000J46QbVH");
 const queryClient = new QueryClient();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -16,17 +22,22 @@ createRoot(document.getElementById("root")!).render(
 
       <AuthProvider>
         <SocketProvider>
-          <App />
+
+          {/* 👇 أهم إضافة */}
+          <Elements stripe={stripePromise}>
+            <App />
+          </Elements>
+
         </SocketProvider>
       </AuthProvider>
     </QueryClientProvider>
+
     <Toaster
       position="bottom-right"
       gutter={10}
       containerClassName="toast"
       toastOptions={{
         duration: 4000,
-
         success: {
           style: {
             color: "#fff",
@@ -43,5 +54,5 @@ createRoot(document.getElementById("root")!).render(
         },
       }}
     />
-  </StrictMode>,
+  </StrictMode>
 );
