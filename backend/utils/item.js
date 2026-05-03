@@ -28,7 +28,7 @@ export const buildWhereFilters = (filters) => {
 export const buildWhereForCategoryItems = (filters, items) => {
     let where = {};
     if (filters.category_id) {
-        where = { item_category_id: filters.category_id };
+        where = { item_category_id: filters.category_id, type: filters.type, };
         if (items.length > 0) {
             const matchedIds = items.map(item => item.id);
             where.id = { [Op.notIn]: matchedIds };

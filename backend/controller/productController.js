@@ -3,7 +3,7 @@ import { Product } from '../models/db.js';
 import * as validate from '../utils/validateData.js';
 
 
-const DEFAULT_LIMIT = 10;
+const DEFAULT_LIMIT = 12;
 
 
 export const listProducts = async (req, res) => {

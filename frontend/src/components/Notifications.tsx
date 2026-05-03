@@ -42,6 +42,8 @@ import { Spinner } from "./ui/spinner";
 
 const Notifications = () => {
   const { notifications, isLoading } = useGetNotifications();
+
+  console.log("we are notifications", notifications);
   return (
     <Sheet>
       <SheetTrigger asChild>
