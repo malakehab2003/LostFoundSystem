@@ -1,7 +1,7 @@
 import { Phone, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import CustomFormField from "../CustomerFormField";
 import { FormFieldType } from "./DashItemInfo";
 import { Form } from "../ui/form";
@@ -14,7 +14,15 @@ import {
 } from "@/features/auth/userType";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useUpdateUserInfo } from "@/features/auth/hooks/useUpdateUserInfo";
-import { FieldGroup } from "../ui/field";
+import {
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "../ui/field";
+import { Checkbox } from "../ui/checkbox";
+import { FileInput } from "../ui/file-input";
 
 const DashInfo = () => {
   const { user } = useCurrentUser();
@@ -25,9 +33,10 @@ const DashInfo = () => {
       email: user?.email || "",
       name: user?.name || "",
       phone: user?.phone || "",
+      showPhoneNumber: user?.showPhoneNumber ?? true,
       dob: user?.dob ? new Date(user.dob) : new Date(),
       gender: user?.gender || "male",
-      image: user?.image || "",
+      image: [],
     },
   });
 
@@ -49,12 +58,28 @@ const DashInfo = () => {
             className="space-y-6 flex flex-col"
           >
             <FieldGroup>
-              {/* <CustomFormField
-                fieldType={FormFieldType.FILE_INPUT}
-                control={form.control}
+              <Controller
                 name="image"
-                label="Profile Picture"
-              /> */}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="image">Profile Picture</FieldLabel>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                    <FileInput
+                      id="image"
+                      onChange={(file) => field.onChange(file)}
+                      value={field.value}
+                      maxFiles={1}
+                      maxSize={5242880}
+                      multiple={false}
+                      showPreview
+                      accept="image/*"
+                    />
+                  </Field>
+                )}
+              />
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -88,6 +113,34 @@ const DashInfo = () => {
                 label="Phone"
                 icon={Phone}
               />
+              <Controller
+                name="showPhoneNumber"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    data-invalid={fieldState.invalid}
+                    orientation="horizontal"
+                  >
+                    <Checkbox
+                      id="showPhoneNumber"
+                      name={field.name}
+                      disabled={!form.watch("phone")}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <FieldContent>
+                      <FieldLabel
+                        htmlFor="showPhoneNumber"
+                        className="text-foreground-700"
+                      >
+                        Show phone number to other users to allow them to
+                        contact you if they find your lost item
+                      </FieldLabel>
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+
               <CustomFormField
                 fieldType={FormFieldType.DATE_PICKER}
                 control={form.control}

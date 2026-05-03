@@ -36,6 +36,7 @@ export enum FormFieldType {
   PASSWORD = "password",
   EMAIL = "email",
   FILE_INPUT = "file",
+  CHECKBOX = "checkbox",
 }
 const DashItemInfo = () => {
   const { itemId } = useParams();

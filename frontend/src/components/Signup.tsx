@@ -15,6 +15,7 @@ import {
   FieldError,
   FieldLabel,
   FieldGroup,
+  FieldContent,
 } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -37,6 +38,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { FileInput } from "@/components/ui/file-input";
 import { useSignup } from "@/features/auth/hooks/useSignup";
 import { SignupForm, type SignupFormSchema } from "@/features/auth/userType";
+import { Checkbox } from "./ui/checkbox";
 
 const Signup = () => {
   const { signupUser, isPending } = useSignup();
@@ -54,7 +56,7 @@ const Signup = () => {
     {
       title: "Step 3",
       description: "",
-      fields: ["phone", "image"],
+      fields: ["phone", "showPhoneNumber", "image"],
     },
   ];
 
@@ -74,6 +76,7 @@ const Signup = () => {
       gender: "",
       dob: undefined,
       phone: "",
+      showPhoneNumber: true,
       image: [],
     },
     mode: "onChange",
@@ -268,6 +271,35 @@ const Signup = () => {
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="showPhoneNumber"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field
+                  data-invalid={fieldState.invalid}
+                  orientation="horizontal"
+                >
+                  <Checkbox
+                    id="showPhoneNumber"
+                    name={field.name}
+                    disabled={
+                      form.formState.validatingFields.phone?.valueOf() === true
+                    }
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <FieldContent>
+                    <FieldLabel
+                      htmlFor="showPhoneNumber"
+                      className="text-foreground-600"
+                    >
+                      Show phone number to other users to allow them to contact
+                      you if they find your lost item
+                    </FieldLabel>
+                  </FieldContent>
                 </Field>
               )}
             />

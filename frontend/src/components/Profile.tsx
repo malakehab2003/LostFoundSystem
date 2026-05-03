@@ -18,7 +18,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user, isLoading } = useGetAnotherUser({ id: Number(userId) });
   const { createChat, isPending } = useCreateChat();
-
+  console.log(user);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -66,7 +66,7 @@ const Profile = () => {
                 <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
                   <img
                     src={
-                      user.image_url ||
+                      user.image[0]?.url ||
                       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80"
                     }
                     alt={user.name}
@@ -80,9 +80,6 @@ const Profile = () => {
               <div className="space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                   <h1 className="header">{user.name}</h1>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
                   <Badge variant="secondary" className="capitalize">
                     {user.role}
                   </Badge>

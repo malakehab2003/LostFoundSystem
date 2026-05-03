@@ -23,6 +23,7 @@ import { EmailInput } from "./ui/email-input";
 import { PasswordInput } from "./ui/password-input";
 import { FileInput } from "./ui/file-input";
 import type { LucideIcon } from "lucide-react";
+import { Checkbox } from "./ui/checkbox";
 
 type Option = {
   label: string;
@@ -162,6 +163,16 @@ const RenderInput = <T extends FieldValues>({
           aria-invalid={fieldState.invalid}
           placeholder=""
           disabled={disabled}
+        />
+      );
+    case FormFieldType.CHECKBOX:
+      return (
+        <Checkbox
+          id="showPhoneNumber"
+          name={field.name}
+          disabled={false}
+          checked={field.value}
+          onCheckedChange={field.onChange}
         />
       );
 

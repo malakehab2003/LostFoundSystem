@@ -37,7 +37,9 @@ export function useSignup() {
       }
     },
     onSuccess: () => {
-      toast.success("Account created successfully! Please log in.");
+      toast.success(
+        "Account created successfully! please check your email to verify your account before logging in.",
+      );
       navigate("/login");
     },
     onError: (err: any) => {

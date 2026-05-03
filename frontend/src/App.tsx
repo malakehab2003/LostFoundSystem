@@ -34,6 +34,7 @@ import CheckOut from "./check out/CheckOut";
 import Order from "./order/Order";
 import AdminOrders from "./components/Dashboard/AdminOrders";
 import Profile from "./components/Profile";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
 
         {/* Main Layout */}
         <Route path="/" element={<Layout />}>

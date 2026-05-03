@@ -1,56 +1,51 @@
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useCreateNotification } from "@/features/notifications/hooks/useCreateNotification";
 import { useGetNotifications } from "@/features/notifications/hooks/useGetNotifications";
 import { BellRing } from "lucide-react";
+import { Spinner } from "./ui/spinner";
 
-let notifications = [
-  {
-    id: 14,
-    description: "this notification for you",
-    is_read: false,
-    message: "warning",
-    created_at: "2026-02-12T00:06:25.000Z",
-    updated_at: "2026-02-12T00:06:25.000Z",
-    user_id: 59,
-  },
-  {
-    id: 15,
-    description: "this notification for you",
-    is_read: false,
-    message: "warning",
-    created_at: "2026-02-12T00:06:25.000Z",
-    updated_at: "2026-02-12T00:06:25.000Z",
-    user_id: 59,
-  },
-  {
-    id: 16,
-    description: "this notification for you",
-    is_read: true,
-    message: "warning",
-    created_at: "2026-02-12T00:06:25.000Z",
-    updated_at: "2026-02-12T00:06:25.000Z",
-    user_id: 59,
-  },
-];
+// let notifications = [
+//   {
+//     id: 14,
+//     description: "this notification for you",
+//     is_read: false,
+//     message: "warning",
+//     created_at: "2026-02-12T00:06:25.000Z",
+//     updated_at: "2026-02-12T00:06:25.000Z",
+//     user_id: 59,
+//   },
+//   {
+//     id: 15,
+//     description: "this notification for you",
+//     is_read: false,
+//     message: "warning",
+//     created_at: "2026-02-12T00:06:25.000Z",
+//     updated_at: "2026-02-12T00:06:25.000Z",
+//     user_id: 59,
+//   },
+//   {
+//     id: 16,
+//     description: "this notification for you",
+//     is_read: true,
+//     message: "warning",
+//     created_at: "2026-02-12T00:06:25.000Z",
+//     updated_at: "2026-02-12T00:06:25.000Z",
+//     user_id: 59,
+//   },
+// ];
 
 const Notifications = () => {
-  // const { notifi, isPending } = useCreateNotification();
-  const { notifications: getNotify, isLoading } = useGetNotifications();
-  console.log(getNotify, isLoading);
+  const { notifications, isLoading } = useGetNotifications();
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <BellRing className="w-5 h-5 cursor-pointer hover:text-primary" />
+        <BellRing className="w-5 h-5 cursor-pointer " />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -60,9 +55,14 @@ const Notifications = () => {
           </SheetDescription>
         </SheetHeader>
         <div className=" flex flex-col divide-y divide-gray-200">
-          {notifications.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-20 justify-center items-center">
+              <Spinner className="w-8 h-8 place-self-center text-primary" />
+              <span className="text-sm text-foreground-500">Loading...</span>
+            </div>
+          ) : notifications.length === 0 ? (
             <p className="text-sm text-foreground-500 text-center py-10">
-              No notifications yet
+              No notifications yet. Check back later!
             </p>
           ) : (
             notifications.map((notif) => (

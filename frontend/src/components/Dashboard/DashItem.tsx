@@ -1,29 +1,10 @@
-import {
-  Trash2,
-  Eye,
-  Send,
-  Clock,
-  Megaphone,
-  Edit,
-  X,
-  AlertCircle,
-} from "lucide-react";
+import { Eye } from "lucide-react";
 
 import { Button } from "../ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetItem } from "@/features/items/hooks/useGetItem";
 import defaultpage from "@/assets/default-item-image.svg";
 import { Spinner } from "../ui/spinner";
-import { useAuth } from "@/lib/AuthContext";
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
-import { useGetComments } from "@/features/comments/hooks/useGetComments";
-import { useAddComment } from "@/features/comments/hooks/useAddComment";
-import { useDeleteComment } from "@/features/comments/hooks/useDeleteComment";
-import { useUpdateComment } from "@/features/comments/hooks/useUpdateComment";
-import { useDeleteItem } from "@/features/items/hooks/useDeleteItem";
 import ItemComments from "../ItemComments";
 import DeleteItemDialog from "../dialog/DeleteItemDialog";
 

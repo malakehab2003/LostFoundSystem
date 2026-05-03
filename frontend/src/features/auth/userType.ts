@@ -69,6 +69,7 @@ export const SignupForm = z.object({
       message:
         "Password must be at least 7 characters long and include at least one number and one special character",
     }),
+  showPhoneNumber: z.boolean().default(true),
 });
 
 export type SignupFormSchema = z.infer<typeof SignupForm>;
@@ -92,3 +93,27 @@ export const ChangePasswordForm = z.object({
 });
 
 export type ChangePasswordFormSchema = z.infer<typeof ChangePasswordForm>;
+
+export const ResetPasswordForm = z.object({
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Invalid email address")
+    .regex(
+      /^[^\s@]+@(gmail|yahoo|outlook|email)\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/,
+      "Email must be a valid address from gmail, yahoo, outlook, or email domains",
+    ),
+  newPassword: z
+    .string()
+    .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{7,}$/, {
+      message:
+        "Password must be at least 7 characters long and include at least one number and one special character",
+    }),
+  otp: z
+    .string()
+    .min(6, "OTP must be at least 6 characters")
+    .max(6, "OTP must be at most 6 characters")
+    .regex(/^[0-9]+$/, "OTP must contain only numbers"),
+});
+
+export type ResetPasswordFormSchema = z.infer<typeof ResetPasswordForm>;

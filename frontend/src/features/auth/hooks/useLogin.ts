@@ -18,13 +18,19 @@ export function useLogin() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to login");
+
       return data;
     },
     onSuccess: (data) => {
+      if (!data.user.is_verified) {
+        toast.error(
+          "Please verify your email to login. Check your inbox for the verification link.",
+        );
+        return;
+      }
       login(data.token);
-      console.log("Login successful:", data);
+      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
       toast.success("Logged in successfully!");
       navigate("/");
     },
