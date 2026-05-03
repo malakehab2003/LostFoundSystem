@@ -1,4 +1,3 @@
-// Products.tsx - Complete working file with image upload
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -125,7 +124,9 @@ const Products = () => {
   ).length > 0;
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ page: page.toString() });
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+    setSearchParams(params)
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -528,7 +529,8 @@ const Products = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
+                      disabled={pagination ? currentPage <= pagination.totalPages : false}
+
                   >
                     ← Previous
                   </Button>
@@ -539,7 +541,7 @@ const Products = () => {
                     onClick={() => handlePageChange(1)}
                     className="min-w-[40px]"
                   >
-                    1
+                    {currentPage}
                   </Button>
 
                   {pagination && pagination.totalPages >= 2 && (
@@ -554,23 +556,14 @@ const Products = () => {
                   )}
 
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (pagination && currentPage < pagination.totalPages) {
-                        handlePageChange(currentPage + 1);
-                      } else if (currentPage === 1 && pagination?.totalPages === 1) {
-                        handlePageChange(2);
-                      }
-                    }}
-                    disabled={
-                      pagination
-                        ? currentPage >= pagination.totalPages && pagination.totalPages > 1
-                        : false
-                    }
-                  >
-                    Next →
-                  </Button>
+  variant="outline"
+  size="sm"
+  onClick={() => handlePageChange(currentPage + 1)}
+  disabled={pagination ? currentPage != pagination.totalPages : false}
+>
+  Next →
+</Button>
+
                 </div>
               </div>
             )}
