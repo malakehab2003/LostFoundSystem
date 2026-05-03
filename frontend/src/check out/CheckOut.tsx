@@ -122,10 +122,7 @@ export default function CheckOut() {
     // Payment mutation
     const { mutateAsync: processPayment , data:paymentstring} = useMutation({
         mutationFn: paymentOnline,
-        onSuccess:(paymentstring)=>{
-            window.location.href=paymentstring?.clientSecret
-
-        },
+       
         onError: (error) => {
             console.error('Payment error:', error);
             toast.error(error?.message || "Payment processing failed");

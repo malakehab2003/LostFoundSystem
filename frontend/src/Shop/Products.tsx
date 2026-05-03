@@ -493,7 +493,7 @@ const Products = () => {
                     <Link to={`/shop/products/${product.id}`} className="font-semibold">
                       {product.name}
                     </Link>
-                    <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
+                    <p className="text-sm text-gray-500 line-clamp-2">{product.description.split(' ').slice(0,3).join(' ')}</p>
                     <div className="flex gap-1 mt-2">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <StarIcon key={i} className={`w-4 h-4 ${i < Math.round(product.rate) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
