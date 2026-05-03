@@ -1,4 +1,4 @@
-// features/products/hooks/useAddProductImage.ts - fix endpoint
+// features/products/hooks/useAddProductImage.ts - Complete working version
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -13,13 +13,14 @@ export function useAddProductImage() {
   const { mutate: addImage, isPending } = useMutation({
     mutationFn: async ({ productId, image }: AddImagePayload) => {
       const formData = new FormData();
-      formData.append("image", image);
+      formData.append("images", image);
       formData.append("product_id", String(productId));
-      formData.append("owner_id", String(productId));
-      formData.append("owner_type", "product");
 
-      // ✅ Correct endpoint
-      const res = await fetch("http://localhost:5000/api/item/image/addImage", {
+      console.log("Adding image for product:", productId);
+      console.log("Image file:", image.name);
+
+      // ✅ Correct endpoint for product image
+      const res = await fetch("http://localhost:5000/api/product/image/addImages", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
