@@ -1,4 +1,3 @@
-// Products.tsx - Complete working file with filters
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -69,11 +68,10 @@ const Products = () => {
   const currentPage = Number(searchParams.get("page")) || 1;
   const [isRefetching, setIsRefetching] = useState(false);
 
-  // Filter states
   const [filters, setFilters] = useState<ProductFilters>({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { products, isLoading, pagination, refetch } = useProducts(currentPage, 10, filters);
+  const { products, isLoading, pagination, refetch } = useProducts(currentPage, 12, filters);
   const { wishlist } = useWishlist();
   const { addToWishlist } = useAddToWishlist();
   const { deleteFromWishlist } = useDeleteFromWishlist();
@@ -113,7 +111,6 @@ const Products = () => {
       ...prev,
       [key]: value === "" || value === undefined ? undefined : value,
     }));
-    // Reset to page 1 when filters change
     setSearchParams({ page: "1" });
   };
 
@@ -127,7 +124,9 @@ const Products = () => {
   ).length > 0;
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ page: page.toString() });
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+    setSearchParams(params)
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -147,49 +146,43 @@ const Products = () => {
       return;
     }
 
-    const formDataToSend = new FormData();
-    const categoryId = selectedProduct.category_id || selectedProduct.product_category_id || 1;
+    if (!hasNewImages) {
+      const jsonData = {
+        name: formData.name,
+        price: Number(formData.price),
+        description: formData.description,
+        stock: Number(formData.stock),
+      };
 
-    formDataToSend.append("category_id", String(categoryId));
-
-    if (formData.name !== selectedProduct.name) {
-      formDataToSend.append("name", formData.name);
-    }
-    if (formData.price !== selectedProduct.price) {
-      formDataToSend.append("price", String(formData.price));
-    }
-    if (formData.description !== selectedProduct.description) {
-      formDataToSend.append("description", formData.description);
-    }
-    if (formData.stock !== selectedProduct.stock) {
-      formDataToSend.append("stock", String(formData.stock));
-    }
-
-    editImages.forEach((img) => {
-      formDataToSend.append("images", img);
-    });
-
-    console.log("Sending edit data with FormData");
-
-    editProduct(
-      {
-        productId: selectedProduct.id,
-        data: formDataToSend,
-      },
-      {
-        onSuccess: () => {
-          setSearchParams({ page: currentPage.toString() });
-          setIsEditOpen(false);
-          setEditImages([]);
-          setEditPreviews([]);
-          refetch();
-          toast.success("Product updated successfully");
+      editProduct(
+        {
+          productId: selectedProduct.id,
+          data: jsonData,
         },
-        onError: (error: any) => {
-          toast.error(error.message || "Failed to update product");
-        },
-      }
-    );
+        {
+          onSuccess: () => {
+            setSearchParams({ page: currentPage.toString() });
+            setIsEditOpen(false);
+            refetch();
+            toast.success("Product updated successfully");
+          },
+          onError: (error: any) => {
+            toast.error(error.message || "Failed to update product");
+          },
+        }
+      );
+    } else {
+      editImages.forEach((img) => {
+        addImage({
+          productId: selectedProduct.id,
+          image: img,
+        });
+      });
+      setIsEditOpen(false);
+      setEditImages([]);
+      setEditPreviews([]);
+      setTimeout(() => refetch(), 1000);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,7 +190,6 @@ const Products = () => {
     if (!files) return;
 
     const filesArray = Array.from(files);
-
     setSelectedImages((prev) => [...prev, ...filesArray]);
 
     filesArray.forEach((file) => {
@@ -245,9 +237,7 @@ const Products = () => {
     createProduct(productData, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ["products"] });
-
         setSearchParams({ page: "1" });
-
         setCreateData({
           name: "",
           price: 0,
@@ -306,7 +296,6 @@ const Products = () => {
     if (!files) return;
 
     const filesArray = Array.from(files);
-
     setEditImages((prev) => [...prev, ...filesArray]);
 
     filesArray.forEach((file) => {
@@ -365,7 +354,9 @@ const Products = () => {
                   <>Found {pagination.total} product(s) matching your filters</>
                 ) : (
                   <>
-                    
+                    Showing {(pagination.page - 1) * pagination.limit + 1} -{" "}
+                    {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}{" "}
+                    products
                   </>
                 )}
               </p>
@@ -379,7 +370,6 @@ const Products = () => {
               </Button>
             )}
 
-            {/* Filter Button with Sheet */}
             <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
               <SheetTrigger asChild>
                 <button className="relative flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
@@ -394,9 +384,7 @@ const Products = () => {
                 <SheetHeader>
                   <SheetTitle>Filter Products</SheetTitle>
                 </SheetHeader>
-
                 <div className="flex flex-col gap-5 mt-6">
-                  {/* Search by name */}
                   <div className="space-y-2">
                     <Label>Product Name</Label>
                     <Input
@@ -405,16 +393,12 @@ const Products = () => {
                       onChange={(e) => updateFilter("name", e.target.value)}
                     />
                   </div>
-
-                  {/* Category filter */}
                   <div className="space-y-2">
                     <Label>Category</Label>
                     <select
                       className="w-full px-3 py-2 border rounded-md"
                       value={filters.category_id || ""}
-                      onChange={(e) =>
-                        updateFilter("category_id", Number(e.target.value) || undefined)
-                      }
+                      onChange={(e) => updateFilter("category_id", Number(e.target.value) || undefined)}
                     >
                       <option value="">All Categories</option>
                       {itemCategories?.map((cat: any) => (
@@ -424,8 +408,6 @@ const Products = () => {
                       ))}
                     </select>
                   </div>
-
-                  {/* Price range */}
                   <div className="space-y-2">
                     <Label>Price Range</Label>
                     <div className="flex gap-2">
@@ -443,24 +425,6 @@ const Products = () => {
                       />
                     </div>
                   </div>
-
-                  {/* Rating filter */}
-                  <div className="space-y-2">
-                    <Label>Minimum Rating</Label>
-                    <select
-                      className="w-full px-3 py-2 border rounded-md"
-                      value={filters.minRate || ""}
-                      onChange={(e) => updateFilter("minRate", Number(e.target.value) || undefined)}
-                    >
-                      <option value="">Any Rating</option>
-                      <option value="4">4★ & above</option>
-                      <option value="3">3★ & above</option>
-                      <option value="2">2★ & above</option>
-                      <option value="1">1★ & above</option>
-                    </select>
-                  </div>
-
-                  {/* In Stock filter */}
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
@@ -473,20 +437,10 @@ const Products = () => {
                       In Stock Only
                     </Label>
                   </div>
-
-                  {/* Action buttons */}
                   <div className="flex gap-3 pt-4">
                     {hasFilters && (
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          clearFilters();
-                          setIsFilterOpen(false);
-                        }}
-                        className="flex-1"
-                      >
-                        <X className="w-4 h-4 mr-1" />
-                        Clear
+                      <Button variant="outline" onClick={() => { clearFilters(); setIsFilterOpen(false); }} className="flex-1">
+                        <X className="w-4 h-4 mr-1" /> Clear
                       </Button>
                     )}
                     <Button onClick={() => setIsFilterOpen(false)} className="flex-1">
@@ -496,7 +450,6 @@ const Products = () => {
                 </div>
               </SheetContent>
             </Sheet>
-
             <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
               <SortAscIcon className="w-4 h-4" />
               Sort
@@ -513,10 +466,7 @@ const Products = () => {
           <>
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
               {products?.map((product: any) => (
-                <div
-                  key={product.id}
-                  className="rounded-lg border bg-white p-6 shadow-sm"
-                >
+                <div key={product.id} className="rounded-lg border bg-white p-6 shadow-sm">
                   <Link to={`/shop/products/${product.id}`}>
                     <img
                       className="mx-auto h-56 object-cover"
@@ -528,96 +478,42 @@ const Products = () => {
                       }
                       alt={product.name}
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "https://placehold.co/400x400?text=No+Image";
+                        (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
                       }}
                     />
                   </Link>
-
                   <div className="pt-6">
                     <div className="flex justify-between mb-4">
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleWishlist(product.id)}
-                      >
-                        <Heart
-                          className={`w-5 h-5 ${
-                            isProductInWishlist(product.id)
-                              ? "fill-red-500 text-red-500"
-                              : ""
-                          }`}
-                        />
+                      <Button variant="secondary" onClick={() => handleWishlist(product.id)}>
+                        <Heart className={`w-5 h-5 ${isProductInWishlist(product.id) ? "fill-red-500 text-red-500" : ""}`} />
                         Wishlist
                       </Button>
-
                       <Badge>{product.category?.name}</Badge>
                     </div>
-
-                    <Link
-                      to={`/shop/products/${product.id}`}
-                      className="font-semibold"
-                    >
+                    <Link to={`/shop/products/${product.id}`} className="font-semibold">
                       {product.name}
                     </Link>
-
-                    <p className="text-sm text-gray-500 line-clamp-2">
-                      {product.description}
-                    </p>
-
+                    <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
                     <div className="flex gap-1 mt-2">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <StarIcon
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.round(product.rate)
-                              ? "text-yellow-400 fill-yellow-400"
-                              : "text-gray-300"
-                          }`}
-                        />
+                        <StarIcon key={i} className={`w-4 h-4 ${i < Math.round(product.rate) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
                       ))}
                     </div>
-
                     <div className="mt-4 flex flex-col gap-2">
                       <p className="font-bold text-lg">${product.price}</p>
-
                       <div className="flex items-center gap-2 text-sm">
                         <Package className="w-4 h-4 text-gray-500" />
-                        <span
-                          className={
-                            product.stock > 0
-                              ? "text-green-600"
-                              : "text-red-500"
-                          }
-                        >
+                        <span className={product.stock > 0 ? "text-green-600" : "text-red-500"}>
                           Stock: {product.stock || 0} units
                         </span>
                       </div>
-
-                      <Button
-                        onClick={() => navigate(`/shop/products/${product.id}`)}
-                      >
-                        <ShoppingCart className="w-5 h-5" />
-                        Add to cart
+                      <Button onClick={() => navigate(`/shop/products/${product.id}`)}>
+                        <ShoppingCart className="w-5 h-5" /> Add to cart
                       </Button>
-
                       {isAdmin && (
                         <div className="flex flex-col gap-2">
-                          <Button
-                            className="w-full"
-                            variant="secondary"
-                            onClick={() => handleEdit(product)}
-                          >
-                            Edit
-                          </Button>
-
-                          <Button
-                            className="w-full"
-                            variant="destructive"
-                            disabled={isDeleting}
-                            onClick={() => handleDelete(product.id)}
-                          >
-                            Delete
-                          </Button>
+                          <Button className="w-full" variant="secondary" onClick={() => handleEdit(product)}>Edit</Button>
+                          <Button className="w-full" variant="destructive" disabled={isDeleting} onClick={() => handleDelete(product.id)}>Delete</Button>
                         </div>
                       )}
                     </div>
@@ -625,8 +521,7 @@ const Products = () => {
                 </div>
               ))}
             </div>
-
-            {/* Pagination */}
+                        {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
               <div className="mt-12 pt-6 border-t border-gray-200">
                 <div className="flex justify-center gap-2 flex-wrap">
@@ -634,7 +529,8 @@ const Products = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
+                      disabled={pagination ? currentPage <= pagination.totalPages : false}
+
                   >
                     ← Previous
                   </Button>
@@ -645,7 +541,7 @@ const Products = () => {
                     onClick={() => handlePageChange(1)}
                     className="min-w-[40px]"
                   >
-                    1
+                    {currentPage}
                   </Button>
 
                   {pagination && pagination.totalPages >= 2 && (
@@ -660,33 +556,21 @@ const Products = () => {
                   )}
 
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (pagination && currentPage < pagination.totalPages) {
-                        handlePageChange(currentPage + 1);
-                      } else if (currentPage === 1 && pagination?.totalPages === 1) {
-                        handlePageChange(2);
-                      }
-                    }}
-                    disabled={
-                      pagination
-                        ? currentPage >= pagination.totalPages && pagination.totalPages > 1
-                        : false
-                    }
-                  >
-                    Next →
-                  </Button>
+  variant="outline"
+  size="sm"
+  onClick={() => handlePageChange(currentPage + 1)}
+  disabled={pagination ? currentPage != pagination.totalPages : false}
+>
+  Next →
+</Button>
+
                 </div>
               </div>
             )}
-
-            {/* Clear filters button */}
             {hasFilters && (
               <div className="flex justify-center mt-4">
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-500">
-                  <X className="w-4 h-4 mr-1" />
-                  Clear all filters
+                  <X className="w-4 h-4 mr-1" /> Clear all filters
                 </Button>
               </div>
             )}
@@ -699,127 +583,34 @@ const Products = () => {
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto space-y-4">
             <h2 className="font-bold text-lg">Edit Product</h2>
-
-            <div
-              className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                accept="image/*"
-                multiple
-                onChange={handleEditImageUpload}
-              />
-
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition" onClick={() => fileInputRef.current?.click()}>
+              <input type="file" ref={fileInputRef} className="hidden" accept="image/*" multiple onChange={handleEditImageUpload} />
               {existingImages.length > 0 || editPreviews.length > 0 ? (
                 <div className="flex flex-wrap gap-3 justify-center">
                   {existingImages.map((img, index) => (
                     <div key={`old-${index}`} className="relative">
-                      <img
-                        src={img.url || img.image_url || img}
-                        className="h-24 w-24 object-cover rounded"
-                        alt="existing"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteImage(img.id);
-                        }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                      <img src={img.url || img.image_url || img} className="h-24 w-24 object-cover rounded" alt="existing" />
+                      <button onClick={(e) => { e.stopPropagation(); handleDeleteImage(img.id); }} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"><X className="w-4 h-4" /></button>
                     </div>
                   ))}
-
                   {editPreviews.map((src, index) => (
                     <div key={`new-${index}`} className="relative">
-                      <img
-                        src={src}
-                        className="h-24 w-24 object-cover rounded"
-                        alt="preview"
-                      />
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setEditPreviews((prev) =>
-                            prev.filter((_, i) => i !== index)
-                          );
-                          setEditImages((prev) =>
-                            prev.filter((_, i) => i !== index)
-                          );
-                        }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                      <img src={src} className="h-24 w-24 object-cover rounded" alt="preview" />
+                      <button onClick={(e) => { e.stopPropagation(); setEditPreviews(prev => prev.filter((_, i) => i !== index)); setEditImages(prev => prev.filter((_, i) => i !== index)); }} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"><X className="w-4 h-4" /></button>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div>
-                  <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500">
-                    Click to upload product images
-                  </p>
-                </div>
+                <div><Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" /><p className="text-sm text-gray-500">Click to upload product images</p></div>
               )}
             </div>
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            />
-
-            <input
-              type="number"
-              className="border w-full p-2 rounded"
-              placeholder="Price"
-              value={formData.price}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  price: Number(e.target.value),
-                })
-              }
-            />
-
-            <input
-              type="number"
-              className="border w-full p-2 rounded"
-              placeholder="Stock"
-              value={formData.stock}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  stock: Number(e.target.value),
-                })
-              }
-            />
-
-            <textarea
-              className="border w-full p-2 rounded"
-              placeholder="Description"
-              rows={3}
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  description: e.target.value,
-                })
-              }
-            />
-
+            <input className="border w-full p-2 rounded" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+            <input type="number" className="border w-full p-2 rounded" placeholder="Price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} />
+            <input type="number" className="border w-full p-2 rounded" placeholder="Stock" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })} />
+            <textarea className="border w-full p-2 rounded" placeholder="Description" rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
             <div className="flex justify-end gap-2">
               <Button onClick={() => setIsEditOpen(false)}>Close</Button>
-
-              <Button onClick={handleSaveEdit} disabled={isEditing || isAddingImage || isDeletingImage}>
-                {isEditing || isAddingImage || isDeletingImage ? "Saving..." : "Save"}
-              </Button>
+              <Button onClick={handleSaveEdit} disabled={isEditing || isAddingImage || isDeletingImage}>{isEditing || isAddingImage || isDeletingImage ? "Saving..." : "Save"}</Button>
             </div>
           </div>
         </div>
@@ -830,154 +621,37 @@ const Products = () => {
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto space-y-4">
             <h2 className="font-bold text-lg">Add Product</h2>
-
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Product Image</label>
-              <div
-                className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  className="hidden"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                />
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition" onClick={() => fileInputRef.current?.click()}>
+                <input type="file" ref={fileInputRef} className="hidden" accept="image/*" multiple onChange={handleImageUpload} />
                 {imagePreviews.length > 0 ? (
                   <div className="flex flex-wrap gap-3 justify-center">
                     {imagePreviews.map((src, index) => (
                       <div key={index} className="relative">
-                        <img
-                          src={src}
-                          alt={`Preview-${index}`}
-                          className="h-24 w-24 object-cover rounded-lg"
-                        />
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-                            setSelectedImages((prev) => prev.filter((_, i) => i !== index));
-                          }}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
+                        <img src={src} alt={`Preview-${index}`} className="h-24 w-24 object-cover rounded-lg" />
+                        <button onClick={(e) => { e.stopPropagation(); setImagePreviews(prev => prev.filter((_, i) => i !== index)); setSelectedImages(prev => prev.filter((_, i) => i !== index)); }} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"><X className="w-4 h-4" /></button>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div>
-                    <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">Click to upload product images</p>
-                  </div>
+                  <div><Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" /><p className="text-sm text-gray-500">Click to upload product images</p></div>
                 )}
               </div>
             </div>
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Product Name"
-              value={createData.name}
-              onChange={(e) => setCreateData({ ...createData, name: e.target.value })}
-            />
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Colors (comma separated)"
-              value={createData.color.join(",")}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  color: e.target.value.split(",").map((c) => c.trim()),
-                })
-              }
-            />
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Sizes (comma separated)"
-              value={createData.size.join(",")}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  size: e.target.value.split(",").map((s) => s.trim()),
-                })
-              }
-            />
-
-            <select
-              className="border w-full p-2 rounded"
-              value={createData.category_id || ""}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  category_id: Number(e.target.value),
-                })
-              }
-            >
+            <input className="border w-full p-2 rounded" placeholder="Product Name" value={createData.name} onChange={(e) => setCreateData({ ...createData, name: e.target.value })} />
+            <input className="border w-full p-2 rounded" placeholder="Colors (comma separated)" value={createData.color.join(",")} onChange={(e) => setCreateData({ ...createData, color: e.target.value.split(",").map(c => c.trim()) })} />
+            <input className="border w-full p-2 rounded" placeholder="Sizes (comma separated)" value={createData.size.join(",")} onChange={(e) => setCreateData({ ...createData, size: e.target.value.split(",").map(s => s.trim()) })} />
+            <select className="border w-full p-2 rounded" value={createData.category_id || ""} onChange={(e) => setCreateData({ ...createData, category_id: Number(e.target.value) })}>
               <option value="">Select Category</option>
-              {itemCategories?.map((cat: any) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
+              {itemCategories?.map((cat: any) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
             </select>
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Price"
-              type="number"
-              value={createData.price || ""}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  price: Number(e.target.value),
-                })
-              }
-            />
-
-            <input
-              className="border w-full p-2 rounded"
-              placeholder="Stock Quantity"
-              type="number"
-              value={createData.stock || ""}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  stock: Number(e.target.value),
-                })
-              }
-            />
-
-            <textarea
-              className="border w-full p-2 rounded"
-              placeholder="Description"
-              rows={3}
-              value={createData.description}
-              onChange={(e) =>
-                setCreateData({
-                  ...createData,
-                  description: e.target.value,
-                })
-              }
-            />
-
+            <input className="border w-full p-2 rounded" placeholder="Price" type="number" value={createData.price || ""} onChange={(e) => setCreateData({ ...createData, price: Number(e.target.value) })} />
+            <input className="border w-full p-2 rounded" placeholder="Stock Quantity" type="number" value={createData.stock || ""} onChange={(e) => setCreateData({ ...createData, stock: Number(e.target.value) })} />
+            <textarea className="border w-full p-2 rounded" placeholder="Description" rows={3} value={createData.description} onChange={(e) => setCreateData({ ...createData, description: e.target.value })} />
             <div className="flex justify-end gap-2">
-              <Button
-                onClick={() => {
-                  setIsCreateOpen(false);
-                  setSelectedImages([]);
-                  setImagePreviews([]);
-                }}
-              >
-                Cancel
-              </Button>
-
-              <Button onClick={handleCreate} disabled={isCreating || isRefetching}>
-                {isCreating || isRefetching ? "Creating..." : "Create Product"}
-              </Button>
+              <Button onClick={() => { setIsCreateOpen(false); setSelectedImages([]); setImagePreviews([]); }}>Cancel</Button>
+              <Button onClick={handleCreate} disabled={isCreating || isRefetching}>{isCreating || isRefetching ? "Creating..." : "Create Product"}</Button>
             </div>
           </div>
         </div>
