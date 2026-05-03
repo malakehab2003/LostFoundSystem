@@ -1,4 +1,3 @@
-// features/products/hooks/useProducts.ts
 import { useQuery } from "@tanstack/react-query";
 import type { ProductFilters } from "../productType";
 
@@ -14,23 +13,29 @@ export function useProducts(
   limit: number = 10,
   filters: ProductFilters = {}
 ) {
+  
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters)
+      .filter(([_, v]) => v !== undefined && v !== "" && v !== null && v !== 0)
+      .map(([k, v]) => [k, String(v)])
+  );
+
   const queryString = new URLSearchParams({
     page: page.toString(),
     limit: limit.toString(),
-    ...Object.entries(filters)
-      .filter(([_, v]) => v !== undefined && v !== "")
-      .reduce((acc, [k, v]) => ({ ...acc, [k]: String(v) }), {}),
+    ...cleanFilters,
   }).toString();
 
   const { data, isLoading, refetch } = useQuery<{
     products: any[];
     pagination: PaginationData;
   }>({
-    queryKey: ["products", page, limit, filters], // 🔥 FIX مهم
+    queryKey: ["products", page, limit, filters], 
     queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/product/list?${queryString}`
-      );
+      const url = `http://localhost:5000/api/product/list?${queryString}`;
+      console.log("Fetching products with URL:", url);
+      
+      const res = await fetch(url);
 
       const data = await res.json();
 

@@ -1,4 +1,4 @@
-// Products.tsx - Complete working file
+// Products.tsx - Complete working file with filters
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -11,6 +11,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import { useProducts } from "@/features/products/hooks/useProducts";
 import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
@@ -31,6 +40,7 @@ import {
   Package,
   Upload,
   X,
+  SlidersHorizontal,
 } from "lucide-react";
 
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -42,6 +52,15 @@ import { useAddProductImage } from "@/features/products/hooks/useAddProductImage
 import { useDeleteProductImage } from "@/features/products/hooks/useDeleteProductImage";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
 
+interface ProductFilters {
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  category_id?: number;
+  minRate?: number;
+  inStock?: boolean;
+}
+
 const Products = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -50,13 +69,18 @@ const Products = () => {
   const currentPage = Number(searchParams.get("page")) || 1;
   const [isRefetching, setIsRefetching] = useState(false);
 
-  const { products, isLoading, pagination, refetch } = useProducts(currentPage, 10);
+  // Filter states
+  const [filters, setFilters] = useState<ProductFilters>({});
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const { products, isLoading, pagination, refetch } = useProducts(currentPage, 10, filters);
   const { wishlist } = useWishlist();
   const { addToWishlist } = useAddToWishlist();
   const { deleteFromWishlist } = useDeleteFromWishlist();
 
   const { user } = useCurrentUser();
   const isAdmin = user?.role === "admin";
+  const { itemCategories } = useGetItemCategory();
 
   const [editImages, setEditImages] = useState<File[]>([]);
   const [editPreviews, setEditPreviews] = useState<string[]>([]);
@@ -66,8 +90,6 @@ const Products = () => {
   const { deleteProduct, isPending: isDeleting } = useDeleteProduct();
 
   const { createProduct, isPending: isCreating } = useCreateProduct();
-
-  const { itemCategories } = useGetItemCategory();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -86,6 +108,24 @@ const Products = () => {
     stock: 0,
   });
 
+  const updateFilter = (key: keyof ProductFilters, value: any) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value === "" || value === undefined ? undefined : value,
+    }));
+    // Reset to page 1 when filters change
+    setSearchParams({ page: "1" });
+  };
+
+  const clearFilters = () => {
+    setFilters({});
+    setSearchParams({ page: "1" });
+  };
+
+  const hasFilters = Object.keys(filters).filter(
+    (k) => filters[k as keyof ProductFilters] !== undefined
+  ).length > 0;
+
   const handlePageChange = (page: number) => {
     setSearchParams({ page: page.toString() });
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -95,7 +135,7 @@ const Products = () => {
     if (!selectedProduct) return;
 
     const hasNewImages = editImages.length > 0;
-    const hasDataChanges = 
+    const hasDataChanges =
       formData.name !== selectedProduct.name ||
       formData.price !== selectedProduct.price ||
       formData.description !== selectedProduct.description ||
@@ -112,7 +152,6 @@ const Products = () => {
 
     formDataToSend.append("category_id", String(categoryId));
 
-    
     if (formData.name !== selectedProduct.name) {
       formDataToSend.append("name", formData.name);
     }
@@ -125,7 +164,6 @@ const Products = () => {
     if (formData.stock !== selectedProduct.stock) {
       formDataToSend.append("stock", String(formData.stock));
     }
-
 
     editImages.forEach((img) => {
       formDataToSend.append("images", img);
@@ -207,9 +245,9 @@ const Products = () => {
     createProduct(productData, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ["products"] });
-        
+
         setSearchParams({ page: "1" });
-        
+
         setCreateData({
           name: "",
           price: 0,
@@ -263,36 +301,37 @@ const Products = () => {
     setIsEditOpen(true);
   };
 
-  // Products.tsx - replace handleEditImageUpload
-const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = e.target.files;
-  if (!files) return;
+  const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
 
-  const filesArray = Array.from(files);
-  
-  // ✅ Store images in state, will be sent with save
-  setEditImages((prev) => [...prev, ...filesArray]);
+    const filesArray = Array.from(files);
 
-  filesArray.forEach((file) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setEditPreviews((prev) => [...prev, reader.result as string]);
-    };
-    reader.readAsDataURL(file);
-  });
-  
-  toast.success(`${filesArray.length} image(s) selected. They will be saved when you click Save.`);
-};
+    setEditImages((prev) => [...prev, ...filesArray]);
+
+    filesArray.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditPreviews((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    toast.success(`${filesArray.length} image(s) selected. They will be saved when you click Save.`);
+  };
 
   const handleDeleteImage = (imageId: number) => {
-    deleteImage({
-      imageId: imageId,
-      productId: selectedProduct.id,
-    }, {
-      onSuccess: () => {
-        refetch();
+    deleteImage(
+      {
+        imageId: imageId,
+        productId: selectedProduct.id,
       },
-    });
+      {
+        onSuccess: () => {
+          refetch();
+        },
+      }
+    );
   };
 
   const handleDelete = (id: number) => {
@@ -322,7 +361,13 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
             </h2>
             {pagination && (
               <p className="text-sm text-gray-500 mt-1">
-                Showing {(pagination.page - 1) * pagination.limit + 1} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} products
+                {hasFilters ? (
+                  <>Found {pagination.total} product(s) matching your filters</>
+                ) : (
+                  <>
+                    
+                  </>
+                )}
               </p>
             )}
           </div>
@@ -334,10 +379,123 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               </Button>
             )}
 
-            <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
-              <FunnelIcon className="w-4 h-4" />
-              Filters
-            </button>
+            {/* Filter Button with Sheet */}
+            <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+              <SheetTrigger asChild>
+                <button className="relative flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  Filters
+                  {hasFilters && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full" />
+                  )}
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle>Filter Products</SheetTitle>
+                </SheetHeader>
+
+                <div className="flex flex-col gap-5 mt-6">
+                  {/* Search by name */}
+                  <div className="space-y-2">
+                    <Label>Product Name</Label>
+                    <Input
+                      placeholder="Search by name..."
+                      value={filters.name || ""}
+                      onChange={(e) => updateFilter("name", e.target.value)}
+                    />
+                  </div>
+
+                  {/* Category filter */}
+                  <div className="space-y-2">
+                    <Label>Category</Label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-md"
+                      value={filters.category_id || ""}
+                      onChange={(e) =>
+                        updateFilter("category_id", Number(e.target.value) || undefined)
+                      }
+                    >
+                      <option value="">All Categories</option>
+                      {itemCategories?.map((cat: any) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Price range */}
+                  <div className="space-y-2">
+                    <Label>Price Range</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="number"
+                        placeholder="Min"
+                        value={filters.minPrice || ""}
+                        onChange={(e) => updateFilter("minPrice", Number(e.target.value))}
+                      />
+                      <Input
+                        type="number"
+                        placeholder="Max"
+                        value={filters.maxPrice || ""}
+                        onChange={(e) => updateFilter("maxPrice", Number(e.target.value))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Rating filter */}
+                  <div className="space-y-2">
+                    <Label>Minimum Rating</Label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-md"
+                      value={filters.minRate || ""}
+                      onChange={(e) => updateFilter("minRate", Number(e.target.value) || undefined)}
+                    >
+                      <option value="">Any Rating</option>
+                      <option value="4">4★ & above</option>
+                      <option value="3">3★ & above</option>
+                      <option value="2">2★ & above</option>
+                      <option value="1">1★ & above</option>
+                    </select>
+                  </div>
+
+                  {/* In Stock filter */}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="inStock"
+                      checked={filters.inStock || false}
+                      onChange={(e) => updateFilter("inStock", e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <Label htmlFor="inStock" className="cursor-pointer">
+                      In Stock Only
+                    </Label>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex gap-3 pt-4">
+                    {hasFilters && (
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          clearFilters();
+                          setIsFilterOpen(false);
+                        }}
+                        className="flex-1"
+                      >
+                        <X className="w-4 h-4 mr-1" />
+                        Clear
+                      </Button>
+                    )}
+                    <Button onClick={() => setIsFilterOpen(false)} className="flex-1">
+                      Apply Filters
+                    </Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
 
             <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
               <SortAscIcon className="w-4 h-4" />
@@ -436,9 +594,7 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                       </div>
 
                       <Button
-                        onClick={() =>
-                          navigate(`/shop/products/${product.id}`)
-                        }
+                        onClick={() => navigate(`/shop/products/${product.id}`)}
                       >
                         <ShoppingCart className="w-5 h-5" />
                         Add to cart
@@ -469,57 +625,70 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                 </div>
               ))}
             </div>
-            
+
             {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
               <div className="mt-12 pt-6 border-t border-gray-200">
-  <div className="flex justify-center gap-2 flex-wrap">
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-      disabled={currentPage === 1}
-    >
-      ← Previous
-    </Button>
-    
-    <Button
-      variant="default"
-      size="sm"
-      onClick={() => handlePageChange(1)}
-      className="min-w-[40px]"
-    >
-      1
-    </Button>
-    
-    {pagination && pagination.totalPages >= 2 && (
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => handlePageChange(2)}
-        className="min-w-[40px]"
-      >
-        2
-      </Button>
-    )}
-    
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={() => {
-        if (pagination && currentPage < pagination.totalPages) {
-          handlePageChange(currentPage + 1);
-        } else if (currentPage === 1 && pagination?.totalPages === 1) {
-          // مؤقت للاختبار: اذهب لصفحة 2 (حتى لو مفيش منتجات)
-          handlePageChange(2);
-        }
-      }}
-      disabled={pagination ? currentPage >= pagination.totalPages && pagination.totalPages > 1 : false}
-    >
-      Next →
-    </Button>
-  </div>
-</div>
+                <div className="flex justify-center gap-2 flex-wrap">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    ← Previous
+                  </Button>
+
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => handlePageChange(1)}
+                    className="min-w-[40px]"
+                  >
+                    1
+                  </Button>
+
+                  {pagination && pagination.totalPages >= 2 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(2)}
+                      className="min-w-[40px]"
+                    >
+                      2
+                    </Button>
+                  )}
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (pagination && currentPage < pagination.totalPages) {
+                        handlePageChange(currentPage + 1);
+                      } else if (currentPage === 1 && pagination?.totalPages === 1) {
+                        handlePageChange(2);
+                      }
+                    }}
+                    disabled={
+                      pagination
+                        ? currentPage >= pagination.totalPages && pagination.totalPages > 1
+                        : false
+                    }
+                  >
+                    Next →
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Clear filters button */}
+            {hasFilters && (
+              <div className="flex justify-center mt-4">
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-500">
+                  <X className="w-4 h-4 mr-1" />
+                  Clear all filters
+                </Button>
+              </div>
             )}
           </>
         )}
@@ -603,9 +772,7 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               className="border w-full p-2 rounded"
               placeholder="Name"
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
 
             <input
@@ -665,9 +832,7 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
             <h2 className="font-bold text-lg">Add Product</h2>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                Product Image
-              </label>
+              <label className="text-sm font-medium text-gray-700">Product Image</label>
               <div
                 className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition"
                 onClick={() => fileInputRef.current?.click()}
@@ -692,12 +857,8 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setImagePreviews((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
-                            setSelectedImages((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
+                            setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+                            setSelectedImages((prev) => prev.filter((_, i) => i !== index));
                           }}
                           className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
                         >
@@ -709,9 +870,7 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
                 ) : (
                   <div>
                     <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">
-                      Click to upload product images
-                    </p>
+                    <p className="text-sm text-gray-500">Click to upload product images</p>
                   </div>
                 )}
               </div>
@@ -721,9 +880,7 @@ const handleEditImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               className="border w-full p-2 rounded"
               placeholder="Product Name"
               value={createData.name}
-              onChange={(e) =>
-                setCreateData({ ...createData, name: e.target.value })
-              }
+              onChange={(e) => setCreateData({ ...createData, name: e.target.value })}
             />
 
             <input
