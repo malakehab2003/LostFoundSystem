@@ -1,9 +1,11 @@
 import { useGetChats } from "@/features/message/hooks/useGetChats";
 import ChatRoom from "./ChatRoom";
-import { useState } from "react";
-import { MessageSquare, Search, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { MessageSquare, Search, ChevronRight, ChevronLeft } from "lucide-react";
 import { Input } from "./ui/input";
 import { Spinner } from "./ui/spinner";
+import { useSearchParams } from "react-router-dom";
+import { Button } from "./ui/button";
 
 interface Chat {
   chat_id: number;
@@ -18,12 +20,27 @@ interface Chat {
 
 const Messages = () => {
   const { chats, isLoading } = useGetChats();
-  const [selectedChatId, setSelectedChatId] = useState<number | null>(
-    chats?.[0]?.chat_id || null,
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
+  const [showChatOnMobile, setShowChatOnMobile] = useState(false);
 
-  // Filter chats based on search term
+  const selectedChatId = searchParams.get("chatId")
+    ? Number(searchParams.get("chatId"))
+    : null;
+
+  useEffect(() => {
+    if (!selectedChatId && chats && chats.length > 0 && !isLoading) {
+      setSearchParams({ chatId: String(chats[0].chat_id) });
+    }
+  }, [chats, selectedChatId, isLoading, setSearchParams]);
+
+  // Show chat on mobile when a chat is selected
+  useEffect(() => {
+    if (selectedChatId) {
+      setShowChatOnMobile(true);
+    }
+  }, [selectedChatId]);
+
   const filteredChats =
     chats?.filter((chat) =>
       chat.other_user.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -31,9 +48,22 @@ const Messages = () => {
 
   const selectedChat = chats?.find((chat) => chat.chat_id === selectedChatId);
 
+  const handleSelectChat = (chatId: number) => {
+    setSearchParams({ chatId: String(chatId) });
+  };
+
+  const handleBackToList = () => {
+    setShowChatOnMobile(false);
+  };
+
   return (
-    <div className="flex h-[calc(100vh-80px)] overflow-hidden">
-      <aside className="w-full md:w-80 flex flex-col border-r border-slate-200 overflow-hidden">
+    <div className="flex overflow-hidden h-[calc(100vh-80px)]">
+      {/* Chat List Sidebar - Hidden on mobile when chat is selected */}
+      <aside
+        className={`w-full md:w-80 flex flex-col border-r border-slate-200 overflow-hidden transition-all duration-300 ${
+          showChatOnMobile ? "hidden md:flex" : "flex"
+        }`}
+      >
         <div className="p-4 border-b border-slate-200 flex-shrink-0">
           <h2 className="sub-header mb-4 flex items-center gap-2  text-foreground/80">
             <MessageSquare className="w-5 h-5" />
@@ -70,9 +100,9 @@ const Messages = () => {
                 return (
                   <button
                     key={chat.chat_id}
-                    onClick={() => setSelectedChatId(chat.chat_id)}
+                    onClick={() => handleSelectChat(chat.chat_id)}
                     className={`w-full p-4 text-left transition-colors duration-200 hover:bg-slate-50 ${
-                      isSelected ? "bg-primary/5 border-l-4 border-primary" : ""
+                      isSelected ? "bg-primary/5 border-slate-200" : ""
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -132,15 +162,35 @@ const Messages = () => {
         </div>
       </aside>
 
-      {/* Right Side - Chat Room */}
-      <main className="hidden md:flex flex-1 flex-col">
+      {/* Chat Room - Full screen on mobile, sidebar on desktop */}
+      <main
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          showChatOnMobile ? "flex" : "hidden md:flex"
+        }`}
+      >
         {selectedChat ? (
-          <ChatRoom
-            chatId={selectedChatId!}
-            otherUser={selectedChat.other_user}
-          />
+          <>
+            {/* Mobile Back Button */}
+            <div className="md:hidden flex items-center gap-3 p-4 border-b border-slate-200 bg-slate-50">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleBackToList}
+                className="h-8 w-8"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
+              <span className="text-sm font-medium text-foreground/80">
+                {selectedChat.other_user.name}
+              </span>
+            </div>
+            <ChatRoom
+              chatId={selectedChatId!}
+              otherUserId={selectedChat.other_user.id}
+            />
+          </>
         ) : (
-          <div className="flex items-center justify-center h-full">
+          <div className="hidden md:flex items-center justify-center h-full flex-1">
             <div className="text-center">
               <MessageSquare className="w-16 h-16 text-foreground/20 mx-auto mb-4" />
               <p className="text-xl font-semibold text-foreground/60 mb-2">

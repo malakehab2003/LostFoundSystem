@@ -8,6 +8,8 @@ import {
   Shapes,
   X,
   Filter,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import CustomFormField from "./CustomerFormField";
 import { Form } from "@/components/ui/form";
@@ -29,11 +31,19 @@ import defaultpage from "@/assets/default-item-image.svg";
 import { useItemFilters } from "@/features/items/hooks/useItemFilters";
 
 const LostItems = () => {
-  const { form, onSubmit, resetFilters, appliedFilters, filteredCities } =
-    useItemFilters();
+  const {
+    form,
+    onSubmit,
+    resetFilters,
+    appliedFilters,
+    filteredCities,
+    currentPage,
+    goToPage,
+    nextPage,
+    prevPage,
+  } = useItemFilters();
 
-  const { items, isLoading } = useListItems(appliedFilters);
-
+  const { items, pagination, isLoading } = useListItems(appliedFilters);
   const { governments } = useGovernments();
   const { itemCategories } = useGetItemCategory();
 
@@ -233,6 +243,82 @@ const LostItems = () => {
                     </div>
                   </Link>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination Controls */}
+            {!isLoading && items && items.length > 0 && pagination && (
+              <div className="mt-8 flex items-center justify-between border-t pt-6">
+                <div className="text-sm text-foreground-600">
+                  Page <span className="font-semibold">{currentPage}</span> of{" "}
+                  <span className="font-semibold">{pagination.totalPages}</span>
+                  {" • "}
+                  <span className="font-semibold">{pagination.total}</span>{" "}
+                  total items
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={prevPage}
+                    disabled={currentPage === 1 || isLoading}
+                    className="gap-2"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </Button>
+
+                  {/* Page Numbers */}
+                  <div className="hidden sm:flex items-center gap-1">
+                    {Array.from(
+                      { length: pagination.totalPages },
+                      (_, i) => i + 1,
+                    )
+                      .filter((page) => {
+                        // Show current page and adjacent pages
+                        return (
+                          page === currentPage ||
+                          Math.abs(page - currentPage) <= 1 ||
+                          page === 1 ||
+                          page === pagination.totalPages
+                        );
+                      })
+                      .map((page, idx, arr) => (
+                        <div key={page}>
+                          {idx > 0 && arr[idx - 1] !== page - 1 && (
+                            <span className="px-2 text-foreground-400">
+                              ...
+                            </span>
+                          )}
+                          <Button
+                            variant={
+                              currentPage === page ? "default" : "outline"
+                            }
+                            size="sm"
+                            onClick={() => goToPage(page)}
+                            disabled={isLoading}
+                            className="min-w-10"
+                          >
+                            {page}
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={nextPage}
+                    disabled={
+                      currentPage === pagination.totalPages || isLoading
+                    }
+                    className="gap-2"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             )}
           </main>

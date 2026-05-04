@@ -1,11 +1,23 @@
 import { useAuth } from "@/lib/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 
+interface Notification {
+  id: number;
+  description: string;
+  message: string;
+  is_read: boolean;
+  entity?: string;
+  entity_id?: number;
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+}
+
 export function useGetNotifications() {
   const { token } = useAuth();
 
   const {
-    data: notifications,
+    data: notifications = [],
     isLoading,
     error,
   } = useQuery({
