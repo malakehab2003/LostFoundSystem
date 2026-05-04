@@ -72,7 +72,7 @@ export const updateItemService = async (data) => {
         throw new Error('Item not found');
     }
 
-    utils.checkItemToUser(item.user_id, data.user_id);
+    await utils.checkItemToUser(item.id, data.user_id);
 
     if (!data.government_id && !item.government_id) delete data.city_id;
 
@@ -85,7 +85,7 @@ export const updateItemService = async (data) => {
 export const deleteItemService = async (id, user_id) => {
     const item = await Item.findByPk(id);
     
-    await utils.checkItemToUser(item.user_id, user_id);
+    await utils.checkItemToUser(item.id, user_id);
 
     if (!item) throw new Error('Item not found');
 
