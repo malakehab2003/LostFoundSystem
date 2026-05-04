@@ -13,16 +13,16 @@ export const createOrder = async (req, res) => {
         if (data.receive_type === 'delivery' && !data.address_id) return res.status(400).send({ err: "Address is requried" });
         if (data.receive_type === 'pickup' && data.address_id) delete data.address_id;
         if (data.address_id) await validateAddressToUser(user.id, data.address_id);
-        if (data.promo_code_id) await removePromocodeFromUser(data.promo_code_id, user);
         data.user_id = user.id;
         data.order_status = 'processing';
-
+        
         const order = await Order.create({
             ...data
         });
-
+        
         if (!order) return res.status(400).send({ err: "Can't create order" });
-
+        if (data.promo_code_id) await removePromocodeFromUser(data.promo_code_id, user);
+        
         return res.status(201).send({
             message: "Order created successfully",
             order,
