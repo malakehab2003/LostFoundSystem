@@ -1,10 +1,10 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
 import { useCities } from "@/features/cities/hooks/useCities";
-import z from "zod";
+import z, { date } from "zod";
 
 const ItemFilterSchema = z.object({
   title: z.string().optional().default(""),
@@ -18,67 +18,89 @@ const ItemFilterSchema = z.object({
 
 type ItemFilterFormSchema = z.infer<typeof ItemFilterSchema>;
 
+const EMPTY_VALUES: ItemFilterFormSchema = {
+  title: "",
+  place: "",
+  type: "lost",
+  category_id: undefined,
+  government_id: undefined,
+  city_id: undefined,
+  date: undefined,
+};
+
 export function useItemFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { governments } = useGovernments();
   const { cities } = useCities();
 
-  const form = useForm<ItemFilterFormSchema>({
-    resolver: zodResolver(ItemFilterSchema),
-    defaultValues: {
-      title: searchParams.get("title") || "",
-      place: searchParams.get("place") || "",
-      type: (searchParams.get("type") as "lost" | "found") || "lost",
-      category_id: searchParams.get("category_id")
-        ? Number(searchParams.get("category_id"))
-        : undefined,
-      government_id: searchParams.get("government_id")
-        ? Number(searchParams.get("government_id"))
-        : undefined,
-      city_id: searchParams.get("city_id")
-        ? Number(searchParams.get("city_id"))
-        : undefined,
-      date: searchParams.get("date")
-        ? new Date(searchParams.get("date")!)
-        : undefined,
-    },
+  // ✅ Parse URL → form values
+  const parseSearchParams = (): ItemFilterFormSchema => ({
+    ...EMPTY_VALUES,
+    title: searchParams.get("title") || "",
+    place: searchParams.get("place") || "",
+    type: (searchParams.get("type") as "lost" | "found") || "lost",
+    category_id: searchParams.get("category_id")
+      ? Number(searchParams.get("category_id"))
+      : undefined,
+    government_id: searchParams.get("government_id")
+      ? Number(searchParams.get("government_id"))
+      : undefined,
+    city_id: searchParams.get("city_id")
+      ? Number(searchParams.get("city_id"))
+      : undefined,
+    date: searchParams.get("date")
+      ? new Date(searchParams.get("date")!)
+      : undefined,
   });
 
-  const selectedGovernment = form.watch("government_id");
+  const form = useForm<ItemFilterFormSchema>({
+    resolver: zodResolver(ItemFilterSchema),
+    defaultValues: parseSearchParams(),
+  });
 
+  // ✅ Watch form values safely
+  const watchedValues = useWatch({
+    control: form.control,
+  });
+
+  // ✅ Filter cities based on selected government
   const filteredCities = useMemo(() => {
-    return cities?.filter((c) => c.government_id === selectedGovernment);
-  }, [cities, selectedGovernment]);
+    if (!watchedValues.government_id) return cities;
+    return cities?.filter(
+      (c) => c.government_id === watchedValues.government_id,
+    );
+  }, [cities, watchedValues.government_id]);
 
-  const buildFilters = (data: ItemFilterFormSchema) => {
-    const govt = governments?.find((g) => g.id === data.government_id);
-    const city = filteredCities?.find((c) => c.id === data.city_id);
+  // ✅ Build API filters (derived state)
+  const appliedFilters = useMemo(() => {
+    const govt = governments?.find((g) => g.id === watchedValues.government_id);
+    const city = filteredCities?.find((c) => c.id === watchedValues.city_id);
 
     return {
-      title: data.title || undefined,
-      place: data.place || undefined,
+      title: watchedValues.title || undefined,
+      place: watchedValues.place || undefined,
       government: govt?.name || undefined,
       city: city?.name || undefined,
-      category_id: data.category_id,
-      type: data.type,
-      page: 1,
-      limit: 50,
+      category_id: watchedValues.category_id || undefined,
+      type: watchedValues.type || "lost",
+      date: watchedValues.date ? watchedValues.date.toISOString() : undefined,
+      page: currentPage,
+      limit: 10,
     };
-  };
+  }, [watchedValues, governments, filteredCities, currentPage]);
 
-  const [appliedFilters, setAppliedFilters] = useState(
-    buildFilters(form.getValues()),
-  );
-
-  // ✅ sync URL → filters whenever search params or data changes
+  // Sync URL → form (only when params exist)
   useEffect(() => {
-    const values = form.getValues();
-    const filters = buildFilters(values);
-    setAppliedFilters(filters);
-  }, [searchParams, governments, filteredCities]);
+    const hasParams = Array.from(searchParams.keys()).length > 0;
 
-  // ✅ submit (form → URL)
+    if (hasParams) {
+      form.reset(parseSearchParams());
+    }
+  }, [searchParams]);
+
+  // Submit → update URL
   const onSubmit = (data: ItemFilterFormSchema) => {
     const params: Record<string, string> = {};
 
@@ -89,24 +111,29 @@ export function useItemFilters() {
       }
     });
 
+    setCurrentPage(1); // Reset to page 1 when applying filters
     setSearchParams(params);
-    setAppliedFilters(buildFilters(data));
   };
 
+  // FIXED RESET (main bug solved here)
   const resetFilters = () => {
-    const resetValues = {
-      title: "",
-      place: "",
-      category_id: undefined,
-      government_id: undefined,
-      city_id: undefined,
-      type: "lost" as const,
-      date: undefined,
-    };
-
-    form.reset(resetValues);
+    setCurrentPage(1); // Reset pagination
     setSearchParams({});
-    setAppliedFilters(buildFilters(resetValues));
+    form.reset(EMPTY_VALUES);
+  };
+
+  // Pagination handlers
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const nextPage = () => {
+    goToPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    goToPage(Math.max(1, currentPage - 1));
   };
 
   return {
@@ -115,5 +142,9 @@ export function useItemFilters() {
     resetFilters,
     appliedFilters,
     filteredCities,
+    currentPage,
+    goToPage,
+    nextPage,
+    prevPage,
   };
 }

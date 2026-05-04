@@ -117,7 +117,7 @@ export default function Nav() {
                 >
                   <ShoppingCart className="w-5 h-5" />{" "}
                   {cartitem?.length > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
                       {cartitem.length}
                     </span>
                   )}

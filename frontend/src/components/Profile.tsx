@@ -12,13 +12,13 @@ import { Badge } from "./ui/badge";
 import { useGetAnotherUser } from "@/features/auth/hooks/useGetAnotherUser";
 import { Spinner } from "./ui/spinner";
 import { useCreateChat } from "@/features/message/hooks/useCreateChat";
+import defaultProfile from "@/assets/default-profile.webp";
 
 const Profile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const { user, isLoading } = useGetAnotherUser({ id: Number(userId) });
   const { createChat, isPending } = useCreateChat();
-  console.log(user);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -30,7 +30,6 @@ const Profile = () => {
   const handleCreateChat = () => {
     if (!user) return;
     createChat(user.id);
-    navigate("/dashboard/messages");
   };
   if (isLoading) {
     return (
@@ -65,10 +64,7 @@ const Profile = () => {
               <div className="relative">
                 <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
                   <img
-                    src={
-                      user.image[0]?.url ||
-                      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80"
-                    }
+                    src={user.image[0]?.url || defaultProfile}
                     alt={user.name}
                     className="w-full h-full object-cover"
                   />

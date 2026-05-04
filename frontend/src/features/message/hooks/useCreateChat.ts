@@ -1,17 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/AuthContext";
-
-interface Chat {
-  id: number;
-  sender_id: number;
-  receiver_id: number;
-  created_at: string;
-}
+import { useNavigate } from "react-router-dom";
 
 export function useCreateChat() {
   const { token } = useAuth();
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const {
     mutate: createChat,
     isPending,
@@ -34,12 +28,20 @@ export function useCreateChat() {
       }
 
       const data = await res.json();
-      return data.chat as Chat;
+      // 🔥 2. Try to extract chatId directly
+      const chatId = data?.chat?.id || data?.chat_id || data?.id;
+      console.log("chats in usecreate", chatId);
+
+      return { chatId };
     },
-    onSuccess: (chat) => {
-      // Invalidate and refetch chats
+    onSuccess: ({ chatId }) => {
+      // 🔥 ensure chats list is updated
       queryClient.invalidateQueries({ queryKey: ["chats"] });
+
+      // 🔥 redirect immediately
+      navigate(`/dashboard/messages?chatId=${chatId}`);
     },
+
     onError: (error) => {
       console.error("Error creating chat:", error);
     },
