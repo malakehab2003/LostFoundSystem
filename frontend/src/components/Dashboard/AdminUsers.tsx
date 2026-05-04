@@ -1,12 +1,14 @@
+// AdminUsers.tsx
 import { useGetUsers } from "@/features/auth/hooks/useGetUsers";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { Trash2, User, ChevronDown, Shield } from "lucide-react";
+import { Trash2, User, ChevronDown, Shield, Eye } from "lucide-react";
 import { useState } from "react";
 import type { Item } from "@/features/items/itemsType";
 import defaultpage from "@/assets/default-profile.webp";
 import { useDeleteUser } from "@/features/auth/hooks/useDeleteUser";
+import { useNavigate } from "react-router-dom";
 
 type UserType = {
   id: number;
@@ -16,21 +18,18 @@ type UserType = {
 };
 
 const AdminUsers = () => {
+  const navigate = useNavigate();
   const { users, isLoading: usersLoading } = useGetUsers();
   const { items, isLoading: itemsLoading } = useGetItems();
 
   const [adminSearch, setAdminSearch] = useState("");
   const [userSearch, setUserSearch] = useState("");
-
-  const { deleteUser } = useDeleteUser();
-
   const [openUserId, setOpenUserId] = useState<number | null>(null);
 
   const toggleUser = (id: number) => {
     setOpenUserId((prev) => (prev === id ? null : id));
   };
 
-  // ✅ فلترة الأدمن
   const filteredAdmins =
     users?.filter(
       (user: UserType) =>
@@ -39,7 +38,6 @@ const AdminUsers = () => {
           user.email.toLowerCase().includes(adminSearch.toLowerCase()))
     ) || [];
 
-  // ✅ فلترة اليوزر
   const filteredUsers =
     users?.filter(
       (user: UserType) =>
@@ -48,14 +46,13 @@ const AdminUsers = () => {
           user.email.toLowerCase().includes(userSearch.toLowerCase()))
     ) || [];
 
-  // ✅ أهم جزء (ربط الـ items بالـ user)
   const getItemsForUser = (userId: number): Item[] => {
     if (!items) return [];
 
     return items.filter(
       (item: any) =>
-        item.userId === userId || // لو الباك بيرجع userId
-        item.user?.id === userId  // لو بيرجع nested user
+        item.userId === userId || 
+        item.user?.id === userId  
     );
   };
 
@@ -86,7 +83,6 @@ const AdminUsers = () => {
         ) : (
           usersList.map((user: UserType) => {
             const userItems = getItemsForUser(user.id);
-
             return (
               <div
                 key={user.id}
@@ -94,7 +90,7 @@ const AdminUsers = () => {
               >
                 {/* Header */}
                 <div
-                  className="flex justify-between items-center cursor-pointer"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 cursor-pointer"
                   onClick={() => toggleUser(user.id)}
                 >
                   <div className="flex items-center gap-3">
@@ -119,7 +115,81 @@ const AdminUsers = () => {
                       </p>
                     </div>
                   </div>
+
+                  <div className="flex items-center gap-2 ml-auto sm:ml-0">
+                    {/* ✅ زر عرض الملف الشخصي */}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/profile/${user.id}`);
+                      }}
+                    >
+                      <Eye className="w-4 h-4" />
+                      View Profile
+                    </Button>
+
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                        openUserId === user.id ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
                 </div>
+
+                {/* Expanded Items Section */}
+                {openUserId === user.id && (
+                  <div className="mt-4 pt-4 border-t border-gray-100">
+                    <h3 className="font-semibold text-sm text-gray-700 mb-3">
+                      Items by {user.name}
+                    </h3>
+                    {userItems.length === 0 ? (
+                      <p className="text-sm text-gray-500">No items found.</p>
+                    ) : (
+                      <div className="grid gap-3">
+                        {userItems.slice(0, 5).map((item: any) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/items/${item.id}`);
+                            }}
+                          >
+                            <img
+                              src={item.image?.[0]?.url || defaultpage}
+                              alt={item.title}
+                              className="w-12 h-12 rounded-md object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-800 truncate">
+                                {item.title}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {item.type} • {item.status}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                        {userItems.length > 5 && (
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="text-primary"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/items?userId=${user.id}`);
+                            }}
+                          >
+                            View all {userItems.length} items →
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             );
           })

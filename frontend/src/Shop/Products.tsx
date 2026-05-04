@@ -348,19 +348,6 @@ const Products = () => {
             <h2 className="mt-3 text-xl font-semibold text-foreground/90 sm:text-2xl">
               Our Products
             </h2>
-            {pagination && (
-              <p className="text-sm text-gray-500 mt-1">
-                {hasFilters ? (
-                  <>Found {pagination.total} product(s) matching your filters</>
-                ) : (
-                  <>
-                    Showing {(pagination.page - 1) * pagination.limit + 1} -{" "}
-                    {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}{" "}
-                    products
-                  </>
-                )}
-              </p>
-            )}
           </div>
 
           <div className="flex items-center space-x-4">
@@ -384,8 +371,8 @@ const Products = () => {
                 <SheetHeader>
                   <SheetTitle>Filter Products</SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col gap-5 mt-6">
-                  <div className="space-y-2">
+                <div className="flex flex-col gap-10 mt-6">
+                  <div className="space-y-2 ps-4">
                     <Label>Product Name</Label>
                     <Input
                       placeholder="Search by name..."
@@ -393,7 +380,7 @@ const Products = () => {
                       onChange={(e) => updateFilter("name", e.target.value)}
                     />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 ps-4">
                     <Label>Category</Label>
                     <select
                       className="w-full px-3 py-2 border rounded-md"
@@ -408,7 +395,7 @@ const Products = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 ps-4">
                     <Label>Price Range</Label>
                     <div className="flex gap-2">
                       <Input
@@ -425,7 +412,7 @@ const Products = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 ps-4">
                     <input
                       type="checkbox"
                       id="inStock"
@@ -450,10 +437,6 @@ const Products = () => {
                 </div>
               </SheetContent>
             </Sheet>
-            <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
-              <SortAscIcon className="w-4 h-4" />
-              Sort
-            </button>
           </div>
         </div>
 
@@ -494,11 +477,27 @@ const Products = () => {
                       {product.name}
                     </Link>
                     <p className="text-sm text-gray-500 line-clamp-2">{product.description.split(' ').slice(0,3).join(' ')}</p>
-                    <div className="flex gap-1 mt-2">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <StarIcon key={i} className={`w-4 h-4 ${i < Math.round(product.rate) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                      ))}
-                    </div>
+                   <div className="flex gap-1 mt-2">
+  {(() => {
+    // ✅ حساب التقييم من المراجعات إن وجدت
+    let rating = product.rate;
+    if (product.review && product.review.length > 0) {
+      const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
+      rating = sum / product.review.length;
+    }
+    const fullStars = Math.floor(rating); // ✅ تقريب لأقل عدد صحيح
+    return Array.from({ length: 5 }).map((_, i) => (
+      <StarIcon 
+        key={i} 
+        className={`w-4 h-4 ${
+          i < fullStars 
+            ? "text-yellow-400 fill-yellow-400" 
+            : "text-gray-300"
+        }`} 
+      />
+    ));
+  })()}
+</div>
                     <div className="mt-4 flex flex-col gap-2">
                       <p className="font-bold text-lg">${product.price}</p>
                       <div className="flex items-center gap-2 text-sm">
