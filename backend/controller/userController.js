@@ -187,7 +187,7 @@ export const getAnotherUser = async (req, res) => {
 
 export const searchUsers = async (req, res) => {
   try {
-    const { q } = req.query;
+    let { q } = req.query;
     let users;
     if (!q) {
       users = await userService.getAllUsersService();
