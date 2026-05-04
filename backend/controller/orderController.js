@@ -21,7 +21,7 @@ export const createOrder = async (req, res) => {
         });
         
         if (!order) return res.status(400).send({ err: "Can't create order" });
-        if (data.promo_code_id) await removePromocodeFromUser(data.promo_code_id, user);
+        if (data.promocode_id) await removePromocodeFromUser(data.promocode_id, user);
         
         return res.status(201).send({
             message: "Order created successfully",
@@ -89,7 +89,7 @@ export const getOrder = async (req, res) => {
 export const updateOrder = async (req, res) => {
     try {
         const { id } = req.params;
-        const { total_price, order_status, receive_type, payment_type, address_id, promo_code_id } = req.body;
+        const { total_price, order_status, receive_type, payment_type, address_id, promocode_id } = req.body;
 
         const orders = await service.getOrders({ id, });
         const currentOrder = orders[0];
@@ -99,9 +99,9 @@ export const updateOrder = async (req, res) => {
         if (order_status) currentOrder.order_status = order_status;
         if (receive_type) currentOrder.receive_type = receive_type;
         if (payment_type) currentOrder.payment_type = payment_type;
-        if (promo_code_id) {
-            await removePromocodeFromUser(promo_code_id, user);
-            currentOrder.promo_code_id = promo_code_id;
+        if (promocode_id) {
+            await removePromocodeFromUser(promocode_id, user);
+            currentOrder.promocode_id = promocode_id;
         }
         if (address_id) {
             await validateAddressToUser(user.id, address_id);
