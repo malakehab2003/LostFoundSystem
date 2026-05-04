@@ -3,9 +3,11 @@ import { useCreateMessage } from "@/features/message/hooks/useCreateMessage";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState, useEffect, useRef } from "react";
-import { Send, Check, CheckCheck } from "lucide-react";
+import { Send, Check, CheckCheck, User } from "lucide-react";
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { Spinner } from "./ui/spinner";
+import { useGetAnotherUser } from "@/features/auth/hooks/useGetAnotherUser";
+import { Link } from "react-router-dom";
 
 interface Message {
   id: number;
@@ -23,21 +25,33 @@ interface Message {
 interface OtherUser {
   id: number;
   name: string;
-  image_url?: string;
+  email: string;
+  phone: string;
+  gender: string;
+  dob: string;
+  role: string;
+  is_verified: boolean;
+  show_phone_number: boolean;
+  image: Array<{ url: string }>;
 }
 
 const ChatRoom = ({
   chatId,
-  otherUser,
+  otherUserId,
 }: {
   chatId: number;
-  otherUser: OtherUser;
+  otherUserId: number;
 }) => {
   const { messages, isLoading } = useGetMessages(chatId);
+  const { user: displayUser, isLoading: isDisplayUserLoading } =
+    useGetAnotherUser({
+      id: Number(otherUserId),
+    });
   const { sendMessage, isPending } = useCreateMessage();
   const [content, setContent] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useCurrentUser();
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -61,14 +75,58 @@ const ChatRoom = ({
     }
   };
 
+  if (isDisplayUserLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Spinner className="w-8 h-8 text-primary" />
+      </div>
+    );
+  }
+  const userImage = displayUser?.image?.[0]?.url;
+  const userInitial = displayUser?.name?.charAt(0).toUpperCase() || "?";
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-3 p-4 border-b border-slate-200 flex-shrink-0">
-        <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center text-sm font-semibold text-primary">
-          {otherUser.name.charAt(0).toUpperCase()}
+      {/* Chat Header */}
+      <div className="flex items-center justify-between p-4 border-b border-slate-200 flex-shrink-0 bg-white">
+        <div className="flex items-center gap-3">
+          <div className="flex-shrink-0">
+            {userImage ? (
+              <img
+                src={userImage}
+                alt={displayUser?.name}
+                className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center text-sm font-semibold text-primary border-2 border-primary/20">
+                {userInitial}
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-foreground/80">
+              {displayUser?.name}
+            </h3>
+            <p className="text-xs text-foreground/60">{displayUser?.email}</p>
+          </div>
         </div>
-        <div>
-          <h3 className="font-semibold text-foreground/80">{otherUser.name}</h3>
+
+        <div className="flex flex-col gap-2">
+          <Button size="sm" variant={"outline"} className="gap-2" asChild>
+            <Link to={`/profile/${displayUser?.id}`}>
+              <User className="w-4 h-4" />
+              View Profile
+            </Link>
+          </Button>
+          {displayUser?.show_phone_number && displayUser?.phone && (
+            <a
+              href={`tel:${displayUser.phone}`}
+              className="text-xs text-foreground/60 hover:text-foreground/80 font-medium transition-colors"
+            >
+              Phone Number: {displayUser.phone}
+            </a>
+          )}
         </div>
       </div>
 
@@ -95,7 +153,7 @@ const ChatRoom = ({
                   {!isSent && (
                     <div className="flex-shrink-0">
                       <div className="w-8 h-8 bg-gradient-to-br from-slate-200 to-slate-100 rounded-full flex items-center justify-center text-xs font-semibold text-slate-600">
-                        {msg.sender.name.charAt(0).toUpperCase()}
+                        {msg.sender.name.charAt(0).toUpperCase() || "U"}
                       </div>
                     </div>
                   )}
@@ -142,12 +200,20 @@ const ChatRoom = ({
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-semibold text-slate-400">
-                  {otherUser.name.charAt(0).toUpperCase()}
-                </span>
+                {userImage ? (
+                  <img
+                    src={userImage}
+                    alt={displayUser?.name}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-2xl font-semibold text-slate-400">
+                    {userInitial}
+                  </span>
+                )}
               </div>
               <p className="text-lg font-semibold text-slate-900 mb-1">
-                {otherUser.name}
+                {displayUser?.name}
               </p>
               <p className="text-sm text-foreground/60">
                 No messages yet. Start the conversation!
@@ -158,19 +224,24 @@ const ChatRoom = ({
       </div>
 
       {/* Message Input Area */}
-      <div className="p-4 border-t border-slate-200 flex-shrink-0 bg-slate-50">
-        <div className="flex items-end gap-3">
-          <div className="flex-1">
-            <Input
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type a message..."
-              disabled={isPending}
-              className="resize-none py-2 px-4 text-base"
-            />
-          </div>
+      <div className="pt-6 px-4 flex gap-4">
+        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <span className="text-primary font-bold text-sm">
+            {user?.name?.charAt(0).toUpperCase() || "U"}
+          </span>
+        </div>
+
+        <div className="flex-1 flex gap-2 items-center">
+          <Input
+            type="text"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type a message..."
+            disabled={isPending}
+            className="resize-none py-2 px-4 text-base"
+          />
+
           <Button
             onClick={handleSendMessage}
             disabled={isPending || !content.trim()}

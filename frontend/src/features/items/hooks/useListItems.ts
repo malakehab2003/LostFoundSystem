@@ -9,7 +9,6 @@ export function useListItems(filters: ItemFilters) {
       query.append(key, String(value));
     }
   });
-  console.log(filters);
   const { data, isLoading, error } = useQuery({
     queryKey: ["items", filters],
     queryFn: async () => {

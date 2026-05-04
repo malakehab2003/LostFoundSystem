@@ -15,7 +15,8 @@ interface Chat {
 
 export function useGetChats() {
   const { token } = useAuth();
-
+  const socket = useSocket();
+  const queryClient = useQueryClient();
   const {
     data: chats,
     isLoading,
@@ -42,25 +43,25 @@ export function useGetChats() {
     enabled: !!token,
   });
 
-  // useEffect(() => {
-  //   if (!socket) return;
+  useEffect(() => {
+    if (!socket) return;
 
-  //   const handleNewMessage = (msg: any) => {
-  //     queryClient.setQueryData(["chats"], (old) => {
-  //       if (!old) return old;
+    const handleNewMessage = (msg: any) => {
+      queryClient.setQueryData(["chats"], (old) => {
+        if (!old) return old;
 
-  //       // Update the chat to reflect the new message
-  //       return old.map((chat) =>
-  //         chat.id === msg.chat_id
-  //           ? { ...chat, updated_at: new Date().toISOString() }
-  //           : chat,
-  //       );
-  //     });
-  //   };
+        // Update the chat to reflect the new message
+        return old.map((chat) =>
+          chat.id === msg.chat_id
+            ? { ...chat, updated_at: new Date().toISOString() }
+            : chat,
+        );
+      });
+    };
 
-  //   socket.on("new_message", handleNewMessage);
-  //   return () => socket.off("new_message", handleNewMessage);
-  // }, [socket, queryClient]);
+    socket.on("new_message", handleNewMessage);
+    return () => socket.off("new_message", handleNewMessage);
+  }, [socket, queryClient]);
 
   return { chats, isLoading, error };
 }

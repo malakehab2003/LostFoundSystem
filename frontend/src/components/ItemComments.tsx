@@ -16,7 +16,6 @@ interface ItemCommentsProps {
 const ItemComments = ({ itemId }: ItemCommentsProps) => {
   const { user: currentUser } = useCurrentUser();
   const { comments, isLoading: commentsLoading } = useGetComments(itemId);
-  console.log(comments);
   const { addComment, isPending: isAdding } = useAddComment();
   const { deleteComment } = useDeleteComment();
   const { updateComment, isPending: isUpdating } = useUpdateComment();

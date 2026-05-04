@@ -7,47 +7,40 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useGetNotifications } from "@/features/notifications/hooks/useGetNotifications";
-import { BellRing } from "lucide-react";
+import { BellRing, Check } from "lucide-react";
 import { Spinner } from "./ui/spinner";
-
-// let notifications = [
-//   {
-//     id: 14,
-//     description: "this notification for you",
-//     is_read: false,
-//     message: "warning",
-//     created_at: "2026-02-12T00:06:25.000Z",
-//     updated_at: "2026-02-12T00:06:25.000Z",
-//     user_id: 59,
-//   },
-//   {
-//     id: 15,
-//     description: "this notification for you",
-//     is_read: false,
-//     message: "warning",
-//     created_at: "2026-02-12T00:06:25.000Z",
-//     updated_at: "2026-02-12T00:06:25.000Z",
-//     user_id: 59,
-//   },
-//   {
-//     id: 16,
-//     description: "this notification for you",
-//     is_read: true,
-//     message: "warning",
-//     created_at: "2026-02-12T00:06:25.000Z",
-//     updated_at: "2026-02-12T00:06:25.000Z",
-//     user_id: 59,
-//   },
-// ];
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useCountNotifications } from "@/features/notifications/hooks/useCountNotifications";
 
 const Notifications = () => {
   const { notifications, isLoading } = useGetNotifications();
+  const { notificationsCount: unreadCount } = useCountNotifications();
+  const navigate = useNavigate();
+  const [openSheet, setOpenSheet] = useState(false);
+  const handleNotificationClick = (notif: any) => {
+    if (notif.entity && notif.entity_id) {
+      if (notif.entity === "chat") {
+        navigate(`/dashboard/messages?chatId=${notif.entity_id}`);
+      }
+      if (notif.entity === "item") {
+        navigate(`/items/${notif.entity_id}`);
+      }
+      setOpenSheet(false);
+    }
+  };
 
-  console.log("we are notifications", notifications);
   return (
-    <Sheet>
+    <Sheet open={openSheet} onOpenChange={setOpenSheet}>
       <SheetTrigger asChild>
-        <BellRing className="w-5 h-5 cursor-pointer " />
+        <div className="relative cursor-pointer">
+          <BellRing className="w-5 h-5" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+              {unreadCount}
+            </span>
+          )}
+        </div>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -62,15 +55,16 @@ const Notifications = () => {
               <Spinner className="w-8 h-8 place-self-center text-primary" />
               <span className="text-sm text-foreground-500">Loading...</span>
             </div>
-          ) : notifications.length === 0 ? (
+          ) : notifications?.length === 0 ? (
             <p className="text-sm text-foreground-500 text-center py-10">
               No notifications yet. Check back later!
             </p>
           ) : (
-            notifications.map((notif) => (
+            notifications?.map((notif: any) => (
               <div
                 key={notif.id}
-                className={`p-3 flex flex-col gap-2 ${
+                onClick={() => handleNotificationClick(notif)}
+                className={`p-3 flex flex-col gap-2 cursor-pointer transition-colors hover:bg-slate-100 ${
                   !notif.is_read ? "bg-slate-50" : ""
                 }`}
               >
@@ -79,7 +73,9 @@ const Notifications = () => {
                     {notif.message}
                   </span>
 
-                  {!notif.is_read && (
+                  {notif.is_read ? (
+                    <Check className="w-4 h-4 text-primary mr-2" />
+                  ) : (
                     <span className="w-2 h-2 rounded-full bg-primary mr-2"></span>
                   )}
                 </div>
@@ -93,15 +89,13 @@ const Notifications = () => {
                     {new Date(notif.created_at).toLocaleString()}
                   </span>
 
-                  {/* {!notif.is_read && (
-                    <button
-                      className="text-xs text-blue-600 hover:underline self-start"
-                      onClick={() => {
-                      }}
-                    >
-                      Mark as read
-                    </button>
-                  )} */}
+                  {notif.entity && notif.entity_id && (
+                    <span className="text-xs text-primary font-medium">
+                      {notif.entity.charAt(0).toUpperCase() +
+                        notif.entity.slice(1)}{" "}
+                      #{notif.entity_id}
+                    </span>
+                  )}
                 </div>
               </div>
             ))

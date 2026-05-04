@@ -12,7 +12,6 @@ const DashItem = () => {
   const { itemId } = useParams();
   const navigate = useNavigate();
   const { item, isLoading } = useGetItem(Number(itemId));
-  console.log(item);
   const handleSearch = () => {
     if (!item) return;
 
@@ -21,7 +20,7 @@ const DashItem = () => {
     if (item.title) params.append("title", item.title);
     if (item.place) params.append("place", item.place);
     if (item.type)
-      params.append("type", item.type === "lost" ? "found" : "lsot");
+      params.append("type", item.type === "lost" ? "found" : "lost");
     if (item.item_category_id)
       params.append("category_id", String(item.item_category_id));
     if (item.government_id)
