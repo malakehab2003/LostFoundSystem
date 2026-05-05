@@ -129,6 +129,8 @@ const AdminUsers = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           makeAdmin(user.id);
+                          filteredAdmins.push(user);
+                          filteredUsers.pop(user)
                         }}
                       >
                         Make Admin
