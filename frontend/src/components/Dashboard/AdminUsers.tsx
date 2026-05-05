@@ -26,11 +26,14 @@ const AdminUsers = () => {
   const [userSearch, setUserSearch] = useState("");
   const [openUserId, setOpenUserId] = useState<number | null>(null);
 
+  let [filteredUsers, setFilteredUsers] = useState([]);
+  let [filteredAdmins, setFilteredAdmins] = useState([]);
+
   const toggleUser = (id: number) => {
     setOpenUserId((prev) => (prev === id ? null : id));
   };
 
-  const filteredAdmins =
+  filteredAdmins =
     users?.filter(
       (user: UserType) =>
         user.role === "admin" &&
@@ -38,7 +41,7 @@ const AdminUsers = () => {
           user.email.toLowerCase().includes(adminSearch.toLowerCase())),
     ) || [];
 
-  const filteredUsers =
+  filteredUsers =
     users?.filter(
       (user: UserType) =>
         user.role !== "admin" &&
@@ -129,8 +132,12 @@ const AdminUsers = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           makeAdmin(user.id);
-                          filteredAdmins.push(user);
-                          filteredUsers.pop(user)
+
+                          setFilteredAdmins(u => [...u, user]);
+
+                          setFilteredUsers(prev =>
+                            prev.filter(u => u.id !== user.id)
+                          );
                         }}
                       >
                         Make Admin

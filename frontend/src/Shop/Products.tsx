@@ -318,6 +318,7 @@ const Products = () => {
       {
         onSuccess: () => {
           refetch();
+          existingImages.pop(imageId)
         },
       }
     );
