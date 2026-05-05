@@ -102,6 +102,7 @@ const SingleProduct = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.err || "Failed to create review");
+      reviews.push(data.review)
       return data;
     },
     onSuccess: () => {
@@ -246,7 +247,7 @@ const SingleProduct = () => {
                   <div className="flex-1">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <div>
-                        <h4 className="font-semibold">{review.user?.name || 'Anonymous'}</h4>
+                        <h4 className="font-semibold">{review.user?.name || review.user || 'Anonymous'}</h4>
                         <div className="flex items-center gap-1 mt-1">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <StarIcon key={i} className={`w-4 h-4 ${i < review.rate ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />

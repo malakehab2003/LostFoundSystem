@@ -26,17 +26,18 @@ export const createReview = async (req, res) => {
 
         const review = await Review.create(data)
         if (!review) return res.status(400).send({ err: "Can't create review", });
+        review.dataValues.user = user.name;
 
         if (file) {
             const uploaded = await uploadToCloudinary(file.buffer);
 
-        await Image.create({
-            url: uploaded.url,
-            public_id: uploaded.public_id,
-            owner_id: review.id,
-            owner_type: "review",
-        });
-    }
+            await Image.create({
+                url: uploaded.url,
+                public_id: uploaded.public_id,
+                owner_id: review.id,
+                owner_type: "review",
+            });
+        }
 
 
         return res.status(201).send({
