@@ -318,7 +318,11 @@ console.log('paymentstring',paymentstring)
                                 📍 {a.address}
                             </SelectItem>
                         ))}
+                        <SelectItem>
+                            <button onClick={()=>{navigate('/dashboard/address')}}>Add Address </button>
+                            </SelectItem>
                     </SelectContent>
+                    
                 </Select>
             </div>
         )}
