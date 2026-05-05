@@ -143,12 +143,6 @@ const AdminUsers = () => {
                         Make Admin
                       </Button>
                     )}
-
-                    <ChevronDown
-                      className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
-                        openUserId === user.id ? "rotate-180" : ""
-                      }`}
-                    />
                   </div>
                 </div>
               </div>
