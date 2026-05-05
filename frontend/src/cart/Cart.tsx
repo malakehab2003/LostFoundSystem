@@ -115,7 +115,7 @@ console.log(totalPrice)
                     className="flex items-center justify-center gap-3"
                   >
                     <img
-                      src={elem?.product?.image[0].url}
+                      src={elem?.product?.image[0]?.url}
                       className="w-12 h-12 object-cover rounded-xl border"
                       alt=""
                     />
