@@ -164,8 +164,24 @@ const SingleProduct = () => {
           <div className="mt-6 sm:mt-8 lg:mt-0">
             <div className="mb-4 flex items-center justify-between gap-4"><h1 className="text-xl font-semibold sm:text-2xl">{product?.name}</h1><Badge variant="outline">{product?.category?.name}</Badge></div>
             <div className="mt-4 sm:flex sm:items-center sm:gap-4"><p className="text-2xl font-semibold sm:text-3xl">${product?.price?.toFixed(2)}</p>
-              <div className="flex items-center gap-2 mt-2 sm:mt-0"><div className="flex items-center">{Array(5).fill(0).map((_, i) => <StarIcon key={i} className={`w-4 h-4 ${i < Math.round(product?.rate || 0) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />)}</div>
-              <p className="text-sm font-medium">{avgRating} ({reviews?.length || 0} reviews)</p></div>
+              <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                <div className="flex items-center">
+  {Array(5).fill(0).map((_, i) => (
+    <StarIcon 
+      key={i} 
+      className={`w-4 h-4 ${
+        i < Math.floor(Number(avgRating)) 
+          ? "text-yellow-400 fill-yellow-400" 
+          : "text-gray-300"
+      }`} 
+    />
+  ))}
+</div>
+<p className="text-sm font-medium">
+  {avgRating} ({reviews?.length || 0} reviews)
+</p>
+
+              </div>
             </div>
             <div className="flex items-center gap-4 text-sm my-4">
               {sizesArray.length > 0 && <div className="flex flex-col gap-1"><span>Size</span><Select onValueChange={setSelectedSize} defaultValue={sizesArray[0]}><SelectTrigger><SelectValue placeholder="Select size" /></SelectTrigger><SelectContent>{sizesArray.map((size: string) => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>}
@@ -191,19 +207,33 @@ const SingleProduct = () => {
 
         {/* قسم التقييمات */}
         <div className="mt-16">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold">Customer Reviews</h2>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex">{Array(5).fill(0).map((_, i) => <StarIcon key={i} className={`w-5 h-5 ${i < Number(avgRating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />)}</div>
-                <span>{avgRating} out of 5</span>
-                <span className="text-gray-400">({reviews?.length || 0} reviews)</span>
-              </div>
-            </div>
-            <Button onClick={() => setShowReviewModal(true)} className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" /> Write a Review
-            </Button>
-          </div>
+          {/* قسم التقييمات */}
+<div className="mt-16">
+  <div className="flex justify-between items-center mb-6">
+    <div>
+      <h2 className="text-2xl font-bold">Customer Reviews</h2>
+      <div className="flex items-center gap-2 mt-1">
+        <div className="flex">
+          {Array(5).fill(0).map((_, i) => (
+            <StarIcon 
+              key={i} 
+              className={`w-5 h-5 ${
+                i < Math.floor(Number(avgRating)) 
+                  ? "text-yellow-400 fill-yellow-400" 
+                  : "text-gray-300"
+              }`} 
+            />
+          ))}
+        </div>
+        <span>{avgRating} out of 5</span>
+        <span className="text-gray-400">({reviews?.length || 0} reviews)</span>
+      </div>
+    </div>
+    <Button onClick={() => setShowReviewModal(true)} className="flex items-center gap-2">
+      <MessageSquare className="w-4 h-4" /> Write a Review
+    </Button>
+  </div>
+</div>
           
           {/* عرض التقييمات */}
           {reviews.length > 0 ? (

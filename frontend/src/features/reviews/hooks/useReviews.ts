@@ -18,30 +18,43 @@ export function useProductReviews(productId: number) {
   });
 }
 
-
 export function useCreateReview() {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async ({ productId, message, rate, image }: { productId: number; message: string; rate: number; image?: File }) => {
+    mutationFn: async ({ productId, message, rate, image }) => {
       const token = localStorage.getItem("token");
+
       const formData = new FormData();
       formData.append("product_id", String(productId));
       formData.append("message", message);
       formData.append("rate", String(rate));
       if (image) formData.append("image", image);
+
       const res = await fetch("http://localhost:5000/api/review/create", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.err || "Failed to create review");
+
       return data;
     },
+
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["reviews", variables.productId] });
+      queryClient.invalidateQueries({
+        queryKey: ["reviews", variables.productId],
+      });
+
+      queryClient.refetchQueries({
+        queryKey: ["reviews", variables.productId],
+      });
+
       toast.success("Review added successfully!");
     },
-    onError: (err: any) => toast.error(err.message || "Failed to add review"),
   });
 }

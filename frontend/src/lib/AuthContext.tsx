@@ -20,7 +20,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
-  // Load token on app start
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
@@ -29,14 +28,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(storedToken);
     }
 
-    // ✅ التحقق من وجود storedUser وليس undefined
     if (storedUser && storedUser !== "undefined") {
       try {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
       } catch (err) {
         console.error("Error parsing user from localStorage:", err);
-        localStorage.removeItem("user"); // إزالة البيانات الفاسدة
+        localStorage.removeItem("user"); 
       }
     }
   }, []);
