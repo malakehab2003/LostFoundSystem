@@ -172,12 +172,11 @@ const Products = () => {
         }
       );
     } else {
-      editImages.forEach((img) => {
         addImage({
-          productId: selectedProduct.id,
-          image: img,
+          owner_id: selectedProduct.id,
+          owner_type: 'product',
+          images: editImages,
         });
-      });
       setIsEditOpen(false);
       setEditImages([]);
       setEditPreviews([]);
@@ -318,7 +317,7 @@ const Products = () => {
       {
         onSuccess: () => {
           refetch();
-          existingImages.pop(imageId)
+          existingImages.filter(img => imageId !== img.id)
         },
       }
     );

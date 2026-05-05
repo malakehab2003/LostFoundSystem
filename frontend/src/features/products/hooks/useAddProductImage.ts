@@ -3,21 +3,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 type AddImagePayload = {
-  productId: number;
-  image: File;
+  owner_id: number;
+  images: File[];
+  owner_type: string;
 };
 
 export function useAddProductImage() {
   const queryClient = useQueryClient();
 
   const { mutate: addImage, isPending } = useMutation({
-    mutationFn: async ({ productId, image }: AddImagePayload) => {
+    mutationFn: async ({ owner_id, owner_type, images }: AddImagePayload) => {
       const formData = new FormData();
-      formData.append("images", image);
-      formData.append("product_id", String(productId));
 
-      console.log("Adding image for product:", productId);
-      console.log("Image file:", image.name);
+      images.forEach(img=> formData.append("images", img));
+      formData.append("owner_id", String(owner_id));
+      formData.append("owner_type", String(owner_type));
 
       // ✅ Correct endpoint for product image
       const res = await fetch("http://localhost:5000/api/product/image/addImages", {
