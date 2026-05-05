@@ -1,14 +1,13 @@
-// features/auth/hooks/useMakeAdmin.ts
+import { useAuth } from "@/lib/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export function useMakeAdmin() {
   const queryClient = useQueryClient();
+  const { token } = useAuth();
 
-  return useMutation({
+  const { mutate: makeAdmin, isPending } = useMutation({
     mutationFn: async (userId: number) => {
-      const token = localStorage.getItem("token");
-
       const res = await fetch("http://localhost:5000/api/user/createAdmin", {
         method: "POST",
         headers: {
@@ -21,46 +20,23 @@ export function useMakeAdmin() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || data.err || "Failed");
+        throw new Error(
+          data.message || data.err || "Failed to promote user to admin",
+        );
       }
 
-      return { data, userId };
+      return data;
     },
 
-    // ✅ Optimistic Update
-    onMutate: async (userId) => {
-      await queryClient.cancelQueries({ queryKey: ["users"] });
-      const previousUsers = queryClient.getQueryData(["users"]);
-
-      queryClient.setQueryData(["users"], (oldUsers: any[] = []) => {
-        if (!oldUsers) return oldUsers;
-        return oldUsers.map((user: any) =>
-          user.id === userId ? { ...user, role: "admin" } : user
-        );
-      });
-
-      return { previousUsers };
-    },
-
-    onSuccess: ({ data, userId }) => {
-      queryClient.setQueryData(["users"], (oldUsers: any[] = []) => {
-        if (!oldUsers) return oldUsers;
-        return oldUsers.map((user: any) =>
-          user.id === userId ? { ...user, role: "admin" } : user
-        );
-      });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       toast.success("User promoted to admin");
     },
 
-    onError: (err, userId, context) => {
-      if (context?.previousUsers) {
-        queryClient.setQueryData(["users"], context.previousUsers);
-      }
+    onError: (err) => {
+      console.error(err);
       toast.error(err.message);
     },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-    },
   });
+  return { makeAdmin, isPending };
 }

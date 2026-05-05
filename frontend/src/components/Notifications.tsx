@@ -1,7 +1,9 @@
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -12,6 +14,7 @@ import { Spinner } from "./ui/spinner";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCountNotifications } from "@/features/notifications/hooks/useCountNotifications";
+import { Button } from "./ui/button";
 
 const Notifications = () => {
   const { notifications, isLoading } = useGetNotifications();
@@ -49,7 +52,7 @@ const Notifications = () => {
             Keep an eye out here for new notifications!
           </SheetDescription>
         </SheetHeader>
-        <div className=" flex flex-col divide-y divide-gray-200">
+        <div className="overflow-y-auto scrollbar-default px-2 flex flex-col divide-y divide-gray-200">
           {isLoading ? (
             <div className="text-center py-20 justify-center items-center">
               <Spinner className="w-8 h-8 place-self-center text-primary" />
@@ -101,6 +104,11 @@ const Notifications = () => {
             ))
           )}
         </div>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </SheetClose>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

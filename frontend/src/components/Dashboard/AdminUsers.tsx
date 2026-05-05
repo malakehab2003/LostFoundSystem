@@ -2,14 +2,12 @@ import { useGetUsers } from "@/features/auth/hooks/useGetUsers";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { Trash2, User, ChevronDown, Shield, Eye } from "lucide-react";
+import { User, ChevronDown, Shield, Eye } from "lucide-react";
 import { useState } from "react";
 import type { Item } from "@/features/items/itemsType";
 import defaultpage from "@/assets/default-profile.webp";
-import { useDeleteUser } from "@/features/auth/hooks/useDeleteUser";
 import { useNavigate } from "react-router-dom";
 import { useMakeAdmin } from "@/features/auth/hooks/useMakeAdmin";
-import { useQuery } from "@tanstack/react-query";
 
 type UserType = {
   id: number;
@@ -20,7 +18,7 @@ type UserType = {
 
 const AdminUsers = () => {
   const navigate = useNavigate();
-  const { mutate: makeAdmin, isPending } = useMakeAdmin();
+  const { makeAdmin, isPending } = useMakeAdmin();
   const { users, isLoading: usersLoading } = useGetUsers();
   const { items, isLoading: itemsLoading } = useGetItems();
 
@@ -37,7 +35,7 @@ const AdminUsers = () => {
       (user: UserType) =>
         user.role === "admin" &&
         (user.name.toLowerCase().includes(adminSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(adminSearch.toLowerCase()))
+          user.email.toLowerCase().includes(adminSearch.toLowerCase())),
     ) || [];
 
   const filteredUsers =
@@ -45,16 +43,14 @@ const AdminUsers = () => {
       (user: UserType) =>
         user.role !== "admin" &&
         (user.name.toLowerCase().includes(userSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(userSearch.toLowerCase()))
+          user.email.toLowerCase().includes(userSearch.toLowerCase())),
     ) || [];
 
   const getItemsForUser = (userId: number): Item[] => {
     if (!items) return [];
 
     return items.filter(
-      (item: any) =>
-        item.userId === userId || 
-        item.user?.id === userId  
+      (item: any) => item.userId === userId || item.user?.id === userId,
     );
   };
 
@@ -64,7 +60,7 @@ const AdminUsers = () => {
     usersList: UserType[],
     isAdmin: boolean,
     searchValue: string,
-    setSearchValue: (val: string) => void
+    setSearchValue: (val: string) => void,
   ) => {
     return (
       <div className="space-y-4">
@@ -79,9 +75,7 @@ const AdminUsers = () => {
         </div>
 
         {usersList.length === 0 ? (
-          <p className="text-center text-gray-500 py-10">
-            No users found
-          </p>
+          <p className="text-center text-gray-500 py-10">No users found</p>
         ) : (
           usersList.map((user: UserType) => {
             const userItems = getItemsForUser(user.id);
@@ -109,12 +103,8 @@ const AdminUsers = () => {
                     </div>
 
                     <div>
-                      <h2 className="font-semibold text-lg">
-                        {user.name}
-                      </h2>
-                      <p className="text-sm text-gray-500">
-                        {user.email}
-                      </p>
+                      <h2 className="font-semibold text-lg">{user.name}</h2>
+                      <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
                   </div>
 
@@ -132,19 +122,18 @@ const AdminUsers = () => {
                       View Profile
                     </Button>
                     {!isAdmin && (
-   <Button
-    variant="secondary"
-    size="sm"
-    disabled={isPending}
-    onClick={(e) => {
-      e.stopPropagation();
-      makeAdmin(user.id);
-    }}
-  >
-    Make Admin
-  </Button>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={isPending}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          makeAdmin(user.id);
+                        }}
+                      >
+                        Make Admin
+                      </Button>
                     )}
-                 
 
                     <ChevronDown
                       className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
@@ -153,9 +142,6 @@ const AdminUsers = () => {
                     />
                   </div>
                 </div>
-                
-
-              
               </div>
             );
           })
@@ -182,12 +168,7 @@ const AdminUsers = () => {
               Admins ({filteredAdmins.length})
             </h2>
 
-            {renderUsersList(
-              filteredAdmins,
-              true,
-              adminSearch,
-              setAdminSearch
-            )}
+            {renderUsersList(filteredAdmins, true, adminSearch, setAdminSearch)}
           </div>
 
           {/* Users */}
@@ -196,12 +177,7 @@ const AdminUsers = () => {
               Users ({filteredUsers.length})
             </h2>
 
-            {renderUsersList(
-              filteredUsers,
-              false,
-              userSearch,
-              setUserSearch
-            )}
+            {renderUsersList(filteredUsers, false, userSearch, setUserSearch)}
           </div>
         </div>
       )}
