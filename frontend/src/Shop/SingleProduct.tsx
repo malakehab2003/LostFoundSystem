@@ -102,7 +102,6 @@ const SingleProduct = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.err || "Failed to create review");
-      reviews.push(data.review)
       return data;
     },
     onSuccess: () => {

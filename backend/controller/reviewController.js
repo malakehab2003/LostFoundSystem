@@ -15,7 +15,7 @@ export const createReview = async (req, res) => {
             !product_id
         ) return res.status(400).send({ err: "Missing requried fields", });
 
-        await service.updateProductRate(product_id, rate);
+        const new_rate = await service.updateProductRate(product_id, rate);
 
         const data = {
             message,
@@ -43,7 +43,8 @@ export const createReview = async (req, res) => {
         return res.status(201).send({
             message: "Review created successfully",
             review,
-        })
+            new_rate,
+        });
     } catch (err) {
         return res.status(400).send({ err: err.message, });
     }
