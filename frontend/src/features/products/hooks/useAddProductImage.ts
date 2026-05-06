@@ -19,7 +19,6 @@ export function useAddProductImage() {
       formData.append("owner_id", String(owner_id));
       formData.append("owner_type", String(owner_type));
 
-      // ✅ Correct endpoint for product image
       const res = await fetch("http://localhost:5000/api/product/image/addImages", {
         method: "POST",
         headers: {

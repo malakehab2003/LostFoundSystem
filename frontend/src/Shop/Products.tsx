@@ -341,7 +341,7 @@ const Products = () => {
 
   return (
     <>
-      <div className="bg-gray-50 py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <div className=" py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         {/* HEADER */}
         <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
           <div>
@@ -455,8 +455,6 @@ const Products = () => {
                       className="mx-auto h-56 object-cover"
                       src={
                         product.image?.[0]?.url ||
-                        product.images_url?.[0] ||
-                        product.image?.[0]?.image_url ||
                         "https://placehold.co/400x400?text=No+Image"
                       }
                       alt={product.name}
@@ -479,13 +477,12 @@ const Products = () => {
                     <p className="text-sm text-gray-500 line-clamp-2">{product.description.split(' ').slice(0,3).join(' ')}</p>
                    <div className="flex gap-1 mt-2">
   {(() => {
-    // ✅ حساب التقييم من المراجعات إن وجدت
     let rating = product.rate;
     if (product.review && product.review.length > 0) {
       const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
       rating = sum / product.review.length;
     }
-    const fullStars = Math.floor(rating); // ✅ تقريب لأقل عدد صحيح
+    const fullStars = Math.floor(rating); 
     return Array.from({ length: 5 }).map((_, i) => (
       <StarIcon 
         key={i} 
@@ -499,10 +496,10 @@ const Products = () => {
   })()}
 </div>
                     <div className="mt-4 flex flex-col gap-2">
-                      <p className="font-bold text-lg">${product.price}</p>
+                      <p className="font-bold text-green-600 text-lg">${product.price}</p>
                       <div className="flex items-center gap-2 text-sm">
                         <Package className="w-4 h-4 text-gray-500" />
-                        <span className={product.stock > 0 ? "text-green-600" : "text-red-500"}>
+                        <span className={product.stock > 0 ? "text-blue-800" : "text-red-500"}>
                           Stock: {product.stock || 0} units
                         </span>
                       </div>
