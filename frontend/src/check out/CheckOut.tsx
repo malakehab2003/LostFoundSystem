@@ -8,7 +8,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createOrder } from './servicePayment/createOrder';
 import toast from 'react-hot-toast';
@@ -305,27 +305,41 @@ console.log('paymentstring',paymentstring)
         </div>
 
         {/* Address - Show only for delivery */}
-        {receive_typee === 'delivery' && (
-            <div className="animate-in fade-in duration-300">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Delivery Address <span className="text-red-500">*</span></label>
-                <Select onValueChange={Setidadress} value={idadress}>
-                    <SelectTrigger className="w-full border-gray-300 focus:border-gray-500 rounded-xl py-6 shadow-sm bg-white">
-                        <SelectValue placeholder="Select your address" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {adressUser?.addresses?.map((a) => (
-                            <SelectItem key={a.id} value={a.id.toString()}>
-                                📍 {a.address}
-                            </SelectItem>
-                        ))}
-                        <SelectItem>
-                            <button onClick={()=>{navigate('/dashboard/address')}}>Add Address </button>
-                            </SelectItem>
-                    </SelectContent>
-                    
-                </Select>
-            </div>
-        )}
+       {receive_typee === 'delivery' && (
+  <div className="animate-in fade-in duration-300">
+    <label className="block text-sm font-semibold text-gray-700 mb-2">
+      Delivery Address <span className="text-red-500">*</span>
+    </label>
+
+    <Select
+      onValueChange={(value) => {
+        if (value === "add_new") {
+          Setidadress(""); 
+          navigate("/dashboard/address"); 
+        } else {
+          Setidadress(value);
+        }
+      }}
+      value={idadress}
+    >
+      <SelectTrigger className="w-full border-gray-300 focus:border-gray-500 rounded-xl py-6 shadow-sm bg-white">
+        <SelectValue placeholder="Select your address" />
+      </SelectTrigger>
+
+      <SelectContent>
+        {adressUser?.addresses?.map((a) => (
+          <SelectItem key={a.id} value={a.id.toString()}>
+            📍 {a.address}
+          </SelectItem>
+        ))}
+
+        <SelectItem value="add_new" className="text-primary font-semibold">
+           Add address
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+)}
 
         {/* Payment Method */}
         <div>
