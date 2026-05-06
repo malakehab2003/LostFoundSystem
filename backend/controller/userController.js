@@ -9,8 +9,8 @@ import { Image } from "../models/db.js";
 
 export const createUser = async (req, res) => {
   try {
-    const { name, dob, gender, phone, email, password } = req.body;
-    const userData = { name, dob, gender, phone, email, password };
+    const { name, dob, gender, phone, email, password, show_phone_number } = req.body;
+    const userData = { name, dob, gender, phone, email, password, show_phone_number };
 
     validate.validateUserData(userData);
 
@@ -74,16 +74,18 @@ export const login = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const user = req.user;
-    const { name, phone, dob } = req.body;
+    const { name, phone, dob, show_phone_number } = req.body;
 
     if (name) validate.validateName(name);
     if (phone) validate.validatePhone(phone);
     if (dob) validate.validateDob(dob);
+    if (show_phone_number) validate.validateShowNumber(show_phone_number);
 
     const updatedUser = await userService.updateUserService(user, {
       name,
       phone,
       dob,
+      show_phone_number,
     });
 
     return res.status(200).send({
