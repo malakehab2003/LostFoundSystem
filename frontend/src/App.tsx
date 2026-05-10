@@ -18,6 +18,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import DashItem from "./components/Dashboard/DashItem";
 import DashItemInfo from "./components/Dashboard/DashItemInfo";
 import DashAddress from "./components/Dashboard/DashAddress";
+import AdminDashboard from "./components/Dashboard/AdminDashboard";
 
 import Wishlist from "./components/Wishlist";
 import Messages from "./components/Messages";
@@ -67,6 +68,7 @@ function App() {
 
             <Route path="admin" element={<AdminPage />} />
             <Route path="/dashboard/admin-users" element={<AdminUsers />} />
+            <Route path="/dashboard/admin-dashboard" element={<AdminDashboard />} />
           </Route>
 
           {/* Shop */}

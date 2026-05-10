@@ -6,6 +6,8 @@ import {
   ShoppingCartIcon,
   Plus,
   Shield,
+  LayoutDashboard,
+  Heart,
 } from "lucide-react";
 import emptyItems from "@/assets/no-items.svg";
 import { Link } from "react-router-dom";
@@ -172,7 +174,7 @@ const Dashboard = () => {
                 className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
               >
                 <div className="p-2">
-                  <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                  <Heart  className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
                 </div>
                 <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
                   My Wishlist
@@ -190,6 +192,20 @@ const Dashboard = () => {
                     orders
                   </span>
                 </Link>
+                {isAdmin && (
+                  <Link
+                  to="/dashboard/admin-dashboard"
+                  className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
+                >
+                  <div className="p-2">
+                    <LayoutDashboard  className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                  </div>
+                  <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
+                        Analytics Dashboard
+                  </span>
+                </Link>
+          )}
+                
             </div>
           </section>
         </div>
