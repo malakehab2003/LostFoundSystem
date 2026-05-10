@@ -56,7 +56,7 @@ const LostItems = () => {
         </p>
       </div>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row md:justify-between gap-6">
+        <div className="flex flex-col  md:flex-row md:justify-between gap-6">
           <aside className="w-full md:w-96 flex-shrink-0">
             <div className="flex justify-between items-center mb-6 border-b pb-2">
               <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
@@ -156,8 +156,8 @@ const LostItems = () => {
             </Form>
           </aside>
 
-          <main className="w-full">
-            <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+          <main className="w-full ">
+            <div className="mb-6 p-4  bg-primary/5 border border-primary/20 rounded-lg">
               <p className="text-sm text-primary/90">
                 Found{" "}
                 <span className="font-semibold">{items?.length || 0}</span>{" "}
@@ -186,7 +186,7 @@ const LostItems = () => {
             )}
 
             {!isLoading && items && items.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid overflow-hidden grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {items.map((item: Item) => (
                   <Link
                     key={item.id}
@@ -222,7 +222,7 @@ const LostItems = () => {
                         </p>
                       )}
 
-                      <div className="space-y-1 mb-3 text-sm">
+                      <div className="space-y-1 overflow-hidden mb-3 text-sm">
                         <div className="flex items-center gap-2 text-foreground-500">
                           <Pin className="w-4 h-4 text-primary flex-shrink-0" />
                           <span className="font-medium">{item.place}</span>

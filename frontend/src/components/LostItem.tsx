@@ -129,10 +129,10 @@ const LostItem = () => {
                       {new Date(item.date).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="bg-primary/5 rounded-lg p-4 border border-primary/10">
+                  <div className="bg-primary/5 overflow-hidden rounded-lg p-4 border border-primary/10">
                     <div className="flex items-center gap-2 mb-2">
                       <Pin className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-semibold text-foreground-500 uppercase">
+                      <span className="text-xs  font-semibold text-foreground-500 uppercase">
                         Location
                       </span>
                     </div>

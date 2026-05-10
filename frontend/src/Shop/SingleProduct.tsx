@@ -80,7 +80,6 @@ const SingleProduct = () => {
   };
   const imagesArray = getImagesArray();
   
-  // ✅ Calculate average rating from reviews
   const avgRating = reviews.length > 0
     ? (reviews.reduce((acc: number, r: any) => acc + r.rate, 0) / reviews.length).toFixed(1)
     : product?.rate?.toFixed(1) || "0";
