@@ -79,7 +79,7 @@ export const updateUserService = async (user, data) => {
         throw new Error ("No user");
     }
 
-    const fieldToUpdate = ['name', 'phone', 'image_url', 'dob'];
+    const fieldToUpdate = ['name', 'phone', 'show_phone_number', 'dob'];
 
     fieldToUpdate.forEach((field) => {
         if(data[field]) {
@@ -165,6 +165,7 @@ export const getAnotherUserService = async (email, id) => {
     );
 
     if (!user) throw new Error ('No user Found');
+    if (!user.show_phone_number) user.phone = null;
 
     return user;
 }
