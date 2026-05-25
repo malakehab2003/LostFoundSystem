@@ -40,6 +40,7 @@ import {
   Upload,
   X,
   SlidersHorizontal,
+  Building2,
 } from "lucide-react";
 
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -50,6 +51,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAddProductImage } from "@/features/products/hooks/useAddProductImage";
 import { useDeleteProductImage } from "@/features/products/hooks/useDeleteProductImage";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
+import { useBrands } from "@/features/brand/hooks/useBrands";
 
 interface ProductFilters {
   name?: string;
@@ -79,6 +81,7 @@ const Products = () => {
   const { user } = useCurrentUser();
   const isAdmin = user?.role === "admin";
   const { itemCategories } = useGetItemCategory();
+  const { brands } = useBrands();
 
   const [editImages, setEditImages] = useState<File[]>([]);
   const [editPreviews, setEditPreviews] = useState<string[]>([]);
@@ -103,6 +106,7 @@ const Products = () => {
     color: [] as string[],
     size: [] as string[],
     category_id: 0,
+    brand_id: 0,
     stock: 0,
   });
 
@@ -126,7 +130,7 @@ const Products = () => {
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    setSearchParams(params)
+    setSearchParams(params);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -172,11 +176,11 @@ const Products = () => {
         }
       );
     } else {
-        addImage({
-          owner_id: selectedProduct.id,
-          owner_type: 'product',
-          images: editImages,
-        });
+      addImage({
+        owner_id: selectedProduct.id,
+        owner_type: "product",
+        images: editImages,
+      });
       setIsEditOpen(false);
       setEditImages([]);
       setEditPreviews([]);
@@ -206,6 +210,11 @@ const Products = () => {
       return;
     }
 
+    if (!createData.brand_id || createData.brand_id === 0) {
+      toast.error("Please select a brand");
+      return;
+    }
+
     if (!createData.name.trim()) {
       toast.error("Please enter product name");
       return;
@@ -221,9 +230,9 @@ const Products = () => {
       price: createData.price,
       description: createData.description,
       category_id: createData.category_id,
+      brand_id: createData.brand_id,
       colors: createData.color,
       sizes: createData.size,
-      brand_id: 1,
       stock: createData.stock || 0,
       sale: 0,
       rate: 0,
@@ -244,6 +253,7 @@ const Products = () => {
           color: [],
           size: [],
           category_id: 0,
+          brand_id: 0,
           stock: 0,
         });
         setSelectedImages([]);
@@ -317,7 +327,7 @@ const Products = () => {
       {
         onSuccess: () => {
           refetch();
-          existingImages.filter(img => imageId !== img.id)
+          setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
         },
       }
     );
@@ -341,7 +351,7 @@ const Products = () => {
 
   return (
     <>
-      <div className=" py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <div className="py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         {/* HEADER */}
         <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
           <div>
@@ -391,6 +401,21 @@ const Products = () => {
                       {itemCategories?.map((cat: any) => (
                         <option key={cat.id} value={cat.id}>
                           {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-2 ps-4">
+                    <Label>Brand</Label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-md"
+                      value={filters.brand_id || ""}
+                      onChange={(e) => updateFilter("brand_id", Number(e.target.value) || undefined)}
+                    >
+                      <option value="">All Brands</option>
+                      {brands?.map((brand: any) => (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.name}
                         </option>
                       ))}
                     </select>
@@ -474,27 +499,36 @@ const Products = () => {
                     <Link to={`/shop/products/${product.id}`} className="font-semibold">
                       {product.name}
                     </Link>
-                    <p className="text-sm text-gray-500 line-clamp-2">{product.description.split(' ').slice(0,3).join(' ')}</p>
-                   <div className="flex gap-1 mt-2">
-  {(() => {
-    let rating = product.rate;
-    if (product.review && product.review.length > 0) {
-      const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
-      rating = sum / product.review.length;
-    }
-    const fullStars = Math.floor(rating); 
-    return Array.from({ length: 5 }).map((_, i) => (
-      <StarIcon 
-        key={i} 
-        className={`w-4 h-4 ${
-          i < fullStars 
-            ? "text-yellow-400 fill-yellow-400" 
-            : "text-gray-300"
-        }`} 
-      />
-    ));
-  })()}
-</div>
+                    
+                    {/* Brand Display */}
+                    {product.brand && (
+                      <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                        <Building2 className="w-3 h-3" />
+                        <span>{product.brand.name}</span>
+                      </div>
+                    )}
+                    
+                    <p className="text-sm text-gray-500 line-clamp-2 mt-2">{product.description.split(' ').slice(0, 3).join(' ')}</p>
+                    <div className="flex gap-1 mt-2">
+                      {(() => {
+                        let rating = product.rate;
+                        if (product.review && product.review.length > 0) {
+                          const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
+                          rating = sum / product.review.length;
+                        }
+                        const fullStars = Math.floor(rating);
+                        return Array.from({ length: 5 }).map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < fullStars
+                                ? "text-yellow-400 fill-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ));
+                      })()}
+                    </div>
                     <div className="mt-4 flex flex-col gap-2">
                       <p className="font-bold text-green-600 text-lg">${product.price}</p>
                       <div className="flex items-center gap-2 text-sm">
@@ -517,7 +551,7 @@ const Products = () => {
                 </div>
               ))}
             </div>
-                        {/* Pagination */}
+            {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
               <div className="mt-12 pt-6 border-t border-gray-200">
                 <div className="flex justify-center gap-2 flex-wrap">
@@ -525,12 +559,10 @@ const Products = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                      disabled={pagination ? currentPage <= pagination.totalPages : false}
-
+                    disabled={pagination ? currentPage <= pagination.totalPages : false}
                   >
                     ← Previous
                   </Button>
-
                   <Button
                     variant="default"
                     size="sm"
@@ -539,7 +571,6 @@ const Products = () => {
                   >
                     {currentPage}
                   </Button>
-
                   {pagination && pagination.totalPages >= 2 && (
                     <Button
                       variant="outline"
@@ -550,16 +581,14 @@ const Products = () => {
                       2
                     </Button>
                   )}
-
                   <Button
-  variant="outline"
-  size="sm"
-  onClick={() => handlePageChange(currentPage + 1)}
-  disabled={pagination ? currentPage != pagination.totalPages : false}
->
-  Next →
-</Button>
-
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={pagination ? currentPage != pagination.totalPages : false}
+                  >
+                    Next →
+                  </Button>
                 </div>
               </div>
             )}
@@ -638,13 +667,35 @@ const Products = () => {
             <input className="border w-full p-2 rounded" placeholder="Product Name" value={createData.name} onChange={(e) => setCreateData({ ...createData, name: e.target.value })} />
             <input className="border w-full p-2 rounded" placeholder="Colors (comma separated)" value={createData.color.join(",")} onChange={(e) => setCreateData({ ...createData, color: e.target.value.split(",").map(c => c.trim()) })} />
             <input className="border w-full p-2 rounded" placeholder="Sizes (comma separated)" value={createData.size.join(",")} onChange={(e) => setCreateData({ ...createData, size: e.target.value.split(",").map(s => s.trim()) })} />
-            <select className="border w-full p-2 rounded" value={createData.category_id || ""} onChange={(e) => setCreateData({ ...createData, category_id: Number(e.target.value) })}>
+            
+            {/* Category Select */}
+            <select
+              className="border w-full p-2 rounded"
+              value={createData.category_id || ""}
+              onChange={(e) => setCreateData({ ...createData, category_id: Number(e.target.value) })}
+            >
               <option value="">Select Category</option>
-              {itemCategories?.map((cat: any) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
+              {itemCategories?.map((cat: any) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
             </select>
+
+            {/* Brand Select */}
+            <select
+              className="border w-full p-2 rounded"
+              value={createData.brand_id || ""}
+              onChange={(e) => setCreateData({ ...createData, brand_id: Number(e.target.value) })}
+            >
+              <option value="">Select Brand</option>
+              {brands?.map((brand: any) => (
+                <option key={brand.id} value={brand.id}>{brand.name}</option>
+              ))}
+            </select>
+
             <input className="border w-full p-2 rounded" placeholder="Price" type="number" value={createData.price || ""} onChange={(e) => setCreateData({ ...createData, price: Number(e.target.value) })} />
             <input className="border w-full p-2 rounded" placeholder="Stock Quantity" type="number" value={createData.stock || ""} onChange={(e) => setCreateData({ ...createData, stock: Number(e.target.value) })} />
             <textarea className="border w-full p-2 rounded" placeholder="Description" rows={3} value={createData.description} onChange={(e) => setCreateData({ ...createData, description: e.target.value })} />
+            
             <div className="flex justify-end gap-2">
               <Button onClick={() => { setIsCreateOpen(false); setSelectedImages([]); setImagePreviews([]); }}>Cancel</Button>
               <Button onClick={handleCreate} disabled={isCreating || isRefetching}>{isCreating || isRefetching ? "Creating..." : "Create Product"}</Button>
