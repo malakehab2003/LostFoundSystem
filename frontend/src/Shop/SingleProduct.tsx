@@ -42,7 +42,7 @@ const SingleProduct = () => {
   const [reviewImagePreview, setReviewImagePreview] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
- const [selectedquantity, setSelectedquantity] = useState("1");
+ const [selectedquantity, setSelectedquantity] = useState(1);
   
 
   const queryClient = useQueryClient();
@@ -185,19 +185,26 @@ const SingleProduct = () => {
             <div className="flex items-center gap-4 text-sm my-4">
               {sizesArray.length > 0 && <div className="flex flex-col gap-1"><span>Size</span><Select onValueChange={setSelectedSize} defaultValue={sizesArray[0]}><SelectTrigger><SelectValue placeholder="Select size" /></SelectTrigger><SelectContent>{sizesArray.map((size: string) => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>}
               {colorsArray.length > 0 && <div className="flex flex-col gap-1"><span>Color</span><Select onValueChange={setSelectedColor} defaultValue={colorsArray[0]}><SelectTrigger><SelectValue placeholder="Select color" /></SelectTrigger><SelectContent>{colorsArray.map((color: string) => <SelectItem key={color} value={color}><div className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border" style={{ backgroundColor: color }} /><span>{color}</span></div></SelectItem>)}</SelectContent></Select></div>}
-              <div className="flex flex-col gap-1"><span>quantatiy</span><Select onValueChange={setSelectedquantity} ><SelectTrigger><SelectValue placeholder="quantatiy" />
               
-              </SelectTrigger>
-              <SelectContent> 
-                   <SelectItem  value='1'>1 </SelectItem>
-                   <SelectItem  value='2'>2 </SelectItem>
-                   <SelectItem  value='3'>3 </SelectItem>
-
-                   
-              </SelectContent>
-              </Select></div>
             
             </div>
+              <div className="flex items-center gap-4">
+  <button
+    onClick={() => { setSelectedquantity(selectedquantity - 1) }}
+    className="w-10 h-10 rounded-full bg-chart-1 text-gray-700 text-xl font-bold hover:bg-gray-300 transition-colors duration-200 flex items-center justify-center shadow-sm"
+  >
+    -
+  </button>
+  <span className="w-12 text-center text-lg font-semibold text-gray-800">
+    {selectedquantity}
+  </span>
+  <button
+    onClick={() => { setSelectedquantity(selectedquantity + 1) }}
+    className="w-10 h-10 rounded-full bg-chart-1 text-white text-xl font-bold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center shadow-sm"
+  >
+    +
+  </button>
+</div>
             <div className="mt-6 sm:flex sm:items-center sm:gap-4"><Button variant="secondary" onClick={handleWishlist}><Heart className={`w-5 h-5 ${isInWishlist ? "fill-red-500 text-red-500" : ""}`} /> Wishlist</Button>
             <Button onClick={() => addCart({ color: selectedColor || colorsArray[0] || '', product_id: Number(productId), quantity:selectedquantity, size: selectedSize || sizesArray[0] || '' })}><ShoppingCart className="w-5 h-5" /> Add to cart</Button></div>
             <hr className="my-6" /><p className="mb-6 text-gray-500">{product?.description || "No description"}</p>
