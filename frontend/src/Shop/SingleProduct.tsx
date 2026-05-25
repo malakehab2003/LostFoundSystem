@@ -1,4 +1,4 @@
-// SingleProduct.tsx - نسخة كاملة بدون API منفصل للـ reviews
+// SingleProduct.tsx - Updated with brand display
 import { addToCart } from "@/cart/serves/addTocart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ import { useAddToWishlist } from "@/features/wishlist/hooks/useAddToWishlist";
 import { useDeleteFromWishlist } from "@/features/wishlist/hooks/useDeleteFromWishlist";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Heart, MessageSquare, Send, ShoppingCart, StarIcon, Upload, X, Star } from "lucide-react";
+import { Heart, MessageSquare, Send, ShoppingCart, StarIcon, Upload, X, Star, Building2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -42,14 +42,18 @@ const SingleProduct = () => {
   const [reviewImagePreview, setReviewImagePreview] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
- const [selectedquantity, setSelectedquantity] = useState(1);
+ const [selectedquantity, setSelectedquantity] = useState("1");
   
 
   const queryClient = useQueryClient();
-  const addCart = useMutation({ mutationFn: addToCart, onSuccess: () => {
-    toast.success('Added to cart!');
-    queryClient.invalidateQueries({ queryKey: ['get cart'] });
-  }, onError: () => toast.error('Failed to add to cart') }).mutate;
+  const addCart = useMutation({ 
+    mutationFn: addToCart, 
+    onSuccess: () => {
+      toast.success('Added to cart!');
+      queryClient.invalidateQueries({ queryKey: ['get cart'] });
+    }, 
+    onError: () => toast.error('Failed to add to cart') 
+  }).mutate;
 
   const isInWishlist = wishlist?.some((item: any) => item.product_id === product?.id);
   const handleWishlist = () => {
@@ -57,7 +61,7 @@ const SingleProduct = () => {
     isInWishlist ? deleteFromWishlist(product.id) : addToWishlist(product.id);
   };
 
-  // ✅ Get reviews from product
+  // Get reviews from product
   const reviews = product?.review || [];
 
   const getSizesArray = () => {
@@ -136,118 +140,141 @@ const SingleProduct = () => {
   };
 
   if (error) return (
-    <div className="text-center py-20"><p className="text-red-500">Product not found</p>
-    <Button onClick={() => window.location.href = '/shop'}>Back to Shop</Button></div>
+    <div className="text-center py-20">
+      <p className="text-red-500">Product not found</p>
+      <Button onClick={() => window.location.href = '/shop'}>Back to Shop</Button>
+    </div>
   );
 
   return (
     <section className="py-8 bg-gray-50 md:py-16 antialiased">
       <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-          {/* الصور */}
+          {/* Images */}
           <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
             {isLoading ? <Spinner className="w-8 h-8 place-self-center text-primary" /> : (
               imagesArray.length > 1 ? (
                 <Carousel className="w-full max-w-sm mx-auto">
-                  <CarouselContent>{imagesArray.map((img: any, idx: number) => (
-                    <CarouselItem key={idx}><Card><CardContent className="flex aspect-square items-center justify-center p-6">
-                      <img src={typeof img === 'string' ? img : img.url || img.image_url} className="w-full h-full object-cover rounded-lg" onError={(e) => (e.target as HTMLImageElement).src = "https://placehold.co/600x600?text=No+Image"} />
-                    </CardContent></Card></CarouselItem>
-                  ))}</CarouselContent><CarouselPrevious /><CarouselNext />
+                  <CarouselContent>
+                    {imagesArray.map((img: any, idx: number) => (
+                      <CarouselItem key={idx}>
+                        <Card>
+                          <CardContent className="flex aspect-square items-center justify-center p-6">
+                            <img 
+                              src={typeof img === 'string' ? img : img.url || img.image_url} 
+                              className="w-full h-full object-cover rounded-lg" 
+                              onError={(e) => (e.target as HTMLImageElement).src = "https://placehold.co/600x600?text=No+Image"} 
+                            />
+                          </CardContent>
+                        </Card>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
                 </Carousel>
-              ) : <img className="w-full rounded-lg object-cover" src={product?.image?.[0]?.url || product?.images_url?.[0] || "https://placehold.co/600x600?text=No+Image"} alt={product?.name} />
+              ) : (
+                <img 
+                  className="w-full rounded-lg object-cover" 
+                  src={product?.image?.[0]?.url || product?.images_url?.[0] || "https://placehold.co/600x600?text=No+Image"} 
+                  alt={product?.name} 
+                />
+              )
             )}
           </div>
           
-          {/* معلومات المنتج */}
+          {/* Product Info */}
           <div className="mt-6 sm:mt-8 lg:mt-0">
-            <div className="mb-4 flex items-center justify-between gap-4"><h1 className="text-xl font-semibold sm:text-2xl">{product?.name}</h1><Badge variant="outline">{product?.category?.name}</Badge></div>
-            <div className="mt-4 sm:flex sm:items-center sm:gap-4"><p className="text-2xl font-semibold sm:text-3xl">${product?.price?.toFixed(2)}</p>
+            <div className="mb-4 flex items-center justify-between gap-4 flex-wrap">
+              <h1 className="text-xl font-semibold sm:text-2xl">{product?.name}</h1>
+              <Badge variant="outline">{product?.category?.name}</Badge>
+            </div>
+
+            {/* Brand Section */}
+            {product?.brand && (
+              <div className="mb-4 flex items-center gap-2 text-sm text-gray-600">
+                <Building2 className="w-4 h-4 text-primary" />
+                <span className="font-medium">Brand:</span>
+                <span>{product.brand.name}</span>
+              </div>
+            )}
+
+            <div className="mt-4 sm:flex sm:items-center sm:gap-4">
+              <p className="text-2xl font-semibold sm:text-3xl">${product?.price?.toFixed(2)}</p>
               <div className="flex items-center gap-2 mt-2 sm:mt-0">
                 <div className="flex items-center">
-  {Array(5).fill(0).map((_, i) => (
-    <StarIcon 
-      key={i} 
-      className={`w-4 h-4 ${
-        i < Math.floor(Number(avgRating)) 
-          ? "text-yellow-400 fill-yellow-400" 
-          : "text-gray-300"
-      }`} 
-    />
-  ))}
-</div>
-<p className="text-sm font-medium">
-  {avgRating} ({reviews?.length || 0} reviews)
-</p>
-
+                  {Array(5).fill(0).map((_, i) => (
+                    <StarIcon 
+                      key={i} 
+                      className={`w-4 h-4 ${
+                        i < Math.floor(Number(avgRating)) 
+                          ? "text-yellow-400 fill-yellow-400" 
+                          : "text-gray-300"
+                      }`} 
+                    />
+                  ))}
+                </div>
+                <p className="text-sm font-medium">
+                  {avgRating} ({reviews?.length || 0} reviews)
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-4 text-sm my-4">
               {sizesArray.length > 0 && <div className="flex flex-col gap-1"><span>Size</span><Select onValueChange={setSelectedSize} defaultValue={sizesArray[0]}><SelectTrigger><SelectValue placeholder="Select size" /></SelectTrigger><SelectContent>{sizesArray.map((size: string) => <SelectItem key={size} value={size}>{size}</SelectItem>)}</SelectContent></Select></div>}
               {colorsArray.length > 0 && <div className="flex flex-col gap-1"><span>Color</span><Select onValueChange={setSelectedColor} defaultValue={colorsArray[0]}><SelectTrigger><SelectValue placeholder="Select color" /></SelectTrigger><SelectContent>{colorsArray.map((color: string) => <SelectItem key={color} value={color}><div className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border" style={{ backgroundColor: color }} /><span>{color}</span></div></SelectItem>)}</SelectContent></Select></div>}
+              <div className="flex flex-col gap-1"><span>quantatiy</span><Select onValueChange={setSelectedquantity} ><SelectTrigger><SelectValue placeholder="quantatiy" />
               
+              </SelectTrigger>
+              <SelectContent> 
+                   <SelectItem  value='1'>1 </SelectItem>
+                   <SelectItem  value='2'>2 </SelectItem>
+                   <SelectItem  value='3'>3 </SelectItem>
+
+                   
+              </SelectContent>
+              </Select></div>
             
             </div>
-              <div className="flex items-center gap-4">
-  <button
-    onClick={() => { setSelectedquantity(selectedquantity - 1) }}
-    className="w-10 h-10 rounded-full bg-chart-1 text-gray-700 text-xl font-bold hover:bg-gray-300 transition-colors duration-200 flex items-center justify-center shadow-sm"
-  >
-    -
-  </button>
-  <span className="w-12 text-center text-lg font-semibold text-gray-800">
-    {selectedquantity}
-  </span>
-  <button
-    onClick={() => { setSelectedquantity(selectedquantity + 1) }}
-    className="w-10 h-10 rounded-full bg-chart-1 text-white text-xl font-bold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center shadow-sm"
-  >
-    +
-  </button>
-</div>
             <div className="mt-6 sm:flex sm:items-center sm:gap-4"><Button variant="secondary" onClick={handleWishlist}><Heart className={`w-5 h-5 ${isInWishlist ? "fill-red-500 text-red-500" : ""}`} /> Wishlist</Button>
             <Button onClick={() => addCart({ color: selectedColor || colorsArray[0] || '', product_id: Number(productId), quantity:selectedquantity, size: selectedSize || sizesArray[0] || '' })}><ShoppingCart className="w-5 h-5" /> Add to cart</Button></div>
             <hr className="my-6" /><p className="mb-6 text-gray-500">{product?.description || "No description"}</p>
           </div>
         </div>
 
-        {/* قسم التقييمات */}
+        {/* Reviews Section */}
         <div className="mt-16">
-          {/* قسم التقييمات */}
-<div className="mt-16">
-  <div className="flex justify-between items-center mb-6">
-    <div>
-      <h2 className="text-2xl font-bold">Customer Reviews</h2>
-      <div className="flex items-center gap-2 mt-1">
-        <div className="flex">
-          {Array(5).fill(0).map((_, i) => (
-            <StarIcon 
-              key={i} 
-              className={`w-5 h-5 ${
-                i < Math.floor(Number(avgRating)) 
-                  ? "text-yellow-400 fill-yellow-400" 
-                  : "text-gray-300"
-              }`} 
-            />
-          ))}
-        </div>
-        <span>{avgRating} out of 5</span>
-        <span className="text-gray-400">({reviews?.length || 0} reviews)</span>
-      </div>
-    </div>
-    <Button onClick={() => setShowReviewModal(true)} className="flex items-center gap-2">
-      <MessageSquare className="w-4 h-4" /> Write a Review
-    </Button>
-  </div>
-</div>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl font-bold">Customer Reviews</h2>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="flex">
+                  {Array(5).fill(0).map((_, i) => (
+                    <StarIcon 
+                      key={i} 
+                      className={`w-5 h-5 ${
+                        i < Math.floor(Number(avgRating)) 
+                          ? "text-yellow-400 fill-yellow-400" 
+                          : "text-gray-300"
+                      }`} 
+                    />
+                  ))}
+                </div>
+                <span>{avgRating} out of 5</span>
+                <span className="text-gray-400">({reviews?.length || 0} reviews)</span>
+              </div>
+            </div>
+            <Button onClick={() => setShowReviewModal(true)} className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" /> Write a Review
+            </Button>
+          </div>
           
-          {/* عرض التقييمات */}
+          {/* Reviews List */}
           {reviews.length > 0 ? (
             reviews.map((review: any, index: number) => (
               <Card key={index} className="p-6 mb-4">
                 <div className="flex gap-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-400 to-indigo-400 flex items-center justify-center text-white font-semibold">
-                    {review.user?.name?.charAt(0) || 'U'}
+                    {review.user?.name?.charAt(0) || review.user || 'U'}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between flex-wrap gap-2">
@@ -276,7 +303,7 @@ const SingleProduct = () => {
           )}
         </div>
 
-        {/* مودال كتابة التقييم */}
+        {/* Review Modal */}
         {showReviewModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl max-w-md w-full p-6 space-y-4">
@@ -295,7 +322,13 @@ const SingleProduct = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-1">Your Review</label>
-                <textarea value={reviewMessage} onChange={(e) => setReviewMessage(e.target.value)} rows={4} className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500" placeholder="Share your experience..." />
+                <textarea 
+                  value={reviewMessage} 
+                  onChange={(e) => setReviewMessage(e.target.value)} 
+                  rows={4} 
+                  className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500" 
+                  placeholder="Share your experience..." 
+                />
               </div>
 
               <div>
@@ -308,7 +341,10 @@ const SingleProduct = () => {
                   {reviewImagePreview && (
                     <div className="relative">
                       <img src={reviewImagePreview} className="w-16 h-16 object-cover rounded" alt="preview" />
-                      <button onClick={() => { setReviewImage(null); setReviewImagePreview(""); }} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5">
+                      <button 
+                        onClick={() => { setReviewImage(null); setReviewImagePreview(""); }} 
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5"
+                      >
                         <X className="w-3 h-3" />
                       </button>
                     </div>

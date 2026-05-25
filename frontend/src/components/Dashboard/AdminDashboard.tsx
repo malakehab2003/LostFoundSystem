@@ -1,4 +1,3 @@
-// AdminDashboard.tsx - Version without tabs (working)
 import { useState, useEffect } from "react";
 import {
   TrendingUp,

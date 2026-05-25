@@ -28,6 +28,8 @@ import SingleProduct from "./Shop/SingleProduct";
 import { ItemDialog } from "./components/dialog/ItemDialog";
 import Categray from "./Shop/categray";
 import Cart from "./cart/Cart";
+import BrandsManager from "@/components/Dashboard/BrandsManager";
+
 
 import AdminPage from "@/components/Dashboard/AdminPage";
 import AdminUsers from "./components/Dashboard/AdminUsers";
@@ -76,6 +78,7 @@ function App() {
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="/dashboard/brands" element={<BrandsManager />} />
           <Route path="check out" element={<CheckOut />} />
           <Route path="orders" element={<Order />} />
           <Route path="adminOrders" element={<AdminOrders />} />
