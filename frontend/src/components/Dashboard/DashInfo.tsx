@@ -23,7 +23,7 @@ import {
 } from "../ui/field";
 import { Checkbox } from "../ui/checkbox";
 import { FileInput } from "../ui/file-input";
-
+import { motion } from "framer-motion";
 const DashInfo = () => {
   const { user } = useCurrentUser();
   const { updateUserInfo, isPending } = useUpdateUserInfo();
@@ -33,7 +33,7 @@ const DashInfo = () => {
       email: user?.email || "",
       name: user?.name || "",
       phone: user?.phone || "",
-      showPhoneNumber: user?.showPhoneNumber ?? true,
+      show_phone_number: user?.show_phone_number || true,
       dob: user?.dob ? new Date(user.dob) : new Date(),
       gender: user?.gender || "male",
       image: [],
@@ -49,9 +49,21 @@ const DashInfo = () => {
   }
   return (
     <main className="max-w-2xl mx-auto">
-      <h1 className="header text-center mb-10">Personal information</h1>
+      <motion.h1
+        className="header text-center mb-10"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        Personal information
+      </motion.h1>
 
-      <div className="flex flex-col gap-5">
+      <motion.div
+        className="flex flex-col gap-5"
+        initial={{ opacity: 0, x: 40, filter: "blur(2px)" }}
+        animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.4 }}
+      >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -114,7 +126,7 @@ const DashInfo = () => {
                 icon={Phone}
               />
               <Controller
-                name="showPhoneNumber"
+                name="show_phone_number"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field
@@ -122,7 +134,7 @@ const DashInfo = () => {
                     orientation="horizontal"
                   >
                     <Checkbox
-                      id="showPhoneNumber"
+                      id="show_phone_number"
                       name={field.name}
                       disabled={!form.watch("phone")}
                       checked={field.value}
@@ -130,7 +142,7 @@ const DashInfo = () => {
                     />
                     <FieldContent>
                       <FieldLabel
-                        htmlFor="showPhoneNumber"
+                        htmlFor="show_phone_number"
                         className="text-foreground-700"
                       >
                         Show phone number to other users to allow them to
@@ -172,7 +184,7 @@ const DashInfo = () => {
           <ChangePassword />
           <DeleteAccount userId={59} />
         </section>
-      </div>
+      </motion.div>
     </main>
   );
 };

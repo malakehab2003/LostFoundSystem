@@ -8,15 +8,12 @@ export function useGetUserItems(userId: number) {
     queryKey: ["items", userId],
 
     queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/item/list?type=lost`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`http://localhost:5000/api/item/list?type=lost`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await res.json();
 

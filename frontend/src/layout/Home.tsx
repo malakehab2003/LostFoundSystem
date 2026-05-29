@@ -27,14 +27,17 @@ export default function Home() {
 
   const { products, isLoading } = useProducts(1, 8);
 
-  const bestSellers = products?.filter(
-    (product: any) => product.rate >= 4 || product.sale > 0
-  ) || [];
+  const bestSellers =
+    products?.filter((product: any) => product.rate >= 4 || product.sale > 0) ||
+    [];
 
   const getProductRating = (product: any) => {
     let rating = product.rate;
     if (product.review && product.review.length > 0) {
-      const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
+      const sum = product.review.reduce(
+        (acc: number, r: any) => acc + r.rate,
+        0,
+      );
       rating = sum / product.review.length;
     }
     return Math.floor(rating);
@@ -235,9 +238,13 @@ export default function Home() {
               <CarouselContent>
                 {bestSellers.map((product: any) => {
                   const rating = getProductRating(product);
-                  const displayPrice = product.sale > 0
-                    ? (product.price - (product.price * product.sale / 100)).toFixed(2)
-                    : product.price;
+                  const displayPrice =
+                    product.sale > 0
+                      ? (
+                          product.price -
+                          (product.price * product.sale) / 100
+                        ).toFixed(2)
+                      : product.price;
                   const hasDiscount = product.sale > 0;
 
                   return (

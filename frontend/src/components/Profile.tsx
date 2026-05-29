@@ -9,8 +9,6 @@ import {
   Package,
   MapPin,
   CalendarDays,
-  AlertCircle,
-  CheckCircle,
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -31,15 +29,15 @@ const Profile = () => {
   });
 
   const { data: items = [], isLoading: itemsLoading } = useGetUserItems(
-    Number(userId)
+    Number(userId),
   );
 
   const userItems = items.filter(
-    (item: any) => Number(item.user_id) === Number(userId)
+    (item: any) => Number(item.user_id) === Number(userId),
   );
 
   const { createChat, isPending } = useCreateChat();
-  console.log(user);
+  console.log(items, userItems);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -78,12 +76,9 @@ const Profile = () => {
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
             <div className="flex justify-center sm:justify-start">
               <div className="relative">
-                <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-md">
                   <img
-                    src={
-                      user.image[0]?.url ||
-                      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80"
-                    }
+                    src={user.image[0]?.url || defaultProfile}
                     alt={user.name}
                     className="w-full h-full object-cover"
                   />
@@ -94,7 +89,9 @@ const Profile = () => {
             <div className="flex-1 flex flex-col justify-center">
               <div className="space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                  <h1 className="text-3xl font-bold text-slate-900">{user.name}</h1>
+                  <h1 className="text-3xl font-bold text-slate-900">
+                    {user.name}
+                  </h1>
                   <Badge variant="secondary" className="capitalize">
                     {user.role}
                   </Badge>
@@ -178,56 +175,53 @@ const Profile = () => {
             {user.name}'s Items ({userItems.length})
           </h2>
 
-      {userItems.length === 0 ? (
-          <div className="text-center py-10 border rounded-xl">
-            <p>No items found</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {userItems.map((item: any) => (
-              <Card
-                key={item.id}
-                className="cursor-pointer hover:shadow-md"
-                onClick={() => navigate(`/items/${item.id}`)}
-              >
-                <CardContent className="p-4">
-                  <img
-                    src={
-                      item.image?.[0]?.url ||
-                      "https://placehold.co/300x200"
-                    }
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
-
-                  <h3 className="font-semibold mt-2">{item.title}</h3>
-
-                  <div className="flex gap-2 mt-2">
-                    <Badge
-                      variant={
-                        item.type === "lost" ? "destructive" : "default"
+          {userItems.length === 0 ? (
+            <div className="text-center py-10 border rounded-xl">
+              <p>No items found</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {userItems.map((item: any) => (
+                <Card
+                  key={item.id}
+                  className="cursor-pointer hover:shadow-md"
+                  onClick={() => navigate(`/items/${item.id}`)}
+                >
+                  <CardContent className="p-4">
+                    <img
+                      src={
+                        item.image?.[0]?.url || "https://placehold.co/300x200"
                       }
-                    >
-                      {item.type}
-                    </Badge>
-                  </div>
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
 
-                  <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
-                    <MapPin className="w-3 h-3" />
-                    {item.place}
-                  </div>
+                    <h3 className="font-semibold mt-2">{item.title}</h3>
 
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                    <CalendarDays className="w-3 h-3" />
-                    {new Date(item.date).toLocaleDateString()}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+                    <div className="flex gap-2 mt-2">
+                      <Badge
+                        variant={
+                          item.type === "lost" ? "destructive" : "default"
+                        }
+                      >
+                        {item.type}
+                      </Badge>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
+                      <MapPin className="w-3 h-3" />
+                      {item.place}
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <CalendarDays className="w-3 h-3" />
+                      {new Date(item.date).toLocaleDateString()}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
-
-        
       </div>
     </div>
   );

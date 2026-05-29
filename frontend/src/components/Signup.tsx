@@ -56,7 +56,7 @@ const Signup = () => {
     {
       title: "Step 3",
       description: "",
-      fields: ["phone", "showPhoneNumber", "image"],
+      fields: ["phone", "show_phone_number", "image"],
     },
   ];
 
@@ -76,7 +76,7 @@ const Signup = () => {
       gender: "",
       dob: undefined,
       phone: "",
-      showPhoneNumber: true,
+      show_phone_number: true,
       image: [],
     },
     mode: "onChange",
@@ -275,7 +275,7 @@ const Signup = () => {
               )}
             />
             <Controller
-              name="showPhoneNumber"
+              name="show_phone_number"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field
@@ -283,17 +283,15 @@ const Signup = () => {
                   orientation="horizontal"
                 >
                   <Checkbox
-                    id="showPhoneNumber"
+                    id="show_phone_number"
                     name={field.name}
-                    disabled={
-                      form.formState.validatingFields.phone?.valueOf() === true
-                    }
+                    disabled={!form.watch("phone")}
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                   <FieldContent>
                     <FieldLabel
-                      htmlFor="showPhoneNumber"
+                      htmlFor="show_phone_number"
                       className="text-foreground-600"
                     >
                       Show phone number to other users to allow them to contact

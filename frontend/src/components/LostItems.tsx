@@ -29,7 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { Spinner } from "./ui/spinner";
 import defaultpage from "@/assets/default-item-image.svg";
 import { useItemFilters } from "@/features/items/hooks/useItemFilters";
-
+import { motion } from "framer-motion";
 const LostItems = () => {
   const {
     form,
@@ -49,12 +49,17 @@ const LostItems = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="pt-10 text-center px-4 mb-8 flex flex-col items-center justify-between gap-4">
+      <motion.div
+        className="pt-10 text-center px-4 mb-8 flex flex-col items-center justify-between gap-4"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h1 className="header">Lost & Found Items</h1>
         <p className="sub-header">
           Search and filter items to find what you're looking for
         </p>
-      </div>
+      </motion.div>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col  md:flex-row md:justify-between gap-6">
           <aside className="w-full md:w-96 flex-shrink-0">

@@ -10,7 +10,7 @@ export function useSignup() {
     mutationFn: async (values: SignupFormSchema) => {
       const formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
-        if (key === "image") return; // Handle separately
+        if (key === "image") return;
         if (key === "dob" && value instanceof Date) {
           formData.append(key, value.toISOString());
         } else if (value !== undefined && value !== "") {
@@ -21,6 +21,7 @@ export function useSignup() {
       if (values.image?.length) {
         formData.append("image", values.image[0]);
       }
+      console.log([...formData.entries()]);
 
       const response = await fetch(
         "http://localhost:5000/api/user/createUser",

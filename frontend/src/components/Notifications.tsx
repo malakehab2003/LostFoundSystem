@@ -29,6 +29,9 @@ const Notifications = () => {
       if (notif.entity === "item") {
         navigate(`/items/${notif.entity_id}`);
       }
+      if (notif.entity === "orders") {
+        navigate(`/orders`);
+      }
       setOpenSheet(false);
     }
   };

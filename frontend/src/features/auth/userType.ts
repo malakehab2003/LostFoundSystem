@@ -62,7 +62,7 @@ export const SignupForm = z.object({
       message:
         "Password must be at least 7 characters long and include at least one number and one special character",
     }),
-  showPhoneNumber: z.boolean().default(true),
+  show_phone_number: z.boolean().default(true),
 });
 
 export type SignupFormSchema = z.infer<typeof SignupForm>;
