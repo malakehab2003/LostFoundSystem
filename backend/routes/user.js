@@ -20,5 +20,6 @@ router.post('/createAdmin', middleware.AuthRequest, middleware.roleAuth(['admin'
 router.get('/verify-email', UserController.verifyUser);
 router.post('/forget-password', UserController.forgetPassword);
 router.post('/reset-password', UserController.resetPassword);
+router.post('/deletePhoto', middleware.AuthRequest, UserController.deletePhoto);
 
 export default router;

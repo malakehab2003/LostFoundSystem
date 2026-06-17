@@ -6,6 +6,8 @@ import redisClient from "../utils/redisClient.js";
 import { sendEmail } from "../utils/emailService.js";
 import { hashPassword } from "../utils/hash.js";
 import { Image } from "../models/db.js";
+import { deleteFromCloudinary } from "../utils/uploadPhotos.js"
+import { type } from "os";
 
 export const createUser = async (req, res) => {
   try {
@@ -79,7 +81,7 @@ export const update = async (req, res) => {
     if (name) validate.validateName(name);
     if (phone) validate.validatePhone(phone);
     if (dob) validate.validateDob(dob);
-    if (show_phone_number) validate.validateShowNumber(show_phone_number);
+    if (show_phone_number !== undefined) validate.validateShowNumber(show_phone_number);
 
     const updatedUser = await userService.updateUserService(user, {
       name,
@@ -290,3 +292,24 @@ export const resetPassword = async (req, res) => {
     return res.status(400).send({ err: err.message });
   }
 };
+
+
+export const deletePhoto = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const image = await Image.findOne({
+      where: {
+        owner_id: user.id,
+        owner_type: 'user'
+      }
+    });
+
+    if (!image) return res.status(400).send({ err: "No image found for this user" });
+    deleteFromCloudinary(image.public_id);
+
+    return res.status(200).send({message: "Image deleted successfully"});
+  } catch (err) {
+    return res.status(400).send({ err: err.message });
+  }
+}

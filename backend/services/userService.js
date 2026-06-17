@@ -82,7 +82,7 @@ export const updateUserService = async (user, data) => {
     const fieldToUpdate = ['name', 'phone', 'show_phone_number', 'dob'];
 
     fieldToUpdate.forEach((field) => {
-        if(data[field]) {
+        if(data[field] !== undefined) {
             user[field] = data[field];
         }
     });
