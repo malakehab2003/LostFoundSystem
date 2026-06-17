@@ -7,6 +7,25 @@ export const addImagesService = async (owner_id, owner_type, files) => {
 
     await validateOwnerExists(owner_id, owner_type);
 
+    const currentImagesCount = await Image.count({
+        where: {
+            owner_id,
+            owner_type,
+        },
+    });
+
+    const remainingSlots = 10 - currentImagesCount;
+
+    if (remainingSlots <= 0) {
+        throw new Error("Maximum number of images (10) already reached");
+    }
+
+    if (files.length > remainingSlots) {
+        throw new Error(
+            `You can upload only ${remainingSlots} more image(s)`
+        );
+    }
+
     const uploadedImages = await Promise.all(
         files.map(file => uploadToCloudinary(file.buffer))
     );
