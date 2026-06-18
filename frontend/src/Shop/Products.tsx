@@ -553,45 +553,43 @@ const Products = () => {
             </div>
             {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
-              <div className="mt-12 pt-6 border-t border-gray-200">
-                <div className="flex justify-center gap-2 flex-wrap">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                    disabled={pagination ? currentPage <= pagination.totalPages : false}
-                  >
-                    ← Previous
-                  </Button>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => handlePageChange(1)}
-                    className="min-w-[40px]"
-                  >
-                    {currentPage}
-                  </Button>
-                  {pagination && pagination.totalPages >= 2 && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handlePageChange(2)}
-                      className="min-w-[40px]"
-                    >
-                      2
-                    </Button>
-                  )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={pagination ? currentPage != pagination.totalPages : false}
-                  >
-                    Next →
-                  </Button>
-                </div>
-              </div>
-            )}
+  <div className="mt-12 pt-6 border-t border-gray-200">
+    <div className="flex justify-center gap-2 flex-wrap">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+      >
+        ← Previous
+      </Button>
+      
+      {/* عرض الصفحات من 1 إلى 5 */}
+      {Array.from({ length: 4 }, (_, i) => i + 1)
+        .map((pageNum) => (
+          <Button
+            key={pageNum}
+            variant={currentPage === pageNum ? "default" : "outline"}
+            size="sm"
+            onClick={() => handlePageChange(pageNum)}
+            className="min-w-[40px]"
+          >
+            {pageNum}
+          </Button>
+        ))
+      }
+      
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => currentPage < 5 && handlePageChange(currentPage + 1)}
+        disabled={currentPage >= 5}
+      >
+        Next →
+      </Button>
+    </div>
+  </div>
+)}
             {hasFilters && (
               <div className="flex justify-center mt-4">
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="text-gray-500">

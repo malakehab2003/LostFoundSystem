@@ -210,17 +210,44 @@ const Dashboard = () => {
                 </span>
               </Link>
 
-              <Link
-                to="/orders"
-                className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
-              >
-                <div className="p-2">
-                  <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
-                </div>
-                <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
-                  orders
-                </span>
-              </Link>
+               <Link
+                  to="/orders"
+                  className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
+                >
+                  <div className="p-2">
+                    <ShoppingCartIcon className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                  </div>
+                  <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
+                    orders
+                  </span>
+                </Link>
+                {isAdmin && (
+                  <Link
+                  to="/dashboard/admin-dashboard"
+                  className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
+                >
+                  <div className="p-2">
+                    <LayoutDashboard  className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+                  </div>
+                  <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
+                        Analytics Dashboard
+                  </span>
+                </Link>
+          )}
+
+             {isAdmin && (
+                <Link
+  to="/dashboard/brands"
+  className="group w-full flex items-center gap-1 py-2 px-5 transition-all rounded-xl border shadow-xs hover:shadow-sm border-gray-50 bg-white"
+>
+  <div className="p-2">
+    <Tag className="w-5 h-5 text-foreground/60 group-hover:text-primary" />
+  </div>
+  <span className="text-base font-semibold text-foreground/70 group-hover:text-primary">
+    Brands
+  </span>
+</Link>
+          )}
             </div>
           </section>
         </motion.div>
