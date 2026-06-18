@@ -57,7 +57,7 @@ export const validateOwnerExists = async (owner_id, owner_type) => {
     switch (owner_type) {
         case "item": {
             const item = await Item.findByPk(owner_id);
-            if (!item) throw new Error("Item not found");
+            if (!item || item.type === "found") throw new Error("Item not found or type found");
             return item;
         }
 

@@ -51,7 +51,7 @@ export const createItemService = async (data, files) => {
     ...data,
   });
 
-  if (files && files.length > 0) {
+  if (files && files.length > 0 && data.type === "lost") {
     const uploadedImages = await Promise.all(
       files.map((file) => uploadToCloudinary(file.buffer)),
     );
