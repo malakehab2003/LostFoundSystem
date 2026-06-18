@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { EmailInput } from "@/components/ui/email-input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Lock } from "lucide-react";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/logowebsite.png";
 import {
   Card,
   CardContent,
