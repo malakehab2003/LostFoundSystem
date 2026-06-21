@@ -1,5 +1,5 @@
 import { Button } from "@heroui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import photoHome from "@/assets/photo-home.jfif";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
 import { useProducts } from "@/features/products/hooks/useProducts";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   const items = [
@@ -25,11 +26,9 @@ export default function Home() {
     { icon: Mail, label: "Help", path: "/help" },
   ];
 
-  const { products, isLoading } = useProducts(1, 8);
+  const { products, isLoading } = useProducts(1, 20);
 
-  const bestSellers = products?.filter(
-    (product: any) => product.rate >= 4 || product.sale > 0
-  ) || [];
+  const allProducts = products || [];
 
   const getProductRating = (product: any) => {
     let rating = product.rate;
@@ -39,6 +38,14 @@ export default function Home() {
     }
     return Math.floor(rating);
   };
+
+  const plugin = useRef(
+    Autoplay({ 
+      delay: 1000, 
+      stopOnInteraction: true,
+      stopOnMouseEnter: true,
+    })
+  );
 
   return (
     <>
@@ -206,7 +213,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ Best Sellers Section - Updated with real products */}
       <div className="w-full bg-gray-50 py-16">
         <div className="text-center mb-10">
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">
@@ -226,14 +232,24 @@ export default function Home() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
               <p className="text-gray-500 mt-4">Loading products...</p>
             </div>
-          ) : bestSellers.length === 0 ? (
+          ) : allProducts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-500">No products available</p>
             </div>
           ) : (
-            <Carousel opts={{ align: "start" }} className="w-full max-w-7xl">
+            <Carousel 
+              opts={{ 
+                align: "start", 
+                loop: true,
+                dragFree: false,
+              }}
+              plugins={[plugin.current]}
+              className="w-full max-w-7xl"
+              onMouseEnter={() => plugin.current.stop()}
+              onMouseLeave={() => plugin.current.play()}
+            >
               <CarouselContent>
-                {bestSellers.map((product: any) => {
+                {allProducts.map((product: any) => {
                   const rating = getProductRating(product);
                   const displayPrice = product.sale > 0
                     ? (product.price - (product.price * product.sale / 100)).toFixed(2)
@@ -275,13 +291,11 @@ export default function Home() {
                                 {product.name}
                               </h3>
 
-                              {/* Location placeholder (kept same UI) */}
                               <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
-                                <i className="fa-solid fa-location-dot"></i>
+                                <i className="fa-solid fa-tag"></i>
                                 {product.category?.name || "Online Store"}
                               </p>
 
-                              {/* Rating Stars */}
                               <div className="flex items-center gap-1 mt-2">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <StarIcon
