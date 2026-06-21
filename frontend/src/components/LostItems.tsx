@@ -30,6 +30,7 @@ import { Spinner } from "./ui/spinner";
 import defaultpage from "@/assets/default-item-image.svg";
 import { useItemFilters } from "@/features/items/hooks/useItemFilters";
 import { motion } from "framer-motion";
+import foundImage from "@/assets/Gemini_Generated_Image_e5u67ze5u67ze5u6.png";
 
 const LostItems = () => {
   const {
@@ -200,7 +201,7 @@ const LostItems = () => {
                     className="group rounded-lg border bg-white shadow-xs hover:shadow-sm transition-shadow duration-300 flex flex-col h-full"
                   >
                     <div className="mx-auto relative h-56 w-full rounded-lg bg-slate-50 overflow-hidden">
-                      {/* ✅ Only show image if item is "lost" */}
+                      {/*  Show image only if item is "lost" */}
                       {item.type === "lost" ? (
                         <img
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -208,30 +209,12 @@ const LostItems = () => {
                           alt={item.title}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                          <div className="text-center">
-                            <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-green-100 flex items-center justify-center">
-                              <svg
-                                className="w-8 h-8 text-green-600"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
-                            </div>
-                            <p className="text-sm font-medium text-gray-500">
-                              Found Item
-                            </p>
-                            <p className="text-xs text-gray-400">
-                              No image available
-                            </p>
-                          </div>
+                        <div className="w-full h-full flex items-center justify-center bg-white">
+                          <img
+                            src={foundImage}
+                            alt="Found Item"
+                            className="w-full h-full object-contain opacity-80"
+                          />
                         </div>
                       )}
 
