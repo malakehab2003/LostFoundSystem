@@ -565,7 +565,7 @@ const Products = () => {
       </Button>
       
       {/* عرض الصفحات من 1 إلى 5 */}
-      {Array.from({ length: 4 }, (_, i) => i + 1)
+      {Array.from({ length: 3 }, (_, i) => i + 1)
         .map((pageNum) => (
           <Button
             key={pageNum}
