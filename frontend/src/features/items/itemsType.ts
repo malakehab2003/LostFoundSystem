@@ -81,7 +81,6 @@ export const EditItemSchema = z
         message: "Date cannot be in the future",
       })
       .optional(),
-    images_url: z.array(z.string().url()).optional(),
   })
   .refine(
     (data) => {

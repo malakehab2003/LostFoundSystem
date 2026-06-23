@@ -1,3 +1,4 @@
+// features/auth/hooks/useGetAnotherUser.ts - بدون refetch
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/AuthContext";
 
@@ -7,6 +8,10 @@ interface User {
   email: string;
   image: { url?: string }[];
   phone?: string;
+  role?: string;
+  dob?: string;
+  gender?: string;
+  show_phone_number?: boolean;
 }
 
 interface GetAnotherUserParams {
@@ -21,7 +26,6 @@ export function useGetAnotherUser({ email, id }: GetAnotherUserParams) {
     data: user,
     isLoading,
     error,
-    refetch,
   } = useQuery<User>({
     queryKey: ["another-user", email, id],
 
@@ -57,6 +61,5 @@ export function useGetAnotherUser({ email, id }: GetAnotherUserParams) {
     user,
     isLoading,
     error,
-    refetch,
   };
 }

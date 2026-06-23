@@ -7,6 +7,25 @@ export const addImagesService = async (owner_id, owner_type, files) => {
 
     await validateOwnerExists(owner_id, owner_type);
 
+    const currentImagesCount = await Image.count({
+        where: {
+            owner_id,
+            owner_type,
+        },
+    });
+
+    const remainingSlots = 10 - currentImagesCount;
+
+    if (remainingSlots <= 0) {
+        throw new Error("Maximum number of images (10) already reached");
+    }
+
+    if (files.length > remainingSlots) {
+        throw new Error(
+            `You can upload only ${remainingSlots} more image(s)`
+        );
+    }
+
     const uploadedImages = await Promise.all(
         files.map(file => uploadToCloudinary(file.buffer))
     );
@@ -38,7 +57,7 @@ export const validateOwnerExists = async (owner_id, owner_type) => {
     switch (owner_type) {
         case "item": {
             const item = await Item.findByPk(owner_id);
-            if (!item) throw new Error("Item not found");
+            if (!item || item.type === "found") throw new Error("Item not found or type found");
             return item;
         }
 

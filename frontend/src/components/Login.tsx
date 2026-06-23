@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { EmailInput } from "@/components/ui/email-input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Lock } from "lucide-react";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/logowebsite.png";
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { loginForm, type LoginFormSchema } from "@/features/auth/userType";
 import { useLogin } from "@/features/auth/hooks/useLogin";
 import { Link } from "react-router-dom";
-
+import { motion } from "framer-motion";
 export function Login() {
   const { loginUser } = useLogin();
   const form = useForm<LoginFormSchema>({
@@ -35,7 +35,12 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <motion.div
+      className="min-h-screen bg-background flex items-center justify-center p-4"
+      initial={{ opacity: 0, x: -60 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center justify-center">
           <div className="self-center">
@@ -128,7 +133,7 @@ export function Login() {
           </p>
         </CardFooter>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 export default Login;

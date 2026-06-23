@@ -1,11 +1,12 @@
-import Categray from "@/Shop/categray";
 import { Button } from "@heroui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import photoHome from "@/assets/photo-home.jfif";
 import LostPhoto from "@/assets/elastic-wristband-on-kid.webp";
 import { ShoppingCart, User, Bell, Mail } from "lucide-react";
+import { StarIcon, Package } from "lucide-react";
+
 import {
   Carousel,
   CarouselContent,
@@ -14,19 +15,41 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
+import { useProducts } from "@/features/products/hooks/useProducts";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   const items = [
-    { icon: ShoppingCart, label: "Shop", path: "/shop" },
+    { icon: ShoppingCart, label: "Shop", path: "/shop/products" },
     { icon: User, label: "Dashboard", path: "/dashboard" },
     { icon: Bell, label: "Alerts", path: "#" },
-    { icon: Mail, label: "Get Social", path: "#" },
+    { icon: Mail, label: "Help", path: "/help" },
   ];
+
+  const { products, isLoading } = useProducts(1, 20);
+
+  const allProducts = products || [];
+
+  const getProductRating = (product: any) => {
+    let rating = product.rate;
+    if (product.review && product.review.length > 0) {
+      const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
+      rating = sum / product.review.length;
+    }
+    return Math.floor(rating);
+  };
+
+  const plugin = useRef(
+    Autoplay({ 
+      delay: 1000, 
+      stopOnInteraction: true,
+      stopOnMouseEnter: true,
+    })
+  );
+
   return (
     <>
-      {/* القسم الأول - الخلفية الزرقاء */}
       <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-primary relative overflow-hidden">
-        {/* الأيقونات الخلفية */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 text-white/10 text-7xl">
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -48,27 +71,23 @@ export default function Home() {
           </div>
         </div>
 
-        {/* أيقونة رئيسية */}
         <div className="text-center text-7xl mb-6 z-10">
           <div className="bg-white/20 rounded-full w-28 h-28 flex items-center justify-center mx-auto backdrop-blur-sm shadow-xl">
             <i className="fa-solid fa-map-location-dot text-white text-4xl"></i>
           </div>
         </div>
 
-        {/* العنوان الرئيسي */}
         <h1 className="text-center text-4xl md:text-7xl font-bold text-white max-w-4xl leading-tight z-10">
           We are here to help <br />
           <span className="text-yellow-300">find your lost</span> items
         </h1>
 
-        {/* الوصف */}
         <p className="text-center text-lg md:text-2xl text-white/90 mt-8 max-w-3xl z-10">
           <i className="fa-solid fa-heart text-red-400 mr-2"></i>
           Day3 is a free and easy way to search 300K+ lost and found things to
           help them return home.
         </p>
 
-        {/* إحصائيات سريعة */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-16 mt-12 z-10">
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-yellow-300">
@@ -96,9 +115,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* الأزرار */}
         <div className="flex flex-col sm:flex-row gap-5 mt-12 z-10">
-          <Link to={"/items?type=found"}>
+          <Link to={"/items?type=lost"}>
             <Button
               size="lg"
               className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-colors"
@@ -107,7 +125,7 @@ export default function Home() {
               I lost something
             </Button>
           </Link>
-          <Link to={"/items?type=lost"}>
+          <Link to={"/items?type=found"}>
             <Button
               size="lg"
               variant="outline"
@@ -119,7 +137,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* القسم الثاني - What can you do? */}
       <div className="w-full flex flex-col items-center mt-20 relative z-20 px-4">
         <div className="text-center mb-10">
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">
@@ -159,65 +176,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="bg-white py-16">
-        <p className="text-center text-3xl font-bold text-gray-800 mb-2">
-          Categories
-        </p>
-        <p className="text-center text-gray-500 mb-10">
-          Shop by category to find what you need
-        </p>
-        <Link to={"/shop/Products"}>
-          <div className="flex flex-wrap max-w-7xl mx-auto px-4 ">
-            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-              <img
-                src="./src/assets/elastic-wristband-on-kid.webp"
-                alt="shop for loved"
-                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-                Shop for loved
-              </p>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-              <img
-                src="./src/assets/keychain-on-bikekeys.webp"
-                alt="shop for items"
-                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-                Shop for items
-              </p>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-              <img
-                src="./src/assets/metal-tag-on-dog-collar.webp"
-                alt="shop for pets"
-                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-                Shop for pets
-              </p>
-            </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 p-3 relative group cursor-pointer">
-              <img
-                src="./src/assets/label-on-suitcase.webp"
-                alt="shop for luggage"
-                className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 rounded-2xl group-hover:bg-black/50 transition-all duration-300"></div>
-              <p className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-2xl text-white text-center font-semibold z-10">
-                Shop for luggage
-              </p>
-            </div>
-          </div>
-        </Link>
-      </div>
-
-      {/* قسم Lost & Found System */}
       <section className="w-full bg-white py-16 px-6 md:px-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="w-full h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-lg">
@@ -240,24 +198,21 @@ export default function Home() {
               belongings quickly and safely.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-             <Link to="/lost">
-             <button className="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
-                Report Lost Item
-              </button>
-             </Link>
-              
-              <Link to="/something-found">
-              <button className="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary/10 transition">
-                Report Found Item
-              </button>
+              <Link to="/items?type=lost">
+                <button className="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
+                  Report Lost Item
+                </button>
               </Link>
-            
+              <Link to="/items?type=found">
+                <button className="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-primary/10 transition">
+                  Report Found Item
+                </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* قسم Best Sellers */}
       <div className="w-full bg-gray-50 py-16">
         <div className="text-center mb-10">
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">
@@ -272,64 +227,141 @@ export default function Home() {
         </div>
 
         <div className="relative w-full flex justify-center items-center px-4">
-          <Carousel opts={{ align: "start" }} className="w-full max-w-7xl">
-            <CarouselContent>
-              {Array.from({ length: 8 }).map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-full sm:basis-1/2 md:basis-1/3"
-                >
-                  <div className="p-3">
-                    <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group cursor-pointer">
-                      <div className="h-48 bg-gray-200 relative overflow-hidden">
-                        <img
-                          src={LostPhoto}
-                          alt="item"
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <span className="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs px-3 py-1 rounded-full font-semibold">
-                          Best Seller
-                        </span>
-                      </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-bold text-gray-800">
-                          Lost Wallet
-                        </h3>
-                        <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
-                          <i className="fa-solid fa-location-dot"></i>
-                          Cairo, Egypt
-                        </p>
-                        <div className="flex justify-between items-center mt-4">
-                          <span className="text-xs text-gray-400">
-                            2 hours ago
-                          </span>
-                          <button className="text-sm font-semibold text-primary hover:text-[#7F22FE] transition-colors">
-                            View
-                          </button>
+          {isLoading ? (
+            <div className="text-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+              <p className="text-gray-500 mt-4">Loading products...</p>
+            </div>
+          ) : allProducts.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-gray-500">No products available</p>
+            </div>
+          ) : (
+            <Carousel 
+              opts={{ 
+                align: "start", 
+                loop: true,
+                dragFree: false,
+              }}
+              plugins={[plugin.current]}
+              className="w-full max-w-7xl"
+              onMouseEnter={() => plugin.current.stop()}
+              onMouseLeave={() => plugin.current.play()}
+            >
+              <CarouselContent>
+                {allProducts.map((product: any) => {
+                  const rating = getProductRating(product);
+                  const displayPrice = product.sale > 0
+                    ? (product.price - (product.price * product.sale / 100)).toFixed(2)
+                    : product.price;
+                  const hasDiscount = product.sale > 0;
+
+                  return (
+                    <CarouselItem
+                      key={product.id}
+                      className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                    >
+                      <Link to={`/shop/products/${product.id}`}>
+                        <div className="p-3">
+                          <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                            <div className="h-48 bg-gray-200 relative overflow-hidden">
+                              <img
+                                src={
+                                  product.image?.[0]?.url ||
+                                  product.images_url?.[0] ||
+                                  product.image?.[0]?.image_url ||
+                                  "https://placehold.co/400x400?text=No+Image"
+                                }
+                                alt={product.name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              />
+                              {hasDiscount && (
+                                <span className="absolute top-3 left-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                                  Sale {product.sale}% OFF
+                                </span>
+                              )}
+                              {product.rate >= 4.5 && (
+                                <span className="absolute top-3 right-3 bg-yellow-400 text-gray-900 text-xs px-3 py-1 rounded-full font-semibold">
+                                  Best Seller
+                                </span>
+                              )}
+                            </div>
+                            <CardContent className="p-4">
+                              <h3 className="text-lg font-bold text-gray-800 truncate">
+                                {product.name}
+                              </h3>
+
+                              <p className="text-sm text-gray-500 mt-1 flex items-center gap-1">
+                                <i className="fa-solid fa-tag"></i>
+                                {product.category?.name || "Online Store"}
+                              </p>
+
+                              <div className="flex items-center gap-1 mt-2">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <StarIcon
+                                    key={i}
+                                    className={`w-4 h-4 ${
+                                      i < rating
+                                        ? "text-yellow-400 fill-yellow-400"
+                                        : "text-gray-300"
+                                    }`}
+                                  />
+                                ))}
+                                <span className="text-xs text-gray-500 ml-1">
+                                  ({product.review?.length || 0})
+                                </span>
+                              </div>
+
+                              {/* Price */}
+                              <div className="mt-2">
+                                {hasDiscount ? (
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-lg font-bold text-green-600">
+                                      ${displayPrice}
+                                    </span>
+                                    <span className="text-sm text-gray-400 line-through">
+                                      ${product.price}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className="text-lg font-bold text-green-600">
+                                    ${displayPrice}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex justify-between items-center mt-4">
+                                <span className="text-xs text-gray-400">
+                                  In stock: {product.stock || 0}
+                                </span>
+                                <button className="text-sm font-semibold text-primary hover:text-[#7F22FE] transition-colors">
+                                  View
+                                </button>
+                              </div>
+                            </CardContent>
+                          </Card>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
-          </Carousel>
+                      </Link>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex" />
+              <CarouselNext className="hidden md:flex" />
+            </Carousel>
+          )}
         </div>
 
         <div className="text-center mt-10">
-          <Link to="./shop/products">
-          <Button className="bg-primary text-white hover:bg-[#6B1EE6] px-8 py-3 rounded-full font-semibold transition-all duration-200">
-            <i className="fa-solid fa-store mr-2"></i>
-            Shop All Products
-          </Button>
+          <Link to="/shop/products">
+            <Button className="bg-primary text-white hover:bg-[#6B1EE6] px-8 py-3 rounded-full font-semibold transition-all duration-200">
+              <i className="fa-solid fa-store mr-2"></i>
+              Shop All Products
+            </Button>
           </Link>
-          
         </div>
       </div>
 
-      {/* قسم It Takes a Community */}
       <section className="w-full bg-white py-16 px-6 md:px-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div>
@@ -343,9 +375,9 @@ export default function Home() {
               an account to connect with others and make a real difference.
             </p>
             <Link to="/dashboard/messages">
-            <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:text-[#7F22FE] hover:border-[#7F22FE] transition-all duration-200">
-              Search Lost & Found Items
-            </button>
+              <button className="mt-8 text-primary font-semibold border-b-2 border-primary pb-1 hover:text-[#7F22FE] hover:border-[#7F22FE] transition-all duration-200">
+                Search Lost & Found Items
+              </button>
             </Link>
           </div>
           <div className="w-full h-[350px] md:h-[450px] rounded-2xl overflow-hidden shadow-lg">

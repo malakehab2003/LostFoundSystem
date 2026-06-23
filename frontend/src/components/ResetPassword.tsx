@@ -19,7 +19,7 @@ import {
 import CustomFormField from "@/components/CustomerFormField";
 import { FormFieldType } from "@/components/Dashboard/DashItemInfo";
 import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
-
+import { motion } from "framer-motion";
 export function ResetPassword() {
   const { resetPassword, isPending } = useResetPassword();
   const form = useForm<ResetPasswordFormSchema>({
@@ -34,12 +34,16 @@ export function ResetPassword() {
     shouldUnregister: false,
   });
   const onSubmit = async (values: ResetPasswordFormSchema) => {
-    console.log(values);
     resetPassword(values);
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <motion.div
+      className="min-h-screen bg-background flex items-center justify-center p-4"
+      initial={{ opacity: 0, x: -60 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center justify-center">
           <div className="self-center">
@@ -98,7 +102,7 @@ export function ResetPassword() {
           </Button>
         </CardFooter>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 export default ResetPassword;

@@ -3,7 +3,7 @@ import * as validate from "../utils/validateData.js";
 import { getItems } from "../utils/item.js";
 import { sendNotificationToRelatedReports } from "../services/notificationService.js";
 
-const DEFAULT_LIMIT = 10;
+const DEFAULT_LIMIT = 12;
 
 export const listItems = async (req, res) => {
   try {

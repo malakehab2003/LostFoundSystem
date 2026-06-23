@@ -27,6 +27,7 @@ import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetIte
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
 import { useCities } from "@/features/cities/hooks/useCities";
 import { Spinner } from "../ui/spinner";
+import ItemImage from "../ItemImage";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -57,7 +58,6 @@ const DashItemInfo = () => {
       date: item?.date ? new Date(item.date) : new Date(),
       government_id: item?.government_id ?? undefined,
       city_id: item?.city_id ?? undefined,
-      images_urls: item?.images ?? [],
     },
   });
   const selectedGovernment = form.watch("government_id");
@@ -80,6 +80,7 @@ const DashItemInfo = () => {
         </div>
 
         <div className="space-y-4 divide-y-2 divide-slate-100">
+          <ItemImage itemId={itemId} />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {isLoading ? (
@@ -89,12 +90,6 @@ const DashItemInfo = () => {
               ) : (
                 <>
                   <FieldGroup>
-                    <CustomFormField
-                      fieldType={FormFieldType.FILE_INPUT}
-                      control={form.control}
-                      name="images"
-                      label="Item Images"
-                    />
                     <CustomFormField
                       fieldType={FormFieldType.INPUT}
                       control={form.control}

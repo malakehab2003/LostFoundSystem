@@ -11,18 +11,13 @@ export function useUpdateUserInfo() {
 
   const { mutate: updateUserInfo, isPending } = useMutation({
     mutationFn: async (values: UpdateProfileFormSchema) => {
-      console.log("update ", values);
-      let valuesToSubmit = {
-        ...values,
-        show_phone_number: values.showPhoneNumber,
-      };
       const response = await fetch("http://localhost:5000/api/user/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(valuesToSubmit),
+        body: JSON.stringify(values),
       });
 
       const data = await response.json();

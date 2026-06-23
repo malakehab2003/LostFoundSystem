@@ -119,6 +119,30 @@ export const validateImageUrl = (image_url) => {
 };
 
 
+export const parseBoolean = (value) => {
+    if (value === true || value === "true") return true;
+    if (value === false || value === "false") return false;
+    return null;
+};
+
+
+export const validateShowNumber = (show_phone_number) => {
+    if (show_phone_number === undefined || show_phone_number === null) throw new Error("show phone number can't be empty");
+
+    let showPhone;
+
+    if (typeof show_phone_number === "string") {
+        showPhone = parseBoolean(show_phone_number);
+    } else if (typeof show_phone_number === "boolean") {
+        showPhone = show_phone_number;
+    }
+
+    if (showPhone === null || showPhone === undefined) throw new Error("show phone number must be true or false");
+
+    return showPhone;
+};
+
+
 export const validateUserData = (userData) => {
     try {
         validateDob(userData.dob);
@@ -126,6 +150,7 @@ export const validateUserData = (userData) => {
         validateEmail(userData.email);
         validatePassword(userData.password);
         validateGender(userData.gender);
+        validateShowNumber(userData.show_phone_number)
         
         if (userData.phone) {
             validatePhone(userData.phone);

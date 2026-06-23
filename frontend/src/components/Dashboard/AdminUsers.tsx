@@ -2,11 +2,12 @@ import { useGetUsers } from "@/features/auth/hooks/useGetUsers";
 import { useGetItems } from "@/features/items/hooks/useGetItems";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { Trash2, User, ChevronDown, Shield } from "lucide-react";
+import { User, ChevronDown, Shield, Eye } from "lucide-react";
 import { useState } from "react";
 import type { Item } from "@/features/items/itemsType";
 import defaultpage from "@/assets/default-profile.webp";
-import { useDeleteUser } from "@/features/auth/hooks/useDeleteUser";
+import { useNavigate } from "react-router-dom";
+import { useMakeAdmin } from "@/features/auth/hooks/useMakeAdmin";
 
 type UserType = {
   id: number;
@@ -16,46 +17,43 @@ type UserType = {
 };
 
 const AdminUsers = () => {
+  const navigate = useNavigate();
+  const { makeAdmin, isPending } = useMakeAdmin();
   const { users, isLoading: usersLoading } = useGetUsers();
   const { items, isLoading: itemsLoading } = useGetItems();
 
   const [adminSearch, setAdminSearch] = useState("");
   const [userSearch, setUserSearch] = useState("");
-
-  const { deleteUser } = useDeleteUser();
-
   const [openUserId, setOpenUserId] = useState<number | null>(null);
+
+  let [filteredUsers, setFilteredUsers] = useState([]);
+  let [filteredAdmins, setFilteredAdmins] = useState([]);
 
   const toggleUser = (id: number) => {
     setOpenUserId((prev) => (prev === id ? null : id));
   };
 
-  // ✅ فلترة الأدمن
-  const filteredAdmins =
+  filteredAdmins =
     users?.filter(
       (user: UserType) =>
         user.role === "admin" &&
         (user.name.toLowerCase().includes(adminSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(adminSearch.toLowerCase()))
+          user.email.toLowerCase().includes(adminSearch.toLowerCase())),
     ) || [];
 
-  // ✅ فلترة اليوزر
-  const filteredUsers =
+  filteredUsers =
     users?.filter(
       (user: UserType) =>
         user.role !== "admin" &&
         (user.name.toLowerCase().includes(userSearch.toLowerCase()) ||
-          user.email.toLowerCase().includes(userSearch.toLowerCase()))
+          user.email.toLowerCase().includes(userSearch.toLowerCase())),
     ) || [];
 
-  // ✅ أهم جزء (ربط الـ items بالـ user)
   const getItemsForUser = (userId: number): Item[] => {
     if (!items) return [];
 
     return items.filter(
-      (item: any) =>
-        item.userId === userId || // لو الباك بيرجع userId
-        item.user?.id === userId  // لو بيرجع nested user
+      (item: any) => item.userId === userId || item.user?.id === userId,
     );
   };
 
@@ -65,7 +63,7 @@ const AdminUsers = () => {
     usersList: UserType[],
     isAdmin: boolean,
     searchValue: string,
-    setSearchValue: (val: string) => void
+    setSearchValue: (val: string) => void,
   ) => {
     return (
       <div className="space-y-4">
@@ -80,13 +78,10 @@ const AdminUsers = () => {
         </div>
 
         {usersList.length === 0 ? (
-          <p className="text-center text-gray-500 py-10">
-            No users found
-          </p>
+          <p className="text-center text-gray-500 py-10">No users found</p>
         ) : (
           usersList.map((user: UserType) => {
             const userItems = getItemsForUser(user.id);
-
             return (
               <div
                 key={user.id}
@@ -94,7 +89,7 @@ const AdminUsers = () => {
               >
                 {/* Header */}
                 <div
-                  className="flex justify-between items-center cursor-pointer"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 cursor-pointer"
                   onClick={() => toggleUser(user.id)}
                 >
                   <div className="flex items-center gap-3">
@@ -111,13 +106,43 @@ const AdminUsers = () => {
                     </div>
 
                     <div>
-                      <h2 className="font-semibold text-lg">
-                        {user.name}
-                      </h2>
-                      <p className="text-sm text-gray-500">
-                        {user.email}
-                      </p>
+                      <h2 className="font-semibold text-lg">{user.name}</h2>
+                      <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 ml-auto sm:ml-0">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/profile/${user.id}`);
+                      }}
+                    >
+                      <Eye className="w-4 h-4" />
+                      View Profile
+                    </Button>
+                    {!isAdmin && (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        disabled={isPending}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          makeAdmin(user.id);
+
+                          setFilteredAdmins(u => [...u, user]);
+
+                          setFilteredUsers(prev =>
+                            prev.filter(u => u.id !== user.id)
+                          );
+                        }}
+                      >
+                        Make Admin
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -146,12 +171,7 @@ const AdminUsers = () => {
               Admins ({filteredAdmins.length})
             </h2>
 
-            {renderUsersList(
-              filteredAdmins,
-              true,
-              adminSearch,
-              setAdminSearch
-            )}
+            {renderUsersList(filteredAdmins, true, adminSearch, setAdminSearch)}
           </div>
 
           {/* Users */}
@@ -160,12 +180,7 @@ const AdminUsers = () => {
               Users ({filteredUsers.length})
             </h2>
 
-            {renderUsersList(
-              filteredUsers,
-              false,
-              userSearch,
-              setUserSearch
-            )}
+            {renderUsersList(filteredUsers, false, userSearch, setUserSearch)}
           </div>
         </div>
       )}

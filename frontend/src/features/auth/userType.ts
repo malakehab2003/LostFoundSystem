@@ -1,5 +1,4 @@
 import z from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
 
 export const loginForm = z.object({
   email: z
@@ -43,16 +42,10 @@ export const SignupForm = z.object({
   dob: z.date().refine(
     (date) => {
       const today = new Date();
-      const minDate = new Date(
-        today.getFullYear() - 13,
-        today.getMonth(),
-        today.getDate(),
-      );
-
-      return date <= minDate;
+      return date <= today;
     },
     {
-      message: "You must be at least 13 years old and date must be in the past",
+      message: "Date of birth must be in the past",
     },
   ),
   phone: z
@@ -69,7 +62,7 @@ export const SignupForm = z.object({
       message:
         "Password must be at least 7 characters long and include at least one number and one special character",
     }),
-  showPhoneNumber: z.boolean().default(true),
+  show_phone_number: z.boolean().default(true),
 });
 
 export type SignupFormSchema = z.infer<typeof SignupForm>;

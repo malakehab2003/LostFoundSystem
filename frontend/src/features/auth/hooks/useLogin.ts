@@ -29,7 +29,6 @@ export function useLogin() {
         return;
       }
       login(data.token);
-      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       toast.success("Logged in successfully!");
       navigate("/");

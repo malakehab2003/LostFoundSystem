@@ -10,12 +10,19 @@ import { useGetAddresses } from "@/features/address/hooks/useGetAddresses";
 import { Spinner } from "../ui/spinner";
 import emptyAddresses from "@/assets/no-addressess.svg";
 import DeleteAddressDialog from "../dialog/DeleteAddressDialog";
-
+import { motion } from "framer-motion";
 const DashAddress = () => {
   const { addresses, isLoading } = useGetAddresses();
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="header text-center mb-10">Your Addresses</h1>
+      <motion.h1
+        className="header text-center mb-10"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        Your Addresses
+      </motion.h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <Empty className="aspect-[5/3] border-2 border-dashed border-foreground/40 rounded-2xl hover:border-primary hover:bg-gray-100 transition-all group">
@@ -36,8 +43,17 @@ const DashAddress = () => {
             <Spinner className="w-8 h-8 place-self-center text-primary" />
           </div>
         ) : addresses && addresses.length > 0 ? (
-          addresses?.map((addr) => (
-            <div
+          addresses?.map((addr, i: number) => (
+            <motion.div
+              layout
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.2,
+                delay: i * 0.1,
+                ease: "easeOut",
+              }}
+              whileHover={{ y: -2 }}
               key={addr.id}
               className="relative flex flex-col bg-slate-50 px-5 py-4 aspect-[5/3] border-2 border-foreground/30 rounded-2xl hover:border-primary/80 hover:bg-gray-100 transition-all"
             >
@@ -54,10 +70,16 @@ const DashAddress = () => {
                 <AddressDialog address={addr} type={"edit"} />
                 <DeleteAddressDialog addressId={addr.id} />
               </div>
-            </div>
+            </motion.div>
           ))
         ) : (
-          <div className=" text-foreground/80 text-base font-semibold tracking-tight text-center p-10">
+          <motion.div
+            className=" text-foreground/80 text-base font-semibold 
+          tracking-tight text-center p-10"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             there are no addresses yet to display, start by adding one to be
             able placing orders.
             <img
@@ -65,7 +87,7 @@ const DashAddress = () => {
               alt="No addresses"
               className="mx-auto mt-6 rounded-lg shadow-sm"
             />
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

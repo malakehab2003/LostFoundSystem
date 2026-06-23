@@ -23,7 +23,7 @@ import { Field, FieldGroup } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useCreateItem } from "@/features/items/hooks/useCreateItem";
 import { useGovernments } from "@/features/governments/hooks/useGovernments";
@@ -54,6 +54,7 @@ export const ItemDialog = () => {
     },
   ];
   const [currentStep, setCurrentStep] = useState(0);
+  const [selectedType, setSelectedType] = useState<string>("lost");
 
   const currentForm = steps[currentStep];
 
@@ -84,10 +85,18 @@ export const ItemDialog = () => {
     shouldUnregister: false,
   });
 
+  // Watch type changes
+  const watchedType = form.watch("type");
+
+  useEffect(() => {
+    setSelectedType(watchedType);
+  }, [watchedType]);
+
   const selectedGovernment = form.watch("government_id");
   const filteredCities = cities?.filter(
     (city: any) => city.government_id === selectedGovernment,
   );
+
   const handleNextButton = async () => {
     const currentFields = steps[currentStep].fields;
 
@@ -210,13 +219,37 @@ export const ItemDialog = () => {
               label="Description"
               icon={MessageSquare}
             />
-            <CustomFormField
-              fieldType={FormFieldType.FILE_INPUT}
-              control={form.control}
-              maxFiles={10}
-              name="images"
-              label="Item Images"
-            />
+
+            {/*  Warning message for Found items */}
+            {selectedType === "found" && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-2">
+                <p className="text-yellow-800 text-sm flex items-center gap-2">
+                  <span className="text-yellow-600 text-lg">⚠️</span>
+                  For found items: Please do not include any personal contact information (phone number, email, etc.) in the description. Keep the description general to protect your privacy.
+                </p>
+              </div>
+            )}
+
+            {/*  Hide image upload for Found items */}
+            {selectedType !== "found" && (
+              <CustomFormField
+                fieldType={FormFieldType.FILE_INPUT}
+                control={form.control}
+                maxFiles={10}
+                name="images"
+                label="Item Images"
+              />
+            )}
+
+            {/* Show message when type is found */}
+            {selectedType === "found" && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-2">
+                <p className="text-blue-800 text-sm flex items-center gap-2">
+                  <span className="text-blue-600 text-lg">ℹ️</span>
+                  Image upload is disabled for found items. This helps protect the privacy of the owner who may be searching for this item.
+                </p>
+              </div>
+            )}
           </>
         )}
       </FieldGroup>

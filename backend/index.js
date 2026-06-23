@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import { initSocket } from "./utils/socket.js";
 import http from "http";
 
+import { stripeWebhook } from "./controller/stripeController.js";
 dotenv.config();
 
 const port = process.env.PORT || 5000;

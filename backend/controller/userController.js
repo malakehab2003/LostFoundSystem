@@ -6,11 +6,13 @@ import redisClient from "../utils/redisClient.js";
 import { sendEmail } from "../utils/emailService.js";
 import { hashPassword } from "../utils/hash.js";
 import { Image } from "../models/db.js";
+import { deleteFromCloudinary, uploadToCloudinary } from "../utils/uploadPhotos.js"
+import { type } from "os";
 
 export const createUser = async (req, res) => {
   try {
-    const { name, dob, gender, phone, email, password } = req.body;
-    const userData = { name, dob, gender, phone, email, password };
+    const { name, dob, gender, phone, email, password, show_phone_number } = req.body;
+    const userData = { name, dob, gender, phone, email, password, show_phone_number };
 
     validate.validateUserData(userData);
 
@@ -74,16 +76,18 @@ export const login = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const user = req.user;
-    const { name, phone, dob } = req.body;
+    const { name, phone, dob, show_phone_number } = req.body;
 
     if (name) validate.validateName(name);
     if (phone) validate.validatePhone(phone);
     if (dob) validate.validateDob(dob);
+    if (show_phone_number !== undefined) validate.validateShowNumber(show_phone_number);
 
     const updatedUser = await userService.updateUserService(user, {
       name,
       phone,
       dob,
+      show_phone_number,
     });
 
     return res.status(200).send({
@@ -288,3 +292,57 @@ export const resetPassword = async (req, res) => {
     return res.status(400).send({ err: err.message });
   }
 };
+
+
+export const addImage = async (req, res) => {
+  try {
+    const user = req.user;
+    const file = req.file;
+    
+    if (!user || !file) return res.status(400).send({ err: "No user or image" });
+    const existImage = await Image.findOne({
+      where: {
+        owner_id: user.id,
+        owner_type: "user"
+      }
+    });
+    if (existImage) {
+      await deleteFromCloudinary(existImage.public_id);
+      await existImage.destroy();
+    }
+
+    const uploaded = await uploadToCloudinary(file.buffer);
+    await Image.create({
+      url: uploaded.url,
+      public_id: uploaded.public_id,
+      owner_id: user.id,
+      owner_type: "user",
+    });
+
+    return res.status(200).send({message: "Image added successfully"})
+  } catch (err) {
+    return res.status(400).send({ err: err.message });
+  }
+}
+
+
+export const deletePhoto = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const image = await Image.findOne({
+      where: {
+        owner_id: user.id,
+        owner_type: 'user'
+      }
+    });
+
+    if (!image) return res.status(404).send({ err: "No image found for this user" });
+    await deleteFromCloudinary(image.public_id);
+    await image.destroy();
+
+    return res.status(200).send({message: "Image deleted successfully"});
+  } catch (err) {
+    return res.status(400).send({ err: err.message });
+  }
+}

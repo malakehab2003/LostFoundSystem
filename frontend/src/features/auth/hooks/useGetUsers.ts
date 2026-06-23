@@ -5,7 +5,7 @@ export function useGetUsers() {
   const { token } = useAuth();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["users-with-items"],
+    queryKey: ["users"],
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/api/user/searchUser", {
         headers: {

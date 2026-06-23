@@ -11,7 +11,6 @@ export function useResetPassword() {
 
   const { mutate: resetPassword, isPending } = useMutation({
     mutationFn: async (values: ResetPasswordFormSchema) => {
-      console.log(values);
       const res = await fetch("http://localhost:5000/api/user/reset-password", {
         method: "POST",
         headers: {

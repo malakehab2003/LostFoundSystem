@@ -4,21 +4,24 @@ import { Product } from "../models/db.js";
 
 export const updateProductRate = async (product_id, rate) => {
     const product = await getProducts({ id: product_id }, 1, 0);
+    console.log("last", product[0].review.length);
 
     if (!product || product.length === 0) 
         throw new Error("Can't get product");
 
     const currentProduct = product[0];
+    const oldAverage = currentProduct.rate;
+    const oldReviews = currentProduct.review.length;
 
     let newRate;
 
-    if (!currentProduct.rate) newRate = rate;
-    else newRate = (currentProduct.rate + rate) / 2;
+    if (!currentProduct.rate) newRate = Number(rate);
+    else newRate = newRate = Number((oldAverage * oldReviews + Number(rate)) / (oldReviews + 1)).toFixed(1);
 
     await Product.update(
         { rate: newRate },
         { where: { id: product_id } }
     );
 
-    return newRate;
+    return Number(newRate);
 };

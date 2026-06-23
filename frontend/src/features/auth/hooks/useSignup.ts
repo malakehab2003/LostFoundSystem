@@ -10,7 +10,7 @@ export function useSignup() {
     mutationFn: async (values: SignupFormSchema) => {
       const formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
-        if (key === "image") return; // Handle separately
+        if (key === "image") return;
         if (key === "dob" && value instanceof Date) {
           formData.append(key, value.toISOString());
         } else if (value !== undefined && value !== "") {

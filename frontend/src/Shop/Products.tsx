@@ -40,6 +40,7 @@ import {
   Upload,
   X,
   SlidersHorizontal,
+  Building2,
 } from "lucide-react";
 
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -50,6 +51,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAddProductImage } from "@/features/products/hooks/useAddProductImage";
 import { useDeleteProductImage } from "@/features/products/hooks/useDeleteProductImage";
 import { useGetItemCategory } from "@/features/auth/itemCategory/hooks/useGetItemCategory";
+import { useBrands } from "@/features/brand/hooks/useBrands";
 
 interface ProductFilters {
   name?: string;
@@ -79,6 +81,7 @@ const Products = () => {
   const { user } = useCurrentUser();
   const isAdmin = user?.role === "admin";
   const { itemCategories } = useGetItemCategory();
+  const { brands } = useBrands();
 
   const [editImages, setEditImages] = useState<File[]>([]);
   const [editPreviews, setEditPreviews] = useState<string[]>([]);
@@ -103,7 +106,9 @@ const Products = () => {
     color: [] as string[],
     size: [] as string[],
     category_id: 0,
+    brand_id: 0,
     stock: 0,
+    sale: 0,
   });
 
   const updateFilter = (key: keyof ProductFilters, value: any) => {
@@ -126,7 +131,7 @@ const Products = () => {
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    setSearchParams(params)
+    setSearchParams(params);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -138,7 +143,8 @@ const Products = () => {
       formData.name !== selectedProduct.name ||
       formData.price !== selectedProduct.price ||
       formData.description !== selectedProduct.description ||
-      formData.stock !== selectedProduct.stock;
+      formData.stock !== selectedProduct.stock ||
+      formData.sale !== selectedProduct.sale;
 
     if (!hasDataChanges && !hasNewImages) {
       toast.info("No changes to save");
@@ -152,6 +158,7 @@ const Products = () => {
         price: Number(formData.price),
         description: formData.description,
         stock: Number(formData.stock),
+        sale: Number(formData.sale),
       };
 
       editProduct(
@@ -172,11 +179,10 @@ const Products = () => {
         }
       );
     } else {
-      editImages.forEach((img) => {
-        addImage({
-          productId: selectedProduct.id,
-          image: img,
-        });
+      addImage({
+        owner_id: selectedProduct.id,
+        owner_type: "product",
+        images: editImages,
       });
       setIsEditOpen(false);
       setEditImages([]);
@@ -207,6 +213,11 @@ const Products = () => {
       return;
     }
 
+    if (!createData.brand_id || createData.brand_id === 0) {
+      toast.error("Please select a brand");
+      return;
+    }
+
     if (!createData.name.trim()) {
       toast.error("Please enter product name");
       return;
@@ -222,11 +233,11 @@ const Products = () => {
       price: createData.price,
       description: createData.description,
       category_id: createData.category_id,
+      brand_id: createData.brand_id,
       colors: createData.color,
       sizes: createData.size,
-      brand_id: 1,
       stock: createData.stock || 0,
-      sale: 0,
+      sale: createData.sale || 0,
       rate: 0,
       images: selectedImages.length > 0 ? selectedImages : undefined,
     };
@@ -245,7 +256,9 @@ const Products = () => {
           color: [],
           size: [],
           category_id: 0,
+          brand_id: 0,
           stock: 0,
+          sale: 0,
         });
         setSelectedImages([]);
         setImagePreviews([]);
@@ -266,6 +279,7 @@ const Products = () => {
     price: 0,
     description: "",
     stock: 0,
+    sale: 0,
   });
 
   const isProductInWishlist = (productId: number) =>
@@ -284,6 +298,7 @@ const Products = () => {
       price: product.price,
       description: product.description,
       stock: product.stock || 0,
+      sale: product.sale || 0,
     });
     setExistingImages(product.image || []);
     setEditImages([]);
@@ -318,6 +333,7 @@ const Products = () => {
       {
         onSuccess: () => {
           refetch();
+          setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
         },
       }
     );
@@ -341,26 +357,13 @@ const Products = () => {
 
   return (
     <>
-      <div className="bg-gray-50 py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
+      <div className="py-8 antialiased md:py-12 mx-auto max-w-screen-xl px-4 2xl:px-0">
         {/* HEADER */}
         <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
           <div>
             <h2 className="mt-3 text-xl font-semibold text-foreground/90 sm:text-2xl">
               Our Products
             </h2>
-            {pagination && (
-              <p className="text-sm text-gray-500 mt-1">
-                {hasFilters ? (
-                  <>Found {pagination.total} product(s) matching your filters</>
-                ) : (
-                  <>
-                    Showing {(pagination.page - 1) * pagination.limit + 1} -{" "}
-                    {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}{" "}
-                    products
-                  </>
-                )}
-              </p>
-            )}
           </div>
 
           <div className="flex items-center space-x-4">
@@ -384,8 +387,8 @@ const Products = () => {
                 <SheetHeader>
                   <SheetTitle>Filter Products</SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col gap-5 mt-6">
-                  <div className="space-y-2">
+                <div className="flex flex-col gap-10 mt-6">
+                  <div className="space-y-2 ps-4">
                     <Label>Product Name</Label>
                     <Input
                       placeholder="Search by name..."
@@ -393,7 +396,7 @@ const Products = () => {
                       onChange={(e) => updateFilter("name", e.target.value)}
                     />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 ps-4">
                     <Label>Category</Label>
                     <select
                       className="w-full px-3 py-2 border rounded-md"
@@ -408,7 +411,22 @@ const Products = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 ps-4">
+                    <Label>Brand</Label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-md"
+                      value={filters.brand_id || ""}
+                      onChange={(e) => updateFilter("brand_id", Number(e.target.value) || undefined)}
+                    >
+                      <option value="">All Brands</option>
+                      {brands?.map((brand: any) => (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-2 ps-4">
                     <Label>Price Range</Label>
                     <div className="flex gap-2">
                       <Input
@@ -425,7 +443,7 @@ const Products = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 ps-4">
                     <input
                       type="checkbox"
                       id="inStock"
@@ -450,10 +468,6 @@ const Products = () => {
                 </div>
               </SheetContent>
             </Sheet>
-            <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm">
-              <SortAscIcon className="w-4 h-4" />
-              Sort
-            </button>
           </div>
         </div>
 
@@ -472,8 +486,6 @@ const Products = () => {
                       className="mx-auto h-56 object-cover"
                       src={
                         product.image?.[0]?.url ||
-                        product.images_url?.[0] ||
-                        product.image?.[0]?.image_url ||
                         "https://placehold.co/400x400?text=No+Image"
                       }
                       alt={product.name}
@@ -493,17 +505,57 @@ const Products = () => {
                     <Link to={`/shop/products/${product.id}`} className="font-semibold">
                       {product.name}
                     </Link>
-                    <p className="text-sm text-gray-500 line-clamp-2">{product.description.split(' ').slice(0,3).join(' ')}</p>
+                    
+                    {/* Brand Display */}
+                    {product.brand && (
+                      <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                        <Building2 className="w-3 h-3" />
+                        <span>{product.brand.name}</span>
+                      </div>
+                    )}
+                    
+                    <p className="text-sm text-gray-500 line-clamp-2 mt-2">{product.description.split(' ').slice(0, 3).join(' ')}</p>
                     <div className="flex gap-1 mt-2">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <StarIcon key={i} className={`w-4 h-4 ${i < Math.round(product.rate) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                      ))}
+                      {(() => {
+                        let rating = product.rate;
+                        if (product.review && product.review.length > 0) {
+                          const sum = product.review.reduce((acc: number, r: any) => acc + r.rate, 0);
+                          rating = sum / product.review.length;
+                        }
+                        const fullStars = Math.floor(rating);
+                        return Array.from({ length: 5 }).map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < fullStars
+                                ? "text-yellow-400 fill-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ));
+                      })()}
                     </div>
                     <div className="mt-4 flex flex-col gap-2">
-                      <p className="font-bold text-lg">${product.price}</p>
+                      <div className="flex items-center gap-2">
+                        {product.sale > 0 ? (
+                          <>
+                            <p className="font-bold text-green-600 text-lg">
+                              ${(product.price - (product.price * product.sale / 100)).toFixed(2)}
+                            </p>
+                            <p className="text-sm text-gray-400 line-through">
+                              ${product.price}
+                            </p>
+                            <Badge variant="destructive" className="text-xs">
+                              -{product.sale}%
+                            </Badge>
+                          </>
+                        ) : (
+                          <p className="font-bold text-green-600 text-lg">${product.price}</p>
+                        )}
+                      </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Package className="w-4 h-4 text-gray-500" />
-                        <span className={product.stock > 0 ? "text-green-600" : "text-red-500"}>
+                        <span className={product.stock > 0 ? "text-blue-800" : "text-red-500"}>
                           Stock: {product.stock || 0} units
                         </span>
                       </div>
@@ -521,51 +573,44 @@ const Products = () => {
                 </div>
               ))}
             </div>
-                        {/* Pagination */}
+            {/* Pagination */}
+                      {/* Pagination */}
             {pagination && pagination.totalPages >= 1 && (
-              <div className="mt-12 pt-6 border-t border-gray-200">
-                <div className="flex justify-center gap-2 flex-wrap">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                      disabled={pagination ? currentPage <= pagination.totalPages : false}
-
-                  >
-                    ← Previous
-                  </Button>
-
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => handlePageChange(1)}
-                    className="min-w-[40px]"
-                  >
-                    {currentPage}
-                  </Button>
-
-                  {pagination && pagination.totalPages >= 2 && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handlePageChange(2)}
-                      className="min-w-[40px]"
-                    >
-                      2
-                    </Button>
-                  )}
-
-                  <Button
-  variant="outline"
-  size="sm"
-  onClick={() => handlePageChange(currentPage + 1)}
-  disabled={pagination ? currentPage != pagination.totalPages : false}
->
-  Next →
-</Button>
-
-                </div>
-              </div>
+             <div className="mt-12 pt-6 border-t border-gray-200">
+    <div className="flex justify-center gap-2 flex-wrap">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+      >
+        ← Previous
+      </Button>
+      
+      {Array.from({ length: 3 }, (_, i) => i + 1)
+        .map((pageNum) => (
+          <Button
+            key={pageNum}
+            variant={currentPage === pageNum ? "default" : "outline"}
+            size="sm"
+            onClick={() => handlePageChange(pageNum)}
+            className="min-w-[40px]"
+          >
+            {pageNum}
+          </Button>
+        ))
+      }
+      
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => currentPage < 5 && handlePageChange(currentPage + 1)}
+        disabled={currentPage >= 5}
+      >
+        Next →
+      </Button>
+    </div>
+  </div>
             )}
             {hasFilters && (
               <div className="flex justify-center mt-4">
@@ -604,13 +649,69 @@ const Products = () => {
                 <div><Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" /><p className="text-sm text-gray-500">Click to upload product images</p></div>
               )}
             </div>
-            <input className="border w-full p-2 rounded" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-            <input type="number" className="border w-full p-2 rounded" placeholder="Price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} />
-            <input type="number" className="border w-full p-2 rounded" placeholder="Stock" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })} />
-            <textarea className="border w-full p-2 rounded" placeholder="Description" rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
-            <div className="flex justify-end gap-2">
+
+            {/* Edit Form */}
+            <div className="space-y-3">
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Product Name</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Product Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Price</Label>
+                <input
+                  type="number"
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Price"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Sale (%)</Label>
+                <input
+                  type="number"
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Sale percentage (e.g., 20 for 20% off)"
+                  value={formData.sale}
+                  onChange={(e) => setFormData({ ...formData, sale: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Stock</Label>
+                <input
+                  type="number"
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Stock Quantity"
+                  value={formData.stock}
+                  onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Description</Label>
+                <textarea
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Description"
+                  rows={3}
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-4">
               <Button onClick={() => setIsEditOpen(false)}>Close</Button>
-              <Button onClick={handleSaveEdit} disabled={isEditing || isAddingImage || isDeletingImage}>{isEditing || isAddingImage || isDeletingImage ? "Saving..." : "Save"}</Button>
+              <Button onClick={handleSaveEdit} disabled={isEditing || isAddingImage || isDeletingImage}>
+                {isEditing || isAddingImage || isDeletingImage ? "Saving..." : "Save"}
+              </Button>
             </div>
           </div>
         </div>
@@ -639,19 +740,118 @@ const Products = () => {
                 )}
               </div>
             </div>
-            <input className="border w-full p-2 rounded" placeholder="Product Name" value={createData.name} onChange={(e) => setCreateData({ ...createData, name: e.target.value })} />
-            <input className="border w-full p-2 rounded" placeholder="Colors (comma separated)" value={createData.color.join(",")} onChange={(e) => setCreateData({ ...createData, color: e.target.value.split(",").map(c => c.trim()) })} />
-            <input className="border w-full p-2 rounded" placeholder="Sizes (comma separated)" value={createData.size.join(",")} onChange={(e) => setCreateData({ ...createData, size: e.target.value.split(",").map(s => s.trim()) })} />
-            <select className="border w-full p-2 rounded" value={createData.category_id || ""} onChange={(e) => setCreateData({ ...createData, category_id: Number(e.target.value) })}>
-              <option value="">Select Category</option>
-              {itemCategories?.map((cat: any) => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
-            </select>
-            <input className="border w-full p-2 rounded" placeholder="Price" type="number" value={createData.price || ""} onChange={(e) => setCreateData({ ...createData, price: Number(e.target.value) })} />
-            <input className="border w-full p-2 rounded" placeholder="Stock Quantity" type="number" value={createData.stock || ""} onChange={(e) => setCreateData({ ...createData, stock: Number(e.target.value) })} />
-            <textarea className="border w-full p-2 rounded" placeholder="Description" rows={3} value={createData.description} onChange={(e) => setCreateData({ ...createData, description: e.target.value })} />
-            <div className="flex justify-end gap-2">
+
+            <div className="space-y-3">
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Product Name</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Product Name"
+                  value={createData.name}
+                  onChange={(e) => setCreateData({ ...createData, name: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Colors (comma separated)</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="e.g., Black, Silver, Red"
+                  value={createData.color.join(",")}
+                  onChange={(e) => setCreateData({ ...createData, color: e.target.value.split(",").map(c => c.trim()) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Sizes (comma separated)</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="e.g., S, M, L, XL"
+                  value={createData.size.join(",")}
+                  onChange={(e) => setCreateData({ ...createData, size: e.target.value.split(",").map(s => s.trim()) })}
+                />
+              </div>
+              
+              {/* Category Select */}
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Category</Label>
+                <select
+                  className="border w-full p-2 rounded mt-1"
+                  value={createData.category_id || ""}
+                  onChange={(e) => setCreateData({ ...createData, category_id: Number(e.target.value) })}
+                >
+                  <option value="">Select Category</option>
+                  {itemCategories?.map((cat: any) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Brand Select */}
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Brand</Label>
+                <select
+                  className="border w-full p-2 rounded mt-1"
+                  value={createData.brand_id || ""}
+                  onChange={(e) => setCreateData({ ...createData, brand_id: Number(e.target.value) })}
+                >
+                  <option value="">Select Brand</option>
+                  {brands?.map((brand: any) => (
+                    <option key={brand.id} value={brand.id}>{brand.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Price</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Price"
+                  type="number"
+                  value={createData.price || ""}
+                  onChange={(e) => setCreateData({ ...createData, price: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Sale (%)</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Sale percentage (e.g., 20 for 20% off)"
+                  type="number"
+                  value={createData.sale || ""}
+                  onChange={(e) => setCreateData({ ...createData, sale: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Stock Quantity</Label>
+                <input
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Stock Quantity"
+                  type="number"
+                  value={createData.stock || ""}
+                  onChange={(e) => setCreateData({ ...createData, stock: Number(e.target.value) })}
+                />
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Description</Label>
+                <textarea
+                  className="border w-full p-2 rounded mt-1"
+                  placeholder="Description"
+                  rows={3}
+                  value={createData.description}
+                  onChange={(e) => setCreateData({ ...createData, description: e.target.value })}
+                />
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-2 mt-4">
               <Button onClick={() => { setIsCreateOpen(false); setSelectedImages([]); setImagePreviews([]); }}>Cancel</Button>
-              <Button onClick={handleCreate} disabled={isCreating || isRefetching}>{isCreating || isRefetching ? "Creating..." : "Create Product"}</Button>
+              <Button onClick={handleCreate} disabled={isCreating || isRefetching}>
+                {isCreating || isRefetching ? "Creating..." : "Create Product"}
+              </Button>
             </div>
           </div>
         </div>

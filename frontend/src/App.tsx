@@ -18,6 +18,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import DashItem from "./components/Dashboard/DashItem";
 import DashItemInfo from "./components/Dashboard/DashItemInfo";
 import DashAddress from "./components/Dashboard/DashAddress";
+import AdminDashboard from "./components/Dashboard/AdminDashboard";
 
 import Wishlist from "./components/Wishlist";
 import Messages from "./components/Messages";
@@ -27,6 +28,8 @@ import SingleProduct from "./Shop/SingleProduct";
 import { ItemDialog } from "./components/dialog/ItemDialog";
 import Categray from "./Shop/categray";
 import Cart from "./cart/Cart";
+import BrandsManager from "@/components/Dashboard/BrandsManager";
+
 
 import AdminPage from "@/components/Dashboard/AdminPage";
 import AdminUsers from "./components/Dashboard/AdminUsers";
@@ -67,6 +70,7 @@ function App() {
 
             <Route path="admin" element={<AdminPage />} />
             <Route path="/dashboard/admin-users" element={<AdminUsers />} />
+            <Route path="/dashboard/admin-dashboard" element={<AdminDashboard />} />
           </Route>
 
           {/* Shop */}
@@ -74,6 +78,7 @@ function App() {
           <Route path="shop/products" element={<Products />} />
           <Route path="shop/products/:productId" element={<SingleProduct />} />
           <Route path="cart" element={<Cart />} />
+          <Route path="/dashboard/brands" element={<BrandsManager />} />
           <Route path="check out" element={<CheckOut />} />
           <Route path="orders" element={<Order />} />
           <Route path="adminOrders" element={<AdminOrders />} />
