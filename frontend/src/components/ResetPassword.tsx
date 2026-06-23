@@ -34,7 +34,6 @@ export function ResetPassword() {
     shouldUnregister: false,
   });
   const onSubmit = async (values: ResetPasswordFormSchema) => {
-    console.log(values);
     resetPassword(values);
   };
 

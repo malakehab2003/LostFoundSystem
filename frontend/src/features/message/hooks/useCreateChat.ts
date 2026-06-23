@@ -28,17 +28,13 @@ export function useCreateChat() {
       }
 
       const data = await res.json();
-      // 🔥 2. Try to extract chatId directly
       const chatId = data?.chat?.id || data?.chat_id || data?.id;
-      console.log("chats in usecreate", chatId);
 
       return { chatId };
     },
     onSuccess: ({ chatId }) => {
-      // 🔥 ensure chats list is updated
       queryClient.invalidateQueries({ queryKey: ["chats"] });
 
-      // 🔥 redirect immediately
       navigate(`/dashboard/messages?chatId=${chatId}`);
     },
 

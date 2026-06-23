@@ -37,7 +37,6 @@ const Profile = () => {
   );
 
   const { createChat, isPending } = useCreateChat();
-  console.log(items, userItems);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
