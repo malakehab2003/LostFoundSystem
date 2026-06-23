@@ -6,6 +6,7 @@ import {
   MessageSquare,
   Pin,
   Shapes,
+  MapPin,
 } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,6 +56,8 @@ export const ItemDialog = () => {
   ];
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedType, setSelectedType] = useState<string>("lost");
+  const [showMap, setShowMap] = useState(false);
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
 
   const currentForm = steps[currentStep];
 
@@ -79,6 +82,8 @@ export const ItemDialog = () => {
       government_id: null,
       city_id: null,
       images: [],
+      latitude: undefined,
+      longitude: undefined,
     },
     mode: "onChange",
     reValidateMode: "onChange",
@@ -117,6 +122,41 @@ export const ItemDialog = () => {
     createItem(data);
     navigate("/dashboard");
   }
+
+  // Get user's current location
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setShowMap(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ lat: latitude, lng: longitude });
+        form.setValue("latitude", latitude);
+        form.setValue("longitude", longitude);
+        alert(`Location captured: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        alert("Unable to get your location. Please check your GPS settings.");
+        setShowMap(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+
+  // Open Google Maps with the location
+  const openInGoogleMaps = () => {
+    if (location) {
+      window.open(
+        `https://www.google.com/maps?q=${location.lat},${location.lng}`,
+        "_blank"
+      );
+    }
+  };
 
   const renderCurrentStepContent = () => {
     return (
@@ -220,6 +260,52 @@ export const ItemDialog = () => {
               icon={MessageSquare}
             />
 
+            {/*  Location button - only for "Found" items */}
+            {selectedType === "found" && (
+              <div className="space-y-3 mt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-2 border-primary/30 hover:bg-primary/5"
+                  onClick={getCurrentLocation}
+                >
+                  <MapPin className="w-4 h-4 text-primary" />
+                  Add Location
+                </Button>
+
+                {location && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-green-800 text-sm font-medium">
+                        ✅ Location captured
+                      </p>
+                      <p className="text-green-600 text-xs">
+                        {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-green-600 hover:text-green-700 hover:bg-green-100"
+                      onClick={openInGoogleMaps}
+                    >
+                      View Map
+                    </Button>
+                  </div>
+                )}
+
+                {!location && showMap && (
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                    <p className="text-blue-800 text-sm">
+                      <Spinner className="w-4 h-4 inline mr-2" />
+                      Getting your location...
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/*  Warning message for Found items */}
             {selectedType === "found" && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-2">
@@ -239,16 +325,6 @@ export const ItemDialog = () => {
                 name="images"
                 label="Item Images"
               />
-            )}
-
-            {/* Show message when type is found */}
-            {selectedType === "found" && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-2">
-                <p className="text-blue-800 text-sm flex items-center gap-2">
-                  <span className="text-blue-600 text-lg">ℹ️</span>
-                  Image upload is disabled for found items. This helps protect the privacy of the owner who may be searching for this item.
-                </p>
-              </div>
             )}
           </>
         )}

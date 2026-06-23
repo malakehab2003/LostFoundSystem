@@ -36,6 +36,21 @@ export const CreateItemSchema = z
       .array(z.instanceof(File))
       .max(10, "Maximum 10 images allowed")
       .optional(),
+
+    //  Add latitude and longitude
+    latitude: z
+      .coerce
+      .number()
+      .min(-90, "Latitude must be between -90 and 90")
+      .max(90, "Latitude must be between -90 and 90")
+      .optional(),
+
+    longitude: z
+      .coerce
+      .number()
+      .min(-180, "Longitude must be between -180 and 180")
+      .max(180, "Longitude must be between -180 and 180")
+      .optional(),
   })
   .refine(
     (data) => {
@@ -80,6 +95,21 @@ export const EditItemSchema = z
       .refine((date) => date <= new Date(), {
         message: "Date cannot be in the future",
       })
+      .optional(),
+
+    //  Add latitude and longitude
+    latitude: z
+      .coerce
+      .number()
+      .min(-90, "Latitude must be between -90 and 90")
+      .max(90, "Latitude must be between -90 and 90")
+      .optional(),
+
+    longitude: z
+      .coerce
+      .number()
+      .min(-180, "Longitude must be between -180 and 180")
+      .max(180, "Longitude must be between -180 and 180")
       .optional(),
   })
   .refine(
@@ -139,6 +169,9 @@ export interface Item {
   city_id: number;
   government_id: number;
   user_id: number;
+
+  latitude?: number | null;   
+  longitude?: number | null;  
 
   created_at: string;
   updated_at: string;

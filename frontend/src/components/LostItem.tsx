@@ -8,6 +8,7 @@ import {
   Calendar,
   Pin,
   User,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -47,7 +48,7 @@ const LostItem = () => {
     if (item?.latitude && item?.longitude) {
       window.open(
         `https://www.google.com/maps?q=${item.latitude},${item.longitude}`,
-        "_blank",
+        "_blank"
       );
     }
   };
@@ -64,6 +65,7 @@ const LostItem = () => {
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {/* LEFT SIDE - Images */}
               <div className="space-y-4 order-2 md:order-1">
                 <div className="relative aspect-square rounded-2xl overflow-hidden bg-foreground/5 border border-foreground/10">
                   {item.type === "lost" ? (
@@ -104,6 +106,7 @@ const LostItem = () => {
                   )}
                 </div>
 
+                {/* Thumbnails - only for lost items */}
                 {displayImages.length > 1 && item.type === "lost" && (
                   <div className="flex gap-3 overflow-x-auto pb-2">
                     {displayImages.map((img, idx) => (
@@ -127,6 +130,7 @@ const LostItem = () => {
                 )}
               </div>
 
+              {/* RIGHT SIDE - Item Details */}
               <div className="space-y-5 order-1 md:order-2">
                 <div className="space-y-2 flex justify-between items-center gap-4">
                   <h1 className="text-3xl font-semibold text-foreground-900">
@@ -164,6 +168,47 @@ const LostItem = () => {
                     </p>
                   </div>
                 </div>
+
+                {/*  View Location - only for found items */}
+                {item.type === "found" && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    {item.latitude && item.longitude ? (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-5 h-5 text-green-600" />
+                          <div>
+                            <p className="text-sm font-medium text-green-800">
+                              Location Found
+                            </p>
+                            <p className="text-xs text-green-600">
+                              {item.latitude}, {item.longitude}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-green-300 text-green-700 hover:bg-green-100"
+                          onClick={openInGoogleMaps}
+                        >
+                          View on Map
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3 p-2">
+                        <MapPin className="w-5 h-5 text-gray-400" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">
+                            No Location Added
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            This found item does not have a location.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="space-y-2 border-t pt-4">
                   <h2 className="text-lg font-semibold text-foreground-700 flex items-center gap-2 capitalize">
