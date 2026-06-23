@@ -63,6 +63,31 @@ const LOST_FOUND_ITEMS: Item[] = [
       { id: 2, content: "I found these keys in the library parking lot." },
     ],
   },
+  {
+    id: 3,
+    title: "Lost Dog",
+    description: "Small brown dog with a blue collar, answers to 'Buddy'.",
+    type: "lost",
+    date: "2024-06-03T18:00:00Z",
+    place: "Riverside Park, NYC",
+    item_category_id: 3,
+    city_id: 1,
+    government_id: 1,
+    user_id: 1,
+    created_at: "2024-06-03T18:00:00Z",
+    updated_at: "2024-06-03T18:00:00Z",
+    category: { id: 3, name: "Animals" },
+    city: { id: 1, name: "New York" },
+    government: { id: 1, name: "NY State" },
+    user: { id: 1, name: "John Doe" },
+    image: [
+      {
+        id: 3,
+        url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
+      },
+    ],
+    comments: [{ id: 3, content: "I saw this dog near the river." }],
+  },
 ];
 
 // --- Sub-components ---
@@ -155,10 +180,10 @@ const ItemCard = ({ item }: { item: Item }) => {
 export const ListingsSection: React.FC = () => {
   const { items, isLoading } = useListItems({
     limit: 6,
-    page: 1,
     type: "found",
   });
-  console.log(items);
+  const itemsToDisplay =
+    items.length > 0 ? items.slice(0, 6) : LOST_FOUND_ITEMS;
   return (
     <div className="w-full p-4 md:p-8 bg-secondary rounded-lg">
       <div className="max-w-7xl mx-auto ">
@@ -171,17 +196,17 @@ export const ListingsSection: React.FC = () => {
           </p>
         </header>
 
-        {/* {isLoading ? (
-          <div className="text-center justify-center items-center py-12">
-            <Spinner className="w-8 h-8 place-self-center text-primary" />
-          </div>
-        ) : ( */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {LOST_FOUND_ITEMS.map((item: Item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
+          {isLoading ? (
+            <div className="text-center justify-center items-center py-12">
+              <Spinner className="w-8 h-8 place-self-center text-primary" />
+            </div>
+          ) : (
+            itemsToDisplay.map((item: Item) => (
+              <ItemCard key={item.id} item={item} />
+            ))
+          )}
         </div>
-        {/* )} */}
       </div>
     </div>
   );

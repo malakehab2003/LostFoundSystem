@@ -53,7 +53,7 @@ export const CTABannerSection: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button asChild size="lg">
-                <Link to="/items?type=lost">
+                <Link to="/dashboard/itemdialog">
                   <PlusCircle className="size-4" />
                   <span>Post Lost Item Now</span>
                   <ArrowRight className="size-3 ml-1 opacity-70" />

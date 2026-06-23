@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import heroill from "@/assets/hero-illustration.png";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 export function HeroSection() {
   return (
     <div className="max-w-7xl mx-auto px-8 py-20 bg-white">
@@ -34,9 +35,11 @@ export function HeroSection() {
           </p>
 
           <div className="flex gap-4">
-            <Button size="lg">Report Lost Item</Button>
-            <Button size="lg" variant="outline">
-              Report Found Item
+            <Button size="lg" asChild>
+              <Link to="/items?type=lost">Report Lost Item</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to="/items?type=found">Report Found Item</Link>
             </Button>
           </div>
 
