@@ -17,11 +17,6 @@ initSocket(server);
 
 app.use(logger("dev"));
 app.use(cors());
-app.post(
-  "/api/payment/webhook",
-  express.raw({ type: "application/json" }),
-  stripeWebhook
-);
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
