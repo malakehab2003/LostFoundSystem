@@ -8,7 +8,6 @@ import {
   Calendar,
   Pin,
   User,
-  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +47,7 @@ const LostItem = () => {
     if (item?.latitude && item?.longitude) {
       window.open(
         `https://www.google.com/maps?q=${item.latitude},${item.longitude}`,
-        "_blank"
+        "_blank",
       );
     }
   };

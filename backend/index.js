@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { initSocket } from "./utils/socket.js";
 import http from "http";
-import { stripeWebhook } from "./controller/stripeController.js";
 
 dotenv.config();
 
@@ -18,11 +17,6 @@ initSocket(server);
 
 app.use(logger("dev"));
 app.use(cors());
-app.post(
-  "/api/payment/webhook",
-  express.raw({ type: "application/json" }),
-  stripeWebhook
-);
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());

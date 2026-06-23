@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-primary relative overflow-hidden">
+      <div className="w-full min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-chart-4 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 text-white/10 text-7xl">
             <i className="fa-solid fa-magnifying-glass"></i>

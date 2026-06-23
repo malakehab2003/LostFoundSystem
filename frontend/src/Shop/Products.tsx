@@ -587,10 +587,7 @@ const Products = () => {
         ← Previous
       </Button>
       
-<<<<<<< HEAD
       {/* عرض الصفحات من 1 إلى 5 */}
-=======
->>>>>>> refs/remotes/origin/master
       {Array.from({ length: 3 }, (_, i) => i + 1)
         .map((pageNum) => (
           <Button

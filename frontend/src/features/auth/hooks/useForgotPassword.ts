@@ -10,7 +10,7 @@ export function useForgotPassword() {
   const navigate = useNavigate();
   const { mutate: forgotPassword, isPending } = useMutation({
     mutationFn: async (values: ForgotPasswordFormSchema) => {
-      console.log(values);
+      values;
       const res = await fetch(
         "http://localhost:5000/api/user/forget-password",
         {
