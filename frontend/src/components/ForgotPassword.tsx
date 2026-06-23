@@ -32,7 +32,6 @@ export function ForgotPassword() {
     shouldUnregister: false,
   });
   const onSubmit = async (values: ForgotPasswordFormSchema) => {
-    console.log(values);
     forgotPassword(values);
   };
 

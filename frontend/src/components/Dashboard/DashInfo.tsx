@@ -33,7 +33,7 @@ const DashInfo = () => {
       email: user?.email || "",
       name: user?.name || "",
       phone: user?.phone || "",
-      show_phone_number: user?.show_phone_number || true,
+      show_phone_number: user?.show_phone_number || false,
       dob: user?.dob ? new Date(user.dob) : new Date(),
       gender: user?.gender || "male",
       image: [],
