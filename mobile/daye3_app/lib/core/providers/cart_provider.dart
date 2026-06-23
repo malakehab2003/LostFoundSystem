@@ -1,96 +1,168 @@
-// lib/core/providers/cart_provider.dart
 import 'package:flutter/material.dart';
-import '../../screens/shop/models/product_model.dart'; // صحح المسار حسب هيكل مشروعك
-
-class CartItem {
-  final Product product;
-  final String selectedColor;
-  final String selectedSize;
-  int quantity;
-
-  CartItem({
-    required this.product,
-    required this.selectedColor,
-    required this.selectedSize,
-    this.quantity = 1,
-  });
-
-  double get totalPrice => product.price * quantity;
-}
+import '../../screens/shop/models/cart_item.dart';
+import '../utils/cart_api_service.dart';
 
 class CartProvider extends ChangeNotifier {
-  final List<CartItem> _items = [];
+  final CartApiService api = CartApiService();
 
-  List<CartItem> get items => List.unmodifiable(_items);
+  List<CartItem> items = [];
+  double totalPrice = 0;
 
-  int get itemCount => _items.fold(0, (sum, item) => sum + item.quantity);
+  bool isLoading = false;
+  String? error;
 
-  double get totalPrice =>
-      _items.fold(0, (sum, item) => sum + item.product.price * item.quantity);
+  String? token;
 
-  void addToCart(Product product, String selectedColor, String selectedSize, {int quantity = 1}) {
-    final index = _items.indexWhere(
-          (item) =>
-      item.product.id == product.id &&
-          item.selectedColor == selectedColor &&
-          item.selectedSize == selectedSize,
-    );
+  void setToken(String t) {
+    token = t;
+  }
 
-    if (index >= 0) {
-      _items[index].quantity += quantity;
-    } else {
-      _items.add(CartItem(
-        product: product,
-        selectedColor: selectedColor,
-        selectedSize: selectedSize,
-        quantity: quantity,
-      ));
+  /// ================= FETCH CART =================
+  Future<void> fetchCart() async {
+    if (token == null || token!.isEmpty) return;
+
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      final data = await api.getCart(token!);
+
+      final List cartList = data['cart'] ?? [];
+
+      items = cartList.map((e) => CartItem.fromJson(e)).toList();
+
+      totalPrice = (data['total'] as num?)?.toDouble() ?? 0.0;
+
+      print("🔥 ITEMS LOADED: ${items.length}");
+    } catch (e) {
+      error = e.toString();
+      print("❌ CART ERROR: $e");
     }
+
+    isLoading = false;
     notifyListeners();
   }
 
-  void removeFromCart(Product product, String selectedColor, String selectedSize) {
-    _items.removeWhere(
-          (item) =>
-      item.product.id == product.id &&
-          item.selectedColor == selectedColor &&
-          item.selectedSize == selectedSize,
+  /// ================= OLD ADD (KEEP FOR COMPATIBILITY) =================
+  Future<void> addToCart({
+    required int productId,
+    required String color,
+    required String size,
+  }) async {
+    if (token == null || token!.isEmpty) return;
+
+    await api.addToCart(
+      token: token!,
+      productId: productId,
+      color: color,
+      size: size,
     );
-    notifyListeners();
+
+    await fetchCart();
   }
 
-  void increaseQuantity(Product product, String selectedColor, String selectedSize) {
-    final index = _items.indexWhere(
-          (item) =>
-      item.product.id == product.id &&
-          item.selectedColor == selectedColor &&
-          item.selectedSize == selectedSize,
+  /// ================= SAFE UX ADD (RECOMMENDED) =================
+  Future<void> safeAddToCart({
+    required int productId,
+    required String color,
+    required String size,
+    required BuildContext context,
+  }) async {
+    if (token == null || token!.isEmpty) return;
+
+    final exists = items.any((item) => item.product.id == productId);
+
+    if (exists) {
+      // 🔥 Toast
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Already in cart"),
+          backgroundColor: Colors.orange,
+        ),
+      );
+
+      // 🔥 INCREMENT instead of reject
+      final item = items.firstWhere((e) => e.product.id == productId);
+
+      await api.updateQuantity(
+        token: token!,
+        cartItemId: item.id,
+        increase: true,
+      );
+
+      await fetchCart();
+      return;
+    }
+
+    final success = await api.addToCart(
+      token: token!,
+      productId: productId,
+      color: color,
+      size: size,
     );
-    if (index >= 0) {
-      _items[index].quantity += 1;
-      notifyListeners();
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Added to cart"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+
+    await fetchCart();
+  }
+
+  /// ================= REMOVE =================
+  Future<void> removeFromCart(int cartItemId) async {
+    if (token == null || token!.isEmpty) return;
+
+    await api.deleteItem(
+      token: token!,
+      cartItemId: cartItemId,
+    );
+
+    await fetchCart();
+  }
+
+  /// ================= INCREASE =================
+  Future<void> increaseQuantity(int cartItemId) async {
+    await api.updateQuantity(
+      token: token!,
+      cartItemId: cartItemId,
+      increase: true,
+    );
+
+    await fetchCart();
+  }
+
+  /// ================= DECREASE =================
+  Future<void> decreaseQuantity(int cartItemId) async {
+    final item = items.firstWhere((e) => e.id == cartItemId);
+
+    if (item.quantity > 1) {
+      await api.updateQuantity(
+        token: token!,
+        cartItemId: cartItemId,
+        increase: false,
+      );
+
+      await fetchCart();
     }
   }
 
-  void decreaseQuantity(Product product, String selectedColor, String selectedSize) {
-    final index = _items.indexWhere(
-          (item) =>
-      item.product.id == product.id &&
-          item.selectedColor == selectedColor &&
-          item.selectedSize == selectedSize,
-    );
-    if (index >= 0) {
-      if (_items[index].quantity > 1) {
-        _items[index].quantity -= 1;
-      } else {
-        _items.removeAt(index);
-      }
-      notifyListeners();
-    }
-  }
-
+  /// ================= CLEAR =================
   void clearCart() {
-    _items.clear();
+    items.clear();
+    totalPrice = 0;
     notifyListeners();
   }
+
+  /// ================= CHECK IF PRODUCT EXISTS =================
+  bool isInCart(int productId) {
+    return items.any((item) => item.product.id == productId);
+  }
+
+  double get total => totalPrice;
 }

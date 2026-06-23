@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../core/providers/wishlist_provider.dart';
-import '../../core/providers/cart_provider.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/constants/app_constants.dart';
+
+import '../../core/utils/product_service.dart';
 import 'models/product_model.dart';
+
 import 'product_details_page.dart';
 import 'wishlist_page.dart';
 
-class ShopPage extends StatelessWidget {
-  final List<Product> products;
-  const ShopPage({super.key, required this.products});
+class ShopPage extends StatefulWidget {
+  const ShopPage({super.key});
+
+  @override
+  State<ShopPage> createState() => _ShopPageState();
+}
+
+class _ShopPageState extends State<ShopPage> {
+  List<Product> products = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadProducts();
+
+    Future.microtask(() {
+      context
+          .read<WishlistProvider>()
+          .fetchWishlist(AppConstants.token);
+    });
+  }
+
+  Future<void> loadProducts() async {
+    try {
+      final data = await ProductService().getProducts();
+
+      setState(() {
+        products = data;
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +59,6 @@ class ShopPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         title: const Text("Shop"),
         actions: [
-          // Wishlist
           Consumer<WishlistProvider>(
             builder: (context, wishlistProvider, _) {
               return Stack(
@@ -62,7 +99,6 @@ class ShopPage extends StatelessWidget {
               );
             },
           ),
-          // Cart button (تمت الإضافة)
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
@@ -71,7 +107,12 @@ class ShopPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
+
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : products.isEmpty
+          ? const Center(child: Text("No products found"))
+          : Padding(
         padding: const EdgeInsets.all(16),
         child: GridView.builder(
           itemCount: products.length,
@@ -84,12 +125,14 @@ class ShopPage extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final product = products[index];
+
             return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ProductDetailsPage(product: product),
+                    builder: (_) =>
+                        ProductDetailsPage(product: product),
                   ),
                 );
               },
@@ -104,6 +147,7 @@ class ShopPage extends StatelessWidget {
 
 class ModernProductCard extends StatelessWidget {
   final Product product;
+
   const ModernProductCard({super.key, required this.product});
 
   @override
@@ -126,27 +170,48 @@ class ModernProductCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // صورة المنتج + Wishlist
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-                child: Image.asset(
-                  product.image,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
+                child: Image.network(
+                  product.image.isNotEmpty
+                      ? product.image
+                      : "https://placehold.co/150x150/png?text=No+Image",
+
                   height: 130,
                   width: double.infinity,
                   fit: BoxFit.cover,
+
+                  // 🔥 حماية لو الصورة فشلت
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.network(
+                      "https://placehold.co/150x150/png?text=No+Image",
+                      height: 130,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
-              // Wishlist
+
               Positioned(
                 top: 12,
                 right: 12,
                 child: Consumer<WishlistProvider>(
                   builder: (context, wishlistProvider, _) {
-                    final isFav = wishlistProvider.isInWishlist(product);
+                    final isFav = wishlistProvider.wishlistItems
+                        .any((p) => p.id == product.id);
+
                     return GestureDetector(
-                      onTap: () => wishlistProvider.toggleWishlist(product),
+                      onTap: () {
+                        wishlistProvider.toggleWishlist(
+                          product,
+                          AppConstants.token,
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
@@ -161,7 +226,9 @@ class ModernProductCard extends StatelessWidget {
                           ],
                         ),
                         child: Icon(
-                          isFav ? Icons.favorite : Icons.favorite_border,
+                          isFav
+                              ? Icons.favorite
+                              : Icons.favorite_border,
                           color: isFav ? Colors.red : Colors.grey,
                           size: 26,
                         ),
@@ -173,36 +240,35 @@ class ModernProductCard extends StatelessWidget {
             ],
           ),
 
-          // نصوص داخل Expanded لتجنب overflow
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: const BoxDecoration(
                 color: Color(0xFFF7F8FA),
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(30),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: Text(
-                      product.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87),
+                  Text(
+                    product.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
                   const SizedBox(height: 6),
-                  Flexible(
-                    child: Text(
-                      "\$${product.price.toStringAsFixed(2)}",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary),
+                  Text(
+                    "\$${product.price.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
                     ),
                   ),
                   const Spacer(),

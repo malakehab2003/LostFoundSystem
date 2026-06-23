@@ -1,9 +1,12 @@
 class Product {
-  final int id;        // متوافق مع الـ backend id (int)
-  final String name;   // اسم المنتج
-  final String image;  // رابط الصورة
-  final double price;  // سعر المنتج
+  final int id;
+  final String name;
+  final String image;
+  final double price;
   final String description;
+  final double rate;
+  final List<String> colors;
+  final List<String> sizes; // 🔥 FIXED: String instead of int
 
   Product({
     required this.id,
@@ -11,18 +14,50 @@ class Product {
     required this.image,
     required this.price,
     required this.description,
+    required this.rate,
+    required this.colors,
+    required this.sizes,
   });
 
+  /// ================= FROM JSON =================
   factory Product.fromJson(Map<String, dynamic> json) {
+    print("RAW PRODUCT JSON = $json");
     return Product(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
-      price: double.parse(json['price'].toString()),
-      description: json['description'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+
+      /// IMAGE SAFE PARSING
+      image: (() {
+        final img = json['image'];
+
+        if (img is List && img.isNotEmpty) {
+          return img[0].toString();
+        }
+
+        if (img is String) {
+          return img;
+        }
+
+        return '';
+      })(),
+
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      description: json['description'] ?? '',
+      rate: (json['rate'] as num?)?.toDouble() ?? 0.0,
+
+      /// COLORS SAFE
+      colors: (json['colors'] is List)
+          ? List<String>.from(json['colors'].map((e) => e.toString()))
+          : [],
+
+      /// 🔥 FIXED SIZES (NO INT PARSING)
+      sizes: (json['sizes'] is List)
+          ? List<String>.from(json['sizes'].map((e) => e.toString()))
+          : [],
     );
   }
 
+  /// ================= TO JSON =================
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -30,8 +65,9 @@ class Product {
       'image': image,
       'price': price,
       'description': description,
+      'rate': rate,
+      'colors': colors,
+      'sizes': sizes,
     };
   }
 }
-
-
