@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base}}/promocode/update/12"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"code\": \"discs50\",\r
+
+    \    \"discount\": 50,\r
+
+    \    \"description\": \"use now\"\r
+
+    }"
+examples: ./.resources/update promocode.resources/examples
+order: 3000

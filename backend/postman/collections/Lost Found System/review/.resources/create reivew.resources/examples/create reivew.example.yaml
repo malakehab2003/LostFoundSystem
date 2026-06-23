@@ -1,0 +1,48 @@
+$kind: http-example
+request:
+  url: "{{base}}/review/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"message\": \"this is new review\",\r
+
+      \    \"rate\": 4,\r
+
+      \    \"image_url\": \"image.jpg\",\r
+
+      \    \"product_id\": 1\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "232"
+    ETag: W/"e8-SJUomRNC7EbWsjfC1l95cq7RF7Q"
+    Date: Thu, 12 Feb 2026 16:30:09 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Review created successfully",
+          "review": {
+              "id": 11,
+              "message": "this is new review",
+              "rate": 4,
+              "user_id": 59,
+              "product_id": 1,
+              "image_url": "image.jpg",
+              "updated_at": "2026-02-12T16:30:09.196Z",
+              "created_at": "2026-02-12T16:30:09.196Z"
+          }
+      }
+order: 1000

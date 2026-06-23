@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base}}/notification/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"description\": \"this notification for you\",\r
+
+    \    \"message\": \"warning\",\r
+
+    \    \"user_ids\": [59]\r
+
+    }"
+examples: ./.resources/create notification.resources/examples
+order: 2000

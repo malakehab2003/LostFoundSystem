@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/brand/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"name\": \"new\"\r\n}"
+examples: ./.resources/create brand.resources/examples
+order: 2000

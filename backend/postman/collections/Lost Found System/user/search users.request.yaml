@@ -1,0 +1,10 @@
+$kind: http-request
+description: if no q added it will get all users
+url: "{{base}}/user/searchUser?q=ha"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+queryParams:
+  q: ha
+examples: ./.resources/search users.resources/examples
+order: 10000

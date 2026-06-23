@@ -1,0 +1,54 @@
+$kind: http-example
+request:
+  url: "{{base}}/address/list"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "357"
+    ETag: W/"165-E4kEdKjBWBNtMQNeY2l3WLQFIXY"
+    Date: Mon, 26 Jan 2026 03:43:43 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "addresses": [
+              {
+                  "id": 62,
+                  "name": "home",
+                  "address": "23 elnahas street",
+                  "city": "tanta",
+                  "state": "gharbia",
+                  "country": "egypt",
+                  "postal_code": "21311",
+                  "user_id": 59,
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 61,
+                  "name": "home",
+                  "address": "23 elnahas street",
+                  "city": "tanta",
+                  "state": "gharbia",
+                  "country": "egypt",
+                  "postal_code": "21311",
+                  "user_id": 59,
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  }
+              }
+          ]
+      }
+order: 1000

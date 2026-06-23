@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base}}/comment/update/5"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"content\": \"No need to write content\"\r
+
+    }"
+examples: ./.resources/update comment.resources/examples
+order: 3000

@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{base}}/product/list?status=active&min_price=1&max_price=10000&category_id=2&brand_id=2&rate=1&name=Shoes&colors=Black"
+method: GET
+queryParams:
+  - key: status
+    value: active
+  - key: min_price
+    value: "1"
+  - key: max_price
+    value: "10000"
+  - key: category_id
+    value: "2"
+  - key: brand_id
+    value: "2"
+  - key: is_sale
+    value: "true"
+    disabled: true
+  - key: rate
+    value: "1"
+  - key: name
+    value: Shoes
+  - key: colors
+    value: Black
+  - key: sizes
+    value: '"38", "39"'
+    disabled: true
+examples: ./.resources/list products.resources/examples
+order: 1000

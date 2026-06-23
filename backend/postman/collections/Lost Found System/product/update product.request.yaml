@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{base}}/product/update/13"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"update\",\r
+
+    \    \"status\": \"out of stock\",\r
+
+    \    \"price\": 32,\r
+
+    \    \"rate\": 1,\r
+
+    \    \"colors\": [\"yellow\"],\r
+
+    \    \"sizes\": [\"XXXL\"],\r
+
+    \    \"stock\": 32,\r
+
+    \    \"description\": \"No description needed\",\r
+
+    \    \"brand_id\": 2,\r
+
+    \    \"category_id\": 2\r
+
+    }"
+examples: ./.resources/update product.resources/examples
+order: 5000

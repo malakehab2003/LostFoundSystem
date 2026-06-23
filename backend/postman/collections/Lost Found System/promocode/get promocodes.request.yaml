@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/promocode/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/get promocodes.resources/examples
+order: 2000

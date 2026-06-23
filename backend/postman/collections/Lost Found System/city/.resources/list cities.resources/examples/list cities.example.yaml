@@ -1,0 +1,3192 @@
+$kind: http-example
+request:
+  url: "{{base}}/city/list"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "63045"
+    ETag: W/"f645-KJktypWNyI+uNY7IB+JCJlUddnk"
+    Date: Tue, 03 Feb 2026 19:40:38 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "citys": [
+              {
+                  "id": 1,
+                  "name_ar": "15 مايو",
+                  "name_en": "15 May",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 2,
+                  "name_ar": "الازبكية",
+                  "name_en": "Al Azbakeyah",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 3,
+                  "name_ar": "البساتين",
+                  "name_en": "Al Basatin",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 4,
+                  "name_ar": "التبين",
+                  "name_en": "Tebin",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 5,
+                  "name_ar": "الخليفة",
+                  "name_en": "El-Khalifa",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 6,
+                  "name_ar": "الدراسة",
+                  "name_en": "El darrasa",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 7,
+                  "name_ar": "الدرب الاحمر",
+                  "name_en": "Aldarb Alahmar",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 8,
+                  "name_ar": "الزاوية الحمراء",
+                  "name_en": "Zawya al-Hamra",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 9,
+                  "name_ar": "الزيتون",
+                  "name_en": "El-Zaytoun",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 10,
+                  "name_ar": "الساحل",
+                  "name_en": "Sahel",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 11,
+                  "name_ar": "السلام",
+                  "name_en": "El Salam",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 12,
+                  "name_ar": "السيدة زينب",
+                  "name_en": "Sayeda Zeinab",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 13,
+                  "name_ar": "الشرابية",
+                  "name_en": "El Sharabeya",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 14,
+                  "name_ar": "مدينة الشروق",
+                  "name_en": "Shorouk",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 15,
+                  "name_ar": "الظاهر",
+                  "name_en": "El Daher",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 16,
+                  "name_ar": "العتبة",
+                  "name_en": "Ataba",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 17,
+                  "name_ar": "القاهرة الجديدة",
+                  "name_en": "New Cairo",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 18,
+                  "name_ar": "المرج",
+                  "name_en": "El Marg",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 19,
+                  "name_ar": "عزبة النخل",
+                  "name_en": "Ezbet el Nakhl",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 20,
+                  "name_ar": "المطرية",
+                  "name_en": "Matareya",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 21,
+                  "name_ar": "المعادى",
+                  "name_en": "Maadi",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 22,
+                  "name_ar": "المعصرة",
+                  "name_en": "Maasara",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 23,
+                  "name_ar": "المقطم",
+                  "name_en": "Mokattam",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 24,
+                  "name_ar": "المنيل",
+                  "name_en": "Manyal",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 25,
+                  "name_ar": "الموسكى",
+                  "name_en": "Mosky",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 26,
+                  "name_ar": "النزهة",
+                  "name_en": "Nozha",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 27,
+                  "name_ar": "الوايلى",
+                  "name_en": "Waily",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 28,
+                  "name_ar": "باب الشعرية",
+                  "name_en": "Bab al-Shereia",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 29,
+                  "name_ar": "بولاق",
+                  "name_en": "Bolaq",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 30,
+                  "name_ar": "جاردن سيتى",
+                  "name_en": "Garden City",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 31,
+                  "name_ar": "حدائق القبة",
+                  "name_en": "Hadayek El-Kobba",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 32,
+                  "name_ar": "حلوان",
+                  "name_en": "Helwan",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 33,
+                  "name_ar": "دار السلام",
+                  "name_en": "Dar Al Salam",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 34,
+                  "name_ar": "شبرا",
+                  "name_en": "Shubra",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 35,
+                  "name_ar": "طره",
+                  "name_en": "Tura",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 36,
+                  "name_ar": "عابدين",
+                  "name_en": "Abdeen",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 37,
+                  "name_ar": "عباسية",
+                  "name_en": "Abaseya",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 38,
+                  "name_ar": "عين شمس",
+                  "name_en": "Ain Shams",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 39,
+                  "name_ar": "مدينة نصر",
+                  "name_en": "Nasr City",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 40,
+                  "name_ar": "مصر الجديدة",
+                  "name_en": "New Heliopolis",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 41,
+                  "name_ar": "مصر القديمة",
+                  "name_en": "Masr Al Qadima",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 42,
+                  "name_ar": "منشية ناصر",
+                  "name_en": "Mansheya Nasir",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 43,
+                  "name_ar": "مدينة بدر",
+                  "name_en": "Badr City",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 44,
+                  "name_ar": "مدينة العبور",
+                  "name_en": "Obour City",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 45,
+                  "name_ar": "وسط البلد",
+                  "name_en": "Cairo Downtown",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 46,
+                  "name_ar": "الزمالك",
+                  "name_en": "Zamalek",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 47,
+                  "name_ar": "قصر النيل",
+                  "name_en": "Kasr El Nile",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 48,
+                  "name_ar": "الرحاب",
+                  "name_en": "Rehab",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 49,
+                  "name_ar": "القطامية",
+                  "name_en": "Katameya",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 50,
+                  "name_ar": "مدينتي",
+                  "name_en": "Madinty",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 51,
+                  "name_ar": "روض الفرج",
+                  "name_en": "Rod Alfarag",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 52,
+                  "name_ar": "شيراتون",
+                  "name_en": "Sheraton",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 53,
+                  "name_ar": "الجمالية",
+                  "name_en": "El-Gamaleya",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 54,
+                  "name_ar": "العاشر من رمضان",
+                  "name_en": "10th of Ramadan City",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 55,
+                  "name_ar": "الحلمية",
+                  "name_en": "Helmeyat Alzaytoun",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 56,
+                  "name_ar": "النزهة الجديدة",
+                  "name_en": "New Nozha",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 57,
+                  "name_ar": "العاصمة الإدارية",
+                  "name_en": "Capital New",
+                  "government_id": 1,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 58,
+                  "name_ar": "الجيزة",
+                  "name_en": "Giza",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 59,
+                  "name_ar": "السادس من أكتوبر",
+                  "name_en": "Sixth of October",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 60,
+                  "name_ar": "الشيخ زايد",
+                  "name_en": "Cheikh Zayed",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 61,
+                  "name_ar": "الحوامدية",
+                  "name_en": "Hawamdiyah",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 62,
+                  "name_ar": "البدرشين",
+                  "name_en": "Al Badrasheen",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 63,
+                  "name_ar": "الصف",
+                  "name_en": "Saf",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 64,
+                  "name_ar": "أطفيح",
+                  "name_en": "Atfih",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 65,
+                  "name_ar": "العياط",
+                  "name_en": "Al Ayat",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 66,
+                  "name_ar": "الباويطي",
+                  "name_en": "Al-Bawaiti",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 67,
+                  "name_ar": "منشأة القناطر",
+                  "name_en": "ManshiyetAl Qanater",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 68,
+                  "name_ar": "أوسيم",
+                  "name_en": "Oaseem",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 69,
+                  "name_ar": "كرداسة",
+                  "name_en": "Kerdasa",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 70,
+                  "name_ar": "أبو النمرس",
+                  "name_en": "Abu Nomros",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 71,
+                  "name_ar": "كفر غطاطي",
+                  "name_en": "Kafr Ghati",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 72,
+                  "name_ar": "منشأة البكاري",
+                  "name_en": "Manshiyet Al Bakari",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 73,
+                  "name_ar": "الدقى",
+                  "name_en": "Dokki",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 74,
+                  "name_ar": "العجوزة",
+                  "name_en": "Agouza",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 75,
+                  "name_ar": "الهرم",
+                  "name_en": "Haram",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 76,
+                  "name_ar": "الوراق",
+                  "name_en": "Warraq",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 77,
+                  "name_ar": "امبابة",
+                  "name_en": "Imbaba",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 78,
+                  "name_ar": "بولاق الدكرور",
+                  "name_en": "Boulaq Dakrour",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 79,
+                  "name_ar": "الواحات البحرية",
+                  "name_en": "Al Wahat Al Baharia",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 80,
+                  "name_ar": "العمرانية",
+                  "name_en": "Omraneya",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 81,
+                  "name_ar": "المنيب",
+                  "name_en": "Moneeb",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 82,
+                  "name_ar": "بين السرايات",
+                  "name_en": "Bin Alsarayat",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 83,
+                  "name_ar": "الكيت كات",
+                  "name_en": "Kit Kat",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 84,
+                  "name_ar": "المهندسين",
+                  "name_en": "Mohandessin",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 85,
+                  "name_ar": "فيصل",
+                  "name_en": "Faisal",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 86,
+                  "name_ar": "أبو رواش",
+                  "name_en": "Abu Rawash",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 87,
+                  "name_ar": "حدائق الأهرام",
+                  "name_en": "Hadayek Alahram",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 88,
+                  "name_ar": "الحرانية",
+                  "name_en": "Haraneya",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 89,
+                  "name_ar": "حدائق اكتوبر",
+                  "name_en": "Hadayek October",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 90,
+                  "name_ar": "صفط اللبن",
+                  "name_en": "Saft Allaban",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 91,
+                  "name_ar": "القرية الذكية",
+                  "name_en": "Smart Village",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 92,
+                  "name_ar": "ارض اللواء",
+                  "name_en": "Ard Ellwaa",
+                  "government_id": 2,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 93,
+                  "name_ar": "ابو قير",
+                  "name_en": "Abu Qir",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 94,
+                  "name_ar": "الابراهيمية",
+                  "name_en": "Al Ibrahimeyah",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 95,
+                  "name_ar": "الأزاريطة",
+                  "name_en": "Azarita",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 96,
+                  "name_ar": "الانفوشى",
+                  "name_en": "Anfoushi",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 97,
+                  "name_ar": "الدخيلة",
+                  "name_en": "Dekheila",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 98,
+                  "name_ar": "السيوف",
+                  "name_en": "El Soyof",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 99,
+                  "name_ar": "العامرية",
+                  "name_en": "Ameria",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 100,
+                  "name_ar": "اللبان",
+                  "name_en": "El Labban",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 101,
+                  "name_ar": "المفروزة",
+                  "name_en": "Al Mafrouza",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 102,
+                  "name_ar": "المنتزه",
+                  "name_en": "El Montaza",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 103,
+                  "name_ar": "المنشية",
+                  "name_en": "Mansheya",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 104,
+                  "name_ar": "الناصرية",
+                  "name_en": "Naseria",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 105,
+                  "name_ar": "امبروزو",
+                  "name_en": "Ambrozo",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 106,
+                  "name_ar": "باب شرق",
+                  "name_en": "Bab Sharq",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 107,
+                  "name_ar": "برج العرب",
+                  "name_en": "Bourj Alarab",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 108,
+                  "name_ar": "ستانلى",
+                  "name_en": "Stanley",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 109,
+                  "name_ar": "سموحة",
+                  "name_en": "Smouha",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 110,
+                  "name_ar": "سيدى بشر",
+                  "name_en": "Sidi Bishr",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 111,
+                  "name_ar": "شدس",
+                  "name_en": "Shads",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 112,
+                  "name_ar": "غيط العنب",
+                  "name_en": "Gheet Alenab",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 113,
+                  "name_ar": "فلمينج",
+                  "name_en": "Fleming",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 114,
+                  "name_ar": "فيكتوريا",
+                  "name_en": "Victoria",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 115,
+                  "name_ar": "كامب شيزار",
+                  "name_en": "Camp Shizar",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 116,
+                  "name_ar": "كرموز",
+                  "name_en": "Karmooz",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 117,
+                  "name_ar": "محطة الرمل",
+                  "name_en": "Mahta Alraml",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 118,
+                  "name_ar": "مينا البصل",
+                  "name_en": "Mina El-Basal",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 119,
+                  "name_ar": "العصافرة",
+                  "name_en": "Asafra",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 120,
+                  "name_ar": "العجمي",
+                  "name_en": "Agamy",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 121,
+                  "name_ar": "بكوس",
+                  "name_en": "Bakos",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 122,
+                  "name_ar": "بولكلي",
+                  "name_en": "Boulkly",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 123,
+                  "name_ar": "كليوباترا",
+                  "name_en": "Cleopatra",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 124,
+                  "name_ar": "جليم",
+                  "name_en": "Glim",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 125,
+                  "name_ar": "المعمورة",
+                  "name_en": "Al Mamurah",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 126,
+                  "name_ar": "المندرة",
+                  "name_en": "Al Mandara",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 127,
+                  "name_ar": "محرم بك",
+                  "name_en": "Moharam Bek",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 128,
+                  "name_ar": "الشاطبي",
+                  "name_en": "Elshatby",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 129,
+                  "name_ar": "سيدي جابر",
+                  "name_en": "Sidi Gaber",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 130,
+                  "name_ar": "الساحل الشمالي",
+                  "name_en": "North Coast/sahel",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 131,
+                  "name_ar": "الحضرة",
+                  "name_en": "Alhadra",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 132,
+                  "name_ar": "العطارين",
+                  "name_en": "Alattarin",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 133,
+                  "name_ar": "سيدي كرير",
+                  "name_en": "Sidi Kerir",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 134,
+                  "name_ar": "الجمرك",
+                  "name_en": "Elgomrok",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 135,
+                  "name_ar": "المكس",
+                  "name_en": "Al Max",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 136,
+                  "name_ar": "مارينا",
+                  "name_en": "Marina",
+                  "government_id": 3,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 137,
+                  "name_ar": "المنصورة",
+                  "name_en": "Mansoura",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 138,
+                  "name_ar": "طلخا",
+                  "name_en": "Talkha",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 139,
+                  "name_ar": "ميت غمر",
+                  "name_en": "Mitt Ghamr",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 140,
+                  "name_ar": "دكرنس",
+                  "name_en": "Dekernes",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 141,
+                  "name_ar": "أجا",
+                  "name_en": "Aga",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 142,
+                  "name_ar": "منية النصر",
+                  "name_en": "Menia El Nasr",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 143,
+                  "name_ar": "السنبلاوين",
+                  "name_en": "Sinbillawin",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 144,
+                  "name_ar": "الكردي",
+                  "name_en": "El Kurdi",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 145,
+                  "name_ar": "بني عبيد",
+                  "name_en": "Bani Ubaid",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 146,
+                  "name_ar": "المنزلة",
+                  "name_en": "Al Manzala",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 147,
+                  "name_ar": "تمي الأمديد",
+                  "name_en": "tami al'amdid",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 148,
+                  "name_ar": "الجمالية",
+                  "name_en": "aljamalia",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 149,
+                  "name_ar": "شربين",
+                  "name_en": "Sherbin",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 150,
+                  "name_ar": "المطرية",
+                  "name_en": "Mataria",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 151,
+                  "name_ar": "بلقاس",
+                  "name_en": "Belqas",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 152,
+                  "name_ar": "ميت سلسيل",
+                  "name_en": "Meet Salsil",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 153,
+                  "name_ar": "جمصة",
+                  "name_en": "Gamasa",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 154,
+                  "name_ar": "محلة دمنة",
+                  "name_en": "Mahalat Damana",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 155,
+                  "name_ar": "نبروه",
+                  "name_en": "Nabroh",
+                  "government_id": 4,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 156,
+                  "name_ar": "الغردقة",
+                  "name_en": "Hurghada",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 157,
+                  "name_ar": "رأس غارب",
+                  "name_en": "Ras Ghareb",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 158,
+                  "name_ar": "سفاجا",
+                  "name_en": "Safaga",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 159,
+                  "name_ar": "القصير",
+                  "name_en": "El Qusiar",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 160,
+                  "name_ar": "مرسى علم",
+                  "name_en": "Marsa Alam",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 161,
+                  "name_ar": "الشلاتين",
+                  "name_en": "Shalatin",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 162,
+                  "name_ar": "حلايب",
+                  "name_en": "Halaib",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 163,
+                  "name_ar": "الدهار",
+                  "name_en": "Aldahar",
+                  "government_id": 5,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 164,
+                  "name_ar": "دمنهور",
+                  "name_en": "Damanhour",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 165,
+                  "name_ar": "كفر الدوار",
+                  "name_en": "Kafr El Dawar",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 166,
+                  "name_ar": "رشيد",
+                  "name_en": "Rashid",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 167,
+                  "name_ar": "إدكو",
+                  "name_en": "Edco",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 168,
+                  "name_ar": "أبو المطامير",
+                  "name_en": "Abu al-Matamir",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 169,
+                  "name_ar": "أبو حمص",
+                  "name_en": "Abu Homs",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 170,
+                  "name_ar": "الدلنجات",
+                  "name_en": "Delengat",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 171,
+                  "name_ar": "المحمودية",
+                  "name_en": "Mahmoudiyah",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 172,
+                  "name_ar": "الرحمانية",
+                  "name_en": "Rahmaniyah",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 173,
+                  "name_ar": "إيتاي البارود",
+                  "name_en": "Itai Baroud",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 174,
+                  "name_ar": "حوش عيسى",
+                  "name_en": "Housh Eissa",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 175,
+                  "name_ar": "شبراخيت",
+                  "name_en": "Shubrakhit",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 176,
+                  "name_ar": "كوم حمادة",
+                  "name_en": "Kom Hamada",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 177,
+                  "name_ar": "بدر",
+                  "name_en": "Badr",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 178,
+                  "name_ar": "وادي النطرون",
+                  "name_en": "Wadi Natrun",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 179,
+                  "name_ar": "النوبارية الجديدة",
+                  "name_en": "New Nubaria",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 180,
+                  "name_ar": "النوبارية",
+                  "name_en": "Alnoubareya",
+                  "government_id": 6,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 181,
+                  "name_ar": "الفيوم",
+                  "name_en": "Fayoum",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 182,
+                  "name_ar": "الفيوم الجديدة",
+                  "name_en": "Fayoum El Gedida",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 183,
+                  "name_ar": "طامية",
+                  "name_en": "Tamiya",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 184,
+                  "name_ar": "سنورس",
+                  "name_en": "Snores",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 185,
+                  "name_ar": "إطسا",
+                  "name_en": "Etsa",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 186,
+                  "name_ar": "إبشواي",
+                  "name_en": "Epschway",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 187,
+                  "name_ar": "يوسف الصديق",
+                  "name_en": "Yusuf El Sediaq",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 188,
+                  "name_ar": "الحادقة",
+                  "name_en": "Hadqa",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 189,
+                  "name_ar": "اطسا",
+                  "name_en": "Atsa",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 190,
+                  "name_ar": "الجامعة",
+                  "name_en": "Algamaa",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 191,
+                  "name_ar": "السيالة",
+                  "name_en": "Sayala",
+                  "government_id": 7,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 192,
+                  "name_ar": "طنطا",
+                  "name_en": "Tanta",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 193,
+                  "name_ar": "المحلة الكبرى",
+                  "name_en": "Al Mahalla Al Kobra",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 194,
+                  "name_ar": "كفر الزيات",
+                  "name_en": "Kafr El Zayat",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 195,
+                  "name_ar": "زفتى",
+                  "name_en": "Zefta",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 196,
+                  "name_ar": "السنطة",
+                  "name_en": "El Santa",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 197,
+                  "name_ar": "قطور",
+                  "name_en": "Qutour",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 198,
+                  "name_ar": "بسيون",
+                  "name_en": "Basion",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 199,
+                  "name_ar": "سمنود",
+                  "name_en": "Samannoud",
+                  "government_id": 8,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 200,
+                  "name_ar": "الإسماعيلية",
+                  "name_en": "Ismailia",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 201,
+                  "name_ar": "فايد",
+                  "name_en": "Fayed",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 202,
+                  "name_ar": "القنطرة شرق",
+                  "name_en": "Qantara Sharq",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 203,
+                  "name_ar": "القنطرة غرب",
+                  "name_en": "Qantara Gharb",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 204,
+                  "name_ar": "التل الكبير",
+                  "name_en": "El Tal El Kabier",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 205,
+                  "name_ar": "أبو صوير",
+                  "name_en": "Abu Sawir",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 206,
+                  "name_ar": "القصاصين الجديدة",
+                  "name_en": "Kasasien El Gedida",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 207,
+                  "name_ar": "نفيشة",
+                  "name_en": "Nefesha",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 208,
+                  "name_ar": "الشيخ زايد",
+                  "name_en": "Sheikh Zayed",
+                  "government_id": 9,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 209,
+                  "name_ar": "شبين الكوم",
+                  "name_en": "Shbeen El Koom",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 210,
+                  "name_ar": "مدينة السادات",
+                  "name_en": "Sadat City",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 211,
+                  "name_ar": "منوف",
+                  "name_en": "Menouf",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 212,
+                  "name_ar": "سرس الليان",
+                  "name_en": "Sars El-Layan",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 213,
+                  "name_ar": "أشمون",
+                  "name_en": "Ashmon",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 214,
+                  "name_ar": "الباجور",
+                  "name_en": "Al Bagor",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 215,
+                  "name_ar": "قويسنا",
+                  "name_en": "Quesna",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 216,
+                  "name_ar": "بركة السبع",
+                  "name_en": "Berkat El Saba",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 217,
+                  "name_ar": "تلا",
+                  "name_en": "Tala",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 218,
+                  "name_ar": "الشهداء",
+                  "name_en": "Al Shohada",
+                  "government_id": 10,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 219,
+                  "name_ar": "المنيا",
+                  "name_en": "Minya",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 220,
+                  "name_ar": "المنيا الجديدة",
+                  "name_en": "Minya El Gedida",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 221,
+                  "name_ar": "العدوة",
+                  "name_en": "El Adwa",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 222,
+                  "name_ar": "مغاغة",
+                  "name_en": "Magagha",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 223,
+                  "name_ar": "بني مزار",
+                  "name_en": "Bani Mazar",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 224,
+                  "name_ar": "مطاي",
+                  "name_en": "Mattay",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 225,
+                  "name_ar": "سمالوط",
+                  "name_en": "Samalut",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 226,
+                  "name_ar": "المدينة الفكرية",
+                  "name_en": "Madinat El Fekria",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 227,
+                  "name_ar": "ملوي",
+                  "name_en": "Meloy",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 228,
+                  "name_ar": "دير مواس",
+                  "name_en": "Deir Mawas",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 229,
+                  "name_ar": "ابو قرقاص",
+                  "name_en": "Abu Qurqas",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 230,
+                  "name_ar": "ارض سلطان",
+                  "name_en": "Ard Sultan",
+                  "government_id": 11,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 231,
+                  "name_ar": "بنها",
+                  "name_en": "Banha",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 232,
+                  "name_ar": "قليوب",
+                  "name_en": "Qalyub",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 233,
+                  "name_ar": "شبرا الخيمة",
+                  "name_en": "Shubra Al Khaimah",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 234,
+                  "name_ar": "القناطر الخيرية",
+                  "name_en": "Al Qanater Charity",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 235,
+                  "name_ar": "الخانكة",
+                  "name_en": "Khanka",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 236,
+                  "name_ar": "كفر شكر",
+                  "name_en": "Kafr Shukr",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 237,
+                  "name_ar": "طوخ",
+                  "name_en": "Tukh",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 238,
+                  "name_ar": "قها",
+                  "name_en": "Qaha",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 239,
+                  "name_ar": "العبور",
+                  "name_en": "Obour",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 240,
+                  "name_ar": "الخصوص",
+                  "name_en": "Khosous",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 241,
+                  "name_ar": "شبين القناطر",
+                  "name_en": "Shibin Al Qanater",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 242,
+                  "name_ar": "مسطرد",
+                  "name_en": "Mostorod",
+                  "government_id": 12,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 243,
+                  "name_ar": "الخارجة",
+                  "name_en": "El Kharga",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 244,
+                  "name_ar": "باريس",
+                  "name_en": "Paris",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 245,
+                  "name_ar": "موط",
+                  "name_en": "Mout",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 246,
+                  "name_ar": "الفرافرة",
+                  "name_en": "Farafra",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 247,
+                  "name_ar": "بلاط",
+                  "name_en": "Balat",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 248,
+                  "name_ar": "الداخلة",
+                  "name_en": "Dakhla",
+                  "government_id": 13,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 249,
+                  "name_ar": "السويس",
+                  "name_en": "Suez",
+                  "government_id": 14,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 250,
+                  "name_ar": "الجناين",
+                  "name_en": "Alganayen",
+                  "government_id": 14,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 251,
+                  "name_ar": "عتاقة",
+                  "name_en": "Ataqah",
+                  "government_id": 14,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 252,
+                  "name_ar": "العين السخنة",
+                  "name_en": "Ain Sokhna",
+                  "government_id": 14,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 253,
+                  "name_ar": "فيصل",
+                  "name_en": "Faysal",
+                  "government_id": 14,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 254,
+                  "name_ar": "أسوان",
+                  "name_en": "Aswan",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 255,
+                  "name_ar": "أسوان الجديدة",
+                  "name_en": "Aswan El Gedida",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 256,
+                  "name_ar": "دراو",
+                  "name_en": "Drau",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 257,
+                  "name_ar": "كوم أمبو",
+                  "name_en": "Kom Ombo",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 258,
+                  "name_ar": "نصر النوبة",
+                  "name_en": "Nasr Al Nuba",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 259,
+                  "name_ar": "كلابشة",
+                  "name_en": "Kalabsha",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 260,
+                  "name_ar": "إدفو",
+                  "name_en": "Edfu",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 261,
+                  "name_ar": "الرديسية",
+                  "name_en": "Al-Radisiyah",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 262,
+                  "name_ar": "البصيلية",
+                  "name_en": "Al Basilia",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 263,
+                  "name_ar": "السباعية",
+                  "name_en": "Al Sibaeia",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 264,
+                  "name_ar": "ابوسمبل السياحية",
+                  "name_en": "Abo Simbl Al Siyahia",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 265,
+                  "name_ar": "مرسى علم",
+                  "name_en": "Marsa Alam",
+                  "government_id": 15,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 266,
+                  "name_ar": "أسيوط",
+                  "name_en": "Assiut",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 267,
+                  "name_ar": "أسيوط الجديدة",
+                  "name_en": "Assiut El Gedida",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 268,
+                  "name_ar": "ديروط",
+                  "name_en": "Dayrout",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 269,
+                  "name_ar": "منفلوط",
+                  "name_en": "Manfalut",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 270,
+                  "name_ar": "القوصية",
+                  "name_en": "Qusiya",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 271,
+                  "name_ar": "أبنوب",
+                  "name_en": "Abnoub",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 272,
+                  "name_ar": "أبو تيج",
+                  "name_en": "Abu Tig",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 273,
+                  "name_ar": "الغنايم",
+                  "name_en": "El Ghanaim",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 274,
+                  "name_ar": "ساحل سليم",
+                  "name_en": "Sahel Selim",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 275,
+                  "name_ar": "البداري",
+                  "name_en": "El Badari",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 276,
+                  "name_ar": "صدفا",
+                  "name_en": "Sidfa",
+                  "government_id": 16,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 277,
+                  "name_ar": "بني سويف",
+                  "name_en": "Bani Sweif",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 278,
+                  "name_ar": "بني سويف الجديدة",
+                  "name_en": "Beni Suef El Gedida",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 279,
+                  "name_ar": "الواسطى",
+                  "name_en": "Al Wasta",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 280,
+                  "name_ar": "ناصر",
+                  "name_en": "Naser",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 281,
+                  "name_ar": "إهناسيا",
+                  "name_en": "Ehnasia",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 282,
+                  "name_ar": "ببا",
+                  "name_en": "beba",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 283,
+                  "name_ar": "الفشن",
+                  "name_en": "Fashn",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 284,
+                  "name_ar": "سمسطا",
+                  "name_en": "Somasta",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 285,
+                  "name_ar": "الاباصيرى",
+                  "name_en": "Alabbaseri",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 286,
+                  "name_ar": "مقبل",
+                  "name_en": "Mokbel",
+                  "government_id": 17,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 287,
+                  "name_ar": "بورسعيد",
+                  "name_en": "PorSaid",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 288,
+                  "name_ar": "بورفؤاد",
+                  "name_en": "Port Fouad",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 289,
+                  "name_ar": "العرب",
+                  "name_en": "Alarab",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 290,
+                  "name_ar": "حى الزهور",
+                  "name_en": "Zohour",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 291,
+                  "name_ar": "حى الشرق",
+                  "name_en": "Alsharq",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 292,
+                  "name_ar": "حى الضواحى",
+                  "name_en": "Aldawahi",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 293,
+                  "name_ar": "حى المناخ",
+                  "name_en": "Almanakh",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 294,
+                  "name_ar": "حى مبارك",
+                  "name_en": "Mubarak",
+                  "government_id": 18,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 295,
+                  "name_ar": "دمياط",
+                  "name_en": "Damietta",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 296,
+                  "name_ar": "دمياط الجديدة",
+                  "name_en": "New Damietta",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 297,
+                  "name_ar": "رأس البر",
+                  "name_en": "Ras El Bar",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 298,
+                  "name_ar": "فارسكور",
+                  "name_en": "Faraskour",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 299,
+                  "name_ar": "الزرقا",
+                  "name_en": "Zarqa",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 300,
+                  "name_ar": "السرو",
+                  "name_en": "alsaru",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 301,
+                  "name_ar": "الروضة",
+                  "name_en": "alruwda",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 302,
+                  "name_ar": "كفر البطيخ",
+                  "name_en": "Kafr El-Batikh",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 303,
+                  "name_ar": "عزبة البرج",
+                  "name_en": "Azbet Al Burg",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 304,
+                  "name_ar": "ميت أبو غالب",
+                  "name_en": "Meet Abou Ghalib",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 305,
+                  "name_ar": "كفر سعد",
+                  "name_en": "Kafr Saad",
+                  "government_id": 19,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 306,
+                  "name_ar": "الزقازيق",
+                  "name_en": "Zagazig",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 307,
+                  "name_ar": "العاشر من رمضان",
+                  "name_en": "Al Ashr Men Ramadan",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 308,
+                  "name_ar": "منيا القمح",
+                  "name_en": "Minya Al Qamh",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 309,
+                  "name_ar": "بلبيس",
+                  "name_en": "Belbeis",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 310,
+                  "name_ar": "مشتول السوق",
+                  "name_en": "Mashtoul El Souq",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 311,
+                  "name_ar": "القنايات",
+                  "name_en": "Qenaiat",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 312,
+                  "name_ar": "أبو حماد",
+                  "name_en": "Abu Hammad",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 313,
+                  "name_ar": "القرين",
+                  "name_en": "El Qurain",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 314,
+                  "name_ar": "ههيا",
+                  "name_en": "Hehia",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 315,
+                  "name_ar": "أبو كبير",
+                  "name_en": "Abu Kabir",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 316,
+                  "name_ar": "فاقوس",
+                  "name_en": "Faccus",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 317,
+                  "name_ar": "الصالحية الجديدة",
+                  "name_en": "El Salihia El Gedida",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 318,
+                  "name_ar": "الإبراهيمية",
+                  "name_en": "Al Ibrahimiyah",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 319,
+                  "name_ar": "ديرب نجم",
+                  "name_en": "Deirb Negm",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 320,
+                  "name_ar": "كفر صقر",
+                  "name_en": "Kafr Saqr",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 321,
+                  "name_ar": "أولاد صقر",
+                  "name_en": "Awlad Saqr",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 322,
+                  "name_ar": "الحسينية",
+                  "name_en": "Husseiniya",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 323,
+                  "name_ar": "صان الحجر القبلية",
+                  "name_en": "san alhajar alqablia",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 324,
+                  "name_ar": "منشأة أبو عمر",
+                  "name_en": "Manshayat Abu Omar",
+                  "government_id": 20,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 325,
+                  "name_ar": "الطور",
+                  "name_en": "Al Toor",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 326,
+                  "name_ar": "شرم الشيخ",
+                  "name_en": "Sharm El-Shaikh",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 327,
+                  "name_ar": "دهب",
+                  "name_en": "Dahab",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 328,
+                  "name_ar": "نويبع",
+                  "name_en": "Nuweiba",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 329,
+                  "name_ar": "طابا",
+                  "name_en": "Taba",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 330,
+                  "name_ar": "سانت كاترين",
+                  "name_en": "Saint Catherine",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 331,
+                  "name_ar": "أبو رديس",
+                  "name_en": "Abu Redis",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 332,
+                  "name_ar": "أبو زنيمة",
+                  "name_en": "Abu Zenaima",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 333,
+                  "name_ar": "رأس سدر",
+                  "name_en": "Ras Sidr",
+                  "government_id": 21,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 334,
+                  "name_ar": "كفر الشيخ",
+                  "name_en": "Kafr El Sheikh",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 335,
+                  "name_ar": "وسط البلد كفر الشيخ",
+                  "name_en": "Kafr El Sheikh Downtown",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 336,
+                  "name_ar": "دسوق",
+                  "name_en": "Desouq",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 337,
+                  "name_ar": "فوه",
+                  "name_en": "Fooh",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 338,
+                  "name_ar": "مطوبس",
+                  "name_en": "Metobas",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 339,
+                  "name_ar": "برج البرلس",
+                  "name_en": "Burg Al Burullus",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 340,
+                  "name_ar": "بلطيم",
+                  "name_en": "Baltim",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 341,
+                  "name_ar": "مصيف بلطيم",
+                  "name_en": "Masief Baltim",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 342,
+                  "name_ar": "الحامول",
+                  "name_en": "Hamol",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 343,
+                  "name_ar": "بيلا",
+                  "name_en": "Bella",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 344,
+                  "name_ar": "الرياض",
+                  "name_en": "Riyadh",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 345,
+                  "name_ar": "سيدي سالم",
+                  "name_en": "Sidi Salm",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 346,
+                  "name_ar": "قلين",
+                  "name_en": "Qellen",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 347,
+                  "name_ar": "سيدي غازي",
+                  "name_en": "Sidi Ghazi",
+                  "government_id": 22,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 348,
+                  "name_ar": "مرسى مطروح",
+                  "name_en": "Marsa Matrouh",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 349,
+                  "name_ar": "الحمام",
+                  "name_en": "El Hamam",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 350,
+                  "name_ar": "العلمين",
+                  "name_en": "Alamein",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 351,
+                  "name_ar": "الضبعة",
+                  "name_en": "Dabaa",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 352,
+                  "name_ar": "النجيلة",
+                  "name_en": "Al-Nagila",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 353,
+                  "name_ar": "سيدي براني",
+                  "name_en": "Sidi Brani",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 354,
+                  "name_ar": "السلوم",
+                  "name_en": "Salloum",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 355,
+                  "name_ar": "سيوة",
+                  "name_en": "Siwa",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 356,
+                  "name_ar": "مارينا",
+                  "name_en": "Marina",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 357,
+                  "name_ar": "الساحل الشمالى",
+                  "name_en": "North Coast",
+                  "government_id": 23,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 358,
+                  "name_ar": "الأقصر",
+                  "name_en": "Luxor",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 359,
+                  "name_ar": "الأقصر الجديدة",
+                  "name_en": "New Luxor",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 360,
+                  "name_ar": "إسنا",
+                  "name_en": "Esna",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 361,
+                  "name_ar": "طيبة الجديدة",
+                  "name_en": "New Tiba",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 362,
+                  "name_ar": "الزينية",
+                  "name_en": "Al ziynia",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 363,
+                  "name_ar": "البياضية",
+                  "name_en": "Al Bayadieh",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 364,
+                  "name_ar": "القرنة",
+                  "name_en": "Al Qarna",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 365,
+                  "name_ar": "أرمنت",
+                  "name_en": "Armant",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 366,
+                  "name_ar": "الطود",
+                  "name_en": "Al Tud",
+                  "government_id": 24,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 367,
+                  "name_ar": "قنا",
+                  "name_en": "Qena",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 368,
+                  "name_ar": "قنا الجديدة",
+                  "name_en": "New Qena",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 369,
+                  "name_ar": "ابو طشت",
+                  "name_en": "Abu Tesht",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 370,
+                  "name_ar": "نجع حمادي",
+                  "name_en": "Nag Hammadi",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 371,
+                  "name_ar": "دشنا",
+                  "name_en": "Deshna",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 372,
+                  "name_ar": "الوقف",
+                  "name_en": "Alwaqf",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 373,
+                  "name_ar": "قفط",
+                  "name_en": "Qaft",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 374,
+                  "name_ar": "نقادة",
+                  "name_en": "Naqada",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 375,
+                  "name_ar": "فرشوط",
+                  "name_en": "Farshout",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 376,
+                  "name_ar": "قوص",
+                  "name_en": "Quos",
+                  "government_id": 25,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 377,
+                  "name_ar": "العريش",
+                  "name_en": "Arish",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 378,
+                  "name_ar": "الشيخ زويد",
+                  "name_en": "Sheikh Zowaid",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 379,
+                  "name_ar": "نخل",
+                  "name_en": "Nakhl",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 380,
+                  "name_ar": "رفح",
+                  "name_en": "Rafah",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 381,
+                  "name_ar": "بئر العبد",
+                  "name_en": "Bir al-Abed",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 382,
+                  "name_ar": "الحسنة",
+                  "name_en": "Al Hasana",
+                  "government_id": 26,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 383,
+                  "name_ar": "سوهاج",
+                  "name_en": "Sohag",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 384,
+                  "name_ar": "سوهاج الجديدة",
+                  "name_en": "Sohag El Gedida",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 385,
+                  "name_ar": "أخميم",
+                  "name_en": "Akhmeem",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 386,
+                  "name_ar": "أخميم الجديدة",
+                  "name_en": "Akhmim El Gedida",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 387,
+                  "name_ar": "البلينا",
+                  "name_en": "Albalina",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 388,
+                  "name_ar": "المراغة",
+                  "name_en": "El Maragha",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 389,
+                  "name_ar": "المنشأة",
+                  "name_en": "almunsha'a",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 390,
+                  "name_ar": "دار السلام",
+                  "name_en": "Dar AISalaam",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 391,
+                  "name_ar": "جرجا",
+                  "name_en": "Gerga",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 392,
+                  "name_ar": "جهينة الغربية",
+                  "name_en": "Jahina Al Gharbia",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 393,
+                  "name_ar": "ساقلته",
+                  "name_en": "Saqilatuh",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 394,
+                  "name_ar": "طما",
+                  "name_en": "Tama",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 395,
+                  "name_ar": "طهطا",
+                  "name_en": "Tahta",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 396,
+                  "name_ar": "الكوثر",
+                  "name_en": "Alkawthar",
+                  "government_id": 27,
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              }
+          ]
+      }
+order: 1000

@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/promocode/send-promocodes"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"promocode_id\": 1,\r
+
+    \    \"users\": [1, 59, 3]\r
+
+    }"
+examples: ./.resources/send promocodes to users.resources/examples
+order: 6000

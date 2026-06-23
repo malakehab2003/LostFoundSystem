@@ -1,0 +1,50 @@
+$kind: http-example
+request:
+  url: "{{base}}/address/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"home\",\r
+
+      \    \"address\": \"23 elnahas street\",\r
+
+      \    \"city\": \"tanta\",\r
+
+      \    \"country\": \"egypt\",\r
+
+      \    \"state\": \"gharbia\",\r
+
+      \    \"postal_code\": \"21311\"\r
+
+      }\r\n"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "169"
+    ETag: W/"a9-DrOiZGSj5CmMjHWbKliJ7Z+egSE"
+    Date: Mon, 05 Jan 2026 11:33:36 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Address added successfully",
+          "Address": {
+              "name": "home",
+              "address": "23 elnahas street",
+              "city": "tanta",
+              "state": "gharbia",
+              "country": "egypt",
+              "postal_code": "21311"
+          }
+      }
+order: 1000

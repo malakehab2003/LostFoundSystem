@@ -1,0 +1,86 @@
+$kind: http-example
+request:
+  url: "{{base}}/cart/list"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "994"
+    ETag: W/"3e2-+e2+1GfgcaipgrDFGEtenge2ig4"
+    Date: Wed, 04 Feb 2026 00:57:49 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "cart": [
+              {
+                  "id": 46,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:48:47.000Z",
+                  "updated_at": "2026-02-04T00:48:47.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              },
+              {
+                  "id": 47,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:48:51.000Z",
+                  "updated_at": "2026-02-04T00:48:51.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              },
+              {
+                  "id": 48,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:51:11.000Z",
+                  "updated_at": "2026-02-04T00:51:11.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              },
+              {
+                  "id": 49,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:57:14.000Z",
+                  "updated_at": "2026-02-04T00:57:14.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              },
+              {
+                  "id": 50,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:57:40.000Z",
+                  "updated_at": "2026-02-04T00:57:40.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              },
+              {
+                  "id": 51,
+                  "quantity": 32,
+                  "color": "yellow",
+                  "size": "XXXL",
+                  "created_at": "2026-02-04T00:57:41.000Z",
+                  "updated_at": "2026-02-04T00:57:41.000Z",
+                  "user_id": 59,
+                  "product_id": 13
+              }
+          ]
+      }
+order: 1000

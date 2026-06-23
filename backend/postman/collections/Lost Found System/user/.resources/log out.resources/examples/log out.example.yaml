@@ -1,0 +1,34 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/logOut"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: text
+    content: "{\r
+
+      \    \"email\": \"hamo@gmail.com\",\r
+
+      \    \"password\": \"hamo@123\"\r
+
+      }\r\n"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "37"
+    ETag: W/"25-71uUsMgZY3FdZp9j1h5YMrBIOgg"
+    Date: Mon, 29 Dec 2025 13:48:06 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Logged out successfully"
+      }
+order: 1000

@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/message/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"content\": \"Hiiiiiii\",\r
+
+    \    \"chat_id\": 26\r
+
+    }"
+examples: ./.resources/create message.resources/examples
+order: 1000

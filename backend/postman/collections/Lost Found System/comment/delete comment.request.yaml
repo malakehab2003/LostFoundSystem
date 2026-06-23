@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/comment/delete/6"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/delete comment.resources/examples
+order: 2000

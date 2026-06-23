@@ -1,0 +1,41 @@
+$kind: http-example
+request:
+  url: "{{base}}/product/image/addImages"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: formdata
+    content:
+      - type: text
+        key: product_id
+        value: "1"
+      - type: file
+        key: images
+        src:
+          - /D:/baba/insurance cards/malak card.jpg
+      - type: text
+        key: owner_id
+        value: "1"
+      - type: text
+        key: owner_type
+        value: product
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "39"
+    ETag: W/"27-VESb/ZSoAc1ghcdilJiA8f9Qls0"
+    Date: Mon, 27 Apr 2026 03:17:26 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Images Added Successfully"
+      }
+order: 2000

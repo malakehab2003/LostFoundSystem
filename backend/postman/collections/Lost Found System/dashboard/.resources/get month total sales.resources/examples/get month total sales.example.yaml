@@ -1,0 +1,143 @@
+$kind: http-example
+request:
+  url: "{{base}}/dashboard/month-orders?month=3&year=2026"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  queryParams:
+    month: "3"
+    year: "2026"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "2153"
+    ETag: W/"869-3Ti7uXTUY4rQeqouG4Me5pMnYcM"
+    Date: Sat, 07 Mar 2026 10:59:37 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "month": "3",
+          "year": "2026",
+          "orders": [
+              {
+                  "id": 1,
+                  "total_price": "250.00",
+                  "order_status": "processing",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 1,
+                  "user_id": 1,
+                  "promocode_id": 1
+              },
+              {
+                  "id": 2,
+                  "total_price": "1200.50",
+                  "order_status": "shipped",
+                  "payment_type": "card",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 2,
+                  "user_id": 2,
+                  "promocode_id": null
+              },
+              {
+                  "id": 3,
+                  "total_price": "99.99",
+                  "order_status": "cancelled",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": null,
+                  "user_id": 3,
+                  "promocode_id": 2
+              },
+              {
+                  "id": 4,
+                  "total_price": "560.00",
+                  "order_status": "cancelled",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 3,
+                  "user_id": 4,
+                  "promocode_id": null
+              },
+              {
+                  "id": 5,
+                  "total_price": "780.75",
+                  "order_status": "processing",
+                  "payment_type": "card",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 4,
+                  "user_id": 5,
+                  "promocode_id": 3
+              },
+              {
+                  "id": 6,
+                  "total_price": "300.00",
+                  "order_status": "delivered",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": null,
+                  "user_id": 1,
+                  "promocode_id": null
+              },
+              {
+                  "id": 7,
+                  "total_price": "1500.00",
+                  "order_status": "shipped",
+                  "payment_type": "card",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 2,
+                  "user_id": 2,
+                  "promocode_id": 4
+              },
+              {
+                  "id": 8,
+                  "total_price": "45.00",
+                  "order_status": "processing",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": null,
+                  "user_id": 3,
+                  "promocode_id": null
+              },
+              {
+                  "id": 9,
+                  "total_price": "999.99",
+                  "order_status": "delivered",
+                  "payment_type": "cash",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 5,
+                  "user_id": 4,
+                  "promocode_id": 5
+              },
+              {
+                  "id": 10,
+                  "total_price": "670.40",
+                  "order_status": "processing",
+                  "payment_type": "card",
+                  "created_at": "2026-03-07T10:54:18.000Z",
+                  "updated_at": "2026-03-07T10:54:18.000Z",
+                  "address_id": 4,
+                  "user_id": 5,
+                  "promocode_id": null
+              }
+          ],
+          "totalOrders": 10,
+          "totalRevenue": 6406.63
+      }
+order: 1000

@@ -1,0 +1,79 @@
+$kind: http-example
+name: create product
+request:
+  url: "{{base}}/product/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: images
+        src:
+          - /D:/baba/insurance cards/malak card.jpg
+      - type: text
+        key: name
+        value: air jordon
+      - type: text
+        key: price
+        value: "200"
+      - type: text
+        key: sale
+        value: "20"
+      - type: text
+        key: status
+        value: active
+      - type: text
+        key: stock
+        value: "5"
+      - type: text
+        key: colors
+        value: black
+      - type: text
+        key: sizes
+        value: L
+      - type: text
+        key: description
+        value: i am new
+      - type: text
+        key: category_id
+        value: "1"
+      - type: text
+        key: brand_id
+        value: "1"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "322"
+    ETag: W/"142-PlVroxnNKUZ7c+re2Wm/J0IRJ5s"
+    Date: Mon, 27 Apr 2026 02:58:50 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Product created successfully",
+          "product": {
+              "rate": 0,
+              "id": 15,
+              "name": "air jordon",
+              "price": "200",
+              "status": "active",
+              "stock": "5",
+              "colors": "black",
+              "sizes": "L",
+              "description": "i am new",
+              "brand_id": "1",
+              "sale": "20",
+              "product_category_id": "1",
+              "updated_at": "2026-04-27T02:58:46.226Z",
+              "created_at": "2026-04-27T02:58:46.226Z"
+          }
+      }
+order: 2000

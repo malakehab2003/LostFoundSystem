@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{base}}/item/category/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"name\": \"new\"\r\n}"
+order: 2000

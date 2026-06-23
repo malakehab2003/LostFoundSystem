@@ -1,0 +1,42 @@
+$kind: http-request
+description: |-
+  category_id, title, date, type, place are requried
+
+  other is not required
+
+  user_id got from the token
+url: "{{base}}/item/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"new\",\r
+
+    \    \"government_id\": 1,\r
+
+    \    \"city_id\": 1,\r
+
+    \    \"place\": \"transportation\",\r
+
+    \    \"type\": \"found\",\r
+
+    \    \"description\": \"i lost this item help please\",\r
+
+    \    \"category_id\": 3,\r
+
+    \    \"date\": \"2025-12-01\",\r
+
+    \    \"images_url\": [\r
+
+    \        \"image1.png\",\r
+
+    \        \"image2.jpg\"\r
+
+    \    ]\r
+
+    }"
+examples: ./.resources/create item.resources/examples
+order: 3000

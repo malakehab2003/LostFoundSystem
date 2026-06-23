@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base}}/city/list"
+method: GET
+examples: ./.resources/list cities.resources/examples
+order: 1000

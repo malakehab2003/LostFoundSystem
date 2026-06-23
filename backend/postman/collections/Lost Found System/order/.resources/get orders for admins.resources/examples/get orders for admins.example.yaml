@@ -1,0 +1,82 @@
+$kind: http-example
+request:
+  url: "{{base}}/order/getOrders?user_id=1"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  queryParams:
+    user_id: "1"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "995"
+    ETag: W/"3e3-QZ/acPFf7cvQmFVA3t+cvfV7ml0"
+    Date: Thu, 12 Feb 2026 19:11:46 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "orders": [
+              {
+                  "id": 1,
+                  "total_price": "250.00",
+                  "order_status": "processing",
+                  "receive_type": "delivery",
+                  "payment_type": "cash",
+                  "created_at": "2026-02-12T00:00:49.000Z",
+                  "updated_at": "2026-02-12T00:00:49.000Z",
+                  "address_id": 1,
+                  "user_id": 1,
+                  "promo_code_id": 1,
+                  "user": {
+                      "id": 1,
+                      "name": "Alice Johnson"
+                  },
+                  "address": {
+                      "id": 1,
+                      "name": "Home",
+                      "landmark": null,
+                      "address": "12 Tahrir Street",
+                      "city_id": 1,
+                      "government_id": 1,
+                      "user_id": 1,
+                      "postal_code": "11511",
+                      "created_at": "2026-02-12T00:00:49.000Z",
+                      "updated_at": "2026-02-12T00:00:49.000Z"
+                  },
+                  "promocode": {
+                      "id": 1,
+                      "code": "WELCOME10",
+                      "description": "10% discount for new users",
+                      "discount": "10.00",
+                      "created_at": "2026-02-12T00:00:49.000Z",
+                      "updated_at": "2026-02-12T00:00:49.000Z"
+                  }
+              },
+              {
+                  "id": 6,
+                  "total_price": "300.00",
+                  "order_status": "delivered",
+                  "receive_type": "pickup",
+                  "payment_type": "cash",
+                  "created_at": "2026-02-12T00:00:49.000Z",
+                  "updated_at": "2026-02-12T00:00:49.000Z",
+                  "address_id": null,
+                  "user_id": 1,
+                  "promo_code_id": null,
+                  "user": {
+                      "id": 1,
+                      "name": "Alice Johnson"
+                  },
+                  "address": null,
+                  "promocode": null
+              }
+          ]
+      }
+order: 1000

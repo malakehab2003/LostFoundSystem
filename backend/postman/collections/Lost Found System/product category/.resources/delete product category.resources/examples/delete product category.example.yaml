@@ -1,0 +1,25 @@
+$kind: http-example
+request:
+  url: "{{base}}/productCategory/delete/11"
+  method: DELETE
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "50"
+    ETag: W/"32-0S7el32Dp1v/cQ/UcMFy1dAWRoc"
+    Date: Sun, 18 Jan 2026 16:15:05 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "ProductCategory deleted successfully"
+      }
+order: 1000

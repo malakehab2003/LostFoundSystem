@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{base}}/item/category/update/11"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"update new\"\r
+
+    }"
+order: 3000

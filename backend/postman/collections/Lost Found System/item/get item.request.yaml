@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base}}/item/getItem/30"
+method: GET
+examples: ./.resources/get item.resources/examples
+order: 2000

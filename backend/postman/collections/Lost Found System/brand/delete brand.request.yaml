@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/brand/delete/6"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/delete brand.resources/examples
+order: 4000

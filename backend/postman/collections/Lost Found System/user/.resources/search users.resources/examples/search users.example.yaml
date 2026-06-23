@@ -1,0 +1,103 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/searchUser?q=ha"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  queryParams:
+    q: ha
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "970"
+    ETag: W/"3ca-pT9UO7EW5i1G6oJlMNwS52JETjs"
+    Date: Wed, 11 Feb 2026 22:51:51 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "users": [
+              {
+                  "id": 12,
+                  "name": "Mohamed Hassan",
+                  "email": "mohamed.hassan@example.com"
+              },
+              {
+                  "id": 16,
+                  "name": "Omar Khaled",
+                  "email": "omar.khaled@example.com"
+              },
+              {
+                  "id": 18,
+                  "name": "Khaled Nour",
+                  "email": "khaled.nour@example.com"
+              },
+              {
+                  "id": 19,
+                  "name": "Hana Tarek",
+                  "email": "hana.tarek@example.com"
+              },
+              {
+                  "id": 23,
+                  "name": "Nourhan Salah",
+                  "email": "nourhan.salah@example.com"
+              },
+              {
+                  "id": 25,
+                  "name": "Rana Ehab",
+                  "email": "rana.ehab@example.com"
+              },
+              {
+                  "id": 31,
+                  "name": "Hadia Omar",
+                  "email": "hadia.omar@example.com"
+              },
+              {
+                  "id": 32,
+                  "name": "Adham Saber",
+                  "email": "adham.saber@example.com"
+              },
+              {
+                  "id": 33,
+                  "name": "Dana Khalil",
+                  "email": "dana.khalil@example.com"
+              },
+              {
+                  "id": 35,
+                  "name": "Hager Nabil",
+                  "email": "hager.nabil@example.com"
+              },
+              {
+                  "id": 45,
+                  "name": "Lina Rashad",
+                  "email": "lina.rashad@example.com"
+              },
+              {
+                  "id": 46,
+                  "name": "Hamza Eid",
+                  "email": "hamza.eid@example.com"
+              },
+              {
+                  "id": 51,
+                  "name": "Dalia Hassan",
+                  "email": "dalia.hassan@example.com"
+              },
+              {
+                  "id": 57,
+                  "name": "Hala Nasser",
+                  "email": "hala.nasser@example.com"
+              },
+              {
+                  "id": 59,
+                  "name": "hamo",
+                  "email": "hamo@gmail.com"
+              }
+          ]
+      }
+order: 1000

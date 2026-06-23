@@ -1,0 +1,213 @@
+$kind: http-example
+request:
+  url: "{{base}}/government/list"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "3733"
+    ETag: W/"e95-aJk/59xt4GiPIyv7P/F9VzjoTHs"
+    Date: Tue, 03 Feb 2026 19:33:27 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "governments": [
+              {
+                  "id": 1,
+                  "name_ar": "القاهرة",
+                  "name_en": "Cairo",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 2,
+                  "name_ar": "الجيزة",
+                  "name_en": "Giza",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 3,
+                  "name_ar": "الأسكندرية",
+                  "name_en": "Alexandria",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 4,
+                  "name_ar": "الدقهلية",
+                  "name_en": "Dakahlia",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 5,
+                  "name_ar": "البحر الأحمر",
+                  "name_en": "Red Sea",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 6,
+                  "name_ar": "البحيرة",
+                  "name_en": "Beheira",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 7,
+                  "name_ar": "الفيوم",
+                  "name_en": "Fayoum",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 8,
+                  "name_ar": "الغربية",
+                  "name_en": "Gharbiya",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 9,
+                  "name_ar": "الإسماعلية",
+                  "name_en": "Ismailia",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 10,
+                  "name_ar": "المنوفية",
+                  "name_en": "Menofia",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 11,
+                  "name_ar": "المنيا",
+                  "name_en": "Minya",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 12,
+                  "name_ar": "القليوبية",
+                  "name_en": "Qaliubiya",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 13,
+                  "name_ar": "الوادي الجديد",
+                  "name_en": "New Valley",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 14,
+                  "name_ar": "السويس",
+                  "name_en": "Suez",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 15,
+                  "name_ar": "اسوان",
+                  "name_en": "Aswan",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 16,
+                  "name_ar": "اسيوط",
+                  "name_en": "Assiut",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 17,
+                  "name_ar": "بني سويف",
+                  "name_en": "Beni Suef",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 18,
+                  "name_ar": "بورسعيد",
+                  "name_en": "Port Said",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 19,
+                  "name_ar": "دمياط",
+                  "name_en": "Damietta",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 20,
+                  "name_ar": "الشرقية",
+                  "name_en": "Sharkia",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 21,
+                  "name_ar": "جنوب سيناء",
+                  "name_en": "South Sinai",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 22,
+                  "name_ar": "كفر الشيخ",
+                  "name_en": "Kafr Al sheikh",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 23,
+                  "name_ar": "مطروح",
+                  "name_en": "Matrouh",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 24,
+                  "name_ar": "الأقصر",
+                  "name_en": "Luxor",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 25,
+                  "name_ar": "قنا",
+                  "name_en": "Qena",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 26,
+                  "name_ar": "شمال سيناء",
+                  "name_en": "North Sinai",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              },
+              {
+                  "id": 27,
+                  "name_ar": "سوهاج",
+                  "name_en": "Sohag",
+                  "created_at": "2026-01-26T22:56:10.000Z",
+                  "updated_at": "2026-01-26T22:56:10.000Z"
+              }
+          ]
+      }
+order: 1000

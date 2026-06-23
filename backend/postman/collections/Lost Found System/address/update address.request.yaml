@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/address/update/61"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Work\",\r
+
+    \    \"landmark\": \"school\"\r
+
+    }"
+examples: ./.resources/update address.resources/examples
+order: 3000

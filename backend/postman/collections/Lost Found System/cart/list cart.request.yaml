@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/cart/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/list cart.resources/examples
+order: 1000

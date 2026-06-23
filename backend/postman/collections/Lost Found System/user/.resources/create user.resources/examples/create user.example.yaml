@@ -1,0 +1,48 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/createUser"
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"hamo\",\r
+
+      \    \"dob\": \"2006-07-26\",\r
+
+      \    \"gender\": \"male\",\r
+
+      \    \"phone\": \"+201512345678\",\r
+
+      \    \"email\": \"hamo@gmail.com\",\r
+
+      \    \"password\": \"hamo@123\"\r
+
+      }\r\n"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "318"
+    ETag: W/"13e-awRkqZ25qvuwgyDZ2yDMKs9/5pM"
+    Date: Mon, 29 Dec 2025 12:24:03 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "User created successfully",
+          "token": "{{json_web_token_0f4o}}",
+          "user": {
+              "name": "hamo",
+              "dob": "2006-07-26",
+              "gender": "male",
+              "phone": "+201512345678",
+              "email": "hamo@gmail.com"
+          }
+      }
+order: 1000

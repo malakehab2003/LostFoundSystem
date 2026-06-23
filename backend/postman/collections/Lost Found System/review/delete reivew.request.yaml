@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{base}}/review/delete/11"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+order: 2000

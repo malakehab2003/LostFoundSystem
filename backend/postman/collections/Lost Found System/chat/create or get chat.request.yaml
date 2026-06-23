@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/chat/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"receiver_id\": 59\r\n}"
+examples: ./.resources/create or get chat.resources/examples
+order: 1000

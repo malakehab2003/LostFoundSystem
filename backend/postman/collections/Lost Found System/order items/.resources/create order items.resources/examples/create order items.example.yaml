@@ -1,0 +1,51 @@
+$kind: http-example
+request:
+  url: "{{base}}/order/item/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r\n    \"order_id\": 11\r\n}"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "277"
+    ETag: W/"115-X/9vIs8Ey7w2u61MmwXgMtOF2eU"
+    Date: Wed, 11 Feb 2026 21:37:52 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Items added to order successfully",
+          "items": [
+              {
+                  "order_id": 11,
+                  "quantity": 32,
+                  "color": "Brown",
+                  "size": "Small",
+                  "product_id": 10
+              },
+              {
+                  "order_id": 11,
+                  "quantity": 32,
+                  "color": "Black",
+                  "size": null,
+                  "product_id": 9
+              },
+              {
+                  "order_id": 11,
+                  "quantity": 32,
+                  "color": null,
+                  "size": null,
+                  "product_id": 8
+              }
+          ]
+      }
+order: 1000

@@ -1,0 +1,38 @@
+$kind: http-example
+request:
+  url: "{{base}}/notification/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"description\": \"this notification for you\",\r
+
+      \    \"message\": \"warning\",\r
+
+      \    \"user_ids\": [59],\r
+
+      \    \"sendToAll\": true\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "48"
+    ETag: W/"30-2YKY9+G+l9VzczqIPvq98+tvFlM"
+    Date: Thu, 12 Feb 2026 00:14:54 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Notifications created successfully"
+      }
+order: 1000

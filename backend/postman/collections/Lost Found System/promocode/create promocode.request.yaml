@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base}}/promocode/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"code\": \"discr50\",\r
+
+    \    \"discount\": 50,\r
+
+    \    \"description\": \"No discription needed\"\r
+
+    }"
+examples: ./.resources/create promocode.resources/examples
+order: 1000

@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base}}/user/delete"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: text
+  content: "{\r
+
+    \    \"dob\": \"2005-09-11\",\r
+
+    \    \"name\": \"new hamo\",\r
+
+    \    \"phone\": \"+201203214568\"\r
+
+    }\r\n"
+examples: ./.resources/delete user.resources/examples
+order: 5000

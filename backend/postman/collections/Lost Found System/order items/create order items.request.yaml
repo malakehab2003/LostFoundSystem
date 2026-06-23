@@ -1,0 +1,11 @@
+$kind: http-request
+description: take all items from cart and add them as order item after the purshase
+url: "{{base}}/order/item/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"order_id\": 11\r\n}"
+examples: ./.resources/create order items.resources/examples
+order: 2000

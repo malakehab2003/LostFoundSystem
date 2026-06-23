@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/dashboard"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/get dashboard.resources/examples
+order: 1000

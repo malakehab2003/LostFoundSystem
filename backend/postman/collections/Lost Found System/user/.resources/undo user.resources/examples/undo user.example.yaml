@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/undoDelete"
+  method: PUT
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"email\": \"hamo@gmail.com\",\r
+
+      \    \"password\": \"hamo@123\"\r
+
+      }\r\n"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "338"
+    ETag: W/"152-TkkNcp0zw4QCwLX5lBPISzgibTg"
+    Date: Mon, 29 Dec 2025 13:37:56 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "User undone successfully",
+          "user": {
+              "name": "new hamo",
+              "dob": "2005-09-11",
+              "phone": "+201203214568",
+              "email": "hamo@gmail.com",
+              "gender": "male",
+              "image_url": null
+          },
+          "token": "{{json_web_token_1di0}}"
+      }
+order: 1000

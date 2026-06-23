@@ -1,0 +1,43 @@
+$kind: http-request
+description: |-
+  **name, price, stock, description, category_id, brand_id, images_url  
+  all requried**
+
+  not requried
+
+  **rate, status, colors, sizes**
+url: "{{base}}/product/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"new\",\r
+
+    \    \"price\": 200,\r
+
+    \    \"sale\": 20,\r
+
+    \    \"rate\": 4,\r
+
+    \    \"status\": \"active\",\r
+
+    \    \"stock\": 100,\r
+
+    \    \"colors\": [\"black\", \"green\"],\r
+
+    \    \"sizes\": [\"L\", \"XL\"],\r
+
+    \    \"description\": \"this is new product\",\r
+
+    \    \"category_id\": 1,\r
+
+    \    \"brand_id\": 1,\r
+
+    \    \"images_url\": [\"image1.jpg\", \"image2.png\"]\r
+
+    }"
+examples: ./.resources/create product.resources/examples
+order: 3000

@@ -1,0 +1,232 @@
+$kind: http-example
+request:
+  url: "{{base}}/item/getMyItems"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "2922"
+    ETag: W/"b6a-0CGUcCKBNBZTal/FawiX+OEfUMw"
+    Date: Wed, 04 Feb 2026 01:57:49 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "items": [
+              {
+                  "id": 38,
+                  "title": "new",
+                  "government_id": 1,
+                  "city_id": 1,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-02-03T00:40:58.000Z",
+                  "updated_at": "2026-02-03T00:40:58.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [
+                      {
+                          "id": 13,
+                          "image_url": "image1.png"
+                      },
+                      {
+                          "id": 14,
+                          "image_url": "image2.jpg"
+                      }
+                  ],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": {
+                      "id": 1,
+                      "name_en": "Cairo",
+                      "name_ar": "القاهرة"
+                  },
+                  "city": {
+                      "id": 1,
+                      "name_en": "15 May",
+                      "name_ar": "15 مايو"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 37,
+                  "title": "new",
+                  "government_id": 1,
+                  "city_id": 1,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-02-03T00:40:37.000Z",
+                  "updated_at": "2026-02-03T00:40:37.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": {
+                      "id": 1,
+                      "name_en": "Cairo",
+                      "name_ar": "القاهرة"
+                  },
+                  "city": {
+                      "id": 1,
+                      "name_en": "15 May",
+                      "name_ar": "15 مايو"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 36,
+                  "title": "new",
+                  "government_id": 1,
+                  "city_id": 1,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-02-02T18:15:21.000Z",
+                  "updated_at": "2026-02-02T18:15:21.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": {
+                      "id": 1,
+                      "name_en": "Cairo",
+                      "name_ar": "القاهرة"
+                  },
+                  "city": {
+                      "id": 1,
+                      "name_en": "15 May",
+                      "name_ar": "15 مايو"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 35,
+                  "title": "new",
+                  "government_id": 1,
+                  "city_id": 1,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-02-01T14:37:53.000Z",
+                  "updated_at": "2026-02-01T14:37:53.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": {
+                      "id": 1,
+                      "name_en": "Cairo",
+                      "name_ar": "القاهرة"
+                  },
+                  "city": {
+                      "id": 1,
+                      "name_en": "15 May",
+                      "name_ar": "15 مايو"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 34,
+                  "title": "new",
+                  "government_id": null,
+                  "city_id": null,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-01-27T01:03:52.000Z",
+                  "updated_at": "2026-01-27T01:03:52.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": null,
+                  "city": null,
+                  "comments": []
+              },
+              {
+                  "id": 33,
+                  "title": "new",
+                  "government_id": null,
+                  "city_id": 1,
+                  "place": "transportation",
+                  "date": "2025-12-01",
+                  "type": "lost",
+                  "description": "i lost this item help please",
+                  "created_at": "2026-01-27T00:58:52.000Z",
+                  "updated_at": "2026-01-27T00:58:52.000Z",
+                  "user_id": 59,
+                  "item_category_id": 3,
+                  "category": {
+                      "id": 3,
+                      "name": "Shoes"
+                  },
+                  "images": [
+                      {
+                          "id": 15,
+                          "image_url": "firstImage.jpg"
+                      }
+                  ],
+                  "user": {
+                      "id": 59,
+                      "name": "hamo"
+                  },
+                  "government": null,
+                  "city": {
+                      "id": 1,
+                      "name_en": "15 May",
+                      "name_ar": "15 مايو"
+                  },
+                  "comments": []
+              }
+          ]
+      }
+order: 1000

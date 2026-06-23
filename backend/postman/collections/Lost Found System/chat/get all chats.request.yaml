@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/chat/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: text
+  content: "{\r\n    \"sender_id\": 1\r\n}"
+examples: ./.resources/get all chats.resources/examples
+order: 2000

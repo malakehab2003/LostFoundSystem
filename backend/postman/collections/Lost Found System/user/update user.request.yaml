@@ -1,0 +1,30 @@
+$kind: http-request
+description: |-
+  user can update
+
+  dob
+
+  name
+
+  phone
+
+  image_url
+
+  one or more
+url: "{{base}}/user/update"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"dob\": \"2005-09-11\",\r
+
+    \    \"name\": \"new hamo\",\r
+
+    \    \"phone\": \"+201203214568\"\r
+
+    }\r\n"
+examples: ./.resources/update user.resources/examples
+order: 4000

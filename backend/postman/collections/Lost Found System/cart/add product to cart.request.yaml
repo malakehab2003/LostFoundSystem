@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base}}/cart/addProduct"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"color\": \"Black\",\r
+
+    \    \"size\": \"Small\",\r
+
+    \    \"product_id\": 8,\r
+
+    \    \"quantity\": 32\r
+
+    }"
+examples: ./.resources/add product to cart.resources/examples
+order: 2000

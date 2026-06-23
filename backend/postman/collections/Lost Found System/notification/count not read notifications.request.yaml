@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/notification/notRead"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/count not read notifications.resources/examples
+order: 3000

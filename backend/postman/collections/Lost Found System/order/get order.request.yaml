@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/order/getOrder/11"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/get order.resources/examples
+order: 3000

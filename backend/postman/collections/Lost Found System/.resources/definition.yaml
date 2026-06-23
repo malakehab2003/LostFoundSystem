@@ -1,0 +1,5 @@
+$kind: collection
+variables:
+  auth_value: "{{bearer_token_00wq}}"
+  auth_key: ""
+  base: ""

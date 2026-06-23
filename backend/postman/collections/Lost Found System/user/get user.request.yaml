@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{base}}/user/getMe"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: text
+  content: "{\r
+
+    \    \"name\": \"hamo\",\r
+
+    \    \"age\": 20,\r
+
+    \    \"gender\": \"male\",\r
+
+    \    \"phone\": \"+201512345678\",\r
+
+    \    \"email\": \"hamo@gmail.com\",\r
+
+    \    \"password\": \"hamo@123\"\r
+
+    }\r\n"
+examples: ./.resources/get user.resources/examples
+order: 2000

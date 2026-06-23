@@ -1,0 +1,52 @@
+$kind: http-example
+request:
+  url: "{{base}}/order/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"total_price\": 102,\r
+
+      \    \"receive_type\": \"delivery\",\r
+
+      \    \"payment_type\": \"cash\",\r
+
+      \    \"address_id\": 61,\r
+
+      \    \"promo_code_id\": 1\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "279"
+    ETag: W/"117-Rt3kYGi057v/tFp8/I6yQAIYe2k"
+    Date: Sat, 07 Feb 2026 17:39:17 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Order created successfully",
+          "order": {
+              "id": 11,
+              "total_price": 102,
+              "receive_type": "delivery",
+              "payment_type": "cash",
+              "address_id": 61,
+              "promo_code_id": 1,
+              "user_id": 59,
+              "order_status": "processing",
+              "updated_at": "2026-02-07T17:39:17.914Z",
+              "created_at": "2026-02-07T17:39:17.914Z"
+          }
+      }
+order: 1000

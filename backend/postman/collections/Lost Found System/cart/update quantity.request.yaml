@@ -1,0 +1,19 @@
+$kind: http-request
+description: 'operations is: "add" or "sub"'
+url: "{{base}}/cart/update/quantity"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"product_id\": 8,\r
+
+    \    \"cart_id\": 48,\r
+
+    \    \"operation\": \"sub\"\r
+
+    }"
+examples: ./.resources/update quantity.resources/examples
+order: 4000

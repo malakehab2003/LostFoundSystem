@@ -1,0 +1,10 @@
+$kind: http-request
+description: if no user_id get all orders
+url: "{{base}}/order/getOrders?user_id=1"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+queryParams:
+  user_id: "1"
+examples: ./.resources/get orders for admins.resources/examples
+order: 4000

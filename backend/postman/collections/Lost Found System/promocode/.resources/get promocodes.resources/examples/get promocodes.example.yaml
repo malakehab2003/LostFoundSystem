@@ -1,0 +1,130 @@
+$kind: http-example
+request:
+  url: "{{base}}/promocode/list"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "2132"
+    ETag: W/"854-R5BfVwHUJ8XRd17DTcKSG007wqY"
+    Date: Thu, 05 Mar 2026 16:10:03 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "promocodes": [
+              {
+                  "id": 1,
+                  "code": "WELCOME10",
+                  "description": "10% discount for new users",
+                  "discount": "10.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 2,
+                  "code": "SAVE15",
+                  "description": "Save 15% on your order",
+                  "discount": "15.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 3,
+                  "code": "SUMMER20",
+                  "description": "Summer offer 20% off",
+                  "discount": "20.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 4,
+                  "code": "WINTER25",
+                  "description": "Winter sale 25% discount",
+                  "discount": "25.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 5,
+                  "code": "FLASH5",
+                  "description": "Flash sale 5% off",
+                  "discount": "5.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 6,
+                  "code": "BLACKFRIDAY30",
+                  "description": "Black Friday 30% discount",
+                  "discount": "30.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 7,
+                  "code": "NEWYEAR20",
+                  "description": "New Year offer 20% off",
+                  "discount": "20.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 8,
+                  "code": "VIP50",
+                  "description": "VIP exclusive 50% discount",
+                  "discount": "50.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 9,
+                  "code": "STUDENT12",
+                  "description": "Student discount 12%",
+                  "discount": "12.00",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 10,
+                  "code": "FREESHIP",
+                  "description": "Free shipping equivalent discount",
+                  "discount": "7.50",
+                  "created_at": "2026-03-05T03:50:14.000Z",
+                  "updated_at": "2026-03-05T03:50:14.000Z"
+              },
+              {
+                  "id": 11,
+                  "code": "dis50",
+                  "description": null,
+                  "discount": "50.00",
+                  "created_at": "2026-03-05T16:06:42.000Z",
+                  "updated_at": "2026-03-05T16:06:42.000Z"
+              },
+              {
+                  "id": 12,
+                  "code": "disc50",
+                  "description": null,
+                  "discount": "50.00",
+                  "created_at": "2026-03-05T16:07:21.000Z",
+                  "updated_at": "2026-03-05T16:07:21.000Z"
+              },
+              {
+                  "id": 13,
+                  "code": "discr50",
+                  "description": "No discription needed",
+                  "discount": "50.00",
+                  "created_at": "2026-03-05T16:08:07.000Z",
+                  "updated_at": "2026-03-05T16:08:07.000Z"
+              }
+          ]
+      }
+order: 1000

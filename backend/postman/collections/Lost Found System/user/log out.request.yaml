@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/user/logOut"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: text
+  content: "{\r
+
+    \    \"email\": \"hamo@gmail.com\",\r
+
+    \    \"password\": \"hamo@123\"\r
+
+    }\r\n"
+examples: ./.resources/log out.resources/examples
+order: 7000

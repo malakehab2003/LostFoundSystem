@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{base}}/message/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"content\": \"Hiiiiiii\",\r
+
+      \    \"chat_id\": 26\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "70"
+    ETag: W/"46-BQH/wxnLWa6838hoTHev1XESefc"
+    Date: Thu, 05 Mar 2026 02:01:28 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": {
+              "id": 32,
+              "chat_id": 26,
+              "content": "Hiiiiiii",
+              "sender_id": 59
+          }
+      }
+order: 1000

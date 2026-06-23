@@ -1,0 +1,70 @@
+$kind: http-example
+request:
+  url: "{{base}}/product/update/13"
+  method: PUT
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"update\",\r
+
+      \    \"status\": \"out of stock\",\r
+
+      \    \"price\": 32,\r
+
+      \    \"rate\": 1,\r
+
+      \    \"colors\": [\"yellow\"],\r
+
+      \    \"sizes\": [\"XXXL\"],\r
+
+      \    \"stock\": 32,\r
+
+      \    \"description\": \"No description needed\",\r
+
+      \    \"brand_id\": 2,\r
+
+      \    \"category_id\": 2\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "335"
+    ETag: W/"14f-xg5jQxaAZU1WrJiW1OXNA2OwwNE"
+    Date: Tue, 03 Feb 2026 20:43:17 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Product updated Successfully",
+          "product": {
+              "id": 13,
+              "name": "update",
+              "rate": 4,
+              "status": "out of stock",
+              "price": 32,
+              "colors": [
+                  "yellow"
+              ],
+              "sizes": [
+                  "XXXL"
+              ],
+              "stock": 32,
+              "sale": 20,
+              "description": "No description needed",
+              "created_at": "2026-02-03T02:22:50.000Z",
+              "updated_at": "2026-02-03T20:42:13.000Z",
+              "brand_id": 2,
+              "product_category_id": 2
+          }
+      }
+order: 1000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/wishlist/addProduct"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"product_id\": 10\r\n}"
+examples: ./.resources/add product to wishlist.resources/examples
+order: 2000

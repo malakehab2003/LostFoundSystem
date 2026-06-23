@@ -1,0 +1,118 @@
+$kind: http-example
+request:
+  url: "{{base}}/dashboard"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "994"
+    ETag: W/"3e2-55girnUjifv5J9ClGgjpsgBG51M"
+    Date: Thu, 05 Mar 2026 23:43:12 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "totalRevenue": 6406.63,
+          "totalOrders": 10,
+          "topSellingProducts": [
+              {
+                  "product_id": 3,
+                  "salesCount": "8",
+                  "product": {
+                      "name": "Electric Kettle 1.5L"
+                  }
+              },
+              {
+                  "product_id": 5,
+                  "salesCount": "5",
+                  "product": {
+                      "name": "Wireless Headphones"
+                  }
+              },
+              {
+                  "product_id": 1,
+                  "salesCount": "4",
+                  "product": {
+                      "name": "Smartphone X1"
+                  }
+              },
+              {
+                  "product_id": 4,
+                  "salesCount": "3",
+                  "product": {
+                      "name": "Yoga Mat"
+                  }
+              },
+              {
+                  "product_id": 2,
+                  "salesCount": "2",
+                  "product": {
+                      "name": "Running Shoes Pro"
+                  }
+              }
+          ],
+          "leastSellingProducts": [
+              {
+                  "product_id": 2,
+                  "salesCount": "2",
+                  "product": {
+                      "name": "Running Shoes Pro"
+                  }
+              },
+              {
+                  "product_id": 4,
+                  "salesCount": "3",
+                  "product": {
+                      "name": "Yoga Mat"
+                  }
+              },
+              {
+                  "product_id": 1,
+                  "salesCount": "4",
+                  "product": {
+                      "name": "Smartphone X1"
+                  }
+              },
+              {
+                  "product_id": 5,
+                  "salesCount": "5",
+                  "product": {
+                      "name": "Wireless Headphones"
+                  }
+              },
+              {
+                  "product_id": 3,
+                  "salesCount": "8",
+                  "product": {
+                      "name": "Electric Kettle 1.5L"
+                  }
+              }
+          ],
+          "salesByCategory": [
+              {
+                  "category": "Electronics",
+                  "totalSales": "9"
+              },
+              {
+                  "category": "Clothing",
+                  "totalSales": "2"
+              },
+              {
+                  "category": "Home & Kitchen",
+                  "totalSales": "8"
+              },
+              {
+                  "category": "Sports",
+                  "totalSales": "3"
+              }
+          ]
+      }
+order: 1000

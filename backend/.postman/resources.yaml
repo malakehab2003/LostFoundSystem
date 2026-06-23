@@ -1,0 +1,11 @@
+# Use this workspace to collaborate
+workspace:
+  id: d2fe5290-f9be-4159-85aa-fc244df24792
+
+localResources:
+  collections:
+    - ..\Lost Found System.postman_collection.json
+
+cloudResources:
+  collections:
+    ..\postman\collections\Lost Found System: 9b66ebd8-57a7-46c6-8547-7f2afe42e1d1

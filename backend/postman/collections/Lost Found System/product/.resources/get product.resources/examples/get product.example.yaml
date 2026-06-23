@@ -1,0 +1,70 @@
+$kind: http-example
+request:
+  url: "{{base}}/product/getProduct/1"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "664"
+    ETag: W/"298-7FRAgVZxzypYkqR4y6I5tkGYX2I"
+    Date: Sun, 01 Feb 2026 15:18:48 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "product": {
+              "id": 1,
+              "name": "Smartphone X1",
+              "rate": 4.5,
+              "status": "active",
+              "price": 499.99,
+              "colors": [
+                  "Black",
+                  "Silver"
+              ],
+              "sizes": null,
+              "stock": 50,
+              "sale": 10,
+              "description": "Latest smartphone with powerful features.",
+              "created_at": "2026-01-26T20:58:27.000Z",
+              "updated_at": "2026-01-26T20:58:27.000Z",
+              "brand_id": 1,
+              "product_category_id": 1,
+              "category": {
+                  "id": 1,
+                  "name": "Electronics"
+              },
+              "image": [
+                  {
+                      "id": 1,
+                      "image_url": "https://example.com/product1-1.jpg"
+                  },
+                  {
+                      "id": 2,
+                      "image_url": "https://example.com/product1-2.jpg"
+                  }
+              ],
+              "brand": {
+                  "id": 1,
+                  "name": "Brand A"
+              },
+              "review": [
+                  {
+                      "rate": 5,
+                      "message": "Great product, quality exceeded my expectations.",
+                      "image_url": null,
+                      "user": {
+                          "id": 1,
+                          "name": "Alice Johnson"
+                      }
+                  }
+              ]
+          }
+      }
+order: 1000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/dashboard/month-orders?month=3&year=2026"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+queryParams:
+  month: "3"
+  year: "2026"
+examples: ./.resources/get month total sales.resources/examples
+order: 2000

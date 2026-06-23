@@ -1,0 +1,42 @@
+$kind: http-example
+request:
+  url: "{{base}}/comment/addComment"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"itemId\": 1,\r
+
+      \    \"content\": \"I am new comment\"\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "195"
+    ETag: W/"c3-zV9Uvb0DfVSjwIvKvBG638mJq6E"
+    Date: Tue, 03 Feb 2026 21:29:27 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Comment created successfully",
+          "comment": {
+              "id": 4,
+              "content": "I am new comment",
+              "item_id": 1,
+              "user_id": 59,
+              "updated_at": "2026-02-03T21:29:27.832Z",
+              "created_at": "2026-02-03T21:29:27.832Z"
+          }
+      }
+order: 1000

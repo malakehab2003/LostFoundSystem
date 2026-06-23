@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base}}/payment/create-payment"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"products\": [\r
+
+    \        { \"productId\": 1, \"quantity\": 2 },\r
+
+    \        { \"productId\": 4, \"quantity\": 1 }\r
+
+    \    ]\r
+
+    }"
+examples: ./.resources/create payment.resources/examples
+order: 1000

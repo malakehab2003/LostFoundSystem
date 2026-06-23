@@ -1,0 +1,45 @@
+$kind: http-example
+name: get all chats
+request:
+  url: "{{base}}/chat/list"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "188"
+    ETag: W/"bc-ETcTBKU0Q7o5fwP3YSJlW0DnP1s"
+    Date: Sun, 19 Apr 2026 13:36:33 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "formattedChats": [
+              {
+                  "chat_id": 26,
+                  "other_user": {
+                      "id": 60,
+                      "name": "hamo"
+                  },
+                  "last_message": "sfddf",
+                  "unread": 1
+              },
+              {
+                  "chat_id": 27,
+                  "other_user": {
+                      "id": 62,
+                      "name": "hamo"
+                  },
+                  "last_message": "s",
+                  "unread": 6
+              }
+          ]
+      }
+order: 2000

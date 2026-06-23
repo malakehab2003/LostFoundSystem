@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base}}/item/list?title=Sunglasses&government_id=1&city_id=1&place=supermarket&category_id=4&date_from=2025-01-01&page=1&limit=50&type=found"
+method: GET
+queryParams:
+  title: Sunglasses
+  government_id: "1"
+  city_id: "1"
+  place: supermarket
+  category_id: "4"
+  date_from: 2025-01-01
+  page: "1"
+  limit: "50"
+  type: found
+examples: ./.resources/filter items.resources/examples
+order: 1000

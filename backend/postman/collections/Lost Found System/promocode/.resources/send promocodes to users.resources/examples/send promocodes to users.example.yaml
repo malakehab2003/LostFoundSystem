@@ -1,0 +1,34 @@
+$kind: http-example
+request:
+  url: "{{base}}/promocode/send-promocodes"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"promocode_id\": 1,\r
+
+      \    \"users\": [1, 59, 3]\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "37"
+    ETag: W/"25-BPOh2RWHe0Lhx1gegmqTYNRHDBc"
+    Date: Thu, 05 Mar 2026 17:28:34 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Promocode sent to users"
+      }
+order: 1000

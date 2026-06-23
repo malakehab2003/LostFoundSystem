@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/promocode/apply"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"code\": \"WELCOME10\"\r\n}"
+examples: ./.resources/apply promocode.resources/examples
+order: 5000

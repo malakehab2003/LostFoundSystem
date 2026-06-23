@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/wishlist/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/list wishlist.resources/examples
+order: 1000

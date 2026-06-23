@@ -1,0 +1,38 @@
+$kind: http-example
+request:
+  url: "{{base}}/brand/update/6"
+  method: PUT
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"update new\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "157"
+    ETag: W/"9d-INCKNM6zcUi0TPRE7UdwoZr50NI"
+    Date: Fri, 16 Jan 2026 18:39:24 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Brand updated successfully",
+          "brand": {
+              "id": 6,
+              "name": "update new",
+              "created_at": "2026-01-16T18:22:42.000Z",
+              "updated_at": "2026-01-16T18:38:48.000Z"
+          }
+      }
+order: 1000

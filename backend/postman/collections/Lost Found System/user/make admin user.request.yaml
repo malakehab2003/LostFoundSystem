@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/user/createAdmin"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r\n    \"user_id\": 1\r\n}"
+examples: ./.resources/make admin user.resources/examples
+order: 11000

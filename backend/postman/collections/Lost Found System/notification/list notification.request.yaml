@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/notification/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/list notification.resources/examples
+order: 1000

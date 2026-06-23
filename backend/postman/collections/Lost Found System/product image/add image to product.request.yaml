@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/product/image/addImage"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"product_id\": 1,\r
+
+    \    \"images_url\": [\"firstImage.jpg\"]\r
+
+    }"
+examples: ./.resources/add image to product.resources/examples
+order: 2000

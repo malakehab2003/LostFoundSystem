@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/address/delete/65"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/delete address.resources/examples
+order: 4000

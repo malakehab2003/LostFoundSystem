@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/user/login"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"hamo@gmail.com\",\r
+
+    \    \"password\": \"hamo@1234\"\r
+
+    }\r\n"
+examples: ./.resources/login.resources/examples
+order: 3000

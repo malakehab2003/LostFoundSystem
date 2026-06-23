@@ -1,0 +1,26 @@
+$kind: http-request
+description: |-
+  this request create new user
+
+  phone and image_url is optionally
+url: "{{base}}/user/createUser"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"hamo\",\r
+
+    \    \"dob\": \"2006-07-26\",\r
+
+    \    \"gender\": \"male\",\r
+
+    \    \"phone\": \"+201512345678\",\r
+
+    \    \"email\": \"hamo@gmail.com\",\r
+
+    \    \"password\": \"hamo@123\"\r
+
+    }\r\n"
+examples: ./.resources/create user.resources/examples
+order: 1000

@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/login"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"email\": \"hamo@gmail.com\",\r
+
+      \    \"password\": \"hamo@123\"\r
+
+      }\r\n"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "328"
+    ETag: W/"148-xkQoyzHDAH8IqjVqnlOOmv+ZuuY"
+    Date: Mon, 29 Dec 2025 12:27:21 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "login successfully",
+          "token": "{{json_web_token_18fw}}",
+          "user": {
+              "name": "hamo",
+              "dob": "2006-07-26",
+              "phone": "+201512345678",
+              "email": "hamo@gmail.com",
+              "gender": "male",
+              "image_url": null
+          }
+      }
+order: 1000

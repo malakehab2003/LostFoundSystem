@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base}}/photo/upload"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: formdata
+  content:
+    - type: file
+      key: image
+      src:
+        - /D:/baba/insurance cards/malak card.jpg
+settings:
+  disabledSystemHeaders: []
+order: 1000

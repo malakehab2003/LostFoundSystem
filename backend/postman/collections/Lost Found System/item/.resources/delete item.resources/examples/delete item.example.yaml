@@ -1,0 +1,28 @@
+$kind: http-example
+request:
+  url: "{{base}}/item/delete/31"
+  method: DELETE
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "39"
+    ETag: W/"27-rVMVbok/dPXFjH2XQBFKinZD2Bw"
+    Date: Tue, 27 Jan 2026 02:52:57 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Item deleted Successfully"
+      }
+order: 1000

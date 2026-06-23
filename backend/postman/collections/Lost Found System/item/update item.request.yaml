@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{base}}/item/update/33"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"not new\",\r
+
+    \    \"date\": \"2025-01-01\",\r
+
+    \    \"government_id\": 2,\r
+
+    \    \"type\": \"found\",\r
+
+    \    \"place\": \"restaurant\",\r
+
+    \    \"category_id\": 1,\r
+
+    \    \"city_id\": 60,\r
+
+    \    \"description\": \"any help please\"\r
+
+    }"
+examples: ./.resources/update item.resources/examples
+order: 4000

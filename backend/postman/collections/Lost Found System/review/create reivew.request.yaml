@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base}}/review/create"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"message\": \"this is new review\",\r
+
+    \    \"rate\": 4,\r
+
+    \    \"image_url\": \"image.jpg\",\r
+
+    \    \"product_id\": 1\r
+
+    }"
+examples: ./.resources/create reivew.resources/examples
+order: 1000

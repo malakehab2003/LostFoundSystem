@@ -1,0 +1,551 @@
+$kind: http-example
+request:
+  url: "{{base}}/item/list?type=found"
+  method: GET
+  queryParams:
+    - key: title
+      value: Sunglasses
+      disabled: true
+    - key: government
+      value: Beni Suef
+      disabled: true
+    - key: city
+      value: El Fashn
+      disabled: true
+    - key: place
+      value: supermarket
+      disabled: true
+    - key: category_id
+      value: "4"
+      disabled: true
+    - key: date_from
+      value: 2025-01-01
+      disabled: true
+    - key: page
+      value: "1"
+      disabled: true
+    - key: limit
+      value: "50"
+      disabled: true
+    - key: type
+      value: found
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "7663"
+    ETag: W/"1def-sARSfia3BghZBeX4cQ4mEY8sgrk"
+    Date: Mon, 26 Jan 2026 20:58:42 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "allItems": [
+              {
+                  "id": 8,
+                  "title": "Found Sunglasses",
+                  "government_id": 8,
+                  "city_id": 199,
+                  "place": "hospital",
+                  "date": "2025-05-03",
+                  "type": "found",
+                  "description": "Brown sunglasses found in a cafe",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 3,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 3,
+                      "name": "Carol Williams"
+                  },
+                  "government": {
+                      "id": 8,
+                      "name_en": "Gharbiya",
+                      "name_ar": "الغربية"
+                  },
+                  "city": {
+                      "id": 199,
+                      "name_en": "Samannoud",
+                      "name_ar": "سمنود"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 28,
+                  "title": "Found Sunglasses",
+                  "government_id": 17,
+                  "city_id": 280,
+                  "place": "supermarket",
+                  "date": "2025-09-25",
+                  "type": "found",
+                  "description": "Round brown sunglasses, lightly scratched",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 8,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 8,
+                      "name": "Henry Moore"
+                  },
+                  "government": {
+                      "id": 17,
+                      "name_en": "Beni Suef",
+                      "name_ar": "بني سويف"
+                  },
+                  "city": {
+                      "id": 280,
+                      "name_en": "Naser",
+                      "name_ar": "ناصر"
+                  },
+                  "comments": [
+                      {
+                          "id": 2,
+                          "content": "I think this belongs to my friend.",
+                          "user_id": 2,
+                          "item_id": 28,
+                          "created_at": "2026-01-26T20:58:27.000Z",
+                          "updated_at": "2026-01-26T20:58:27.000Z",
+                          "user": {
+                              "id": 2,
+                              "name": "Bob Smith"
+                          }
+                      },
+                      {
+                          "id": 1,
+                          "content": "Is this item still available?",
+                          "user_id": 1,
+                          "item_id": 28,
+                          "created_at": "2026-01-26T20:58:27.000Z",
+                          "updated_at": "2026-01-26T20:58:27.000Z",
+                          "user": {
+                              "id": 1,
+                              "name": "Alice Johnson"
+                          }
+                      }
+                  ]
+              },
+              {
+                  "id": 1,
+                  "title": "Lost Wallet",
+                  "government_id": 1,
+                  "city_id": 3,
+                  "place": "cafe",
+                  "date": "2025-03-14",
+                  "type": "lost",
+                  "description": "Black leather wallet with several cards",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 1,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [
+                      {
+                          "id": 1,
+                          "image_url": "https://example.com/item1-1.jpg"
+                      },
+                      {
+                          "id": 2,
+                          "image_url": "https://example.com/item1-2.jpg"
+                      }
+                  ],
+                  "user": {
+                      "id": 1,
+                      "name": "Alice Johnson"
+                  },
+                  "government": {
+                      "id": 1,
+                      "name_en": "Cairo",
+                      "name_ar": "القاهرة"
+                  },
+                  "city": {
+                      "id": 3,
+                      "name_en": "Al Basatin",
+                      "name_ar": "البساتين"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 4,
+                  "title": "Found Keys",
+                  "government_id": 2,
+                  "city_id": 60,
+                  "place": "school",
+                  "date": "2026-01-08",
+                  "type": "found",
+                  "description": "House keys with red keychain",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 4,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [
+                      {
+                          "id": 6,
+                          "image_url": "https://example.com/item4-1.jpg"
+                      }
+                  ],
+                  "user": {
+                      "id": 4,
+                      "name": "David Brown"
+                  },
+                  "government": {
+                      "id": 2,
+                      "name_en": "Giza",
+                      "name_ar": "الجيزة"
+                  },
+                  "city": {
+                      "id": 60,
+                      "name_en": "Cheikh Zayed",
+                      "name_ar": "الشيخ زايد"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 5,
+                  "title": "Lost Watch",
+                  "government_id": 2,
+                  "city_id": 70,
+                  "place": "university",
+                  "date": "2023-12-05",
+                  "type": "lost",
+                  "description": "Silver wrist watch, brand unknown",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 5,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [
+                      {
+                          "id": 7,
+                          "image_url": "https://example.com/item5-1.jpg"
+                      },
+                      {
+                          "id": 8,
+                          "image_url": "https://example.com/item5-2.jpg"
+                      },
+                      {
+                          "id": 9,
+                          "image_url": "https://example.com/item5-3.jpg"
+                      }
+                  ],
+                  "user": {
+                      "id": 5,
+                      "name": "Eve Davis"
+                  },
+                  "government": {
+                      "id": 2,
+                      "name_en": "Giza",
+                      "name_ar": "الجيزة"
+                  },
+                  "city": {
+                      "id": 70,
+                      "name_en": "Abu Nomros",
+                      "name_ar": "أبو النمرس"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 11,
+                  "title": "Lost Wallet",
+                  "government_id": 22,
+                  "city_id": 340,
+                  "place": "gym",
+                  "date": "2025-01-10",
+                  "type": "lost",
+                  "description": "Brown leather wallet with multiple cards and some cash",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 6,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 6,
+                      "name": "Frank Miller"
+                  },
+                  "government": {
+                      "id": 22,
+                      "name_en": "Kafr Al sheikh",
+                      "name_ar": "كفر الشيخ"
+                  },
+                  "city": {
+                      "id": 340,
+                      "name_en": "Baltim",
+                      "name_ar": "بلطيم"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 14,
+                  "title": "Found Wallet",
+                  "government_id": 20,
+                  "city_id": 320,
+                  "place": "theater",
+                  "date": "2024-11-08",
+                  "type": "found",
+                  "description": "Black wallet with a few cards, no cash",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 9,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 9,
+                      "name": "Isabella Taylor"
+                  },
+                  "government": {
+                      "id": 20,
+                      "name_en": "Sharkia",
+                      "name_ar": "الشرقية"
+                  },
+                  "city": {
+                      "id": 320,
+                      "name_en": "Kafr Saqr",
+                      "name_ar": "كفر صقر"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 15,
+                  "title": "Lost Keys",
+                  "government_id": 3,
+                  "city_id": 120,
+                  "place": "bus_station",
+                  "date": "2023-01-22",
+                  "type": "lost",
+                  "description": "House keys with blue keychain",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 10,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 10,
+                      "name": "Jack Anderson"
+                  },
+                  "government": {
+                      "id": 3,
+                      "name_en": "Alexandria",
+                      "name_ar": "الأسكندرية"
+                  },
+                  "city": {
+                      "id": 120,
+                      "name_en": "Agamy",
+                      "name_ar": "العجمي"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 16,
+                  "title": "Found Watch",
+                  "government_id": 3,
+                  "city_id": 121,
+                  "place": "metro_station",
+                  "date": "2024-12-23",
+                  "type": "found",
+                  "description": "Silver wrist watch with leather strap",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 6,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 6,
+                      "name": "Frank Miller"
+                  },
+                  "government": {
+                      "id": 3,
+                      "name_en": "Alexandria",
+                      "name_ar": "الأسكندرية"
+                  },
+                  "city": {
+                      "id": 121,
+                      "name_en": "Bakos",
+                      "name_ar": "بكوس"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 19,
+                  "title": "Lost Sunglasses",
+                  "government_id": 15,
+                  "city_id": 255,
+                  "place": "train_station",
+                  "date": "2026-01-26",
+                  "type": "lost",
+                  "description": "Brown aviator sunglasses with metal frame",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 9,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 9,
+                      "name": "Isabella Taylor"
+                  },
+                  "government": {
+                      "id": 15,
+                      "name_en": "Aswan",
+                      "name_ar": "اسوان"
+                  },
+                  "city": {
+                      "id": 255,
+                      "name_en": "Aswan El Gedida",
+                      "name_ar": "أسوان الجديدة"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 23,
+                  "title": "Lost Wallet",
+                  "government_id": 16,
+                  "city_id": 268,
+                  "place": "airport",
+                  "date": "2025-07-29",
+                  "type": "lost",
+                  "description": "Small black wallet with coins and a few credit cards",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 8,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 8,
+                      "name": "Henry Moore"
+                  },
+                  "government": {
+                      "id": 16,
+                      "name_en": "Assiut",
+                      "name_ar": "اسيوط"
+                  },
+                  "city": {
+                      "id": 268,
+                      "name_en": "Dayrout",
+                      "name_ar": "ديروط"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 25,
+                  "title": "Lost Keys",
+                  "government_id": 6,
+                  "city_id": 170,
+                  "place": "taxi",
+                  "date": "2025-02-28",
+                  "type": "lost",
+                  "description": "Car keys with a red keychain and remote",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 10,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 10,
+                      "name": "Jack Anderson"
+                  },
+                  "government": {
+                      "id": 6,
+                      "name_en": "Beheira",
+                      "name_ar": "البحيرة"
+                  },
+                  "city": {
+                      "id": 170,
+                      "name_en": "Delengat",
+                      "name_ar": "الدلنجات"
+                  },
+                  "comments": []
+              },
+              {
+                  "id": 26,
+                  "title": "Found Watch",
+                  "government_id": 6,
+                  "city_id": 171,
+                  "place": "taxi",
+                  "date": "2025-04-01",
+                  "type": "found",
+                  "description": "Gold-colored wrist watch, brand unknown",
+                  "created_at": "2026-01-26T20:58:27.000Z",
+                  "updated_at": "2026-01-26T20:58:27.000Z",
+                  "user_id": 6,
+                  "item_category_id": 4,
+                  "category": {
+                      "id": 4,
+                      "name": "Accessories"
+                  },
+                  "images": [],
+                  "user": {
+                      "id": 6,
+                      "name": "Frank Miller"
+                  },
+                  "government": {
+                      "id": 6,
+                      "name_en": "Beheira",
+                      "name_ar": "البحيرة"
+                  },
+                  "city": {
+                      "id": 171,
+                      "name_en": "Mahmoudiyah",
+                      "name_ar": "المحمودية"
+                  },
+                  "comments": []
+              }
+          ],
+          "pagination": {
+              "total": 13,
+              "page": 1,
+              "limit": 50,
+              "totalPages": 1
+          }
+      }
+order: 1000

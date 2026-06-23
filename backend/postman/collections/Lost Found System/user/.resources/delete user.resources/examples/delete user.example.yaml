@@ -1,0 +1,36 @@
+$kind: http-example
+request:
+  url: "{{base}}/user/delete"
+  method: DELETE
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: text
+    content: "{\r
+
+      \    \"dob\": \"2005-09-11\",\r
+
+      \    \"name\": \"new hamo\",\r
+
+      \    \"phone\": \"+201203214568\"\r
+
+      }\r\n"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "39"
+    ETag: W/"27-27o4zzUjhHNmthTJyia4gBCjpos"
+    Date: Mon, 29 Dec 2025 13:38:19 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "User deleted successfully"
+      }
+order: 1000

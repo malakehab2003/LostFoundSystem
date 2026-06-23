@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/wishlist/delete/31"
+method: DELETE
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/delete product from wishlist.resources/examples
+order: 3000

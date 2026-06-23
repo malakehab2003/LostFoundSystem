@@ -1,0 +1,76 @@
+$kind: http-example
+request:
+  url: "{{base}}/product/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"new\",\r
+
+      \    \"price\": 200,\r
+
+      \    \"sale\": 20,\r
+
+      \    \"rate\": 4,\r
+
+      \    \"status\": \"active\",\r
+
+      \    \"stock\": 100,\r
+
+      \    \"colors\": [\"black\", \"green\"],\r
+
+      \    \"sizes\": [\"L\", \"XL\"],\r
+
+      \    \"description\": \"this is new product\",\r
+
+      \    \"category_id\": 1,\r
+
+      \    \"brand_id\": 1,\r
+
+      \    \"images_url\": [\"image1.jpg\", \"image2.png\"]\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "335"
+    ETag: W/"14f-zJUz/Slv6pI5+oTUmE1FEIw9PXg"
+    Date: Tue, 03 Feb 2026 00:50:20 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Product created successfully",
+          "product": {
+              "id": 12,
+              "name": "new",
+              "price": 200,
+              "rate": 4,
+              "status": "active",
+              "stock": 100,
+              "colors": [
+                  "black",
+                  "green"
+              ],
+              "sizes": [
+                  "L",
+                  "XL"
+              ],
+              "description": "this is new product",
+              "brand_id": 1,
+              "sale": 20,
+              "product_category_id": 1,
+              "updated_at": "2026-02-03T00:50:20.624Z",
+              "created_at": "2026-02-03T00:50:20.624Z"
+          }
+      }
+order: 1000

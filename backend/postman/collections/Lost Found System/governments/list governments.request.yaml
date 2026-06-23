@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base}}/government/list"
+method: GET
+examples: ./.resources/list governments.resources/examples
+order: 1000

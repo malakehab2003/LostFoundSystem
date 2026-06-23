@@ -1,0 +1,68 @@
+$kind: http-example
+request:
+  url: "{{base}}/item/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"title\": \"new\",\r
+
+      \    \"government_id\": 1,\r
+
+      \    \"city_id\": 1,\r
+
+      \    \"place\": \"transportation\",\r
+
+      \    \"type\": \"lost\",\r
+
+      \    \"description\": \"i lost this item help please\",\r
+
+      \    \"category_id\": 3,\r
+
+      \    \"date\": \"2025-12-01\",\r
+
+      \    \"images_url\": [\r
+
+      \        \"image1\",\r
+
+      \        \"image2\"\r
+
+      \    ]\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "318"
+    ETag: W/"13e-9OomVqM9MEqTscAJu92eDuD46Us"
+    Date: Mon, 02 Feb 2026 18:15:21 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Item created Successfully",
+          "item": {
+              "id": 36,
+              "title": "new",
+              "government_id": 1,
+              "city_id": 1,
+              "place": "transportation",
+              "type": "lost",
+              "description": "i lost this item help please",
+              "date": "2025-12-01",
+              "item_category_id": 3,
+              "user_id": 59,
+              "updated_at": "2026-02-02T18:15:21.774Z",
+              "created_at": "2026-02-02T18:15:21.774Z"
+          }
+      }
+order: 1000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base}}/message/list/26"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: text
+  content: ""
+examples: ./.resources/get all messages.resources/examples
+order: 2000

@@ -1,0 +1,54 @@
+$kind: http-example
+request:
+  url: "{{base}}/brand/list"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "542"
+    ETag: W/"21e-AExqjZRy8+m0ktzcXa2RGK1qGCE"
+    Date: Fri, 16 Jan 2026 16:59:36 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "brands": [
+              {
+                  "id": 1,
+                  "name": "Brand A",
+                  "created_at": "2025-12-29T12:04:02.000Z",
+                  "updated_at": "2025-12-29T12:04:02.000Z"
+              },
+              {
+                  "id": 2,
+                  "name": "Brand B",
+                  "created_at": "2025-12-29T12:04:02.000Z",
+                  "updated_at": "2025-12-29T12:04:02.000Z"
+              },
+              {
+                  "id": 3,
+                  "name": "Brand C",
+                  "created_at": "2025-12-29T12:04:02.000Z",
+                  "updated_at": "2025-12-29T12:04:02.000Z"
+              },
+              {
+                  "id": 4,
+                  "name": "Brand D",
+                  "created_at": "2025-12-29T12:04:02.000Z",
+                  "updated_at": "2025-12-29T12:04:02.000Z"
+              },
+              {
+                  "id": 5,
+                  "name": "Brand E",
+                  "created_at": "2025-12-29T12:04:02.000Z",
+                  "updated_at": "2025-12-29T12:04:02.000Z"
+              }
+          ]
+      }
+order: 1000

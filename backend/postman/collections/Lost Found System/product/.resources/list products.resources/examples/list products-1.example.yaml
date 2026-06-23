@@ -1,0 +1,100 @@
+$kind: http-example
+name: list products
+request:
+  url: "{{base}}/product/list?status=active&min_price=1&max_price=10000&category_id=2&brand_id=2&rate=1&name=Shoes&colors=Black"
+  method: GET
+  queryParams:
+    - key: status
+      value: active
+    - key: min_price
+      value: "1"
+    - key: max_price
+      value: "10000"
+    - key: category_id
+      value: "2"
+    - key: brand_id
+      value: "2"
+    - key: is_sale
+      value: "true"
+      disabled: true
+    - key: rate
+      value: "1"
+    - key: name
+      value: Shoes
+    - key: colors
+      value: Black
+    - key: sizes
+      value: '"38", "39"'
+      disabled: true
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "599"
+    ETag: W/"257-XaZFhscvicw5w3GBLRqj8IosrTE"
+    Date: Wed, 29 Apr 2026 10:07:47 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "products": [
+              {
+                  "id": 2,
+                  "name": "Running Shoes Pro",
+                  "rate": 4.2,
+                  "status": "active",
+                  "price": 89.99,
+                  "colors": [
+                      "Red",
+                      "Blue",
+                      "Black"
+                  ],
+                  "sizes": [
+                      38,
+                      39,
+                      40,
+                      41,
+                      42
+                  ],
+                  "stock": 100,
+                  "sale": 0,
+                  "description": "Comfortable running shoes for daily workouts.",
+                  "created_at": "2026-04-25T16:59:34.000Z",
+                  "updated_at": "2026-04-25T16:59:34.000Z",
+                  "brand_id": 2,
+                  "product_category_id": 2,
+                  "category": {
+                      "id": 2,
+                      "name": "Clothing"
+                  },
+                  "image": [],
+                  "brand": {
+                      "id": 2,
+                      "name": "Brand B"
+                  },
+                  "review": [
+                      {
+                          "rate": 4,
+                          "message": "Good value for the price.",
+                          "user": {
+                              "id": 2,
+                              "name": "Bob Smith"
+                          },
+                          "image": []
+                      }
+                  ]
+              }
+          ],
+          "pagination": {
+              "total": 1,
+              "page": 1,
+              "limit": 10,
+              "totalPages": 1
+          }
+      }
+order: 2000

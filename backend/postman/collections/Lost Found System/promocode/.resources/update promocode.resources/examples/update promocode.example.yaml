@@ -1,0 +1,36 @@
+$kind: http-example
+request:
+  url: "{{base}}/promocode/update/12"
+  method: PUT
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"code\": \"discs50\",\r
+
+      \    \"discount\": 50,\r
+
+      \    \"description\": \"use now\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "44"
+    ETag: W/"2c-38dAq39XMxw+jd8kX9DVUJniBiY"
+    Date: Thu, 05 Mar 2026 16:24:24 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "Promocode updated successfully"
+      }
+order: 1000

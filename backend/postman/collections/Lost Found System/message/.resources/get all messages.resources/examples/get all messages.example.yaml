@@ -1,0 +1,170 @@
+$kind: http-example
+request:
+  url: "{{base}}/message/list/26"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "1778"
+    ETag: W/"6f2-AuR8zvUUKdknGyCXbZokILx0AzY"
+    Date: Thu, 05 Mar 2026 04:12:57 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "messages": [
+              {
+                  "id": 31,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:00:18.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 32,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:01:38.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 33,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:02:45.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 34,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:02:57.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 35,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:03:18.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 36,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:04:03.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 37,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:07:17.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 38,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:07:34.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 39,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:08:19.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 40,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:09:41.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 41,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:10:29.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              },
+              {
+                  "id": 42,
+                  "chat_id": 26,
+                  "sender_id": 60,
+                  "content": "Hiiiiiii",
+                  "is_read": true,
+                  "created_at": "2026-03-05T04:11:59.000Z",
+                  "sender": {
+                      "id": 60,
+                      "name": "hamo"
+                  }
+              }
+          ]
+      }
+order: 1000

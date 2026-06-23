@@ -1,0 +1,33 @@
+$kind: http-example
+request:
+  url: "{{base}}/chat/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r\n    \"sender_id\": 1\r\n}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "86"
+    ETag: W/"56-NIGD0V/ElWKavLkbIPCATmV5BPc"
+    Date: Tue, 03 Mar 2026 18:41:15 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "chat": {
+              "id": 26,
+              "owner_id": 59,
+              "sender_id": 1,
+              "created_at": "2026-03-03T18:41:07.000Z"
+          }
+      }
+order: 1000

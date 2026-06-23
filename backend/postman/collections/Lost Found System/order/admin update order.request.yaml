@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base}}/order/updateOrder/1"
+method: PUT
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"total_price\": 300,\r
+
+    \    \"order_status\": \"cancelled\",\r
+
+    \    \"payment_type\": \"paypal\"\r
+
+    }"
+examples: ./.resources/admin update order.resources/examples
+order: 5000

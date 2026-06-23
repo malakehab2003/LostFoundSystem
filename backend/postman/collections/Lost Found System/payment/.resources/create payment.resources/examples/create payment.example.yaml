@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{base}}/payment/create-payment"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"products\": [\r
+
+      \        { \"productId\": 1, \"quantity\": 2 },\r
+
+      \        { \"productId\": 4, \"quantity\": 1 }\r
+
+      \    ]\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "94"
+    ETag: W/"5e-l24rLcKVPmC6d3b6oGgKfXdQVTg"
+    Date: Sun, 08 Mar 2026 19:18:23 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "clientSecret": "pi_3T8mqIBCcAEvUHrX0zgF8zS8_secret_nZfVthTLMwrgKZFfdWlaY2sOL",
+          "amount": 92498
+      }
+order: 1000

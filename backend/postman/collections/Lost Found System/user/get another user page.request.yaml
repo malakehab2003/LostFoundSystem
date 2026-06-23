@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{base}}/user/getUser?email=ziad.hossam@example.com&id=42"
+method: GET
+queryParams:
+  email: ziad.hossam@example.com
+  id: "42"
+examples: ./.resources/get another user page.resources/examples
+order: 9000

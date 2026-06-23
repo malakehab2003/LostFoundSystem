@@ -1,0 +1,62 @@
+$kind: http-example
+request:
+  url: "{{base}}/order/list"
+  method: GET
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "729"
+    ETag: W/"2d9-p2BEc0VeX789eUVVn8MoPgdCWxc"
+    Date: Sun, 08 Feb 2026 14:56:53 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "orders": [
+              {
+                  "id": 11,
+                  "total_price": "102.00",
+                  "order_status": "processing",
+                  "receive_type": "delivery",
+                  "payment_type": "cash",
+                  "created_at": "2026-02-08T14:54:06.000Z",
+                  "updated_at": "2026-02-08T14:54:06.000Z",
+                  "address_id": 61,
+                  "user_id": 59,
+                  "promo_code_id": null
+              },
+              {
+                  "id": 12,
+                  "total_price": "102.00",
+                  "order_status": "processing",
+                  "receive_type": "delivery",
+                  "payment_type": "cash",
+                  "created_at": "2026-02-08T14:54:07.000Z",
+                  "updated_at": "2026-02-08T14:54:07.000Z",
+                  "address_id": 61,
+                  "user_id": 59,
+                  "promo_code_id": null
+              },
+              {
+                  "id": 13,
+                  "total_price": "102.00",
+                  "order_status": "processing",
+                  "receive_type": "delivery",
+                  "payment_type": "cash",
+                  "created_at": "2026-02-08T14:54:09.000Z",
+                  "updated_at": "2026-02-08T14:54:09.000Z",
+                  "address_id": 61,
+                  "user_id": 59,
+                  "promo_code_id": null
+              }
+          ]
+      }
+order: 1000

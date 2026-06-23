@@ -1,0 +1,61 @@
+$kind: http-example
+name: create user
+request:
+  url: "{{base}}/user/createUser"
+  method: POST
+  body:
+    type: formdata
+    content:
+      - type: file
+        key: image
+        src:
+          - /D:/baba/insurance cards/malak card.jpg
+      - type: text
+        key: name
+        value: hamo2
+      - type: text
+        key: dob
+        value: 2006-07-26
+      - type: text
+        key: gender
+        value: male
+      - type: text
+        key: phone
+        value: "+201111111111"
+      - type: text
+        key: email
+        value: hamo3@gmail.com
+      - type: text
+        key: password
+        value: hamo@123
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "389"
+    ETag: W/"185-qF0iHHPsxNwLmxin6i0flW9FNhc"
+    Date: Mon, 27 Apr 2026 02:49:32 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "message": "User created successfully",
+          "token": "{{json_web_token_0qxn}}",
+          "user": {
+              "show_phone_number": true,
+              "is_verified": false,
+              "id": 60,
+              "name": "hamo2",
+              "dob": "2006-07-26",
+              "gender": "male",
+              "phone": "+201111111111",
+              "email": "hamo3@gmail.com",
+              "role": "user"
+          }
+      }
+order: 2000

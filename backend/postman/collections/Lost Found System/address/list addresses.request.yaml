@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base}}/address/list"
+method: GET
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+examples: ./.resources/list addresses.resources/examples
+order: 2000

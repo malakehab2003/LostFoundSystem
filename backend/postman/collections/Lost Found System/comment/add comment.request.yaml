@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/comment/addComment"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"itemId\": 1,\r
+
+    \    \"content\": \"I am new comment\"\r
+
+    }"
+examples: ./.resources/add comment.resources/examples
+order: 1000

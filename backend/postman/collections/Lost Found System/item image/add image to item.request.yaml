@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base}}/item/image/addImage"
+method: POST
+headers:
+  "{{auth_key}}": "{{auth_value}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"item_id\": 33,\r
+
+    \    \"images_url\": [\"firstImage.jpg\"]\r
+
+    }"
+examples: ./.resources/add image to item.resources/examples
+order: 2000

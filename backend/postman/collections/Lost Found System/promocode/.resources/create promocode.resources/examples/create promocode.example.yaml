@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{base}}/promocode/create"
+  method: POST
+  headers:
+    "{{auth_key}}": "{{auth_value}}"
+  body:
+    type: json
+    content: "{\r
+
+      \    \"code\": \"discr50\",\r
+
+      \    \"discount\": 50,\r
+
+      \    \"description\": \"No discription needed\"\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "172"
+    ETag: W/"ac-pea2uSjx3fEspdwm1Nc1ll8fYnk"
+    Date: Thu, 05 Mar 2026 16:08:07 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: text
+    content: |-
+      {
+          "promocode": {
+              "id": 13,
+              "code": "discr50",
+              "description": "No discription needed",
+              "discount": 50,
+              "updated_at": "2026-03-05T16:08:07.549Z",
+              "created_at": "2026-03-05T16:08:07.549Z"
+          }
+      }
+order: 1000
