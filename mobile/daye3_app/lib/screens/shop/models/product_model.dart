@@ -6,7 +6,7 @@ class Product {
   final String description;
   final double rate;
   final List<String> colors;
-  final List<String> sizes; // 🔥 FIXED: String instead of int
+  final List<String> sizes;
 
   Product({
     required this.id,
@@ -31,7 +31,9 @@ class Product {
         final img = json['image'];
 
         if (img is List && img.isNotEmpty) {
-          return img[0].toString();
+          final first = img[0];
+          if (first is Map) return first['url']?.toString() ?? '';
+          return first.toString();
         }
 
         if (img is String) {
@@ -50,7 +52,7 @@ class Product {
           ? List<String>.from(json['colors'].map((e) => e.toString()))
           : [],
 
-      /// 🔥 FIXED SIZES (NO INT PARSING)
+      /// SIZES SAFE
       sizes: (json['sizes'] is List)
           ? List<String>.from(json['sizes'].map((e) => e.toString()))
           : [],
