@@ -1,12 +1,16 @@
-import 'product_model.dart';
+import '../../shop/models/product_model.dart';
 
 class CartItem {
+  final int id;
+  final int productId; // ✅ مضاف
   final Product product;
   int quantity;
   final String? selectedColor;
   final String? selectedSize;
 
   CartItem({
+    required this.id,
+    required this.productId, // ✅ مضاف
     required this.product,
     this.quantity = 1,
     this.selectedColor,
@@ -15,16 +19,30 @@ class CartItem {
 
   double get totalPrice => product.price * quantity;
 
-  Map<String, dynamic> toJson(int userId) {
-    // متوافق مع جدول الـ orders بعد ما نحسب الـ totalPrice
+  /// ================= FROM JSON =================
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    final productJson = Map<String, dynamic>.from(json['product'] ?? {}); // ✅
+    productJson['id'] = json['product_id'] ?? 0; // ✅
+
+    return CartItem(
+      id: json['id'] ?? 0,
+      productId: json['product_id'] ?? 0, // ✅
+      quantity: json['quantity'] ?? 1,
+      selectedColor: json['color'],
+      selectedSize: json['size'],
+      product: Product.fromJson(productJson),
+    );
+  }
+
+  /// ================= TO JSON =================
+  Map<String, dynamic> toJson() {
     return {
-      'product_id': product.id,
+      'id': id,
+      'product_id': productId, // ✅
       'quantity': quantity,
-      'selected_color': selectedColor,
-      'selected_size': selectedSize,
+      'color': selectedColor,
+      'size': selectedSize,
       'total_price': totalPrice,
-      'user_id': userId,
     };
   }
 }
-

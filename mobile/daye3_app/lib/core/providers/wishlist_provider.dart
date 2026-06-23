@@ -1,32 +1,65 @@
 import 'package:flutter/material.dart';
-import '../../screens/shop/models/product_model.dart'; // <-- صححنا المسار
+import '../../screens/shop/models/product_model.dart';
+import '../utils/wishlist_api_service.dart';
 
-class WishlistProvider with ChangeNotifier {
-  final List<Product> _wishlistItems = [];
+class WishlistProvider extends ChangeNotifier {
+  final WishlistApiService api = WishlistApiService();
 
-  List<Product> get wishlistItems => _wishlistItems;
+  List<Product> wishlistItems = [];
+  bool isLoading = false;
 
-  bool isInWishlist(Product product) {
-    return _wishlistItems.any((item) => item.id == product.id);
+  // =========================
+  // 🔥 OPTIONAL TOKEN (LEGACY SUPPORT)
+  // =========================
+  String? _token;
+
+  void setToken(String token) {
+    _token = token;
   }
 
-  void toggleWishlist(Product product) {
-    if (isInWishlist(product)) {
-      _wishlistItems.removeWhere((item) => item.id == product.id);
-    } else {
-      _wishlistItems.add(product);
+  // =========================
+  // 🔥 GET WISHLIST
+  // =========================
+  Future<void> fetchWishlist([String? token]) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      wishlistItems = await api.getWishlist(token ?? _token);
+      print("WISHLIST LOADED: ${wishlistItems.length}");
+    } catch (e) {
+      print("FETCH ERROR: $e");
     }
+
+    isLoading = false;
     notifyListeners();
   }
 
-  void removeFromWishlist(Product product) {
-    _wishlistItems.removeWhere((item) => item.id == product.id);
-    notifyListeners();
+  // =========================
+  // ❤️ TOGGLE WISHLIST
+  // =========================
+  Future<void> toggleWishlist(Product product, [String? token]) async {
+    final usedToken = token ?? _token;
+
+    final exists = wishlistItems.any((p) => p.id == product.id);
+
+    try {
+      if (exists) {
+        await api.removeFromWishlist(product.id, usedToken);
+      } else {
+        await api.addToWishlist(product.id, usedToken);
+      }
+
+      await fetchWishlist(usedToken);
+    } catch (e) {
+      print("TOGGLE ERROR: $e");
+    }
   }
 
-  void clearWishlist() {
-    _wishlistItems.clear();
-    notifyListeners();
+  // =========================
+  // 💡 CHECK ITEM
+  // =========================
+  bool isInWishlist(Product product) {
+    return wishlistItems.any((p) => p.id == product.id);
   }
 }
-

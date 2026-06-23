@@ -14,6 +14,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.7+4
   provider: ^6.0.5
+  shared_preferences: ^2.2.2
+  http: ^1.2.0
+  flutter_stripe: ^11.1.0
+  screenshot: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -22,14 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
-    - assets/images/golf.png
-    - assets/images/carkeys.png
-    - assets/images/medal.png
-    - assets/images/sticker.png
-
-
-
-
-
+    - assets/images/logo.png
