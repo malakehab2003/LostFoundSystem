@@ -30,6 +30,8 @@ import { Spinner } from "./ui/spinner";
 import defaultpage from "@/assets/default-item-image.svg";
 import { useItemFilters } from "@/features/items/hooks/useItemFilters";
 import { motion } from "framer-motion";
+import foundImage from "@/assets/Gemini_Generated_Image_e5u67ze5u67ze5u6.png";
+
 const LostItems = () => {
   const {
     form,
@@ -61,7 +63,7 @@ const LostItems = () => {
         </p>
       </motion.div>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col  md:flex-row md:justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:justify-between gap-6">
           <aside className="w-full md:w-96 flex-shrink-0">
             <div className="flex justify-between items-center mb-6 border-b pb-2">
               <h2 className="font-semibold text-foreground/70 flex items-center gap-2 text-sm">
@@ -161,8 +163,8 @@ const LostItems = () => {
             </Form>
           </aside>
 
-          <main className="w-full ">
-            <div className="mb-6 p-4  bg-primary/5 border border-primary/20 rounded-lg">
+          <main className="w-full">
+            <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
               <p className="text-sm text-primary/90">
                 Found{" "}
                 <span className="font-semibold">{items?.length || 0}</span>{" "}
@@ -199,11 +201,23 @@ const LostItems = () => {
                     className="group rounded-lg border bg-white shadow-xs hover:shadow-sm transition-shadow duration-300 flex flex-col h-full"
                   >
                     <div className="mx-auto relative h-56 w-full rounded-lg bg-slate-50 overflow-hidden">
-                      <img
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        src={item.image?.[0]?.url || defaultpage}
-                        alt={item.title}
-                      />
+                      {/*  Show image only if item is "lost" */}
+                      {item.type === "lost" ? (
+                        <img
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          src={item.image?.[0]?.url || defaultpage}
+                          alt={item.title}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-white">
+                          <img
+                            src={foundImage}
+                            alt="Found Item"
+                            className="w-full h-full object-contain opacity-80"
+                          />
+                        </div>
+                      )}
+
                       <div className="absolute top-3 right-3">
                         <Badge
                           variant={
@@ -281,7 +295,6 @@ const LostItems = () => {
                       (_, i) => i + 1,
                     )
                       .filter((page) => {
-                        // Show current page and adjacent pages
                         return (
                           page === currentPage ||
                           Math.abs(page - currentPage) <= 1 ||

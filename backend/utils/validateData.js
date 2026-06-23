@@ -127,13 +127,17 @@ export const parseBoolean = (value) => {
 
 
 export const validateShowNumber = (show_phone_number) => {
-    if (show_phone_number === undefined || show_phone_number === null) // ✅ allow false
-        throw new Error("show phone number can't be empty");
+    if (show_phone_number === undefined || show_phone_number === null) throw new Error("show phone number can't be empty");
 
-    const showPhone = parseBoolean(show_phone_number);
+    let showPhone;
 
-    if (showPhone === null)
-        throw new Error("show phone number must be true or false");
+    if (typeof show_phone_number === "string") {
+        showPhone = parseBoolean(show_phone_number);
+    } else if (typeof show_phone_number === "boolean") {
+        showPhone = show_phone_number;
+    }
+
+    if (showPhone === null || showPhone === undefined) throw new Error("show phone number must be true or false");
 
     return showPhone;
 };

@@ -8,12 +8,14 @@ import {
   Calendar,
   Pin,
   User,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "./ui/spinner";
 import ItemComments from "./ItemComments";
 import defaultpage from "@/assets/default-item-image.svg";
+import foundImage from "@/assets/Gemini_Generated_Image_e5u67ze5u67ze5u6.png";
 
 const LostItem = () => {
   const { itemId } = useParams();
@@ -41,6 +43,16 @@ const LostItem = () => {
     );
   };
 
+  // Open location in Google Maps
+  const openInGoogleMaps = () => {
+    if (item?.latitude && item?.longitude) {
+      window.open(
+        `https://www.google.com/maps?q=${item.latitude},${item.longitude}`,
+        "_blank"
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {isLoading && (
@@ -55,13 +67,23 @@ const LostItem = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               <div className="space-y-4 order-2 md:order-1">
                 <div className="relative aspect-square rounded-2xl overflow-hidden bg-foreground/5 border border-foreground/10">
-                  <img
-                    src={currentImage}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
+                  {item.type === "lost" ? (
+                    <img
+                      src={currentImage}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-white">
+                      <img
+                        src={foundImage}
+                        alt="Found Item"
+                        className="w-full h-full object-contain opacity-80"
+                      />
+                    </div>
+                  )}
 
-                  {displayImages.length >= 1 && (
+                  {displayImages.length > 1 && item.type === "lost" && (
                     <>
                       <button
                         onClick={handlePreviousImage}
@@ -83,7 +105,7 @@ const LostItem = () => {
                   )}
                 </div>
 
-                {displayImages.length >= 1 && (
+                {displayImages.length > 1 && item.type === "lost" && (
                   <div className="flex gap-3 overflow-x-auto pb-2">
                     {displayImages.map((img, idx) => (
                       <button
@@ -106,14 +128,16 @@ const LostItem = () => {
                 )}
               </div>
 
-              {/* RIGHT SIDE - Item Details */}
               <div className="space-y-5 order-1 md:order-2">
                 <div className="space-y-2 flex justify-between items-center gap-4">
                   <h1 className="text-3xl font-semibold text-foreground-900">
                     {item.title}
                   </h1>
-                  <Badge variant="outline" className="text-sm">
-                    {item.category?.name || "Uncategorized"}
+                  <Badge
+                    variant={item.type === "lost" ? "destructive" : "default"}
+                    className="text-sm capitalize"
+                  >
+                    {item.type}
                   </Badge>
                 </div>
 
@@ -132,7 +156,7 @@ const LostItem = () => {
                   <div className="bg-primary/5 overflow-hidden rounded-lg p-4 border border-primary/10">
                     <div className="flex items-center gap-2 mb-2">
                       <Pin className="w-4 h-4 text-primary" />
-                      <span className="text-xs  font-semibold text-foreground-500 uppercase">
+                      <span className="text-xs font-semibold text-foreground-500 uppercase">
                         Location
                       </span>
                     </div>
@@ -152,21 +176,21 @@ const LostItem = () => {
                     <div className="flex items-start justify-between py-3 border-b border-foreground/5">
                       <span className="text-foreground-600">City</span>
                       <span className="font-semibold text-foreground-800">
-                        {item.city?.name}
+                        {item.city?.name || "N/A"}
                       </span>
                     </div>
 
                     <div className="flex items-start justify-between py-3 border-b border-foreground/5">
                       <span className="text-foreground-600">Government</span>
                       <span className="font-semibold text-foreground-800">
-                        {item.government?.name}
+                        {item.government?.name || "N/A"}
                       </span>
                     </div>
 
                     <div className="flex items-start justify-between py-3 border-b border-foreground/5">
                       <span className="text-foreground-600">Category</span>
                       <span className="font-semibold text-foreground-800">
-                        {item.category?.name}
+                        {item.category?.name || "N/A"}
                       </span>
                     </div>
                   </div>
