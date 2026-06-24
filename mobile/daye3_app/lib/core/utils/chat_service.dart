@@ -7,7 +7,9 @@ class ChatService {
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    final token = prefs.getString('token');
+    print(">>> CHAT TOKEN: $token");
+    return token;
   }
 
   Future<Map<String, String>> _headers() async {
@@ -27,10 +29,9 @@ class ChatService {
     );
     if (res.statusCode == 200 || res.statusCode == 201) {
       final data = jsonDecode(res.body);
-      // ✅ بيرجع 'chat' مش 'newChat'
       return {
         'chat': data['chat'],
-        'newChat': data['chat'], // للتوافق مع الكود القديم
+        'newChat': data['chat'],
       };
     }
     return null;

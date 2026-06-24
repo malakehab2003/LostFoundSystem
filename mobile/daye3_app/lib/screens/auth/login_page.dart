@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/providers/auth_provider.dart';
 import '../../core/providers/cart_provider.dart';
 import '../../core/providers/item_provider.dart';
 import '../../core/providers/wishlist_provider.dart';
+import '../../core/providers/user_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -210,9 +212,14 @@ class _LoginPageState extends State<LoginPage>
                                 auth.token != null &&
                                 auth.token!.isNotEmpty) {
                               final token = auth.token!;
+
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('token', token);
+
                               context.read<CartProvider>().setToken(token);
                               context.read<ItemsProvider>().setToken(token);
                               context.read<WishlistProvider>().setToken(token);
+                              context.read<UserProvider>().setToken(token);
                               await context.read<CartProvider>().fetchCart();
                               Navigator.pushReplacementNamed(context, '/home');
                             } else {
